@@ -74,6 +74,11 @@ file(GLOB ENET_INCLUDE_FILES ${ENET_DIR}/*.c)
 add_library(enet STATIC ${ENET_INCLUDE_FILES} ${ENET_SOURCE_FILES})
 include_directories(${ENET_INCLUDE_DIR})
 
+# GTest
+enable_testing()
+add_subdirectory(libs/gtest-1.12.1)
+include_directories(${gtest_SOURCE_DIR}/include ${gtest_SOURCE_DIR})
+
 target_link_libraries(PlatformerEngine SDL2main SDL2 SDL2_image enet)
 target_link_libraries(PlatformerEngine -static)
 

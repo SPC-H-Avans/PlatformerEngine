@@ -1,0 +1,10 @@
+{
+  "name": "platformer-engine",
+  "version-string": "latest",
+  "dependencies": [
+    "sdl2",
+    "sdl2-image",
+    "sdl2-mixer",
+    "gtest"
+  ]
+}

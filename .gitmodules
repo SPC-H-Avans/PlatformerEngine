@@ -1,0 +1,3 @@
+[submodule "includes/spic-prj-api"]
+	path = includes/spic-prj-api
+	url = https://github.com/SPC-H-Avans/spic-prj-api

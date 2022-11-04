@@ -1,11 +1,10 @@
 {
-    "name": "PlatformerEngine",
-    "version-string": "latest",
-    "dependencies": [
-      "sdl2",
-      "sdl2-image",
-      "sdl2-mixer",
-      "gtest",
-      "enet"
-    ]
-  }
+  "name": "PlatformerEngine",
+  "version-string": "latest",
+  "dependencies": [
+    "sdl2",
+    "sdl2-image",
+    "sdl2-mixer",
+    "gtest"
+  ]
+}

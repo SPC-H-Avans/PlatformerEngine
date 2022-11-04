@@ -1,5 +1,5 @@
 {
-  "name": "PlatformerEngine",
+  "name": "platformer-engine",
   "version-string": "latest",
   "dependencies": [
     "sdl2",

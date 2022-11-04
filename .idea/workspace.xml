@@ -8,8 +8,9 @@
   </component>
   <component name="CMakeRunConfigurationManager">
     <generated>
-      <config projectName="PlatformerEngine" targetName="PlatformerEngine" />
-      <config projectName="PlatformerEngine" targetName="PlatformerEngine-tests" />
+      <config projectName="platformer-engine" targetName="platformer-engine-exec" />
+      <config projectName="platformer-engine" targetName="platformer-engine" />
+      <config projectName="platformer-engine" targetName="platformer-engine-tests" />
     </generated>
   </component>
   <component name="CMakeSettings" AUTO_RELOAD="true">
@@ -23,7 +24,8 @@
     <list default="true" id="363fcde5-0111-4e5d-bfb8-bc8afb3861b6" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/CMakeLists.txt" beforeDir="false" afterPath="$PROJECT_DIR$/CMakeLists.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/library.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/main.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/CMakePresets.json" beforeDir="false" afterPath="$PROJECT_DIR$/CMakePresets.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/vcpkg.json" beforeDir="false" afterPath="$PROJECT_DIR$/vcpkg.json" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -64,24 +66,24 @@
     "settings.editor.selected.configurable": "CMakeSettings"
   }
 }]]></component>
-  <component name="RunManager" selected="CMake Application.PlatformerEngine">
+  <component name="RunManager" selected="CMake Application.platformer-engine">
     <configuration default="true" type="CLionExternalRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" PASS_PARENT_ENVS_2="true">
       <method v="2">
         <option name="CLION.EXTERNAL.BUILD" enabled="true" />
       </method>
     </configuration>
-    <configuration name="PlatformerEngine-tests" type="CMakeGoogleTestRunConfigurationType" factoryName="Google Test" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="PlatformerEngine" TARGET_NAME="PlatformerEngine-tests" CONFIG_NAME="Debug" RUN_TARGET_PROJECT_NAME="PlatformerEngine" RUN_TARGET_NAME="PlatformerEngine-tests" TEST_MODE="SUITE_TEST">
+    <configuration name="platformer-engine-tests" type="CMakeGoogleTestRunConfigurationType" factoryName="Google Test" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="platformer-engine" TARGET_NAME="platformer-engine-tests" CONFIG_NAME="Debug" RUN_TARGET_PROJECT_NAME="platformer-engine" RUN_TARGET_NAME="platformer-engine-tests" TEST_MODE="SUITE_TEST">
       <method v="2">
         <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
         <option name="BeforeTestRunTask" enabled="true" />
       </method>
     </configuration>
-    <configuration name="PlatformerEngine-exec" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="PlatformerEngine" TARGET_NAME="PlatformerEngine-exec" CONFIG_NAME="Debug" RUN_TARGET_PROJECT_NAME="PlatformerEngine" RUN_TARGET_NAME="PlatformerEngine-exec">
+    <configuration name="platformer-engine-exec" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="platformer-engine" TARGET_NAME="platformer-engine-exec" CONFIG_NAME="Debug" RUN_TARGET_PROJECT_NAME="platformer-engine" RUN_TARGET_NAME="platformer-engine-exec">
       <method v="2">
         <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
       </method>
     </configuration>
-    <configuration name="PlatformerEngine" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="PlatformerEngine" TARGET_NAME="PlatformerEngine" CONFIG_NAME="Debug">
+    <configuration name="platformer-engine" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="platformer-engine" TARGET_NAME="platformer-engine" CONFIG_NAME="Debug">
       <method v="2">
         <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
       </method>
@@ -93,10 +95,10 @@
       </method>
     </configuration>
     <list>
-      <item itemvalue="CMake Application.PlatformerEngine" />
-      <item itemvalue="CMake Application.PlatformerEngine-exec" />
+      <item itemvalue="CMake Application.platformer-engine" />
+      <item itemvalue="CMake Application.platformer-engine-exec" />
       <item itemvalue="CTest Application.All CTest" />
-      <item itemvalue="Google Test.PlatformerEngine-tests" />
+      <item itemvalue="Google Test.platformer-engine-tests" />
     </list>
   </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
@@ -107,7 +109,7 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1667565063116</updated>
-      <workItem from="1667565064902" duration="2168000" />
+      <workItem from="1667565064902" duration="2871000" />
     </task>
     <servers />
   </component>

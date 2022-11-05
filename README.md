@@ -7,11 +7,21 @@
 # Getting Started
 - Install [VCPKG](https://vcpkg.io/en/index.html)
 - Clone the repository
+- Follow MacOS instructions if you are on MacOS otherwise continue
 - Run `git submodule update --init --recursive`
 - Run `vcpkg integrate install`
 - Add the following CMake options:
     - `-DCMAKE_TOOLCHAIN_FILE=[path to vcpkg]/scripts/buildsystems/vcpkg.cmake`
     - `-DVCPKG_TARGET_TRIPLET=[x64-windows | x64-osx | arm64-osx | x64-linux ]` (depending on your platform)
+
+## MacOS
+- Install [Brew](https://docs.brew.sh/Installation)
+- Install CMake: `brew install cmake`
+- Install GCC: `brew install gcc`
+- Install VCPKG to the terminal:
+  - `./vcpkg integrate bash`
+  - `./vcpkg integrate zsh`
+- Continue with the instructions above
 
 # Contributing
 - Create a new branch

@@ -35,5 +35,12 @@
 - Update the CHANGELOG.md file
 - Create a pull request and assign it to two team members. The GitHub Actions must succeed and both team members must approve the pull request before it can be merged.
 
+# Making a pull request
+- Make sure you have updated the CHANGELOG.md file
+- Make sure you have added the Jira ticket number to the title
+- Fill out the pull request template
+- Assign two team members to review your pull request
+- The GitHub Actions must succeed and both team members must approve the pull request before it can be merged.
+
 # Documentation
 - [Doxygen](https://engine.mrproper.dev)

@@ -11,7 +11,7 @@
 - Run `vcpkg integrate install`
 - Add the following CMake options:
     - `-DCMAKE_TOOLCHAIN_FILE=[path to vcpkg]/scripts/buildsystems/vcpkg.cmake`
-    - `-DVCPKG_TARGET_TRIPLET=[x64-windows | x64-osx | x64-linux ]` (depending on your platform)
+    - `-DVCPKG_TARGET_TRIPLET=[x64-windows | x64-osx | arm64-osx | x64-linux ]` (depending on your platform)
 
 # Contributing
 - Create a new branch

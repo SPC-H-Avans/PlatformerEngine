@@ -4,7 +4,7 @@
 [![Build](https://github.com/SPC-H-Avans/PlatformerEngine/actions/workflows/build.yml/badge.svg)](https://github.com/SPC-H-Avans/PlatformerEngine/actions/workflows/build.yml)
 [![Doxygen](https://github.com/SPC-H-Avans/PlatformerEngine/actions/workflows/doxygen.yml/badge.svg)](https://github.com/SPC-H-Avans/PlatformerEngine/actions/workflows/doxygen.yml)
 
-#Getting Started
+# Getting Started
 - Install [VCPKG](https://vcpkg.io/en/index.html)
 - Clone the repository
 - Run `vcpkg integrate install`
@@ -12,10 +12,10 @@
     - `-DCMAKE_TOOLCHAIN_FILE=[path to vcpkg]/scripts/buildsystems/vcpkg.cmake`
     - `-DVCPKG_TARGET_TRIPLET=[x64-windows | x64-osx | x64-linux ]` (depending on your platform)
 
-#Contributing
+# Contributing
 - Create a new branch
 - Make your changes
 - Create a pull request and assign it to two team members. The GitHub Actions must succeed and both team members must approve the pull request before it can be merged.
 
-#Documentation
+# Documentation
 - [Doxygen](https://engine.mrproper.dev)

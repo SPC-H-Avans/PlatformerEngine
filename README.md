@@ -32,6 +32,7 @@
 # Contributing
 - Create a new branch
 - Make your changes
+- Update the CHANGELOG.md file
 - Create a pull request and assign it to two team members. The GitHub Actions must succeed and both team members must approve the pull request before it can be merged.
 
 # Documentation

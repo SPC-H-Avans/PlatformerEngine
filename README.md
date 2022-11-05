@@ -7,6 +7,7 @@
 # Getting Started
 - Install [VCPKG](https://vcpkg.io/en/index.html)
 - Clone the repository
+- Run `git submodule update --init --recursive`
 - Run `vcpkg integrate install`
 - Add the following CMake options:
     - `-DCMAKE_TOOLCHAIN_FILE=[path to vcpkg]/scripts/buildsystems/vcpkg.cmake`

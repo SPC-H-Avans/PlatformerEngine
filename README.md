@@ -7,12 +7,13 @@
 # Getting Started
 - Install [VCPKG](https://vcpkg.io/en/index.html)
 - Clone the repository
-- Follow MacOS instructions if you are on MacOS otherwise continue
+- Follow MacOS instructions if you are on MacOS, if you are on Windows follow the Windows instructions, otherwise continue
 - Run `git submodule update --init --recursive`
 - Run `vcpkg integrate install`
 - Add the following CMake options:
     - `-DCMAKE_TOOLCHAIN_FILE=[path to vcpkg]/scripts/buildsystems/vcpkg.cmake`
     - `-DVCPKG_TARGET_TRIPLET=[x64-windows | x64-osx | arm64-osx | x64-linux ]` (depending on your platform)
+    - When using CLion, go to `File (Preferences on MacOS) > Settings > Build, Execution, Deployment > CMake > CMake Options` and add the options there
 
 ## MacOS
 - Install [Brew](https://docs.brew.sh/Installation)
@@ -21,6 +22,11 @@
 - Install VCPKG to the terminal:
   - `./vcpkg integrate bash`
   - `./vcpkg integrate zsh`
+- Continue with the instructions above
+
+
+## Windows
+- Add the VCPKG directory to your PATH environment variable
 - Continue with the instructions above
 
 # Contributing

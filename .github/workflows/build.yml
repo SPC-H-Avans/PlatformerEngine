@@ -15,8 +15,8 @@ jobs:
             triplet: x64-linux
           - os: self-hosted-macos-m1 
             triplet: arm64-osx
-          - os: self-hosted-linux-arm64
-            triplet: arm64-linux
+          # - os: self-hosted-linux-arm64
+          #   triplet: arm64-linux
           - os: self-hosted-linux-x64
             triplet: x64-linux
 

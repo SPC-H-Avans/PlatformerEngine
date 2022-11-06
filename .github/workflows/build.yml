@@ -10,9 +10,9 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        include:
-          - os: ubuntu-latest
-            triplet: x64-linux
+        os: [ubuntu-latest, self-hosted-macos]
+        triplet: [x64-linux, arm64-linux, arm64-osx]
+
 
     env:
       VCPKG_DEFAULT_TRIPLET: ${{ matrix.triplet }}

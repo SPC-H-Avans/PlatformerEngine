@@ -11,9 +11,9 @@ Set up the project and add the first version of the code.
 
 ### Changes
 
-- Added SPIC-API as submodule
-- Created GitHub Actions
-- Added Google Test
+- SPCH-31: Added SPIC-API as submodule
+- SPCH-41: Created GitHub Actions
+- SPCH-31: Added Google Test
 
 ### Bug Fixes
 

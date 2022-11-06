@@ -16,24 +16,30 @@ jobs:
 
     steps:
       #checkout repo MarioGame
+
+      - name: 'Create new branch'
+        uses: GuillaumeFalourd/create-other-repo-branch-action@v1.4
+        with:
+          repository_owner: SPC-H-Avans
+          repository_name: MarioGame
+          new_branch_name: 'update-platformer-engine-${{ github.run_number }}'
+          access_token: ${{ secrets.PAT}}
+
       - name: 'Checkout MarioGame'
         uses: actions/checkout@v2
         with:
           token: ${{ secrets.PAT }}
           repository: SPC-H-Avans/MarioGame
-          path: MarioGame
-
-      #create new branch
-      - name: 'Create new branch'
-        run: |
-          cd MarioGame
-          git checkout -b update-platformer-engine-${{ github.run_number }}
+          ref: 'update-platformer-engine-${{ github.run_number }}'
+          submodules: recursive
 
       #update platformer engine submodule
       - name: 'Update platformer engine submodule'
         run: |
           cd MarioGame
           git submodule update --remote --merge
+
+      # create new branch with github action script
 
       #push changes
       - name: 'Upload changes to repo'

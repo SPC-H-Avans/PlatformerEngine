@@ -1,0 +1,44 @@
+#Clone MarioGame repo, update platformer engine submodule, create branch, push changes and open pull request to main
+# Path: .github/workflows/update-game-modules.yml
+
+name: 'Update game modules'
+
+on:
+  # push:
+  #   branches:
+  #     - master
+  pull_request:
+
+jobs:
+  update:
+    name: Update
+    runs-on: ubuntu-latest
+
+    steps:
+      #checkout repo MarioGame
+      - name: 'Checkout MarioGame'
+        uses: actions/checkout@v2
+        with:
+          token: ${{ secrets.PAT }}
+          repository: SPC-H-Avans/MarioGame
+          path: MarioGame
+
+      #create new branch
+      - name: 'Create new branch'
+        run: |
+          cd MarioGame
+          git checkout -b update-platformer-engine-${{ github.run_number }}
+
+      #update platformer engine submodule
+      - name: 'Update platformer engine submodule'
+        run: |
+          cd MarioGame
+          git submodule update --remote --merge
+
+      #push changes
+      - name: 'Push changes'
+        run: |
+          cd MarioGame
+          git add .
+          git commit -m "Update platformer engine submodule"
+          git push --set-upstream origin update-platformer-engine-${{ github.run_number }}

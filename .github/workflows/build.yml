@@ -10,8 +10,13 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        os: [ubuntu-latest, self-hosted-macos]
-        triplet: [x64-linux, arm64-linux, arm64-osx]
+        include:
+          - os: ubuntu-latest
+            triplet: x64-linux
+          - os: self-hosted-macos-m1 
+            triplet: arm64-osx
+          - os: self-hosted-linux-arm64
+            triplet: arm64-linux
 
 
     env:

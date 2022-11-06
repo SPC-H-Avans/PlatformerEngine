@@ -36,9 +36,14 @@ jobs:
           git submodule update --remote --merge
 
       #push changes
-      - name: 'Push changes'
-        run: |
-          cd MarioGame
-          git add .
-          git commit -m "Update platformer engine submodule"
-          git push --set-upstream origin update-platformer-engine-${{ github.run_number }}
+      - name: 'Upload changes to repo'
+        uses: actions/checkout@v2
+        with:
+          token: ${{ secrets.PAT }}
+          repository: SPC-H-Avans/MarioGame
+          path: MarioGame
+          ref: update-platformer-engine-${{ github.run_number }}
+          persist-credentials: false
+          clean: true
+          fetch-depth: 0
+

@@ -98,6 +98,17 @@ namespace spic {
             GameObject(const std::string& name);
 
             /**
+             * @brief Constructor.
+             * @details The new GameObject will also be added to a statically
+             *          available collection, the administration.  This makes the
+             *          Find()-functions possible.
+             * @param name The name for the game object.
+             * @param tag The tag for the game object.
+             * @spicapi
+             */
+            GameObject(const std::string& name, const std::string& tag);
+
+            /**
              * @brief Does the object exist? TODO wat wordt hiermee bedoeld?
              * @spicapi
              */
@@ -243,7 +254,7 @@ namespace spic {
             bool IsActiveInWorld() const;
 
         private:
-            std::string name;
+            std::string name; //Unique
             std::string tag;
             bool active;
             int layer;

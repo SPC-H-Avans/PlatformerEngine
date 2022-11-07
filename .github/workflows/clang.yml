@@ -20,4 +20,4 @@ jobs:
         with:
           issue-number: ${{ github.event.pull_request.number }}
           body: |
-            ${{ steps.linter.outputs.checks-output }}
+            :warning: **cpp-linter** found some issues. Please check the linter and fix the warnings :)

@@ -38,7 +38,11 @@ bool PlatformerEngine::GraphicsFacade::Init(int width, int height, const std::st
         std::cout << "Renderer could not be created! SDL Error: " << SDL_GetError() << std::endl;
         return false;
     }
-    SDL_SetRenderDrawColor(renderer.get(), color.r, color.g, color.b, color.a);
+    SDL_SetRenderDrawColor(renderer.get(),
+                           ConvertColorValueToSDLValue(color.getRedValue()),
+                           ConvertColorValueToSDLValue(color.getGreenValue()),
+                           ConvertColorValueToSDLValue(color.getBlueValue()),
+                           ConvertColorValueToSDLValue(color.getAlphaValue()));
     int imgFlags = IMG_INIT_PNG;
     if (!(IMG_Init(imgFlags) & imgFlags)) {
         std::cout << "SDL_image could not initialize! SDL_image Error: " << IMG_GetError() << std::endl;
@@ -59,4 +63,8 @@ void PlatformerEngine::GraphicsFacade::Quit() {
 
 void PlatformerEngine::GraphicsFacade::Render() {
     SDL_RenderPresent(renderer.get());
+}
+
+int PlatformerEngine::GraphicsFacade::ConvertColorValueToSDLValue(const double &colorValue) {
+    return NumberUtil::clamp(static_cast<int>(colorValue * 255), 0, 255);
 }

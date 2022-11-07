@@ -4,16 +4,15 @@
 #include "Render/Window.h"
 
 PlatformerEngine::Window::Window(int width, int height, const std::string &title, const spic::Color &color) {
-    graphicsFacade = GraphicsFacade();
-    graphicsFacade.init(width, height, title, color);
+    graphicsFacade.Init(width, height, title, color);
 }
 
 void PlatformerEngine::Window::Render() {
-    graphicsFacade.clear();
-    graphicsFacade.render();
+    graphicsFacade.Clear();
+    graphicsFacade.Render();
 }
 
 void PlatformerEngine::Window::Quit() {
-    graphicsFacade.quit();
+    graphicsFacade.Quit();
 }
 

@@ -1,0 +1,8 @@
+//
+// Created by jhpar on 7-11-2022.
+//
+
+#ifndef PLATFORMER_ENGINE_TIMER_H
+#define PLATFORMER_ENGINE_TIMER_H
+
+#endif //PLATFORMER_ENGINE_TIMER_H

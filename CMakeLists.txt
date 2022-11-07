@@ -14,11 +14,13 @@ find_package(GTest CONFIG REQUIRED)
 
 include(GoogleTest)
 include_directories(${PROJECT_INCLUDES_DIR}/spic-prj-api)
+include_directories(${PROJECT_INCLUDES_DIR}/platformer-engine/)
 
 include(vcpkg_install_deps.cmake)
 vcpkg_install_deps(MANIFEST_ROOT ${PROJECT_SOURCE_DIR})
 
-file(GLOB_RECURSE SOURCE src/*.cpp ${PROJECT_INCLUDES_DIR}/spic-prj-api/*.cpp)
+
+file(GLOB_RECURSE SOURCE src/*.cpp ${PROJECT_INCLUDES_DIR}/spic-prj-api/*.h ${PROJECT_INCLUDES_DIR}/platformer-engine/*.h)
 file(GLOB_RECURSE TEST_SOURCE tests/*.cpp tests/*.hpp)
 
 add_library(${PROJECT_NAME} STATIC ${SOURCE})

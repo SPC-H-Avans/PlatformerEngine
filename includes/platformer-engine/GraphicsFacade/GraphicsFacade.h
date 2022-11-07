@@ -10,26 +10,55 @@
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_image.h>
 #include <iostream>
-#include "GraphicsFacade/Color.h"
+#include "Color.hpp"
 
 #include <string>
 #include <vector>
 
-class GraphicsFacade {
-public:
-    GraphicsFacade();
-    ~GraphicsFacade();
+namespace PlatformerEngine {
 
-    void init( int width, int height, const std::string& title, const Color& color );
-    void quit();
+    /**
+     * @brief Facade class that creates a SDL2 window and renderer
+     */
+    class GraphicsFacade {
+    public:
+        GraphicsFacade();
 
-    void render();
-    void clear();
+        ~GraphicsFacade();
 
-    inline const SDL_Renderer* getRenderer() const { return renderer; }
+        /**
+         * @brief Creates a SDL2 window and renderer
+         * @param width The width of the window, in pixels
+         * @param height The height of the window, in pixels
+         * @param title The title of the window
+         * @param color The background color of the window
+         * @return True if the window and renderer were created successfully, false otherwise
+         * @platformerengine
+         */
+        bool Init(int width, int height, const std::string &title, const spic::Color &color);
 
-private:
-    SDL_Window* window;
-    SDL_Renderer* renderer;
-};
+        /**
+         * @brief Quit the SDL2 window and renderer
+         * @platformerengine
+         */
+        void Quit();
+
+        /**
+         * @brief Render the game to the screen
+         * @platformerengine
+         */
+        void Render();
+
+        /**
+         * @brief Clear the screen
+         * @platformerengine
+         */
+        void Clear();
+
+    private:
+        std::unique_ptr<SDL_Window, std::function<void(SDL_Window *)>> window;
+        std::unique_ptr<SDL_Renderer, std::function<void(SDL_Renderer *)>> renderer;
+    };
+}
+
 #endif //PLATFORMER_ENGINE_GRAPHICSFACADE_H

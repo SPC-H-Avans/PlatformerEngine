@@ -5,6 +5,7 @@
 #include <string>
 #include <vector>
 #include <memory>
+#include <map>
 
 namespace spic {
 
@@ -44,7 +45,12 @@ namespace spic {
              */
             template<class T>
             static std::shared_ptr<GameObject> FindObjectOfType(bool includeInactive = false) {
-                // ... implementation here
+                for(auto const& [key, val] : instances) {
+                    if(typeid(val) == typeid(T)) {
+                        if(!(!includeInactive && !val->Active()))
+                            return val;
+                    }
+                }
             }
 
             /**
@@ -53,7 +59,14 @@ namespace spic {
              */
             template<class T>
             static std::vector<std::shared_ptr<GameObject>> FindObjectsOfType(bool includeInactive = false) {
-                // ...implementation here
+                std::vector<std::shared_ptr<GameObject>> result;
+                for(auto const& [key, val] : instances) {
+                    if(typeid(val) == typeid(T)) {
+                        if(!(!includeInactive && !val->Active()))
+                            result.template emplace_back(val);
+                    }
+                }
+                return result;
             }
 
             /**
@@ -117,7 +130,9 @@ namespace spic {
              */
             template<class T>
             void AddComponent(std::shared_ptr<Component> component) {
-                // ... implementation here
+                if(std::is_base_of<Component, T>::value && component != nullptr) { //T is Component
+                    components[typeid(T).name()].template emplace_back(std::make_unique<T>(component));
+                }
             }
 
             /**
@@ -128,7 +143,13 @@ namespace spic {
              */
             template<class T>
             std::shared_ptr<Component> GetComponent() const {
-                // ... implementation here
+                if(std::is_base_of<Component, T>::value) {
+                    auto cList = components.find(typeid(T).name());
+                    if(cList != components.end()) { //Value found
+                        if(!cList->second.empty())
+                            return cList->second.front();
+                    }
+                }
             }
 
             /**
@@ -163,7 +184,15 @@ namespace spic {
              */
             template<class T>
             std::vector<std::shared_ptr<Component>> GetComponents() const {
-                // ... implementation here
+                std::vector<std::shared_ptr<Component>> result;
+                if(std::is_base_of<Component, T>::value) { //Check if T is derived from Component
+                    auto cList = components.find(typeid(T).name()); //Finds all components on object with type T
+                    if(cList != components.end()) {
+                        for(const auto& comp : cList->second)
+                            result.template emplace_back(comp);
+                    }
+                }
+                return result;
             }
 
             /**
@@ -218,7 +247,10 @@ namespace spic {
             std::string tag;
             bool active;
             int layer;
-            // ... more members
+            std::map<std::string, std::vector<std::shared_ptr<Component>>> components; //Key is typeid.name
+
+            //Multiton Pattern
+            static std::map<std::string, std::shared_ptr<GameObject>> instances;
     };
 
 }

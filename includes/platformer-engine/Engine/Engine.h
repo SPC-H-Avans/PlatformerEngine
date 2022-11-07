@@ -51,10 +51,11 @@ namespace PlatformerEngine {
          */
         void Quit();
 
+        bool isRunning = false;
+
     private:
         Engine() = default;
 
-    private:
         std::unique_ptr<Window> window = nullptr;
     };
 }

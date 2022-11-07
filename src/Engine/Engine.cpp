@@ -8,6 +8,7 @@ bool PlatformerEngine::Engine::Init(int width, int height, const std::string &ti
         return false;
     }
     window = std::make_unique<Window>(width, height, title, color);
+    isRunning = true;
     return true;
 }
 
@@ -21,4 +22,5 @@ void PlatformerEngine::Engine::Render() {
 
 void PlatformerEngine::Engine::Quit() {
     window->Quit();
+    isRunning = false;
 }

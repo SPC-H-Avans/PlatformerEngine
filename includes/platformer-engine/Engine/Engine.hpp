@@ -25,6 +25,10 @@ namespace platformer_engine {
 
         void operator=(Engine const &) = delete;
 
+        Engine(Engine &&) = delete;
+
+        void operator=(Engine &&) = delete;
+
         /**
          * @brief Start the engine and create a window
          * @param width The width of the window in px
@@ -51,6 +55,7 @@ namespace platformer_engine {
 
     private:
         Engine() = default;
+        ~Engine() = default;
         bool _isRunning = false;
 
         std::unique_ptr<Window> _window = nullptr;

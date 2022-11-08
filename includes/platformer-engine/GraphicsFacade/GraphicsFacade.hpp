@@ -19,7 +19,7 @@ namespace platformer_engine {
      */
     class GraphicsFacade {
     public:
-        GraphicsFacade();
+        GraphicsFacade() = default;
         ~GraphicsFacade();
 
         /**
@@ -58,8 +58,8 @@ namespace platformer_engine {
         static inline auto GetPerformanceFrequency() -> Uint64 { return SDL_GetPerformanceFrequency(); }
 
     private:
-        std::unique_ptr<SDL_Window, std::function<void(SDL_Window *)>> _window;
-        std::unique_ptr<SDL_Renderer, std::function<void(SDL_Renderer *)>> _renderer;
+        std::unique_ptr<SDL_Window, std::function<void(SDL_Window *)>> _window{nullptr};
+        std::unique_ptr<SDL_Renderer, std::function<void(SDL_Renderer *)>> _renderer{nullptr};
 
         /**
          * @brief Converts the color value, which is a double between 0 and 1 to a value between 0 and 255 as int

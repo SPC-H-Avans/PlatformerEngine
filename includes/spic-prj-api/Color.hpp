@@ -23,56 +23,56 @@ namespace spic {
          * @return A reference to a statically allocated Color instance.
          * @spicapi
          */
-        static const Color &white() { return _white; }
+        static auto White() -> const Color & { return _white; }
 
         /**
          * @brief One of the standard colors (read-only): red.
          * @return A reference to a statically allocated Color instance.
          * @spicapi
          */
-        static const Color &red() { return _red; }
+        static auto Red() -> const Color & { return _red; }
 
         /**
          * @brief One of the standard colors (read-only): green.
          * @return A reference to a statically allocated Color instance.
          * @spicapi
          */
-        static const Color &green() { return _green; }
+        static auto Green() -> const Color & { return _green; }
 
         /**
          * @brief One of the standard colors (read-only): blue.
          * @return A reference to a statically allocated Color instance.
          * @spicapi
          */
-        static const Color &blue() { return _blue; }
+        static auto Blue() -> const Color & { return _blue; }
 
         /**
          * @brief One of the standard colors (read-only): cyan.
          * @return A reference to a statically allocated Color instance.
          * @spicapi
          */
-        static const Color &cyan() { return _cyan; }
+        static auto Cyan() -> const Color & { return _cyan; }
 
         /**
          * @brief One of the standard colors (read-only): magenta.
          * @return A reference to a statically allocated Color instance.
          * @spicapi
          */
-        static const Color &magenta() { return _magenta; }
+        static auto Magenta() -> const Color & { return _magenta; }
 
         /**
          * @brief One of the standard colors (read-only): yellow.
          * @return A reference to a statically allocated Color instance.
          * @spicapi
          */
-        static const Color &yellow() { return _yellow; }
+        static auto Yellow() -> const Color & { return _yellow; }
 
         /**
          * @brief One of the standard colors (read-only): black.
          * @return A reference to a statically allocated Color instance.
          * @spicapi
          */
-        static const Color &black() { return _black; }
+        static auto Black() -> const Color & { return _black; }
         // ... more standard colors here
 
         /**
@@ -80,28 +80,28 @@ namespace spic {
          * @spicapi
          * @return double The red value of the color
          */
-        inline const double getRedValue() const { return r; }
+        inline auto GetRedValue() const -> const double { return r; }
 
         /**
          * @brief Get the green value of the color.
          * @spicapi
          * @return double The green value of the color
          */
-        inline const double getGreenValue() const { return g; }
+        inline auto GetGreenValue() const -> const double { return g; }
 
         /**
          * @brief Get the blue value of the color.
          * @spicapi
          * @return double The blue value of the color
          */
-        inline const double getBlueValue() const { return b; }
+        inline auto GetBlueValue() const -> const double { return b; }
 
         /**
          * @brief Get the alpha value of the color.
          * @return double The alpha value of the color
          * @spicapi
          */
-        inline const double getAlphaValue() const { return a; }
+        inline auto GetAlphaValue() const -> const double { return a; }
 
     private:
         double r;

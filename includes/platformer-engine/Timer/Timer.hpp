@@ -10,6 +10,7 @@ namespace platformer_engine {
          * @brief Create a new timer
          */
         Timer() = default;
+        ~Timer() = default;
 
         /**
          * @brief Get deltatime

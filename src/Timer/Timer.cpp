@@ -2,7 +2,8 @@
 #include "Debug.hpp"
 #include "Render/Window.hpp"
 
-static const double MAX_DELTA_TIME = 1000.0f;
+static const double MAX_DELTA_TIME = 1000.0F;
+static const int MILISECONDS_PER_SECOND = 1000;
 
 void platformer_engine::Timer::Update() {
     _lastTick = _currentTick;
@@ -12,8 +13,8 @@ void platformer_engine::Timer::Update() {
         _lastTick = _currentTick;
     }
 
-    auto deltaTime = (double) ((_currentTick - _lastTick) * 1000 /
-                               (double) Window::GetPerformanceFrequency());
+    auto deltaTime = ((_currentTick - _lastTick) * MILISECONDS_PER_SECOND /
+                               static_cast<double>(Window::GetPerformanceFrequency()));
 
     if (deltaTime > MAX_DELTA_TIME) {
         spic::Debug::LogWarning(
@@ -22,5 +23,5 @@ void platformer_engine::Timer::Update() {
         deltaTime = MAX_DELTA_TIME;
     }
 
-    _deltaTime = deltaTime / 1000;
+    _deltaTime = deltaTime / MILISECONDS_PER_SECOND;
 }

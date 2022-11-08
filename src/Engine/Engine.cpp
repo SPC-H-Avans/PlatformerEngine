@@ -17,10 +17,10 @@ auto platformer_engine::Engine::Init(int width, int height, const std::string &t
         //Add system here for input, delta time etc etc
         _window->Render();
 
-        float elapsedMs = (Window::GetPerformanceFrequency() - start) / static_cast<float>(Window::GetPerformanceFrequency()) * 1000.0f; // NOLINT(cppcoreguidelines-narrowing-conversions)
+        float elapsedMs = (Window::GetPerformanceFrequency() - start) / static_cast<float>(Window::GetPerformanceFrequency()) * 1000.0F; // NOLINT(cppcoreguidelines-narrowing-conversions)
         if (TARGET_FRAME_DELAY > elapsedMs)
         {
-            int waitDelay = (int)TARGET_FRAME_DELAY - elapsedMs;
+            int waitDelay = static_cast<int>(TARGET_FRAME_DELAY) - elapsedMs;
             std::this_thread::sleep_for(std::chrono::milliseconds(waitDelay));
         }
     }

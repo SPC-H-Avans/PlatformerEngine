@@ -15,12 +15,12 @@ void platformer_engine::GraphicsFacade::Clear() {
     SDL_RenderClear(_renderer.get());
 }
 
-bool platformer_engine::GraphicsFacade::Init(int width, int height, const std::string &title, const spic::Color &color) {
+auto platformer_engine::GraphicsFacade::Init(int width, int height, const std::string &title, const spic::Color &color) -> bool {
     if (SDL_Init(SDL_INIT_VIDEO) < 0) {
         std::cout << "SDL could not initialize! SDL_Error: " << SDL_GetError() << std::endl;
         return false;
     }
-    auto window_flags = (SDL_WindowFlags) (SDL_WINDOW_SHOWN | SDL_WINDOW_RESIZABLE);
+    auto window_flags = static_cast<SDL_WindowFlags>(SDL_WINDOW_SHOWN | SDL_WINDOW_RESIZABLE);
     _window = std::unique_ptr<SDL_Window, std::function<void(SDL_Window *)>>(
             SDL_CreateWindow(title.c_str(), SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, width, height,
                              window_flags), SDL_DestroyWindow);

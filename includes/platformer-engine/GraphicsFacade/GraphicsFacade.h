@@ -12,6 +12,8 @@
 #include <iostream>
 #include "Color.hpp"
 #include "Utility/NumberUtil.h"
+#include <memory>
+#include <functional>
 
 #include <string>
 #include <vector>

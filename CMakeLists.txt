@@ -13,14 +13,14 @@ find_package(SDL2_mixer CONFIG REQUIRED)
 find_package(GTest CONFIG REQUIRED)
 
 include(GoogleTest)
-include_directories(${PROJECT_INCLUDES_DIR}/spic-prj-api)
+include_directories(${PROJECT_INCLUDES_DIR}/spic-prj-api/)
 include_directories(${PROJECT_INCLUDES_DIR}/platformer-engine/)
 
 include(vcpkg_install_deps.cmake)
 vcpkg_install_deps(MANIFEST_ROOT ${PROJECT_SOURCE_DIR})
 
 
-file(GLOB_RECURSE SOURCE src/*.cpp ${PROJECT_INCLUDES_DIR}/spic-prj-api/*.hpp ${PROJECT_INCLUDES_DIR}/platformer-engine/*.h)
+file(GLOB_RECURSE SOURCE src/*.cpp ${PROJECT_INCLUDES_DIR}/spic-prj-api/*.hpp ${PROJECT_INCLUDES_DIR}/spic-prj-api/*.cpp ${PROJECT_INCLUDES_DIR}/platformer-engine/*.h)
 file(GLOB_RECURSE TEST_SOURCE tests/*.cpp tests/*.hpp)
 
 add_library(${PROJECT_NAME} STATIC ${SOURCE})
@@ -28,6 +28,9 @@ add_library(${PROJECT_NAME} STATIC ${SOURCE})
 target_link_libraries(${PROJECT_NAME} PRIVATE SDL2::SDL2 SDL2::SDL2main SDL2::SDL2_image)
 target_link_libraries(${PROJECT_NAME} PRIVATE $<IF:$<TARGET_EXISTS:SDL2_mixer::SDL2_mixer>,SDL2_mixer::SDL2_mixer,SDL2_mixer::SDL2_mixer-static>)
 
+
+#-lSDL2
+include_directories(${SDL2_INCLUDE_DIRS})
 
 set(PROJECT_NAME_TESTS ${PROJECT_NAME}-tests)
 add_executable(${PROJECT_NAME_TESTS} ${TEST_SOURCE})

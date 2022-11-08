@@ -2,15 +2,13 @@
 #include "Engine/Engine.h"
 
 #include <iostream>
+#define SDL_MAIN_HANDLED
 
-int main() {
+
+int main(int argc, char *argv[]) {
     PlatformerEngine::Engine &engine = PlatformerEngine::Engine::getInstance();
 
-    engine.Init(100, 100, "Hallo", spic::Color::green());
-
-    while (engine.isRunning) {
-
-    }
+    engine.Init(800, 800, "Hallo", spic::Color::green());
 
     std::cout << "Hello, World!" << std::endl;
     return 0;

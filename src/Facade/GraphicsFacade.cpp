@@ -1,9 +1,10 @@
 #include "GraphicsFacade/GraphicsFacade.hpp"
 
+const int MAX_COLOR_VALUE = 255;
 
 platformer_engine::GraphicsFacade::GraphicsFacade() {
-    window = nullptr;
-    renderer = nullptr;
+    _window = nullptr;
+    _renderer = nullptr;
 }
 
 platformer_engine::GraphicsFacade::~GraphicsFacade() {
@@ -11,7 +12,7 @@ platformer_engine::GraphicsFacade::~GraphicsFacade() {
 }
 
 void platformer_engine::GraphicsFacade::Clear() {
-    SDL_RenderClear(renderer.get());
+    SDL_RenderClear(_renderer.get());
 }
 
 bool platformer_engine::GraphicsFacade::Init(int width, int height, const std::string &title, const spic::Color &color) {
@@ -20,21 +21,21 @@ bool platformer_engine::GraphicsFacade::Init(int width, int height, const std::s
         return false;
     }
     auto window_flags = (SDL_WindowFlags) (SDL_WINDOW_SHOWN | SDL_WINDOW_RESIZABLE);
-    window = std::unique_ptr<SDL_Window, std::function<void(SDL_Window *)>>(
+    _window = std::unique_ptr<SDL_Window, std::function<void(SDL_Window *)>>(
             SDL_CreateWindow(title.c_str(), SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, width, height,
                              window_flags), SDL_DestroyWindow);
-    if (window == nullptr) {
+    if (_window == nullptr) {
         std::cout << "Window could not be created! SDL_Error: " << SDL_GetError() << std::endl;
         return false;
     }
-    renderer = std::unique_ptr<SDL_Renderer, std::function<void(SDL_Renderer *)>>(
-            SDL_CreateRenderer(window.get(), -1, SDL_RENDERER_ACCELERATED),
+    _renderer = std::unique_ptr<SDL_Renderer, std::function<void(SDL_Renderer *)>>(
+            SDL_CreateRenderer(_window.get(), -1, SDL_RENDERER_ACCELERATED),
             SDL_DestroyRenderer);
-    if (renderer == nullptr) {
+    if (_renderer == nullptr) {
         std::cout << "Renderer could not be created! SDL Error: " << SDL_GetError() << std::endl;
         return false;
     }
-    SDL_SetRenderDrawColor(renderer.get(),
+    SDL_SetRenderDrawColor(_renderer.get(),
                            ConvertColorValueToSDLValue(color.getRedValue()),
                            ConvertColorValueToSDLValue(color.getGreenValue()),
                            ConvertColorValueToSDLValue(color.getBlueValue()),
@@ -45,24 +46,24 @@ bool platformer_engine::GraphicsFacade::Init(int width, int height, const std::s
         return false;
     }
     SDL_SetHint(SDL_HINT_RENDER_SCALE_QUALITY, "linear");
-    SDL_RenderSetLogicalSize(renderer.get(), width, height);
+    SDL_RenderSetLogicalSize(_renderer.get(), width, height);
     return true;
 
 }
 
 void platformer_engine::GraphicsFacade::Quit() {
-    SDL_DestroyRenderer(renderer.get());
-    SDL_DestroyWindow(window.get());
-    renderer = nullptr;
-    window = nullptr;
+    SDL_DestroyRenderer(_renderer.get());
+    SDL_DestroyWindow(_window.get());
+    _renderer = nullptr;
+    _window = nullptr;
     IMG_Quit();
     SDL_Quit();
 }
 
 void platformer_engine::GraphicsFacade::Render() {
-    SDL_RenderPresent(renderer.get());
+    SDL_RenderPresent(_renderer.get());
 }
 
-int platformer_engine::GraphicsFacade::ConvertColorValueToSDLValue(const double &colorValue) {
-    return NumberUtil::clamp(static_cast<int>(colorValue * 255), 0, 255);
+auto platformer_engine::GraphicsFacade::ConvertColorValueToSDLValue(const double &colorValue) -> int {
+    return NumberUtil::Clamp(static_cast<int>(colorValue * MAX_COLOR_VALUE), 0, MAX_COLOR_VALUE);
 }

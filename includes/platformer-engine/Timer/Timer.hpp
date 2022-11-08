@@ -34,7 +34,7 @@ namespace platformer_engine {
          */
         void Update();
 
-        static Timer &Instance() {
+        static auto Instance() -> Timer & {
             static Timer instance;
             return instance;
         };
@@ -42,12 +42,12 @@ namespace platformer_engine {
         /**
         * @brief Deleted copy assignment operator
         */
-        Timer &operator=(const Timer &timer) = delete;
+        auto operator=(const Timer &timer) -> Timer & = delete;
 
         /**
         * @brief Deleted move assignment operator
         */
-        Timer &operator=(Timer &&timer) = delete;
+        auto operator=(Timer &&timer) -> Timer & = delete;
 
         /**
         * @brief Deleted copy constructor

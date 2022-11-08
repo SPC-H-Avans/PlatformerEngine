@@ -14,7 +14,7 @@ namespace platformer_engine {
          * @return T value between min and max
          */
         template<typename T>
-        static inline T clamp(const T &value, const T &min, const T &max) {
+        static inline auto Clamp(const T &value, const T &min, const T &max) -> T {
             if (value < min) return min;
             if (value > max) return max;
             return value;

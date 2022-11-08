@@ -31,7 +31,7 @@ namespace platformer_engine {
          * @return True if the window and renderer were created successfully, false otherwise
          * @platformerengine
          */
-        bool Init(int width, int height, const std::string &title, const spic::Color &color);
+        auto Init(int width, int height, const std::string &title, const spic::Color &color) -> bool;
 
         /**
          * @brief Quit the SDL2 window and renderer
@@ -55,18 +55,18 @@ namespace platformer_engine {
          * @brief Get interval between tick
          * @return Uinit64 tick interval
          */
-        static inline Uint64 GetPerformanceFrequency() { return SDL_GetPerformanceFrequency(); }
+        static inline auto GetPerformanceFrequency() -> Uint64 { return SDL_GetPerformanceFrequency(); }
 
     private:
-        std::unique_ptr<SDL_Window, std::function<void(SDL_Window *)>> window;
-        std::unique_ptr<SDL_Renderer, std::function<void(SDL_Renderer *)>> renderer;
+        std::unique_ptr<SDL_Window, std::function<void(SDL_Window *)>> _window;
+        std::unique_ptr<SDL_Renderer, std::function<void(SDL_Renderer *)>> _renderer;
 
         /**
          * @brief Converts the color value, which is a double between 0 and 1 to a value between 0 and 255 as int
          * @param colorValue colorValue between 0 and 1
          * @return int colorValue between 0 and 255
          */
-        static int ConvertColorValueToSDLValue(const double &colorValue);
+        static auto ConvertColorValueToSDLValue(const double &colorValue) -> int;
     };
 }
 

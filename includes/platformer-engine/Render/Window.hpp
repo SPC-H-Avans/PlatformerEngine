@@ -39,12 +39,12 @@ namespace platformer_engine {
          * @brief Get tick interval
          * @return Uinit64 tick interval
          */
-        static inline Uint64
-        GetPerformanceFrequency() { return platformer_engine::GraphicsFacade::GetPerformanceFrequency(); }
+        static inline auto
+        GetPerformanceFrequency() -> Uint64 { return platformer_engine::GraphicsFacade::GetPerformanceFrequency(); }
 
 
     private:
-        GraphicsFacade graphicsFacade;
+        GraphicsFacade _graphicsFacade;
     };
 }
 

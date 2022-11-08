@@ -2,6 +2,7 @@
 // Created by Jaap Rodenburg on 07/11/2022.
 //
 #include "Engine/Engine.hpp"
+#include <thread>
 
 bool PlatformerEngine::Engine::Init(int width, int height, const std::string &title, const spic::Color &color) {
     if (window != nullptr) {
@@ -13,6 +14,8 @@ bool PlatformerEngine::Engine::Init(int width, int height, const std::string &ti
         auto &timer = Timer::Instance();
         timer.Update();
         //Add system here for input, delta time etc etc
+        //sleep thread
+        std::this_thread::sleep_for(std::chrono::seconds(1));
         window->Render();
     }
     return true;

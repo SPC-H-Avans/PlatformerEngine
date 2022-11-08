@@ -5,8 +5,6 @@
 #ifndef PLATFORMER_ENGINE_GRAPHICSFACADE_HPP
 #define PLATFORMER_ENGINE_GRAPHICSFACADE_HPP
 
-//SDL2 Facade class that creates a SDL2 window and renderer
-
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_image.h>
 #include <iostream>
@@ -26,7 +24,6 @@ namespace PlatformerEngine {
     class GraphicsFacade {
     public:
         GraphicsFacade();
-
         ~GraphicsFacade();
 
         /**

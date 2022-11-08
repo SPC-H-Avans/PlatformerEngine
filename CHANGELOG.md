@@ -13,9 +13,11 @@ Set up the project and add the first version of the code.
 - SPCH-31: Added SPIC-API as submodule
 - SPCH-31: Added Google Test 
 - SPCH-41: Created GitHub Actions
-- SPCH-40: Added Multiton pattern to GameObject (insunated by API docs)
 - SPCH-40: Implemented functions of GameObject and Component
 
+### Added
+- SPCH-40: Added Multiton pattern to GameObject (insunated by API docs)
+- SPCH-40: Added Children and Parent to GameObject
 
 ### Bug Fixes
 - None

@@ -8,6 +8,13 @@ using namespace spic;
 
 void GameObject::Active(bool flag) { active = flag; }
 bool GameObject::Active() const { return active; }
+
+bool GameObject::IsActiveInWorld() const {
+    bool active = true;
+    while(true) {
+        if(this->parent->active)
+    }
+}
 //TODO GameObject::IsActiveInWorld
 //TODO Parent and Children methods
 

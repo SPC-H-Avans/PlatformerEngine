@@ -1,7 +1,6 @@
 Checks: 'bugprone*,clang-analyzer*,cert*,cppcore*,misc*,modernize*,performance*,portability*,readability*,
         google*,-google-runtime-references,
-        hicpp*,-hicpp-signed-bitwise,
-        llvm*,-llvm-header-guard,
+        hicpp*,-hicpp-signed-bitwise,-llvm-header-guard,
         -*-braces-around-statements'
 FormatStyle:     file
 CheckOptions:

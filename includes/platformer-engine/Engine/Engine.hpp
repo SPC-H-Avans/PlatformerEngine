@@ -15,13 +15,12 @@ namespace PlatformerEngine {
     */
     class Engine {
     public:
-        void halloDaar();
         /**
          * @brief Get instance of the Engine class
          * @return Engine class
          * @platformerengine
          */
-        static inline Engine &getInstance() {
+        static inline Engine &GetInstance() {
             static Engine instance;
             return instance;
         }

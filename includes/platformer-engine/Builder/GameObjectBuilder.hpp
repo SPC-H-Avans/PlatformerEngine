@@ -13,9 +13,11 @@ class GameObjectBuilder : ObjectBuilder{
 public:
     GameObjectBuilder(const std::string& name);
     void Reset(const std::string& name);
+    std::shared_ptr<GameObject> GetGameObject();
 
+    ObjectBuilder& AddAudio() override;
 private:
-    std::unique_ptr<GameObject> gameObject;
+    std::shared_ptr<GameObject> gameObject;
 };
 
 #endif //PLATFORMER_ENGINE_GAMEOBJECTBUILDER_HPP

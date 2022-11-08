@@ -7,7 +7,7 @@
 
 class ObjectBuilder {
 public:
-    virtual void AddAudio() const = 0;
+    virtual ObjectBuilder& AddAudio() = 0;
 };
 
 #endif //PLATFORMER_ENGINE_BUILDER_HPP

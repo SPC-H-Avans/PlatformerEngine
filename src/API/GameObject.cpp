@@ -6,18 +6,6 @@
 #include "GameObject.hpp"
 using namespace spic;
 
-void GameObject::Active(bool flag) { active = flag; }
-bool GameObject::Active() const { return active; }
-
-bool GameObject::IsActiveInWorld() const {
-    bool active = true;
-    while(true) {
-        if(this->parent->active)
-    }
-}
-//TODO GameObject::IsActiveInWorld
-//TODO Parent and Children methods
-
 //Creates the static instances of GameObjects
 std::map<std::string, std::shared_ptr<GameObject>> GameObject::instances;
 
@@ -41,6 +29,13 @@ GameObject::GameObject(const std::string &name, const std::string& tag) {
         throw std::invalid_argument("A GameObject with this name already exists");
     }
 }
+
+bool GameObject::operator==(const spic::GameObject &other) { return name==other.name; }
+
+bool GameObject::operator!=(const spic::GameObject &other) { return name!=other.name; }
+
+GameObject::operator bool() { return true; } //Docs don't know what it is used for
+
 
 void GameObject::AddChild(std::shared_ptr<GameObject> child) {
     child->parent = GameObject::Find(this->name);
@@ -72,11 +67,49 @@ std::shared_ptr<GameObject> GameObject::FindWithTag(const std::string &tag) {
     }
 }
 
-bool GameObject::operator==(const spic::GameObject &other) { return name==other.name; }
+void GameObject::Destroy(spic::Component *obj) {
+    if(obj == nullptr)
+        throw std::runtime_error("Given pointer is empty or invalid");
 
-bool GameObject::operator!=(const spic::GameObject &other) { return name!=other.name; }
+    for(auto& [name, instance] : instances) { //For every gameobject
+        for(auto& [type, cList] : instance->components ) { //For every componentType
+            for(auto iter = cList.begin(); iter != cList.end(); iter++) { //For every component in list
+                if(obj == iter->get()) {
+                    cList.erase(iter);
+                    iter->reset();
+                }
+            }
+        }
+    }
+}
 
-GameObject::operator bool() { return true; } //Docs don't know what it is used for
+void GameObject::Destroy(std::shared_ptr<GameObject> obj) {
+    if(obj == nullptr)
+        throw std::runtime_error("Given pointer is empty or invalid");
+
+    for(auto& child : obj->children) {
+        Destroy(child);
+    }
+
+    std::shared_ptr<GameObject> gameObject = Find(obj->name);
+    instances.erase(gameObject->name);
+    gameObject.reset();
+}
+
+
+void GameObject::Active(bool flag) { active = flag; }
+bool GameObject::Active() const { return active; }
+
+bool GameObject::IsActiveInWorld() const {
+    if(!Active())
+        return false;
+
+    if(parent != nullptr)
+        return parent->IsActiveInWorld();
+
+    return true;
+}
+
 
 
 

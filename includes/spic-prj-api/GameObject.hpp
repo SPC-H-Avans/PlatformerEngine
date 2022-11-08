@@ -196,7 +196,11 @@ namespace spic {
              */
             template<class T>
             std::shared_ptr<Component> GetComponentInChildren() const {
-                // ... implementation here
+                for(const auto& child : children) {
+                    auto comp = child->template GetComponent<T>();
+                    if(comp != nullptr)
+                        return comp;
+                }
             }
 
             /**
@@ -208,7 +212,7 @@ namespace spic {
              */
             template<class T>
             std::shared_ptr<Component> GetComponentInParent() const {
-                // ... implementation here
+                return parent->template GetComponent<T>();
             }
 
             /**
@@ -239,7 +243,16 @@ namespace spic {
              */
             template<class T>
             std::vector<std::shared_ptr<Component>> GetComponentsInChildren() const {
-                // ... implementation here
+                std::vector<std::shared_ptr<Component>> result;
+                for(const auto& child : children) {
+                    std::vector<std::shared_ptr<Component>> comps = child->template GetComponents<T>();
+                    if(result.empty())
+                        result = comps;
+                    else {
+                        result.insert(result.end(), comps.begin(), comps.end());
+                    }
+                }
+                return result;
             }
 
             /**
@@ -251,7 +264,7 @@ namespace spic {
              */
             template<class T>
             std::vector<std::shared_ptr<Component>> GetComponentsInParent() const {
-                // ... implementation here
+                return parent->template GetComponents<T>();
             }
 
             /**

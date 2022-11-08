@@ -4,7 +4,7 @@
 const int TARGET_FPS = 60;
 const double TARGET_FRAME_DELAY = 1000.0 / TARGET_FPS;
 
-auto PlatformerEngine::Engine::Init(int width, int height, const std::string &title, const spic::Color &color) -> bool {
+auto platformer_engine::Engine::Init(int width, int height, const std::string &title, const spic::Color &color) -> bool {
     if (_window != nullptr) {
         return false;
     }
@@ -27,7 +27,7 @@ auto PlatformerEngine::Engine::Init(int width, int height, const std::string &ti
     return true;
 }
 
-void PlatformerEngine::Engine::Render() {
+void platformer_engine::Engine::Render() {
     if (_window == nullptr) {
         std::cout << "Can not render without initializing the engine first";
         return;
@@ -35,7 +35,7 @@ void PlatformerEngine::Engine::Render() {
     _window->Render();
 }
 
-void PlatformerEngine::Engine::Quit() {
+void platformer_engine::Engine::Quit() {
     _window->Quit();
     _isRunning = false;
 }

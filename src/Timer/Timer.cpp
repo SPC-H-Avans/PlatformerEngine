@@ -4,7 +4,7 @@
 
 static const double MAX_DELTA_TIME = 1000.0f;
 
-void PlatformerEngine::Timer::Update() {
+void platformer_engine::Timer::Update() {
     _lastTick = _currentTick;
     _currentTick = Window::GetPerformanceFrequency();
 

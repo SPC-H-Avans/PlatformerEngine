@@ -9,7 +9,7 @@ const int SCREEN_HEIGHT = 480;
 
 
 int main([[maybe_unused]] int argc, [[maybe_unused]] char *argv[]) {
-    PlatformerEngine::Engine &engine = PlatformerEngine::Engine::GetInstance();
+    platformer_engine::Engine &engine = platformer_engine::Engine::GetInstance();
 
     engine.Init(SCREEN_WIDTH, SCREEN_HEIGHT, "Hallo", spic::Color::green());
 

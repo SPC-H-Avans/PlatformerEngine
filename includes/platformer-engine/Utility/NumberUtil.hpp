@@ -1,7 +1,7 @@
 #ifndef PLATFORMER_ENGINE_NUMBERUTIL_HPP
 #define PLATFORMER_ENGINE_NUMBERUTIL_HPP
 
-namespace PlatformerEngine {
+namespace platformer_engine {
     class NumberUtil {
         //template function to clamp numbers between x and y
     public:

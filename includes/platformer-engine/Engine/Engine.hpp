@@ -5,7 +5,7 @@
 #include "Timer/Timer.hpp"
 
 
-namespace PlatformerEngine {
+namespace platformer_engine {
     /**
     * @brief Engine is a singleton class which is the core of the game
     */
@@ -55,6 +55,6 @@ namespace PlatformerEngine {
 
         std::unique_ptr<Window> _window = nullptr;
     };
-}//namespace PlatformerEngine
+}//namespace platformer_engine
 
 #endif //PLATFORMER_ENGINE_ENGINE_HPP

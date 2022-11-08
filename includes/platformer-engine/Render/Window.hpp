@@ -6,7 +6,7 @@
 #include "Color.hpp"
 #include "GraphicsFacade/GraphicsFacade.hpp"
 
-namespace PlatformerEngine {
+namespace platformer_engine {
     /**
      * @brief The Window class represents a window on the screen.
      * @details The window is the main interface to the graphics system. It is used to draw graphics on the screen.
@@ -40,7 +40,7 @@ namespace PlatformerEngine {
          * @return Uinit64 tick interval
          */
         static inline Uint64
-        GetPerformanceFrequency() { return PlatformerEngine::GraphicsFacade::GetPerformanceFrequency(); }
+        GetPerformanceFrequency() { return platformer_engine::GraphicsFacade::GetPerformanceFrequency(); }
 
 
     private:

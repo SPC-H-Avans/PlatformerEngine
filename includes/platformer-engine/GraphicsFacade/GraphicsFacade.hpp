@@ -12,7 +12,7 @@
 #include <string>
 #include <vector>
 
-namespace PlatformerEngine {
+namespace platformer_engine {
 
     /**
      * @brief Facade class that creates a SDL2 window and renderer

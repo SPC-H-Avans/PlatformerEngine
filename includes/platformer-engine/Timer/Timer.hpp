@@ -3,7 +3,7 @@
 
 #include <cstdint>
 
-namespace PlatformerEngine {
+namespace platformer_engine {
     class Timer {
     public:
         /**

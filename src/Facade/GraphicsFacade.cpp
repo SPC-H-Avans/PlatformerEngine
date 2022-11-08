@@ -1,20 +1,20 @@
 #include "GraphicsFacade/GraphicsFacade.hpp"
 
 
-PlatformerEngine::GraphicsFacade::GraphicsFacade() {
+platformer_engine::GraphicsFacade::GraphicsFacade() {
     window = nullptr;
     renderer = nullptr;
 }
 
-PlatformerEngine::GraphicsFacade::~GraphicsFacade() {
+platformer_engine::GraphicsFacade::~GraphicsFacade() {
     Quit();
 }
 
-void PlatformerEngine::GraphicsFacade::Clear() {
+void platformer_engine::GraphicsFacade::Clear() {
     SDL_RenderClear(renderer.get());
 }
 
-bool PlatformerEngine::GraphicsFacade::Init(int width, int height, const std::string &title, const spic::Color &color) {
+bool platformer_engine::GraphicsFacade::Init(int width, int height, const std::string &title, const spic::Color &color) {
     if (SDL_Init(SDL_INIT_VIDEO) < 0) {
         std::cout << "SDL could not initialize! SDL_Error: " << SDL_GetError() << std::endl;
         return false;
@@ -50,7 +50,7 @@ bool PlatformerEngine::GraphicsFacade::Init(int width, int height, const std::st
 
 }
 
-void PlatformerEngine::GraphicsFacade::Quit() {
+void platformer_engine::GraphicsFacade::Quit() {
     SDL_DestroyRenderer(renderer.get());
     SDL_DestroyWindow(window.get());
     renderer = nullptr;
@@ -59,10 +59,10 @@ void PlatformerEngine::GraphicsFacade::Quit() {
     SDL_Quit();
 }
 
-void PlatformerEngine::GraphicsFacade::Render() {
+void platformer_engine::GraphicsFacade::Render() {
     SDL_RenderPresent(renderer.get());
 }
 
-int PlatformerEngine::GraphicsFacade::ConvertColorValueToSDLValue(const double &colorValue) {
+int platformer_engine::GraphicsFacade::ConvertColorValueToSDLValue(const double &colorValue) {
     return NumberUtil::clamp(static_cast<int>(colorValue * 255), 0, 255);
 }

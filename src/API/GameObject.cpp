@@ -9,25 +9,23 @@ using namespace spic;
 //Creates the static instances of GameObjects
 std::map<std::string, std::shared_ptr<GameObject>> GameObject::instances;
 
-//Exception causes the constructor to not call destructor, don't initialize object outside of if statement.
 GameObject::GameObject(const std::string &name) {
-    if(instances[name] == nullptr) {
-        instances[name] = std::make_shared<GameObject>(*this);
-        this->name = name;
-    } else {
-        throw std::invalid_argument("A GameObject with this name already exists");
-    }
+    std::string objName = name;
+    if(instances.count(name) > 0)
+        objName += "- Copy";
+
+    this->name = objName;
+    instances[objName] = std::make_shared<GameObject>(*this);
 }
 
-//Exception causes the constructor to not call destructor, don't initialize object outside of if statement.
 GameObject::GameObject(const std::string &name, const std::string& tag) {
-    if(instances[name] == nullptr) {
-        instances[name] = std::make_shared<GameObject>(*this);
-        this->name = name;
-        this->tag = tag;
-    } else {
-        throw std::invalid_argument("A GameObject with this name already exists");
-    }
+    std::string objName = name;
+    if(instances.count(name) > 0)
+        objName += "- Copy";
+
+    this->name = objName;
+    this->tag = tag;
+    instances[objName] = std::make_shared<GameObject>(*this);
 }
 
 bool GameObject::operator==(const spic::GameObject &other) { return name==other.name; }
@@ -41,6 +39,8 @@ void GameObject::AddChild(std::shared_ptr<GameObject> child) {
     child->parent = GameObject::Find(this->name);
     children.emplace_back(child);
 }
+
+std::string GameObject::GetName() { return name; }
 
 std::vector<std::shared_ptr<GameObject>> GameObject::Children() { return children; }
 

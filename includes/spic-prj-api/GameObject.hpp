@@ -96,7 +96,6 @@ namespace spic {
              * @spicapi
              */
             GameObject(const std::string& name);
-
             /**
              * @brief Constructor.
              * @details The new GameObject will also be added to a statically
@@ -138,6 +137,13 @@ namespace spic {
              * @spicapi
              */
             void AddChild(std::shared_ptr<GameObject> child);
+
+            /**
+             * @brief Returns the name of the GameObject
+             * @return name of the gameobject
+             * @spicapi
+             */
+            std::string GetName();
 
             /**
              * @brief Returns the parent GameObject of this instance.

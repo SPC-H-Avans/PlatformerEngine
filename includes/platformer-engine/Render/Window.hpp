@@ -2,12 +2,12 @@
 // Created by Jaap Rodenburg on 07/11/2022.
 //
 
-#ifndef PLATFORMER_ENGINE_WINDOW_H
-#define PLATFORMER_ENGINE_WINDOW_H
+#ifndef PLATFORMER_ENGINE_WINDOW_HPP
+#define PLATFORMER_ENGINE_WINDOW_HPP
 
 #include <string>
 #include "Color.hpp"
-#include "GraphicsFacade/GraphicsFacade.h"
+#include "GraphicsFacade/GraphicsFacade.hpp"
 
 namespace PlatformerEngine {
     /**
@@ -38,9 +38,17 @@ namespace PlatformerEngine {
          */
         void Quit();
 
+        /**
+         * @brief Get tick interval
+         * @return Uinit64 tick interval
+         */
+        static inline Uint64
+        GetPerformanceFrequency() { return PlatformerEngine::GraphicsFacade::GetPerformanceFrequency(); }
+
+
     private:
         GraphicsFacade graphicsFacade;
     };
 }
 
-#endif //PLATFORMER_ENGINE_WINDOW_H
+#endif //PLATFORMER_ENGINE_WINDOW_HPP

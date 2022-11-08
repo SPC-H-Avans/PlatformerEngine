@@ -2,8 +2,8 @@
 // Created by Jaap Rodenburg on 07/11/2022.
 //
 
-#ifndef PLATFORMER_ENGINE_GRAPHICSFACADE_H
-#define PLATFORMER_ENGINE_GRAPHICSFACADE_H
+#ifndef PLATFORMER_ENGINE_GRAPHICSFACADE_HPP
+#define PLATFORMER_ENGINE_GRAPHICSFACADE_HPP
 
 //SDL2 Facade class that creates a SDL2 window and renderer
 
@@ -11,7 +11,7 @@
 #include <SDL2/SDL_image.h>
 #include <iostream>
 #include "Color.hpp"
-#include "Utility/NumberUtil.h"
+#include "Utility/NumberUtil.hpp"
 #include <memory>
 #include <functional>
 
@@ -57,6 +57,12 @@ namespace PlatformerEngine {
          * @platformerengine
          */
         void Clear();
+        
+        /**
+         * @brief Get interval between tick
+         * @return Uinit64 tick interval
+         */
+        static inline Uint64 GetPerformanceFrequency() { return SDL_GetPerformanceFrequency(); }
 
     private:
         std::unique_ptr<SDL_Window, std::function<void(SDL_Window *)>> window;
@@ -71,4 +77,4 @@ namespace PlatformerEngine {
     };
 }
 
-#endif //PLATFORMER_ENGINE_GRAPHICSFACADE_H
+#endif //PLATFORMER_ENGINE_GRAPHICSFACADE_HPP

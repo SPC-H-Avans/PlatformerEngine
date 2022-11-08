@@ -1,7 +1,7 @@
 //
 // Created by Jaap Rodenburg on 07/11/2022.
 //
-#include "Engine/Engine.h"
+#include "Engine/Engine.hpp"
 
 bool PlatformerEngine::Engine::Init(int width, int height, const std::string &title, const spic::Color &color) {
     if (window != nullptr) {
@@ -9,6 +9,12 @@ bool PlatformerEngine::Engine::Init(int width, int height, const std::string &ti
     }
     window = std::make_unique<Window>(width, height, title, color);
     isRunning = true;
+    while (isRunning) {
+        auto &timer = Timer::Instance();
+        timer.Update();
+        //Add system here for input, delta time etc etc
+        window->Render();
+    }
     return true;
 }
 

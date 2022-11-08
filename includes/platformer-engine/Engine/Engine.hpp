@@ -2,10 +2,11 @@
 // Created by Jaap Rodenburg on 07/11/2022.
 //
 
-#ifndef PLATFORMER_ENGINE_ENGINE_H
-#define PLATFORMER_ENGINE_ENGINE_H
+#ifndef PLATFORMER_ENGINE_ENGINE_HPP
+#define PLATFORMER_ENGINE_ENGINE_HPP
 
-#include "Render/Window.h"
+#include "Render/Window.hpp"
+#include "Timer/Timer.hpp"
 
 
 namespace PlatformerEngine {
@@ -60,4 +61,4 @@ namespace PlatformerEngine {
     };
 }
 
-#endif //PLATFORMER_ENGINE_ENGINE_H
+#endif //PLATFORMER_ENGINE_ENGINE_HPP

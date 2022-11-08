@@ -2,7 +2,7 @@
 // Created by Jaap Rodenburg on 07/11/2022.
 //
 
-#include "GraphicsFacade/GraphicsFacade.h"
+#include "GraphicsFacade/GraphicsFacade.hpp"
 
 
 PlatformerEngine::GraphicsFacade::GraphicsFacade() {
@@ -23,7 +23,7 @@ bool PlatformerEngine::GraphicsFacade::Init(int width, int height, const std::st
         std::cout << "SDL could not initialize! SDL_Error: " << SDL_GetError() << std::endl;
         return false;
     }
-    auto window_flags = (SDL_WindowFlags) (SDL_WINDOW_ALLOW_HIGHDPI | SDL_WINDOW_ALWAYS_ON_TOP);
+    auto window_flags = (SDL_WindowFlags) (SDL_WINDOW_SHOWN | SDL_WINDOW_RESIZABLE);
     window = std::unique_ptr<SDL_Window, std::function<void(SDL_Window *)>>(
             SDL_CreateWindow(title.c_str(), SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, width, height,
                              window_flags), SDL_DestroyWindow);
@@ -48,6 +48,8 @@ bool PlatformerEngine::GraphicsFacade::Init(int width, int height, const std::st
         std::cout << "SDL_image could not initialize! SDL_image Error: " << IMG_GetError() << std::endl;
         return false;
     }
+    SDL_SetHint(SDL_HINT_RENDER_SCALE_QUALITY, "linear");
+    SDL_RenderSetLogicalSize(renderer.get(), width, height);
     return true;
 
 }

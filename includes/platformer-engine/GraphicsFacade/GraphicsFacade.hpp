@@ -68,6 +68,6 @@ namespace platformer_engine {
          */
         static auto ConvertColorValueToSDLValue(const double &colorValue) -> int;
     };
-}
+}//namespace platformer_engine
 
 #endif //PLATFORMER_ENGINE_GRAPHICSFACADE_HPP

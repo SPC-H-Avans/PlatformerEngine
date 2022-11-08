@@ -20,6 +20,6 @@ namespace platformer_engine {
             return value;
         }
     };
-}
+}// namespace platformer_engine
 
 #endif //PLATFORMER_ENGINE_NUMBERUTIL_HPP

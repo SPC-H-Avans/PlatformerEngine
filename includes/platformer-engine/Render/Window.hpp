@@ -46,6 +46,6 @@ namespace platformer_engine {
     private:
         GraphicsFacade _graphicsFacade;
     };
-}
+}//namespace platformer_engine
 
 #endif //PLATFORMER_ENGINE_WINDOW_HPP

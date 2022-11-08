@@ -15,13 +15,13 @@ namespace platformer_engine {
          * @brief Get deltatime
          * @return double Deltatime
          */
-        inline double DeltaTime() const { return _deltaTime; }
+        inline auto DeltaTime() const -> double { return _deltaTime; }
 
         /**
          * @brief Get the current time scale
          * @return double time scale
          */
-        inline double TimeScale() const { return _timeScale; }
+        inline auto TimeScale() const -> double { return _timeScale; }
 
         /**
          * @brief Set the time scale
@@ -66,6 +66,6 @@ namespace platformer_engine {
         double _timeScale = 1.0;
 
     };
-}
+}//namespace platformer_engine
 
 #endif //PLATFORMER_ENGINE_TIMER_HPP

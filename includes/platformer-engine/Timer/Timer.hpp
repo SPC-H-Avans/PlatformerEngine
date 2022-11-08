@@ -1,7 +1,3 @@
-//
-// Created by jhpar on 7-11-2022.
-//
-
 #ifndef PLATFORMER_ENGINE_TIMER_HPP
 #define PLATFORMER_ENGINE_TIMER_HPP
 

@@ -1,7 +1,3 @@
-//
-// Created by Jaap Rodenburg on 07/11/2022.
-//
-
 #include "GraphicsFacade/GraphicsFacade.hpp"
 
 

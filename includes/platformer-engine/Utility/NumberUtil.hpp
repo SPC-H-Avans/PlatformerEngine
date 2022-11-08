@@ -1,7 +1,3 @@
-//
-// Created by Jaap Rodenburg on 07/11/2022.
-//
-
 #ifndef PLATFORMER_ENGINE_NUMBERUTIL_HPP
 #define PLATFORMER_ENGINE_NUMBERUTIL_HPP
 

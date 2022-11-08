@@ -1,6 +1,3 @@
-//
-// Created by Jaap Rodenburg on 07/11/2022.
-//
 #include "Engine/Engine.hpp"
 #include <thread>
 

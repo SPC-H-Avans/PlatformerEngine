@@ -4,37 +4,9 @@ on: pull_request
 
 jobs:
   cpp-linter:
-    name: Build (${{ matrix.os }})
-    runs-on: ${{ matrix.os }}
-    strategy:
-      fail-fast: false
-      matrix:
-        include:
-          - os: ubuntu-latest
-            triplet: x64-linux
+    runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
-      - name: 'Checkout'
-        uses: actions/checkout@v2
-        with:
-          token: ${{ secrets.PAT }}
-          submodules: true
-
-      - name: 'Install CMake'
-        uses: lukka/get-cmake@latest
-
-      - name: 'Setup vcpkg'
-        uses: lukka/run-vcpkg@v10
-        with:
-          appendedCacheKey: -${{ matrix.triplet }}
-
-      - name: 'Run CMake'
-        uses: lukka/run-cmake@v10
-        with:
-          configurePreset: ninja-multi-vcpkg
-          buildPreset: ninja-multi-vcpkg
-          testPreset: ninja-multi-vcpkg
-
       - uses: cpp-linter/cpp-linter-action@v2
         id: linter
         env:

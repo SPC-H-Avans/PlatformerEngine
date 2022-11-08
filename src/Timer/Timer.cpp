@@ -1,7 +1,3 @@
-//
-// Created by jhpar on 7-11-2022.
-//
-
 #include "Timer/Timer.hpp"
 #include "Debug.hpp"
 #include "Render/Window.hpp"

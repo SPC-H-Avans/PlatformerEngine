@@ -4,11 +4,14 @@
 
 #define SDL_MAIN_HANDLED
 
+const int SCREEN_WIDTH = 640;
+const int SCREEN_HEIGHT = 480;
 
-int main(int argc, char *argv[]) {
+
+int main([[maybe_unused]] int argc, [[maybe_unused]] char *argv[]) {
     PlatformerEngine::Engine &engine = PlatformerEngine::Engine::GetInstance();
 
-    engine.Init(800, 800, "Hallo", spic::Color::green());
+    engine.Init(SCREEN_WIDTH, SCREEN_HEIGHT, "Hallo", spic::Color::green());
 
     std::cout << "Hello, World!" << std::endl;
     return 0;

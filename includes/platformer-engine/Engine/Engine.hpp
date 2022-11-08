@@ -16,7 +16,7 @@ namespace PlatformerEngine {
          * @return Engine class
          * @platformerengine
          */
-        static inline Engine &GetInstance() {
+        static inline auto GetInstance() -> Engine & {
             static Engine instance;
             return instance;
         }
@@ -34,7 +34,7 @@ namespace PlatformerEngine {
          * @return bool True if the engine is initialized, false if not
          * @platformerengine
          */
-        bool Init(int width, int height, const std::string &title, const spic::Color &color);
+        auto Init(int width, int height, const std::string &title, const spic::Color &color) -> bool;
 
         /**
          * @brief Render the game on the screen
@@ -46,15 +46,15 @@ namespace PlatformerEngine {
          * @brief Quit the engine
          * @platformerengine
          */
-        void Quit();
+        void Quit();;
 
-        bool isRunning = false;
 
     private:
         Engine() = default;
+        bool _isRunning = false;
 
-        std::unique_ptr<Window> window = nullptr;
+        std::unique_ptr<Window> _window = nullptr;
     };
-}
+}//namespace PlatformerEngine
 
 #endif //PLATFORMER_ENGINE_ENGINE_HPP

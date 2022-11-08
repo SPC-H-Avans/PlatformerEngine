@@ -4,18 +4,18 @@
 const int TARGET_FPS = 60;
 const double TARGET_FRAME_DELAY = 1000.0 / TARGET_FPS;
 
-bool PlatformerEngine::Engine::Init(int width, int height, const std::string &title, const spic::Color &color) {
-    if (window != nullptr) {
+auto PlatformerEngine::Engine::Init(int width, int height, const std::string &title, const spic::Color &color) -> bool {
+    if (_window != nullptr) {
         return false;
     }
-    window = std::make_unique<Window>(width, height, title, color);
-    isRunning = true;
-    while (isRunning) {
+    _window = std::make_unique<Window>(width, height, title, color);
+    _isRunning = true;
+    while (_isRunning) {
         uint64_t start = Window::GetPerformanceFrequency();
         auto &timer = Timer::Instance();
         timer.Update();
         //Add system here for input, delta time etc etc
-        window->Render();
+        _window->Render();
 
         float elapsedMs = (Window::GetPerformanceFrequency() - start) / static_cast<float>(Window::GetPerformanceFrequency()) * 1000.0f; // NOLINT(cppcoreguidelines-narrowing-conversions)
         if (TARGET_FRAME_DELAY > elapsedMs)
@@ -28,14 +28,14 @@ bool PlatformerEngine::Engine::Init(int width, int height, const std::string &ti
 }
 
 void PlatformerEngine::Engine::Render() {
-    if (window == nullptr) {
+    if (_window == nullptr) {
         std::cout << "Can not render without initializing the engine first";
         return;
     }
-    window->Render();
+    _window->Render();
 }
 
 void PlatformerEngine::Engine::Quit() {
-    window->Quit();
-    isRunning = false;
+    _window->Quit();
+    _isRunning = false;
 }

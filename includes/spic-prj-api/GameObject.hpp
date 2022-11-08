@@ -131,6 +131,30 @@ namespace spic {
             bool operator==(const GameObject& other);
 
             /**
+             * @brief Add given GameObject reference to this object's children list
+             * @details This function places a pointer to the gameobject in a suitable container,
+             * and sets the parent field on the child.
+             * @param other Reference to the GameObject.
+             * @spicapi
+             */
+            void AddChild(std::shared_ptr<GameObject> child);
+
+            /**
+             * @brief Returns the parent GameObject of this instance.
+             * @return pointer to the parent GameObject, nullptr if no parent set.
+             * @spicapi
+             */
+             std::shared_ptr<GameObject> Parent();
+
+            /**
+            * @brief Returns the children of this instance
+            * @return list of pointers to the child GameObjects, empty list if no children set.
+            * @spicapi
+            */
+            std::vector<std::shared_ptr<GameObject>> Children();
+
+
+            /**
              * @brief Add a Component of the specified type. Must be a valid
              *        subclass of Component. The GameObject assumes ownership of
              *        the Component.
@@ -258,6 +282,8 @@ namespace spic {
             std::string tag;
             bool active;
             int layer;
+            std::shared_ptr<GameObject> parent;
+            std::vector<std::shared_ptr<GameObject>> children;
             std::map<std::string, std::vector<std::shared_ptr<Component>>> components; //Key is typeid.name
 
             //Multiton Pattern

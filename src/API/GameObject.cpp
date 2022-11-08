@@ -35,6 +35,16 @@ GameObject::GameObject(const std::string &name, const std::string& tag) {
     }
 }
 
+void GameObject::AddChild(std::shared_ptr<GameObject> child) {
+    child->parent = GameObject::Find(this->name);
+    children.emplace_back(child);
+}
+
+std::vector<std::shared_ptr<GameObject>> GameObject::Children() { return children; }
+
+std::shared_ptr<GameObject> GameObject::Parent() { return parent; }
+
+
 std::shared_ptr<GameObject> GameObject::Find(const std::string &name) {
     return instances[name];
 }

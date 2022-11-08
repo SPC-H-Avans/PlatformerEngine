@@ -6,7 +6,7 @@ static const double MAX_DELTA_TIME = 1000.0f;
 
 void PlatformerEngine::Timer::Update() {
     _lastTick = _currentTick;
-    _currentTick = SDL_GetPerformanceCounter();
+    _currentTick = Window::GetPerformanceFrequency();
 
     if (_lastTick == -1) {
         _lastTick = _currentTick;

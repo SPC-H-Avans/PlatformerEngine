@@ -7,7 +7,7 @@
 
 
 int main(int argc, char *argv[]) {
-    PlatformerEngine::Engine &engine = PlatformerEngine::Engine::getInstance();
+    PlatformerEngine::Engine &engine = PlatformerEngine::Engine::GetInstance();
 
     engine.Init(800, 800, "Hallo", spic::Color::green());
 

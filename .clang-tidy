@@ -1,5 +1,5 @@
 Checks: 'bugprone*,clang-analyzer*,cert*,cppcore*,misc*,modernize*,performance*,portability*,readability*,
-        google*,-google-runtime-references,
+        google*,-google-runtime-references,-google-explicit-constructor,-modernize-use-trailing-return-type
         hicpp*,-hicpp-signed-bitwise,-llvm-header-guard,
         -*-braces-around-statements'
 FormatStyle:     file

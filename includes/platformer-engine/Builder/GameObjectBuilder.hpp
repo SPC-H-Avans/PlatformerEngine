@@ -66,7 +66,7 @@ public:
     ObjectBuilder& AddSprite() override;
 private:
     //Shares ptr with GameObject static instace list
-    std::shared_ptr<GameObject> gameObject;
+    std::shared_ptr<GameObject> _gameObject;
 };
 
 #endif //PLATFORMER_ENGINE_GAMEOBJECTBUILDER_HPP

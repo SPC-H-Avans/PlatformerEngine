@@ -1,15 +1,15 @@
 #include "Builder/GameObjectBuilder.hpp"
 #include <stdexcept>
 
-GameObjectBuilder::GameObjectBuilder(const std::string &name) : gameObject(std::make_shared<GameObject>(name)) {}
+GameObjectBuilder::GameObjectBuilder(const std::string &name) : _gameObject(std::make_shared<GameObject>(name)) {}
 
 //If reset with exisitng name append number to it
 void GameObjectBuilder::Reset(const std::string &name) {
-    gameObject = std::make_shared<GameObject>(name);
+    _gameObject = std::make_shared<GameObject>(name);
 }
 
 std::shared_ptr<GameObject> GameObjectBuilder::GetGameObject() {
-    auto name = gameObject->GetName();
+    auto name = _gameObject->GetName();
     Reset(name);
     return GameObject::Find(name);
 }

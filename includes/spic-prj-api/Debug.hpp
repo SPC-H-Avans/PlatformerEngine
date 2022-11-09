@@ -19,7 +19,7 @@ namespace spic {
          * @param color The line color, defaults to white.
          * @spicapi
          */
-        void DrawLine(const Point& start, const Point& end, const Color& color = Color::white());
+        void DrawLine(const Point& start, const Point& end, const Color& color = Color::White());
 
         /**
          * @brief Logs a message to the Console.

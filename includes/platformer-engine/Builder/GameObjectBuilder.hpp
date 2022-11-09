@@ -1,7 +1,3 @@
-//
-// Created by Niels on 7-11-2022.
-//
-
 #ifndef PLATFORMER_ENGINE_GAMEOBJECTBUILDER_HPP
 #define PLATFORMER_ENGINE_GAMEOBJECTBUILDER_HPP
 
@@ -71,8 +67,6 @@ public:
 private:
     //Shares ptr with GameObject static instace list
     std::shared_ptr<GameObject> gameObject;
-    int copyCounter;
-    std::string originalName;
 };
 
 #endif //PLATFORMER_ENGINE_GAMEOBJECTBUILDER_HPP

@@ -1,7 +1,3 @@
-//
-// Created by Niels on 7-11-2022.
-//
-
 #include <stdexcept>
 #include "GameObject.hpp"
 using namespace spic;

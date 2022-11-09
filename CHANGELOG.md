@@ -11,6 +11,7 @@ Set up the project and add the first version of the code.
 
 ### Changes
 
+- SPCH-39: Added window, engine and graphics facade classes
 - SPCH-31: Added SPIC-API as submodule
 - SPCH-41: Created GitHub Actions
 - SPCH-31: Added Google Test

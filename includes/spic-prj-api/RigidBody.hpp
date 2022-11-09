@@ -28,10 +28,14 @@ namespace spic {
              */
             void AddForce(const Point& forceDirection);
 
+            void BodyType (BodyType bodyType) { this->bodyType = bodyType; }
+            enum BodyType BodyType() { return bodyType; }
+
+
         private:
             double mass;
             double gravityScale;
-            BodyType bodyType;
+            enum BodyType bodyType;
     };
 
 }

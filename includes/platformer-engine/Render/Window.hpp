@@ -1,10 +1,9 @@
-
 #ifndef PLATFORMER_ENGINE_WINDOW_HPP
 #define PLATFORMER_ENGINE_WINDOW_HPP
 
 #include <string>
 #include "Color.hpp"
-#include "GraphicsFacade/GraphicsFacade.hpp"
+#include "Facade/GraphicsFacade.hpp"
 
 namespace platformer_engine {
     /**

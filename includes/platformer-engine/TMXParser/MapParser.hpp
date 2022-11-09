@@ -1,5 +1,5 @@
-#ifndef PLATFORMER_ENGINE_MAPPARSER_H
-#define PLATFORMER_ENGINE_MAPPARSER_H
+#ifndef PLATFORMER_ENGINE_MAPPARSER_HPP
+#define PLATFORMER_ENGINE_MAPPARSER_HPP
 
 class MapParser
 {
@@ -31,4 +31,4 @@ private:
 //    std::map<std::string, GameMap*> m_MapDict;
 };
 
-#endif //PLATFORMER_ENGINE_MAPPARSER_H
+#endif //PLATFORMER_ENGINE_MAPPARSER_HPP

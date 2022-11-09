@@ -2,23 +2,23 @@
 #define PLATFORMER_ENGINE_LEVEL_H
 
 #include <vector>
-#include "TMXParser/Layer.h"
+#include "TMXParser/Layer.hpp"
 
 class Level {
 public:
     Level() {}
 
-    void render() {
+    void Render() {
         for (unsigned int i = 0; i < mapLayers.size(); i++)
             mapLayers[i]->render();
     }
 
-    void update() {
+    void Update() {
         for (unsigned int i = 0; i < mapLayers.size(); i++)
             mapLayers[i]->update();
     }
 
-    std::vector<Layer *> getLayers() {
+    std::vector<Layer *> GetLayers() {
         return mapLayers;
     }
 

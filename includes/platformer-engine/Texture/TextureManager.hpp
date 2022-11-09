@@ -11,7 +11,7 @@ public:
         return s_instance;
     }
 
-    bool load(std::string id, std::string fileName);
+    bool Load(std::string id, std::string fileName);
 
     TextureManager(TextureManager const&) = delete;
     void operator=(TextureManager const&) = delete;

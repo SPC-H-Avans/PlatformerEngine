@@ -1,4 +1,4 @@
-Checks: 'bugprone*,clang-analyzer*,cert*,cppcore*,misc*,modernize-*,-modernize-use-trailing-return-type,performance*,portability*,readability*,
+Checks: 'bugprone*,clang-analyzer*,cert*,cppcore*,misc*,-modernize-use-trailing-return-type,modernize-*,performance*,portability*,readability*,
         google*,-google-runtime-references,-google-explicit-constructor,
         hicpp*,-hicpp-signed-bitwise,-hicpp-explicit-conversions,-llvm-header-guard,
         -*-braces-around-statements'

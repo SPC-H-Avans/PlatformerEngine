@@ -85,8 +85,24 @@ namespace platformer_engine{
          */
         std::vector<EventsEnum> ListenForInput();
 
+        /**
+         * @brief Check if a key is pressed
+         * @param eKey The key to check
+         * @platformerengine
+         */
         static auto IsKeyPressed(eKey key) -> bool;
+
+        /**
+         * @brief Check if a mouse button is pressed
+         * @param eMouseButton The mouse button to check
+         * @platformerengine
+         */
         static auto IsMouseButtonPressed(eMouseButton button) -> bool;
+
+        /**
+         * @brief Get the mouse position as a tuple of x and y
+         * @platformerengine
+         */
         static auto GetMousePosition() -> std::tuple<int, int>;
 
     private:

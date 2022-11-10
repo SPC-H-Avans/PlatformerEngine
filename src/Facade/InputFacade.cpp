@@ -9,12 +9,6 @@ auto platformer_engine::InputFacade::ListenForInput() -> std::vector<EventsEnum>
     SDL_Event event;
     std::vector<EventsEnum> events;
 
-    auto foo = GetMousePosition();
-//    SDL_Log("Mouse cursor is at %d, %d", std::get<0>(foo), std::get<1>(foo));
-    if (GetKeyPressed(KEY_1)) {
-        SDL_Log("1 is pressed");
-    }
-
     //ADD LOGIC HERE TO ACTUALLY HANDLE EVENTS
     while (SDL_PollEvent(&event)){
         switch (event.type) {
@@ -35,7 +29,7 @@ void platformer_engine::InputFacade::KeyDown() {
 
 
 auto platformer_engine::InputFacade::GetKeyPressed(eKey key) -> bool {
-    return _inputKeyStates[SDL_GetScancodeFromKey(key)];
+    return _inputKeyStates[SDL_GetScancodeFromKey(key)] != 0U;
 }
 
 auto platformer_engine::InputFacade::GetMousePosition() -> std::tuple<int, int> {

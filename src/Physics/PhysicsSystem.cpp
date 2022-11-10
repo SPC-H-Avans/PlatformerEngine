@@ -15,7 +15,7 @@ void PhysicsSystem::Update() {
     CheckCollisions();
 }
 
-bool PhysicsSystem::CheckCollisions() {
+void PhysicsSystem::CheckCollisions() {
     vector<shared_ptr<GameObject>> gameObjects = GameObject::FindObjectsOfType<GameObject>();
     vector<shared_ptr<GameObject>> collidableObjects;
     remove_copy_if(gameObjects.begin(), gameObjects.end(), collidableObjects.begin(), [&](shared_ptr<GameObject> g) { return g->GetComponent<Collider>() != nullptr; }); //Only GameObjects with collider
@@ -87,10 +87,10 @@ void PhysicsSystem::EndCollision(shared_ptr<GameObject> initiator, shared_ptr<Co
     for(auto& script : receiver->GetComponents<BehaviourScript>())
         static_pointer_cast<BehaviourScript>(script)->OnTriggerExit2D(Collision (*init_collider));
 
-    //Call Behaviourscripts
+    //Call Behaviour scripts
 }
 
-std::unique_ptr<std::tuple<CollisionPoint, CollisionPoint>> PhysicsSystem::CheckBoxCollision(Point& aPos, const BoxCollider& aCol, Point& bPos, const BoxCollider& bCol) {
+auto PhysicsSystem::CheckBoxCollision(Point& aPos, const BoxCollider& aCol, Point& bPos, const BoxCollider& bCol) -> std::unique_ptr<std::tuple<CollisionPoint, CollisionPoint>> {
     //This does not work if object is inside the other, only overlap
 
     double a_bottom = aPos.y + aCol.Height();

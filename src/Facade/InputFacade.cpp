@@ -1,4 +1,5 @@
 #include <vector>
+#include <tuple>
 #include "Facade/InputFacade.hpp"
 
 platformer_engine::InputFacade::InputFacade() : _inputKeyStates(SDL_GetKeyboardState(nullptr)) {}
@@ -23,4 +24,11 @@ void platformer_engine::InputFacade::KeyUp() {
 }
 void platformer_engine::InputFacade::KeyDown() {
     _inputKeyStates = SDL_GetKeyboardState(nullptr);
+}
+
+auto platformer_engine::InputFacade::GetMousePosition() -> std::tuple<int, int> {
+    int xPos = 0;
+    int yPos = 0;
+    SDL_GetMouseState(&xPos, &yPos);
+    return std::make_tuple(xPos, yPos);
 }

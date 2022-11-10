@@ -14,6 +14,8 @@ namespace platformer_engine{
          */
         std::vector<EventsEnum> ListenForInput();
 
+        static auto GetMousePosition() -> std::tuple<int, int>;
+
     private:
         void KeyUp();
         void KeyDown();

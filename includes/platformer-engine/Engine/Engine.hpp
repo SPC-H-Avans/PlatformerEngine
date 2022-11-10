@@ -62,7 +62,7 @@ namespace platformer_engine {
          * @brief Quit the engine
          * @platformerengine
          */
-        void Quit();;
+        void Quit();
 
 
     private:

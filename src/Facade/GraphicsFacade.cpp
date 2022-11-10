@@ -1,4 +1,5 @@
 #include "Facade/GraphicsFacade.hpp"
+#include "Debug.hpp"
 
 const int MAX_COLOR_VALUE = 255;
 
@@ -69,13 +70,13 @@ auto platformer_engine::GraphicsFacade::Load(const std::string& id, const std::s
     SDL_Surface* surface = IMG_Load(fileName.c_str());
 
     if (surface == nullptr) {
-        SDL_Log("Failed to load texture: %s, %s", fileName.c_str(), SDL_GetError());
+        spic::Debug::LogWarning("Failed to load texture: "+fileName+", " + std::string(SDL_GetError()));
         return false;
     }
 
     SDL_Texture *texture = SDL_CreateTextureFromSurface(_renderer.get(), surface);
     if (texture == nullptr) {
-        SDL_Log("Failed to create texture from surface: %s", SDL_GetError());
+        spic::Debug::LogWarning("Failed to create texture from surface: " + std::string(SDL_GetError()));
         return false;
     }
 

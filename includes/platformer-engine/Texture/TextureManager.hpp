@@ -16,7 +16,7 @@ namespace platformer_engine {
 
         /**
          * @brief initialize the TextureManager with the GraphicsFacade
-         * @param graphicsFacade
+         * @param graphicsFacade a shared ptr of the graphics facade
          */
         void Init(const std::shared_ptr<GraphicsFacade>& graphicsFacade) {
             _graphicsFacade = graphicsFacade;
@@ -58,7 +58,7 @@ namespace platformer_engine {
         void operator=(TextureManager const &) = delete;
 
     private:
-        TextureManager() {}
+        TextureManager() = default;
 
         std::shared_ptr<GraphicsFacade> _graphicsFacade{nullptr};
     };

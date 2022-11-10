@@ -29,7 +29,7 @@ void platformer_engine::InputFacade::KeyDown() {
 
 
 auto platformer_engine::InputFacade::GetKeyPressed(eKey key) -> bool {
-    return _inputKeyStates[SDL_GetScancodeFromKey(key)] != 0U;
+    return _inputKeyStates[SDL_GetScancodeFromKey(key)] != 0U; // NOLINT(cppcoreguidelines-pro-bounds-pointer-arithmetic)
 }
 
 auto platformer_engine::InputFacade::GetMousePosition() -> std::tuple<int, int> {

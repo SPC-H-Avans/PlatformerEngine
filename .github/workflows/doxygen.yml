@@ -4,6 +4,7 @@ on:
   push:
     branches:
       - master
+      - develop
 
 jobs:
   build:
@@ -20,7 +21,8 @@ jobs:
       - name: 'Generate Doxygen documentation'
         uses: mattnotmitt/doxygen-action@v1.3.1
 
-      - name: 'Push to docs repo'
+      - name: 'Push to docs repo Master'
+        if: github.ref == 'refs/heads/master'
         uses: peaceiris/actions-gh-pages@v3
         with:
           personal_token: ${{ secrets.PAT }}
@@ -31,3 +33,16 @@ jobs:
           user_email: 41898282+github-actions[bot]@users.noreply.github.com
           commit_message: ${{ github.sha }}
           cname: engine.mrproper.dev
+
+      - name: 'Push to docs repo Dev'
+        if: github.ref == 'refs/heads/develop'
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          personal_token: ${{ secrets.PAT }}
+          publish_dir: html
+          external_repository: SPC-H-Avans/engine-docs-dev
+          publish_branch: main
+          user_name: github-actions[bot]
+          user_email: 41898282+github-actions[bot]@users.noreply.github.com
+          commit_message: ${{ github.sha }}
+          cname: engine-dev.mrproper.dev

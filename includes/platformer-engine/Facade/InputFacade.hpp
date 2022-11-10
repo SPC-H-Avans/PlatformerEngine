@@ -72,6 +72,11 @@ namespace platformer_engine{
             KEY_F9 = SDLK_F9,
             KEY_F10 = SDLK_F10,
         };
+        enum eMouseButton {
+            MOUSE_LEFT = SDL_BUTTON_LEFT,
+            MOUSE_MIDDLE = SDL_BUTTON_MIDDLE,
+            MOUSE_RIGHT = SDL_BUTTON_RIGHT,
+        };
 
         InputFacade();
 
@@ -80,8 +85,9 @@ namespace platformer_engine{
          */
         std::vector<EventsEnum> ListenForInput();
 
+        static auto IsKeyPressed(eKey key) -> bool;
+        static auto IsMouseButtonPressed(eMouseButton button) -> bool;
         static auto GetMousePosition() -> std::tuple<int, int>;
-        auto GetKeyPressed(eKey key) -> bool;
 
     private:
         void KeyUp();

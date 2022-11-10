@@ -1,5 +1,6 @@
 #include <vector>
 #include <tuple>
+#include <string>
 #include "Facade/InputFacade.hpp"
 
 platformer_engine::InputFacade::InputFacade() : _inputKeyStates(SDL_GetKeyboardState(nullptr)) {}
@@ -7,6 +8,12 @@ platformer_engine::InputFacade::InputFacade() : _inputKeyStates(SDL_GetKeyboardS
 auto platformer_engine::InputFacade::ListenForInput() -> std::vector<EventsEnum> {
     SDL_Event event;
     std::vector<EventsEnum> events;
+
+    auto foo = GetMousePosition();
+//    SDL_Log("Mouse cursor is at %d, %d", std::get<0>(foo), std::get<1>(foo));
+    if (GetKeyPressed(KEY_1)) {
+        SDL_Log("1 is pressed");
+    }
 
     //ADD LOGIC HERE TO ACTUALLY HANDLE EVENTS
     while (SDL_PollEvent(&event)){
@@ -24,6 +31,11 @@ void platformer_engine::InputFacade::KeyUp() {
 }
 void platformer_engine::InputFacade::KeyDown() {
     _inputKeyStates = SDL_GetKeyboardState(nullptr);
+}
+
+
+auto platformer_engine::InputFacade::GetKeyPressed(eKey key) -> bool {
+    return _inputKeyStates[SDL_GetScancodeFromKey(key)];
 }
 
 auto platformer_engine::InputFacade::GetMousePosition() -> std::tuple<int, int> {

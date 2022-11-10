@@ -9,15 +9,6 @@ auto platformer_engine::InputFacade::ListenForInput() -> std::vector<EventsEnum>
     SDL_Event event;
     std::vector<EventsEnum> events;
 
-    auto foo = GetMousePosition();
-    SDL_Log("Mouse cursor is at %d, %d", std::get<0>(foo), std::get<1>(foo));
-    if (IsMouseButtonPressed(MOUSE_LEFT))
-        SDL_Log("m1");
-    if (IsMouseButtonPressed(MOUSE_RIGHT))
-        SDL_Log("m2");
-    if (IsMouseButtonPressed(MOUSE_MIDDLE))
-        SDL_Log("m3");
-
     //ADD LOGIC HERE TO ACTUALLY HANDLE EVENTS
     while (SDL_PollEvent(&event)){
         switch (event.type) {

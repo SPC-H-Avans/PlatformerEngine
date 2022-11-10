@@ -12,13 +12,13 @@ namespace platformer_engine{
         /**
          * @brief Listen of key input
          */
-        std::vector<EventsEnum> ListenForInput();
+        auto ListenForInput() -> std::vector<EventsEnum>;
 
     private:
         void KeyUp();
         void KeyDown();
         const Uint8* _inputKeyStates;
     };
-}
+}  // namespace platformer_engine
 
 #endif //PLATFORMER_ENGINE_INPUTFACADE_H

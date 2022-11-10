@@ -4,6 +4,7 @@
 #include <string>
 #include "Color.hpp"
 #include "Facade/GraphicsFacade.hpp"
+#include "Texture/TextureManager.hpp"
 
 namespace platformer_engine {
     /**
@@ -41,9 +42,8 @@ namespace platformer_engine {
         static inline auto
         GetPerformanceFrequency() -> Uint64 { return platformer_engine::GraphicsFacade::GetPerformanceFrequency(); }
 
-
     private:
-        GraphicsFacade _graphicsFacade;
+        std::shared_ptr<GraphicsFacade> _graphicsFacade{nullptr};
     };
 }//namespace platformer_engine
 

@@ -11,8 +11,14 @@
 
 #include <string>
 #include <vector>
+#include <map>
 
 namespace platformer_engine {
+    typedef enum {
+        FLIP_NONE = SDL_FLIP_NONE,     /**< Do not flip */
+        FLIP_HORIZONTAL = SDL_FLIP_HORIZONTAL,    /**< flip horizontally */
+        FLIP_VERTICAL = SDL_FLIP_VERTICAL     /**< flip vertically */
+    } SPIC_RendererFlip;
 
     /**
      * @brief Facade class that creates a SDL2 window and renderer
@@ -50,7 +56,10 @@ namespace platformer_engine {
          * @platformerengine
          */
         void Clear();
-        
+
+
+        bool Load(const std::string& id, const std::string& fileName);
+
         /**
          * @brief Get interval between tick
          * @return Uinit64 tick interval
@@ -60,6 +69,7 @@ namespace platformer_engine {
     private:
         std::unique_ptr<SDL_Window, std::function<void(SDL_Window *)>> _window{nullptr};
         std::unique_ptr<SDL_Renderer, std::function<void(SDL_Renderer *)>> _renderer{nullptr};
+        std::map<std::string, SDL_Texture*> textureMap;
 
         /**
          * @brief Converts the color value, which is a double between 0 and 1 to a value between 0 and 255 as int

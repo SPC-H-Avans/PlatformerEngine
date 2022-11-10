@@ -63,3 +63,22 @@ void platformer_engine::GraphicsFacade::Render() {
 auto platformer_engine::GraphicsFacade::ConvertColorValueToSDLValue(const double &colorValue) -> int {
     return NumberUtil::Clamp(static_cast<int>(colorValue * MAX_COLOR_VALUE), 0, MAX_COLOR_VALUE);
 }
+
+auto platformer_engine::GraphicsFacade::Load(const std::string& id, const std::string& fileName) -> bool {
+    //load the textures file
+    SDL_Surface* surface = IMG_Load(fileName.c_str());
+
+    if (surface == nullptr) {
+        SDL_Log("Failed to load texture: %s, %s", fileName.c_str(), SDL_GetError());
+        return false;
+    }
+
+    SDL_Texture *texture = SDL_CreateTextureFromSurface(_renderer.get(), surface);
+    if (texture == nullptr) {
+        SDL_Log("Failed to create texture from surface: %s", SDL_GetError());
+        return false;
+    }
+
+    textureMap[id] = texture;
+    return true;
+}

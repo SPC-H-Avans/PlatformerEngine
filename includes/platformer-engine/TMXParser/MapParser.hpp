@@ -4,7 +4,7 @@
 class MapParser
 {
 public:
-    static MapParser& getInstance()
+    static MapParser& GetInstance()
     {
         static MapParser s_instance;
         return s_instance;

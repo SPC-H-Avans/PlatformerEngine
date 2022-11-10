@@ -10,7 +10,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 Set up the project and add the first version of the code.
 
 ### Changes
-
+- SPCH-41: Added Doxygen action for development branch
 - SPCH-39: Added window, engine and graphics facade classes
 - SPCH-31: Added SPIC-API as submodule
 - SPCH-41: Created GitHub Actions

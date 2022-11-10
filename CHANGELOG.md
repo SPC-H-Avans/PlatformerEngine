@@ -19,4 +19,4 @@ Set up the project and add the first version of the code.
 
 ### Bug Fixes
 
-- None
+- SPCH-50: Fixed the freezing window issue

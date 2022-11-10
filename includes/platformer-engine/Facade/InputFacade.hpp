@@ -84,7 +84,7 @@ namespace platformer_engine{
          * @brief Listen of key input
          * @platformerengine
          */
-        std::vector<EventsEnum> ListenForInput();
+        auto ListenForInput() -> std::vector<EventsEnum>;
 
         /**
          * @brief Check if a key is pressed
@@ -111,6 +111,6 @@ namespace platformer_engine{
         void KeyDown();
         const Uint8* _inputKeyStates;
     };
-}
+}  // namespace platformer_engine
 
 #endif //PLATFORMER_ENGINE_INPUTFACADE_H

@@ -3,6 +3,7 @@
 
 #include "Render/Window.hpp"
 #include "Timer/Timer.hpp"
+#include <memory>
 
 
 namespace platformer_engine {
@@ -45,6 +46,17 @@ namespace platformer_engine {
          * @platformerengine
          */
         void Render();
+
+        /**
+         * @brief Run systems to update gameObjects
+         */
+        void Update();
+
+        /**
+         * @brief Check for events
+         * @platformerengine
+         */
+        void Events();
 
         /**
          * @brief Quit the engine

@@ -76,6 +76,8 @@ namespace platformer_engine {
          */
         void DrawTexture(const std::string& id, int x, int y, int width, int height, const SPIC_RendererFlip& flip = FLIP_NONE);
 
+        void ClearTextures();
+
         /**
          * @brief Get interval between tick
          * @return Uinit64 tick interval

@@ -51,6 +51,7 @@ auto platformer_engine::GraphicsFacade::Init(int width, int height, const std::s
 }
 
 void platformer_engine::GraphicsFacade::Quit() {
+    ClearTextures();
     SDL_DestroyRenderer(_renderer.get());
     SDL_DestroyWindow(_window.get());
     _renderer = nullptr;
@@ -93,22 +94,14 @@ void platformer_engine::GraphicsFacade::DrawTexture(const std::string &id, int x
 
     SDL_RenderCopyEx(_renderer.get(), _textureMap[id], &srcRect, &destRect, 0, nullptr,
                      static_cast<const SDL_RendererFlip>(flip));
-//    Vector2D cam = Camera::GetInstance()->GetPosition() * PARALEX_SPEED;
-
-//    SDL_Rect dstRect = {static_cast<int>(x - cam.X), static_cast<int>(y - cam.Y), width, height};
-//    SDL_RenderCopyEx(_renderer.get(), _textureMap[id], &srcRect, &dstRect, 0, nullptr, flip);
 }
 
+void platformer_engine::GraphicsFacade::ClearTextures() {
+    std::map<std::string, SDL_Texture *>::iterator it;
+    for (it = _textureMap.begin(); it != _textureMap.end(); it++)
+        SDL_DestroyTexture(it->second);
 
-//void platformer_engine::GraphicsFacade::DrawTexture(const std::string& id, int x, int y, int width, int height,
-//                                                    const platformer_engine::SPIC_RendererFlip& flip) {
-//    SDL_Rect srcRect {0, 0, width, height};
-//    SDL_Rect destRect {x, y, width, height};
-//
-////    SDL_RenderCopyEx(_renderer.get(), _textureMap[id], &srcRect, &destRect, 0 , nullptr, flip);
-//
-////    Vector2D cam = Camera::GetInstance()->GetPosition() * PARALEX_SPEED;
-////
-////    SDL_Rect dstRect = {static_cast<int>(x - cam.X), static_cast<int>(y - cam.Y), width, height};
-////    SDL_RenderCopyEx(_renderer.get(), _textureMap[id], &srcRect, &dstRect, 0, nullptr, flip);
-//}
+    _textureMap.clear();
+
+    spic::Debug::LogWarning("Success! All textures were removed from memory!");
+}

@@ -16,6 +16,6 @@ void platformer_engine::TextureManager::Remove(const std::string &id) {
 
 }
 
-void platformer_engine::TextureManager::Clear() {
-
+void platformer_engine::TextureManager::ClearTextures() {
+    _graphicsFacade->ClearTextures()
 }

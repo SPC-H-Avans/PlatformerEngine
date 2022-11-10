@@ -40,7 +40,7 @@ namespace platformer_engine {
          * @brief Clear all textures from memory
          * @return
          */
-        void Clear();
+        void ClearTextures();
 
         /**
          * @brief Draw a texture with the specified parameters

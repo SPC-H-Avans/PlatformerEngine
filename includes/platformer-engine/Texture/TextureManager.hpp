@@ -28,13 +28,13 @@ namespace platformer_engine {
          * @param fileName Path to the texture file
          * @return A true or false value, true if the texture is loaded, false if not
          */
-        bool Load(std::string id, std::string fileName);
+        bool LoadTexture(const std::string& id, const std::string& fileName);
 
         /**
          * @brief Remove a texture from the texture manager and memory
          * @param id
          */
-        void Remove(std::string id);
+        void Remove(const std::string& id);
 
         /**
          * @brief Clear all textures from memory
@@ -51,14 +51,14 @@ namespace platformer_engine {
          * @param height height of the texture
          * @param flip Flip the texture according to SPIC_RendererFlip Enum
          */
-        void Draw(std::string id, int x, int y, int width, int height, SPIC_RendererFlip flip = FLIP_NONE);
+        void DrawTexture(const std::string& id, int x, int y, int width, int height, const SPIC_RendererFlip& flip = FLIP_NONE);
 
         TextureManager(TextureManager const &) = delete;
 
         void operator=(TextureManager const &) = delete;
 
     private:
-        TextureManager() = default;
+        TextureManager() {};
 
         std::shared_ptr<GraphicsFacade> _graphicsFacade{nullptr};
     };

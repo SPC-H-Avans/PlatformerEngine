@@ -57,8 +57,24 @@ namespace platformer_engine {
          */
         void Clear();
 
+        /**
+         * @brief Load a texture
+         * @param id
+         * @param fileName
+         * @return
+         */
+        bool LoadTexture(const std::string& id, const std::string& fileName);
 
-        bool Load(const std::string& id, const std::string& fileName);
+        /**
+         * @brief Draw a texture
+         * @param id
+         * @param x
+         * @param y
+         * @param width
+         * @param height
+         * @param flip
+         */
+        void DrawTexture(const std::string& id, int x, int y, int width, int height, const SPIC_RendererFlip& flip = FLIP_NONE);
 
         /**
          * @brief Get interval between tick
@@ -69,7 +85,7 @@ namespace platformer_engine {
     private:
         std::unique_ptr<SDL_Window, std::function<void(SDL_Window *)>> _window{nullptr};
         std::unique_ptr<SDL_Renderer, std::function<void(SDL_Renderer *)>> _renderer{nullptr};
-        std::map<std::string, SDL_Texture*> textureMap;
+        std::map<std::string, SDL_Texture*> _textureMap;
 
         /**
          * @brief Converts the color value, which is a double between 0 and 1 to a value between 0 and 255 as int

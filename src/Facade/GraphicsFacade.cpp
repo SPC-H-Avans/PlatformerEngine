@@ -1,4 +1,4 @@
-#include "GraphicsFacade/GraphicsFacade.hpp"
+#include "Facade/GraphicsFacade.hpp"
 
 const int MAX_COLOR_VALUE = 255;
 

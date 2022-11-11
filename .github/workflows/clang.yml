@@ -14,10 +14,21 @@ jobs:
         with:
           style: file
 
+      - name: 'Find Comment'
+        uses: peter-evans/find-comment@v2
+        id: fc
+        with:
+          issue-number: ${{ github.event.pull_request.number }}
+          comment-author: 'github-actions[bot]'
+          body-includes: CPP Linter
+
       - name: Fail fast?!
         if: steps.linter.outputs.checks-failed > 0
         uses: peter-evans/create-or-update-comment@v1
         with:
+          comment-id: ${{ steps.fc.outputs.comment-id }}
           issue-number: ${{ github.event.pull_request.number }}
           body: |
+            **CPP Linter**
             :warning: **cpp-linter** found some issues. Please check the linter and fix the warnings :)
+          edit-mode: replace

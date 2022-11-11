@@ -4,7 +4,8 @@
 
 #include <string>
 #include "Color.hpp"
-#include "GraphicsFacade/GraphicsFacade.hpp"
+#include "Facade/GraphicsFacade.hpp"
+#include "Facade/InputFacade.hpp"
 
 namespace platformer_engine {
     /**
@@ -35,6 +36,8 @@ namespace platformer_engine {
          */
         void Quit();
 
+        auto ListenForEvents() -> std::vector<EventsEnum>;
+
         /**
          * @brief Get tick interval
          * @return Uinit64 tick interval
@@ -45,6 +48,7 @@ namespace platformer_engine {
 
     private:
         GraphicsFacade _graphicsFacade;
+        InputFacade _inputFacade;
     };
 }//namespace platformer_engine
 

@@ -11,11 +11,15 @@ auto spic::Input::MousePosition() -> spic::Point {
     return Point {xPos, yPos};
 }
 
-auto spic::Input::AnyKey() -> bool {}
+auto spic::Input::AnyKey() -> bool {
+    return platformer_engine::InputFacade::IsAnyPressed();
+}
 
 auto spic::Input::AnyKeyDown() -> bool {}
 
-auto spic::Input::GetAxis() -> double {}
+auto spic::Input::GetAxis() -> double {
+    // TODO: https://docs.unity3d.com/ScriptReference/Input.GetAxis.html
+}
 
 auto spic::Input::GetKey(spic::Input::KeyCode key) -> bool {
     auto facadeKey = platformer_engine::InputFacade::GetFacadeKeyCode(key);

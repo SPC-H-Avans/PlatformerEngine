@@ -22,10 +22,28 @@ auto platformer_engine::InputFacade::ListenForInput() -> std::vector<EventsEnum>
 }
 
 void platformer_engine::InputFacade::KeyUp() {
+//    SDL_Log("down");
+    // TODO: Add logic here
     _inputKeyStates = SDL_GetKeyboardState(nullptr);
 }
 void platformer_engine::InputFacade::KeyDown() {
+//    SDL_Log("up");
+    // TODO: Add logic here
     _inputKeyStates = SDL_GetKeyboardState(nullptr);
+}
+
+auto platformer_engine::InputFacade::IsAnyPressed() -> bool {
+    // first check mouse buttons
+    if (IsMouseButtonPressed(eMouseButton::MOUSE_LEFT) || IsMouseButtonPressed(eMouseButton::MOUSE_MIDDLE) ||
+        IsMouseButtonPressed(eMouseButton::MOUSE_RIGHT)) {
+        return true;
+    }
+    // then check keyboard
+    for (int i = 0; i < SDL_NUM_SCANCODES; i++) {
+        if (IsKeyPressed(i)) {
+            return true;
+        }
+    }
 }
 
 auto platformer_engine::InputFacade::IsKeyPressed(int key) -> bool {

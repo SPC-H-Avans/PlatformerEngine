@@ -24,6 +24,8 @@ namespace platformer_engine {
          */
         auto ListenForInput() -> std::vector<EventsEnum>;
 
+        static auto IsAnyPressed() -> bool;
+
         /**
          * @brief Check if a key is pressed
          * @param eKey The key to check

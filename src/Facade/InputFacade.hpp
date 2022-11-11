@@ -1,6 +1,8 @@
 #ifndef PLATFORMER_ENGINE_INPUTFACADE_H
 #define PLATFORMER_ENGINE_INPUTFACADE_H
 
+#include <vector>
+
 #include "SDL.h"
 #include "Events/EventsEnum.h"
 

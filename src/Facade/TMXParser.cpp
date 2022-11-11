@@ -1,4 +1,5 @@
-#include "LevelParser/TMXParser.hpp"
+#include "Facade/TMXParser.hpp"
+#include "LevelParser/LevelParser.hpp"
 
 bool
 platformer_engine::TMXParser::Load(const std::string &id, const std::string &filePath, const std::string &fileName) {
@@ -46,7 +47,7 @@ bool platformer_engine::TMXParser::_parseLevel(const std::string &id, const std:
     // Parse Layers
     for (TiXmlElement *e = root->FirstChildElement(); e != nullptr; e = e->NextSiblingElement()) {
         if (e->Value() == std::string("layer")) {
-            std::unique_ptr<TileLayer> tileLayer = ParseTileLayer(*e, filePath, tileSets, tileSize, rowCount, colCount);
+            std::unique_ptr<TileLayer> tileLayer = _parseTileLayer(*e, filePath, tileSets, tileSize, rowCount, colCount);
             gameLevel->_mapLayers.push_back(std::move(tileLayer));
         }
     }
@@ -54,7 +55,9 @@ bool platformer_engine::TMXParser::_parseLevel(const std::string &id, const std:
     gameLevel->RowCount = rowCount;
     gameLevel->ColCount = colCount;
 
-    _levels[id] = std::move(gameLevel);
+//    auto levels = LevelParser::GetInstance().GetLevels();
+
+//    levels[id] = std::move(gameLevel);
 
     return true;
 }
@@ -78,7 +81,7 @@ platformer_engine::TileSet platformer_engine::TMXParser::_parseTileSet(const TiX
 }
 
 std::unique_ptr<platformer_engine::TileLayer>
-platformer_engine::TMXParser::ParseTileLayer(TiXmlElement &xmlLayer, const std::string &filePath,
+platformer_engine::TMXParser::_parseTileLayer(TiXmlElement &xmlLayer, const std::string &filePath,
                                              const platformer_engine::TileSetsList &tileSets,
                                              int tileSize, int rowCount,
                                              int colCount) {
@@ -109,12 +112,4 @@ platformer_engine::TMXParser::ParseTileLayer(TiXmlElement &xmlLayer, const std::
     }
 
     return std::make_unique<TileLayer>(filePath, tileSize, rowCount, colCount, tileMap, tileSets);
-}
-
-void platformer_engine::TMXParser::Clean() {
-    std::map<std::string, std::unique_ptr<GameLevel>>::iterator it;
-    for (it = _levels.begin(); it != _levels.end(); it++)
-        it->second = nullptr;
-
-    _levels.clear();
 }

@@ -2,7 +2,7 @@
 #define PLATFORMER_GAME_INPUT_H
 
 #include <vector>
-#include "../../../src/Facade/InputFacade.hpp"
+#include "Facade/InputFacade.hpp"
 
 namespace platformer_engine {
     class Input {

@@ -9,7 +9,7 @@ auto platformer_engine::InputFacade::ListenForInput() -> std::vector<EventsEnum>
     std::vector<EventsEnum> events;
 
     //ADD LOGIC HERE TO ACTUALLY HANDLE EVENTS
-    while (SDL_PollEvent(&event)){
+    while (SDL_PollEvent(&event)) {
         switch (event.type) {
             case SDL_QUIT: events.push_back(EventsEnum::QUIT); break;
             case SDL_KEYDOWN: KeyDown(); break;

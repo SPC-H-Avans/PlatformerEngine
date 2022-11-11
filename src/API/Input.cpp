@@ -1,7 +1,10 @@
 #include <tuple>
+#include <iostream>
 
 #include "Input.hpp"
 #include "Facade/InputFacade.hpp"
+
+#define stringify(name) #name
 
 auto spic::Input::MousePosition() -> spic::Point {
     std::tuple<int, int> position = platformer_engine::InputFacade::GetMousePosition();
@@ -16,22 +19,25 @@ auto spic::Input::AnyKeyDown() -> bool {}
 
 auto spic::Input::GetAxis() -> double {}
 
-auto spic::Input::GetKey(spic::Input::KeyCode key) -> bool {}
+auto spic::Input::GetKey(spic::Input::KeyCode key) -> bool {
+    auto facadeKey = platformer_engine::InputFacade::GetKey(key);
+    return platformer_engine::InputFacade::IsKeyPressed(facadeKey);
+}
 
 auto spic::Input::GetKeyDown(spic::Input::KeyCode key) -> bool {}
 
 auto spic::Input::GetKeyUp(spic::Input::KeyCode key) -> bool {}
 
 auto spic::Input::GetMouseButton(spic::Input::MouseButton which) -> bool {
-    auto key = platformer_engine::InputFacade::eMouseButton::MOUSE_LEFT;
+    auto btn = platformer_engine::InputFacade::eMouseButton::MOUSE_LEFT;
     switch (which) {
         case MouseButton::LEFT: break;
         case MouseButton::MIDDLE:
-            key = platformer_engine::InputFacade::eMouseButton::MOUSE_MIDDLE; break;
+            btn = platformer_engine::InputFacade::eMouseButton::MOUSE_MIDDLE; break;
         case MouseButton::RIGHT:
-            key = platformer_engine::InputFacade::eMouseButton::MOUSE_RIGHT; break;
+            btn = platformer_engine::InputFacade::eMouseButton::MOUSE_RIGHT; break;
     }
-    return platformer_engine::InputFacade::IsMouseButtonPressed(key);
+    return platformer_engine::InputFacade::IsMouseButtonPressed(btn);
 }
 
 auto spic::Input::GetMouseButtonDown(spic::Input::MouseButton which) -> bool {}

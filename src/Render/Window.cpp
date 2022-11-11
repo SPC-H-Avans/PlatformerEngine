@@ -9,6 +9,8 @@ void platformer_engine::Window::Render() {
 //    auto foo = spic::Input::MousePosition();
 //    SDL_Log("Mouse cursor is at %f, %f", foo.x, foo.y);
 //    if (spic::Input::GetMouseButton(spic::Input::MouseButton::RIGHT)) SDL_Log("Right");
+    if (spic::Input::GetKey(spic::Input::KeyCode::A)) SDL_Log("a");
+    if (spic::Input::GetKey(spic::Input::KeyCode::B)) SDL_Log("b");
     _graphicsFacade.Clear();
     _graphicsFacade.Render();
 }

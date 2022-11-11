@@ -5,10 +5,52 @@
 
 #include "SDL.h"
 #include "Events/EventsEnum.h"
+#include "Input.hpp"
 
 namespace platformer_engine {
     class InputFacade {
     public:
+        enum eMouseButton {
+            MOUSE_LEFT = SDL_BUTTON_LEFT,
+            MOUSE_MIDDLE = SDL_BUTTON_MIDDLE,
+            MOUSE_RIGHT = SDL_BUTTON_RIGHT,
+        };
+
+        InputFacade();
+
+        /**
+         * @brief Listen of key input
+         * @platformerengine
+         */
+        auto ListenForInput() -> std::vector<EventsEnum>;
+
+        /**
+         * @brief Check if a key is pressed
+         * @param eKey The key to check
+         * @platformerengine
+         */
+        static auto IsKeyPressed(int key) -> bool;
+
+        /**
+         * @brief Check if a mouse button is pressed
+         * @param eMouseButton The mouse button to check
+         * @platformerengine
+         */
+        static auto IsMouseButtonPressed(eMouseButton button) -> bool;
+
+        /**
+         * @brief Get the mouse position as a tuple of x and y
+         * @platformerengine
+         */
+        static auto GetMousePosition() -> std::tuple<int, int>;
+
+        static auto GetKey(spic::Input::KeyCode key) -> int;
+
+    private:
+        void KeyUp();
+        void KeyDown();
+        const Uint8* _inputKeyStates;
+
         enum eKey {
             KEY_UP = SDLK_UP,
             KEY_DOWN = SDLK_DOWN,
@@ -74,44 +116,6 @@ namespace platformer_engine {
             KEY_F9 = SDLK_F9,
             KEY_F10 = SDLK_F10,
         };
-        enum eMouseButton {
-            MOUSE_LEFT = SDL_BUTTON_LEFT,
-            MOUSE_MIDDLE = SDL_BUTTON_MIDDLE,
-            MOUSE_RIGHT = SDL_BUTTON_RIGHT,
-        };
-
-        InputFacade();
-
-        /**
-         * @brief Listen of key input
-         * @platformerengine
-         */
-        auto ListenForInput() -> std::vector<EventsEnum>;
-
-        /**
-         * @brief Check if a key is pressed
-         * @param eKey The key to check
-         * @platformerengine
-         */
-        static auto IsKeyPressed(eKey key) -> bool;
-
-        /**
-         * @brief Check if a mouse button is pressed
-         * @param eMouseButton The mouse button to check
-         * @platformerengine
-         */
-        static auto IsMouseButtonPressed(eMouseButton button) -> bool;
-
-        /**
-         * @brief Get the mouse position as a tuple of x and y
-         * @platformerengine
-         */
-        static auto GetMousePosition() -> std::tuple<int, int>;
-
-    private:
-        void KeyUp();
-        void KeyDown();
-        const Uint8* _inputKeyStates;
     };
 } // namespace platformer_engine
 

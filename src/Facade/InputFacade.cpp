@@ -1,6 +1,8 @@
 #include <vector>
 #include <tuple>
+
 #include "InputFacade.hpp"
+#include "Input.hpp"
 
 platformer_engine::InputFacade::InputFacade() : _inputKeyStates(SDL_GetKeyboardState(nullptr)) {}
 
@@ -26,7 +28,7 @@ void platformer_engine::InputFacade::KeyDown() {
     _inputKeyStates = SDL_GetKeyboardState(nullptr);
 }
 
-auto platformer_engine::InputFacade::IsKeyPressed(eKey key) -> bool {
+auto platformer_engine::InputFacade::IsKeyPressed(int key) -> bool {
     return SDL_GetKeyboardState(nullptr)[SDL_GetScancodeFromKey(key)] != 0U; // NOLINT(cppcoreguidelines-pro-bounds-pointer-arithmetic)
 }
 
@@ -39,4 +41,15 @@ auto platformer_engine::InputFacade::GetMousePosition() -> std::tuple<int, int> 
     int yPos = 0;
     SDL_GetMouseState(&xPos, &yPos);
     return std::make_tuple(xPos, yPos);
+}
+
+auto platformer_engine::InputFacade::GetKey(spic::Input::KeyCode key) -> int {
+    switch (key) {
+        case spic::Input::KeyCode::A:
+            return KEY_A;
+        case spic::Input::KeyCode::B:
+            return KEY_B;
+        default:
+            return 0;
+    }
 }

@@ -1,6 +1,5 @@
 #include <vector>
 #include <tuple>
-#include <string>
 #include "InputFacade.hpp"
 
 platformer_engine::InputFacade::InputFacade() : _inputKeyStates(SDL_GetKeyboardState(nullptr)) {}

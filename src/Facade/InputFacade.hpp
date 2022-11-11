@@ -4,8 +4,8 @@
 #include "SDL.h"
 #include "Events/EventsEnum.h"
 
-namespace platformer_engine{
-    class InputFacade{
+namespace platformer_engine {
+    class InputFacade {
     public:
         enum eKey {
             KEY_UP = SDLK_UP,
@@ -111,6 +111,6 @@ namespace platformer_engine{
         void KeyDown();
         const Uint8* _inputKeyStates;
     };
-}  // namespace platformer_engine
+} // namespace platformer_engine
 
 #endif //PLATFORMER_ENGINE_INPUTFACADE_H

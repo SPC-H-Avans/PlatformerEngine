@@ -19,9 +19,8 @@ namespace platformer_engine {
 
     class TileLayer : public Layer {
     public:
-        TileLayer(int tileSize, int rowCount, int colCount, TileMap  tileMap, TileSetsList  tileSets) :
-                _tileSize(tileSize), _rowCount(rowCount), _colCount(colCount), _tileMap(std::move(tileMap)),
-                _tileSets(std::move(tileSets)) {}
+        TileLayer(const std::string &filePath, int tileSize, int rowCount, int colCount, TileMap tileMap,
+                  TileSetsList tileSets);
 
         virtual void Render();
 
@@ -36,6 +35,6 @@ namespace platformer_engine {
         TileMap _tileMap;
         TileSetsList _tileSets;
     };
-}
+} // namespace platformer_engine
 
 #endif //PLATFORMER_ENGINE_TILELAYER_H

@@ -19,7 +19,7 @@ auto platformer_engine::GraphicsFacade::Init(int width, int height, const std::s
         std::cout << "SDL could not initialize! SDL_Error: " << SDL_GetError() << std::endl;
         return false;
     }
-    auto window_flags = static_cast<SDL_WindowFlags>(SDL_WINDOW_SHOWN | SDL_WINDOW_RESIZABLE);
+    auto window_flags = static_cast<SDL_WindowFlags>(SDL_WINDOW_SHOWN | SDL_WINDOW_RESIZABLE | SDL_WINDOW_ALLOW_HIGHDPI);
     _window = std::unique_ptr<SDL_Window, std::function<void(SDL_Window *)>>(
             SDL_CreateWindow(title.c_str(), SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, width, height,
                              window_flags), SDL_DestroyWindow);
@@ -45,7 +45,6 @@ auto platformer_engine::GraphicsFacade::Init(int width, int height, const std::s
         return false;
     }
 
-    SDL_SetHint(SDL_HINT_RENDER_SCALE_QUALITY, "linear");
     SDL_RenderSetLogicalSize(_renderer.get(), width, height);
     return true;
 }
@@ -98,7 +97,7 @@ void platformer_engine::GraphicsFacade::DrawTexture(const std::string &id, int x
 
 void platformer_engine::GraphicsFacade::DrawTile(std::string tileSetID, int tileSize, int x, int y, int row, int frame,
                                                  platformer_engine::SPIC_RendererFlip flip) {
-    SDL_Rect srcRect = {tileSize * frame, tileSize * (row - 1), tileSize, tileSize};
+    SDL_Rect srcRect = {tileSize * frame, tileSize * row, tileSize, tileSize};
 //TODO CAMERA
 //    Vector2D cam = Camera::GetInstance()->GetPosition();
 //    SDL_Rect dstRect = {static_cast<int>(x - cam.X), static_cast<int>(y - cam.Y), tileSize, tileSize};

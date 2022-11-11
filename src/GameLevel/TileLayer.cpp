@@ -1,6 +1,15 @@
 #include "GameLevel/TileLayer.hpp"
 #include "Texture/TextureManager.hpp"
 
+platformer_engine::TileLayer::TileLayer(const std::string& filePath, int tileSize, int rowCount, int colCount, platformer_engine::TileMap tileMap,
+                                        platformer_engine::TileSetsList tileSets):
+        _tileSize(tileSize), _rowCount(rowCount), _colCount(colCount), _tileMap(std::move(tileMap)),
+        _tileSets(std::move(tileSets))
+{
+    for(auto & _tileSet : _tileSets)
+        TextureManager::GetInstance().LoadTexture(_tileSet.Name, filePath + _tileSet.Source);
+}
+
 void platformer_engine::TileLayer::Render() {
     for(unsigned int i = 0; i < _rowCount; i++){
         for(unsigned int j = 0; j < _colCount; j++){

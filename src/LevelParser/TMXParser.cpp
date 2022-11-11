@@ -1,7 +1,8 @@
 #include "LevelParser/TMXParser.hpp"
 
-bool platformer_engine::TMXParser::Load(const std::string &id, const std::string &source) {
-    bool result = _parseLevel(id, source);
+bool
+platformer_engine::TMXParser::Load(const std::string &id, const std::string &filePath, const std::string &fileName) {
+    bool result = _parseLevel(id, filePath, fileName);
 
     if (result == false) {
         std::cout << "Failed to parse level: " << id << std::endl;
@@ -9,12 +10,13 @@ bool platformer_engine::TMXParser::Load(const std::string &id, const std::string
     return result;
 }
 
-bool platformer_engine::TMXParser::_parseLevel(const std::string &id, const std::string &source) {
+bool platformer_engine::TMXParser::_parseLevel(const std::string &id, const std::string &filePath,
+                                               const std::string &fileName) {
     TiXmlDocument xml;
-    xml.LoadFile(source);
+    xml.LoadFile(filePath + fileName);
 
     if (xml.Error()) {
-        std::cerr << "Failed to load: " << source << std::endl;
+        std::cerr << "Failed to load: " << filePath << fileName << std::endl;
         return false;
     }
 
@@ -44,7 +46,7 @@ bool platformer_engine::TMXParser::_parseLevel(const std::string &id, const std:
     // Parse Layers
     for (TiXmlElement *e = root->FirstChildElement(); e != nullptr; e = e->NextSiblingElement()) {
         if (e->Value() == std::string("layer")) {
-            std::unique_ptr<TileLayer> tileLayer = ParseTileLayer(*e, tileSets, tileSize, rowCount, colCount);
+            std::unique_ptr<TileLayer> tileLayer = ParseTileLayer(*e, filePath, tileSets, tileSize, rowCount, colCount);
             gameLevel->_mapLayers.push_back(std::move(tileLayer));
         }
     }
@@ -75,10 +77,11 @@ platformer_engine::TileSet platformer_engine::TMXParser::_parseTileSet(const TiX
     return tileSet;
 }
 
-std::unique_ptr<platformer_engine::TileLayer> platformer_engine::TMXParser::ParseTileLayer(TiXmlElement &xmlLayer,
-                                                                                           const platformer_engine::TileSetsList &tileSets,
-                                                                                           int tileSize, int rowCount,
-                                                                                           int colCount) {
+std::unique_ptr<platformer_engine::TileLayer>
+platformer_engine::TMXParser::ParseTileLayer(TiXmlElement &xmlLayer, const std::string &filePath,
+                                             const platformer_engine::TileSetsList &tileSets,
+                                             int tileSize, int rowCount,
+                                             int colCount) {
     TiXmlElement *data;
     for (TiXmlElement *e = xmlLayer.FirstChildElement(); e != nullptr; e = e->NextSiblingElement()) {
         if (e->Value() == std::string("data")) {
@@ -105,7 +108,7 @@ std::unique_ptr<platformer_engine::TileLayer> platformer_engine::TMXParser::Pars
         }
     }
 
-    return std::make_unique<TileLayer>(tileSize, rowCount, colCount, tileMap, tileSets);
+    return std::make_unique<TileLayer>(filePath, tileSize, rowCount, colCount, tileMap, tileSets);
 }
 
 void platformer_engine::TMXParser::Clean() {

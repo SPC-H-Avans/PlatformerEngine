@@ -7,7 +7,7 @@ platformer_engine::Window::Window(int width, int height, const std::string &titl
     TextureManager::GetInstance().Init(_graphicsFacade);
 
     //TODO TEMP
-    TMXParser::GetInstance().Load("map1", "D:\\Avans\\Jaar 4\\SPC Project\\assets\\maps\\map.tmx");
+    TMXParser::GetInstance().Load("map1", "D:\\Avans\\Jaar 4\\SPC Project\\assets\\maps\\", "map.tmx");
 //    TextureManager::GetInstance().LoadTexture("tree", "D:\\Avans\\Jaar 4\\SPC Project\\assets\\tree.png");
 }
 

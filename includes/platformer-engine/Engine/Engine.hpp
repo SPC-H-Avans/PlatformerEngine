@@ -3,6 +3,7 @@
 
 #include "Render/Window.hpp"
 #include "Timer/Timer.hpp"
+#include "../../../src/Physics/PhysicsSystem.hpp"
 #include <memory>
 
 
@@ -71,6 +72,7 @@ namespace platformer_engine {
         bool _isRunning = false;
 
         std::unique_ptr<Window> _window = nullptr;
+        std::unique_ptr<PhysicsSystem> _physicsSystem = nullptr;
     };
 }//namespace platformer_engine
 

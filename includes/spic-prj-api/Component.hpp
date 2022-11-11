@@ -12,7 +12,15 @@ namespace spic {
              * @brief Virtual destructor.
              * @spicapi
              */
+            Component() = default;
             virtual ~Component() = default;
+            Component(const Component& other) = default;
+            auto operator=(const Component& other) -> Component& = default;
+            Component(Component&& other) = default;
+
+
+
+        auto operator=(Component&& other) -> Component& = default;
 
             /**
              * @brief Getter for active status.

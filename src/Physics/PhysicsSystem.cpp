@@ -36,7 +36,7 @@ void PhysicsSystem::CheckCollisions() {
                         if (find(_collisions[aCol].begin(), _collisions[aCol].end(), bCol) != _collisions[aCol].end()) {
                             RemainCollision(initiator, aCol, receiver, bCol);
                         } else {
-                            CreateCollision(initiator, aCol, receiver, bCol);
+                            CreateCollision(initiator, aCol, receiver, bCol, *collision);
                         }
                     }
                 } else {

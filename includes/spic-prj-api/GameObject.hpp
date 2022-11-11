@@ -2,6 +2,7 @@
 #define GAMEOBJECT_H_
 
 #include "Component.hpp"
+#include "Transform.hpp"
 #include <string>
 #include <vector>
 #include <memory>
@@ -191,6 +192,7 @@ namespace spic {
                             return cList->second.front();
                     }
                 }
+                return nullptr;
             }
 
             /**
@@ -207,6 +209,7 @@ namespace spic {
                     if(comp != nullptr)
                         return comp;
                 }
+                return nullptr;
             }
 
             /**
@@ -296,6 +299,21 @@ namespace spic {
              */
             bool IsActiveInWorld() const;
 
+            /**
+             * @brief Returns the Transform set on this object
+             * @return Transform of GameObject
+             * @spicapi
+             */
+            Transform& GetTransform() const;
+
+            /**
+             * @brief sets the Transform of current GameObject
+             * @spicapi
+             */
+            void SetTransform(const Transform& transform) {
+                this->transform = transform; //TODO move to CPP
+            }
+
         private:
             std::string name; //Unique
             std::string tag;
@@ -304,6 +322,7 @@ namespace spic {
             std::shared_ptr<GameObject> parent;
             std::vector<std::shared_ptr<GameObject>> children;
             std::map<std::string, std::vector<std::shared_ptr<Component>>> components; //Key is typeid.name
+            Transform transform;
 
             //Multiton Pattern
             static std::map<std::string, std::shared_ptr<GameObject>> instances;

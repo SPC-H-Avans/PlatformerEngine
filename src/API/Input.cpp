@@ -22,7 +22,17 @@ auto spic::Input::GetKeyDown(spic::Input::KeyCode key) -> bool {}
 
 auto spic::Input::GetKeyUp(spic::Input::KeyCode key) -> bool {}
 
-auto spic::Input::GetMouseButton(spic::Input::MouseButton which) -> bool {}
+auto spic::Input::GetMouseButton(spic::Input::MouseButton which) -> bool {
+    auto key = platformer_engine::InputFacade::eMouseButton::MOUSE_LEFT;
+    switch (which) {
+        case MouseButton::LEFT: break;
+        case MouseButton::MIDDLE:
+            key = platformer_engine::InputFacade::eMouseButton::MOUSE_MIDDLE; break;
+        case MouseButton::RIGHT:
+            key = platformer_engine::InputFacade::eMouseButton::MOUSE_RIGHT; break;
+    }
+    return platformer_engine::InputFacade::IsMouseButtonPressed(key);
+}
 
 auto spic::Input::GetMouseButtonDown(spic::Input::MouseButton which) -> bool {}
 

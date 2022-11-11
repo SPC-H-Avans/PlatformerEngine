@@ -12,6 +12,7 @@ Set up the project and add the first version of the code.
 
 ### Changes
 
+- SPCH-41: Added Doxygen action for development branch
 - SPCH-40: Implemented functions of GameObject and Component
 - SPCH-40: Added Multiton pattern, Children and Parent to GameObject (insunated by API docs)
 - SPCH-40: Added Builder for creating GameObjects 
@@ -21,7 +22,6 @@ Set up the project and add the first version of the code.
 - SPCH-31: Added Google Test
 - SPCH-4: Added Methods to check if mouse/keyboard inputs are being pressed, and get the mouse position
 - SPCH-31: Added Google Test 
-
 
 ### Bug Fixes
 - SPCH-50: Fixed the freezing window issue

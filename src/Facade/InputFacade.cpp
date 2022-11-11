@@ -44,6 +44,7 @@ auto platformer_engine::InputFacade::IsAnyPressed() -> bool {
             return true;
         }
     }
+    return false;
 }
 
 auto platformer_engine::InputFacade::IsKeyPressed(int key) -> bool {

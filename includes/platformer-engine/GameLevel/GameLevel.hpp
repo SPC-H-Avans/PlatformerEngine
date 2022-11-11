@@ -16,15 +16,15 @@ namespace platformer_engine {
 
         void Render() {
             for (auto &_mapLayer: _mapLayers)
-                _mapLayer.Render();
+                _mapLayer->Render();
         }
 
         void Update() {
             for (auto &_mapLayer: _mapLayers)
-                _mapLayer.Update();
+                _mapLayer->Update();
         }
 
-        auto GetMapLayer() -> std::vector<Layer>& {
+        auto GetMapLayer() -> std::vector<std::unique_ptr<Layer>>& {
             return _mapLayers;
         }
 
@@ -35,7 +35,7 @@ namespace platformer_engine {
     private:
         friend class TMXParser;
 
-        std::vector<Layer> _mapLayers;
+        std::vector<std::unique_ptr<Layer>> _mapLayers;
     };
 }  // namespace platformer_engine
 

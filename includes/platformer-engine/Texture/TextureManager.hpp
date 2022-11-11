@@ -53,12 +53,16 @@ namespace platformer_engine {
          */
         void DrawTexture(const std::string& id, int x, int y, int width, int height, const SPIC_RendererFlip& flip = FLIP_NONE);
 
+        void DrawTile(std::string tileSetID, int tileSize, int x, int y, int row, int frame, SPIC_RendererFlip flip=FLIP_NONE);
+
+        void DrawFrame(std::string id, int x, int y, int width, int height, int row, int frame, SPIC_RendererFlip flip=FLIP_NONE);
+
         TextureManager(TextureManager const &) = delete;
 
         void operator=(TextureManager const &) = delete;
 
     private:
-        TextureManager() {};
+        TextureManager() = default;
 
         std::shared_ptr<GraphicsFacade> _graphicsFacade{nullptr};
     };

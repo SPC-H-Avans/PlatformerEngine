@@ -66,7 +66,7 @@ namespace platformer_engine {
         bool LoadTexture(const std::string& id, const std::string& fileName);
 
         /**
-         * @brief Draw a texture
+         * @brief Draw a texture (complete png for example)
          * @param id
          * @param x
          * @param y
@@ -75,6 +75,20 @@ namespace platformer_engine {
          * @param flip
          */
         void DrawTexture(const std::string& id, int x, int y, int width, int height, const SPIC_RendererFlip& flip = FLIP_NONE);
+
+        /**
+         * @brief Draw a tile on the screen
+         * @param tileSetID
+         * @param tileSize
+         * @param x
+         * @param y
+         * @param row
+         * @param frame
+         * @param flip
+         */
+        void DrawTile(std::string tileSetID, int tileSize, int x, int y, int row, int frame, SPIC_RendererFlip flip=FLIP_NONE);
+
+        void DrawFrame(std::string id, int x, int y, int width, int height, int row, int frame, SPIC_RendererFlip flip=FLIP_NONE);
 
         void ClearTextures();
 

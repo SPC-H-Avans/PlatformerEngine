@@ -12,6 +12,18 @@ platformer_engine::TextureManager::DrawTexture(const std::string &id, int x, int
     _graphicsFacade->DrawTexture(id, x, y, width, height, flip);
 }
 
+void platformer_engine::TextureManager::DrawTile(std::string tileSetID, int tileSize, int x, int y, int row, int frame,
+                                                 platformer_engine::SPIC_RendererFlip flip) {
+    _graphicsFacade->DrawTile(std::move(tileSetID), tileSize, x, y, row, frame, flip);
+}
+
+void
+platformer_engine::TextureManager::DrawFrame(std::string id, int x, int y, int width, int height, int row, int frame,
+                                             platformer_engine::SPIC_RendererFlip flip) {
+    _graphicsFacade->DrawFrame(id, x, y, width, height, row, frame, flip);
+}
+
+
 void platformer_engine::TextureManager::Remove(const std::string &id) {
 
 }

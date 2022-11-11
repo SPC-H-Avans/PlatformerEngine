@@ -5,7 +5,7 @@
 #include <string>
 #include "Color.hpp"
 #include "Facade/GraphicsFacade.hpp"
-#include "Facade/InputFacade.hpp"
+#include "../../../src/Facade/InputFacade.hpp"
 
 namespace platformer_engine {
     /**

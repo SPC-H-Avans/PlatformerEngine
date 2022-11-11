@@ -44,7 +44,7 @@ namespace platformer_engine {
          */
         static auto GetMousePosition() -> std::tuple<int, int>;
 
-        static auto GetKey(spic::Input::KeyCode key) -> int;
+        static auto GetFacadeKeyCode(spic::Input::KeyCode key) -> int;
 
     private:
         void KeyUp();
@@ -115,6 +115,8 @@ namespace platformer_engine {
             KEY_F8 = SDLK_F8,
             KEY_F9 = SDLK_F9,
             KEY_F10 = SDLK_F10,
+            KEY_F11 = SDLK_F11,
+            KEY_F12 = SDLK_F12,
         };
     };
 } // namespace platformer_engine

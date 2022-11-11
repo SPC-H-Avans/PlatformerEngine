@@ -2,6 +2,7 @@
 #include <iostream>
 
 #include "Input.hpp"
+#include "Debug.hpp"
 #include "Facade/InputFacade.hpp"
 
 #define stringify(name) #name
@@ -20,7 +21,9 @@ auto spic::Input::AnyKeyDown() -> bool {}
 auto spic::Input::GetAxis() -> double {}
 
 auto spic::Input::GetKey(spic::Input::KeyCode key) -> bool {
-    auto facadeKey = platformer_engine::InputFacade::GetKey(key);
+    auto facadeKey = platformer_engine::InputFacade::GetFacadeKeyCode(key);
+    if (facadeKey == static_cast<int>(spic::Input::KeyCode::ERROR_UNDEFINED))
+        spic::Debug::LogWarning("Use of undefined key");
     return platformer_engine::InputFacade::IsKeyPressed(facadeKey);
 }
 

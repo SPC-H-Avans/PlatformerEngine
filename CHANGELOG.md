@@ -9,13 +9,17 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 Set up the project and add the first version of the code.
 
+
 ### Changes
+
 - SPCH-41: Added Doxygen action for development branch
+- SPCH-40: Implemented functions of GameObject and Component
+- SPCH-40: Added Multiton pattern, Children and Parent to GameObject (insunated by API docs)
+- SPCH-40: Added Builder for creating GameObjects 
 - SPCH-39: Added window, engine and graphics facade classes
 - SPCH-31: Added SPIC-API as submodule
 - SPCH-41: Created GitHub Actions
-- SPCH-31: Added Google Test
+- SPCH-31: Added Google Test 
 
 ### Bug Fixes
-
 - SPCH-50: Fixed the freezing window issue

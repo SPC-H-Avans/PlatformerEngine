@@ -6,10 +6,6 @@ platformer_engine::Window::Window(int width, int height, const std::string &titl
 }
 
 void platformer_engine::Window::Render() {
-    if (Input::IsKeyPressed(Input::KEY_R)) SDL_Log("joe");
-    if (Input::IsMouseButtonPressed(Input::MOUSE_RIGHT)) SDL_Log("nuts");
-    auto foo = Input::GetMousePosition();
-    SDL_Log("Mouse cursor is at %d, %d", std::get<0>(foo), std::get<1>(foo));
     _graphicsFacade.Clear();
     _graphicsFacade.Render();
 }

@@ -16,6 +16,8 @@ auto platformer_engine::InputFacade::ListenForInput() -> std::vector<EventsEnum>
             case SDL_QUIT: events.push_back(EventsEnum::QUIT); break;
             case SDL_KEYDOWN: KeyDown(); break;
             case SDL_KEYUP: KeyUp(); break;
+            case SDL_MOUSEBUTTONDOWN: SDL_Log("mousedown"); break; // TODO: implement
+            case SDL_MOUSEBUTTONUP: SDL_Log("mouseup"); break; // TODO: implement
         }
     }
     return events;

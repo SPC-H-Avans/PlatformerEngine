@@ -110,7 +110,6 @@ auto platformer_engine::InputFacade::GetFacadeKeyCode(spic::Input::KeyCode key) 
         case spic::Input::KeyCode::RIGHT_ALT: return KEY_RALT;
         case spic::Input::KeyCode::LEFT_GUI: return KEY_LGUI;
         case spic::Input::KeyCode::RIGHT_GUI: return KEY_RGUI;
-        default:
-            return static_cast<int>(spic::Input::KeyCode::ERROR_UNDEFINED);
+        default: return static_cast<int>(spic::Input::KeyCode::ERROR_UNDEFINED);
     }
 }

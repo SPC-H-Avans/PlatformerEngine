@@ -1,11 +1,8 @@
 #include <tuple>
-#include <iostream>
 
 #include "Input.hpp"
 #include "Debug.hpp"
 #include "Facade/InputFacade.hpp"
-
-#define stringify(name) #name
 
 auto spic::Input::MousePosition() -> spic::Point {
     std::tuple<int, int> position = platformer_engine::InputFacade::GetMousePosition();
@@ -46,15 +43,3 @@ auto spic::Input::GetMouseButton(spic::Input::MouseButton which) -> bool {
 auto spic::Input::GetMouseButtonDown(spic::Input::MouseButton which) -> bool {}
 
 auto spic::Input::GetMouseButtonUp(spic::Input::MouseButton which) -> bool {}
-
-//auto platformer_engine::Input::ListenForInput() -> std::vector<EventsEnum> {
-//    return _inputFacade.ListenForInput();
-//}
-//
-//auto platformer_engine::Input::IsKeyPressed(eKey key) -> bool {
-//    return InputFacade::IsKeyPressed(static_cast<InputFacade::eKey>(key));
-//}
-//
-//auto platformer_engine::Input::IsMouseButtonPressed(eMouseButton button) -> bool {
-//    return InputFacade::IsMouseButtonPressed(static_cast<InputFacade::eMouseButton>(button));
-//}

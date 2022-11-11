@@ -1,6 +1,6 @@
-Checks: 'bugprone*,clang-analyzer*,cert*,cppcore*,misc*,modernize*,performance*,portability*,readability*,
-        google*,-google-runtime-references,
-        hicpp*,-hicpp-signed-bitwise,-llvm-header-guard,
+Checks: 'bugprone*,clang-analyzer*,cert*,cppcore*,misc*,-modernize-use-trailing-return-type,modernize-*,performance*,portability*,readability*,
+        google*,-google-runtime-references,-google-explicit-constructor,
+        hicpp*,-hicpp-signed-bitwise,-hicpp-explicit-conversions,-llvm-header-guard,
         -*-braces-around-statements'
 FormatStyle:     file
 CheckOptions:

@@ -12,10 +12,10 @@ auto platformer_engine::Engine::Init(int width, int height, const std::string &t
     _isRunning = true;
     while (_isRunning) {
         uint64_t start = Window::GetPerformanceFrequency();
-        auto &timer = Timer::Instance();
-        timer.Update();
-        //Add system here for input, delta time etc etc
-        _window->Render();
+
+        Update();
+        Events();
+        Render();
 
         float elapsedMs = (Window::GetPerformanceFrequency() - start) / static_cast<float>(Window::GetPerformanceFrequency()) * 1000.0F; // NOLINT(cppcoreguidelines-narrowing-conversions)
         if (TARGET_FRAME_DELAY > elapsedMs)
@@ -25,6 +25,21 @@ auto platformer_engine::Engine::Init(int width, int height, const std::string &t
         }
     }
     return true;
+}
+
+void platformer_engine::Engine::Update() {
+    auto &timer = Timer::Instance();
+    timer.Update();
+    //Call systems
+}
+
+void platformer_engine::Engine::Events() {
+   auto events = _window->ListenForEvents();
+    for (const auto &item: events){
+        if(item == EventsEnum::QUIT){
+            Quit();
+        }
+    }
 }
 
 void platformer_engine::Engine::Render() {

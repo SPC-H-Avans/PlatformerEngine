@@ -6,8 +6,8 @@ platformer_engine::Window::Window(int width, int height, const std::string &titl
 }
 
 void platformer_engine::Window::Render() {
-    auto foo = spic::Input::MousePosition();
-    SDL_Log("Mouse cursor is at %f, %f", foo.x, foo.y);
+//    auto foo = spic::Input::MousePosition();
+//    SDL_Log("Mouse cursor is at %f, %f", foo.x, foo.y);
     _graphicsFacade.Clear();
     _graphicsFacade.Render();
 }

@@ -73,9 +73,9 @@ namespace platformer_engine {
             KEY_F10 = InputFacade::KEY_F10,
         };
         enum eMouseButton {
-            MOUSE_LEFT = SDL_BUTTON_LEFT,
-            MOUSE_MIDDLE = SDL_BUTTON_MIDDLE,
-            MOUSE_RIGHT = SDL_BUTTON_RIGHT,
+            MOUSE_LEFT = InputFacade::MOUSE_LEFT,
+            MOUSE_MIDDLE = InputFacade::MOUSE_MIDDLE,
+            MOUSE_RIGHT = InputFacade::MOUSE_RIGHT,
         };
 
         /**
@@ -96,7 +96,7 @@ namespace platformer_engine {
          * @param eMouseButton The mouse button to check
          * @platformerengine
          */
-        static auto IsMouseButtonPressed(InputFacade::eMouseButton button) -> bool;
+        static auto IsMouseButtonPressed(eMouseButton button) -> bool;
 
         /**
          * @brief Get the mouse position as a tuple of x and y

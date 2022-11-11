@@ -6,7 +6,7 @@
 #include "Collider.hpp"
 #include "Point.hpp"
 
-typedef enum CollisionPoint {
+ enum CollisionPoint {
     Left,
     Right,
     Top,

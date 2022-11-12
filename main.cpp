@@ -31,7 +31,7 @@ void TestCollision() {
     body.BodyType(spic::BodyType::staticBody);
     go2.AddComponent<RigidBody>(std::make_shared<RigidBody>(body));
 
-    BehaviourScript script1;
+
     go1.AddComponent<BehaviourScript>(std::make_shared<BehaviourScript>());
     go2.AddComponent<BehaviourScript>(std::make_shared<BehaviourScript>());
 }

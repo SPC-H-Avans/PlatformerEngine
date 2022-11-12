@@ -173,7 +173,9 @@ namespace spic {
             template<class T>
             void AddComponent(std::shared_ptr<Component> component) {
                 if(std::is_base_of<Component, T>::value && component != nullptr) { //T is Component
-                    components[typeid(T).name()].template emplace_back(component);
+                    auto obj = GameObject::Find(this->name);
+                    if(obj != nullptr)
+                        obj->components[typeid(T).name()].template emplace_back(component);
                 }
             }
 
@@ -186,14 +188,28 @@ namespace spic {
             template<class T>
             std::shared_ptr<Component> GetComponent() const {
                 if(std::is_base_of<Component, T>::value) {
-                    auto cList = components.find(typeid(T).name());
-                    if(cList != components.end()) { //Value found
-                        if(!cList->second.empty())
-                            return cList->second.front();
+                    auto obj = GameObject::Find(this->name);
+                    if(obj != nullptr) {
+                        if(obj->components.count(typeid(T).name()) > 0) {
+                            auto cList = obj->components[typeid(T).name()];
+                            if(!cList.empty())
+                                return cList.front();
+                        }
                     }
                 }
                 return nullptr;
             }
+
+/*        *//**
+         * @brief Get the first component of the specified type. Must be
+         *        a valid subclass of Component.
+         * @return Pointer to Component instance.
+         * @spicapi
+         *//*
+        template<class T>
+        std::shared_ptr<Component> GetComponents() const {
+            return components;
+        }*/
 
             /**
              * @brief Get the first component of the specified type from

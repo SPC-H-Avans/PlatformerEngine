@@ -8,11 +8,11 @@ namespace spic {
      */
     class Component {
         public:
+            Component() = default;
             /**
              * @brief Virtual destructor.
              * @spicapi
              */
-            Component() = default;
             virtual ~Component() = default;
             Component(const Component& other) = default;
             auto operator=(const Component& other) -> Component& = default;

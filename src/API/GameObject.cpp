@@ -11,7 +11,8 @@ GameObject::GameObject(const std::string &name) {
         objName += "- Copy";
 
     this->name = objName;
-    instances[objName] = std::shared_ptr<GameObject>(this);
+    //instances[objName] = std::shared_ptr<GameObject>(this);
+    instances[objName] = std::make_shared<GameObject>(*this);
 }
 
 GameObject::GameObject(const std::string &name, const std::string& tag) {
@@ -21,7 +22,8 @@ GameObject::GameObject(const std::string &name, const std::string& tag) {
 
     this->name = objName;
     this->tag = tag;
-    instances[objName] = std::shared_ptr<GameObject>(this);
+    //instances[objName] = std::shared_ptr<GameObject>(this);
+    instances[objName] = std::make_shared<GameObject>(*this);
 }
 
 bool GameObject::operator==(const spic::GameObject &other) { return name==other.name; }
@@ -44,7 +46,10 @@ std::shared_ptr<GameObject> GameObject::Parent() { return parent; }
 
 
 std::shared_ptr<GameObject> GameObject::Find(const std::string &name) {
-    return instances[name];
+    if(instances.count(name) > 0)
+        return instances[name];
+
+    return nullptr;
 }
 
 std::vector<std::shared_ptr<GameObject>> GameObject::FindGameObjectsWithTag(const std::string &tag) {

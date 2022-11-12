@@ -9,6 +9,7 @@
 using namespace spic;
 using namespace std;
 
+//TODO test collision check method
 //TODO check speed of this.
 
 void PhysicsSystem::Update() {
@@ -18,7 +19,16 @@ void PhysicsSystem::Update() {
 void PhysicsSystem::CheckCollisions() {
     vector<shared_ptr<GameObject>> gameObjects = GameObject::FindObjectsOfType<GameObject>();
     vector<shared_ptr<GameObject>> collidableObjects;
-    copy_if(gameObjects.begin(), gameObjects.end(), collidableObjects.begin(), [&](shared_ptr<GameObject> g) { return g->GetComponent<Collider>() != nullptr; }); //Only GameObjects with collider
+
+    //Get all gameobjects that have boxcolliders
+    for(const auto& obj : gameObjects) {
+        if(obj != nullptr) {
+            auto val = obj->GetComponent<BoxCollider>();
+            if(val != nullptr) {
+                collidableObjects.emplace_back(obj);
+            }
+        }
+    }
 
     for(auto& initiator : collidableObjects) {
         shared_ptr<RigidBody> body = static_pointer_cast<RigidBody>(initiator->GetComponent<RigidBody>());
@@ -38,6 +48,8 @@ void PhysicsSystem::CheckCollisions() {
                         } else {
                             CreateCollision(initiator, aCol, receiver, bCol, *collision);
                         }
+                    } else {
+                        CreateCollision(initiator, aCol, receiver, bCol, *collision);
                     }
                 } else {
                     if (find(_collisions[aCol].begin(), _collisions[aCol].end(), bCol) != _collisions[aCol].end()) {

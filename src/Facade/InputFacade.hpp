@@ -46,12 +46,19 @@ namespace platformer_engine {
          */
         static auto GetMousePosition() -> std::tuple<int, int>;
 
+        static auto GetMouseUp(eMouseButton button) -> bool;
+
         static auto GetFacadeKeyCode(spic::Input::KeyCode key) -> int;
 
     private:
-        void KeyUp();
+        void ClearKeys();
         void KeyDown();
+        void KeyUp();
+        void MouseDown();
+        void MouseUp(int button);
         const Uint8* _inputKeyStates;
+        std::vector<eMouseButton> _mouseButtonsDown;
+        static std::vector<eMouseButton> _mouseButtonsUp;
 
         enum eKey {
             KEY_UP = SDLK_UP,

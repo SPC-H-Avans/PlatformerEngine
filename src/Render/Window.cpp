@@ -13,6 +13,7 @@ void platformer_engine::Window::Render() {
 //    if (spic::Input::GetKey(spic::Input::KeyCode::B)) SDL_Log("b");
 //    if (spic::Input::GetKey(spic::Input::KeyCode::KEYPAD_00)) SDL_Log("keypad");
 //    if (spic::Input::AnyKey()) SDL_Log("any");
+    if (spic::Input::GetMouseButtonUp(spic::Input::MouseButton::LEFT)) SDL_Log("m1 up");
     _graphicsFacade.Clear();
     _graphicsFacade.Render();
 }

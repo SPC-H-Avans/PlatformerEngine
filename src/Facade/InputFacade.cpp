@@ -47,10 +47,9 @@ void platformer_engine::InputFacade::KeyUp() {
 }
 
 void platformer_engine::InputFacade::MouseDown(eMouseButton button) {
-    SDL_Log("down");
+    _mouseButtonsDown.push_back(button);
 }
 void platformer_engine::InputFacade::MouseUp(eMouseButton button) {
-    SDL_Log(std::to_string(button).c_str());
     _mouseButtonsUp.push_back(button);
 }
 
@@ -82,6 +81,16 @@ auto platformer_engine::InputFacade::GetMousePosition() -> std::tuple<int, int> 
     int yPos = 0;
     SDL_GetMouseState(&xPos, &yPos);
     return std::make_tuple(xPos, yPos);
+}
+
+auto platformer_engine::InputFacade::GetMouseDown(eMouseButton button) -> bool {
+    std::vector<eMouseButton>::iterator it; // TODO: find which NOLINT to use
+    for (it = _mouseButtonsDown.begin(); it != _mouseButtonsDown.end(); it++) {
+        if (*it == button) { // TODO: is this bad? could do replace iterator with "for (auto button : _mouseButtonsDown)"
+            return true;
+        }
+    }
+    return false;
 }
 
 auto platformer_engine::InputFacade::GetMouseUp(eMouseButton button) -> bool {
@@ -165,4 +174,19 @@ auto platformer_engine::InputFacade::GetFacadeKeyCode(spic::Input::KeyCode key) 
     }
 }
 
+auto platformer_engine::InputFacade::GetFacadeMouseButtonCode(spic::Input::MouseButton button) -> eMouseButton {
+    switch (button) {
+        case spic::Input::MouseButton::LEFT:
+            return MOUSE_LEFT; break;
+        case spic::Input::MouseButton::MIDDLE:
+            return MOUSE_MIDDLE; break;
+        case spic::Input::MouseButton::RIGHT:
+            return MOUSE_RIGHT; break;
+        default: return MOUSE_LEFT;
+    }
+}
+
+
+// static member var definitions
+std::vector<platformer_engine::InputFacade::eMouseButton> platformer_engine::InputFacade::_mouseButtonsDown;
 std::vector<platformer_engine::InputFacade::eMouseButton> platformer_engine::InputFacade::_mouseButtonsUp;

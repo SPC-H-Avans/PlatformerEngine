@@ -46,9 +46,13 @@ namespace platformer_engine {
          */
         static auto GetMousePosition() -> std::tuple<int, int>;
 
+        static auto GetMouseDown(eMouseButton button) -> bool;
+
         static auto GetMouseUp(eMouseButton button) -> bool;
 
         static auto GetFacadeKeyCode(spic::Input::KeyCode key) -> int;
+
+        static auto GetFacadeMouseButtonCode(spic::Input::MouseButton button) -> eMouseButton;
 
     private:
         void ClearKeys();
@@ -57,7 +61,7 @@ namespace platformer_engine {
         void MouseDown(eMouseButton button);
         void MouseUp(eMouseButton button);
         const Uint8* _inputKeyStates;
-        std::vector<eMouseButton> _mouseButtonsDown;
+        static std::vector<eMouseButton> _mouseButtonsDown; // TODO: since we need this, should this facade be a singleton?
         static std::vector<eMouseButton> _mouseButtonsUp;
 
         enum eKey {

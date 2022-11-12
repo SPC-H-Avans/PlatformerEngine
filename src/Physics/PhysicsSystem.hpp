@@ -54,7 +54,7 @@ private:
      * @param bCol Collider of object B
      * @return Tuple of CollisionPoints, first value is the side on which a has been hit, second value is the side on which b has been hit
      */
-    static auto CheckBoxCollision(Point& aPos, const BoxCollider& aCol, Point& bPos, const BoxCollider& bCol) -> std::unique_ptr<std::tuple<CollisionPoint, CollisionPoint>>;
+    static auto CheckBoxCollision(Point aPos, const BoxCollider& aCol, Point bPos, const BoxCollider& bCol) -> std::unique_ptr<std::tuple<CollisionPoint, CollisionPoint>>;
 
     std::map<std::shared_ptr<Collider>, std::vector<std::shared_ptr<Collider>>> _collisions;
 };

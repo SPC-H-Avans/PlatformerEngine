@@ -15,10 +15,12 @@ auto spic::Input::AnyKey() -> bool {
     return platformer_engine::InputFacade::IsAnyPressed();
 }
 
-auto spic::Input::AnyKeyDown() -> bool {}
+auto spic::Input::AnyKeyDown() -> bool {
+    // TODO: implement
+}
 
 auto spic::Input::GetAxis() -> double {
-    // TODO: https://docs.unity3d.com/ScriptReference/Input.GetAxis.html
+    // TODO: implement, https://docs.unity3d.com/ScriptReference/Input.GetAxis.html
 }
 
 auto spic::Input::GetKey(spic::Input::KeyCode key) -> bool {
@@ -28,9 +30,13 @@ auto spic::Input::GetKey(spic::Input::KeyCode key) -> bool {
     return platformer_engine::InputFacade::IsKeyPressed(facadeKey);
 }
 
-auto spic::Input::GetKeyDown(spic::Input::KeyCode key) -> bool {}
+auto spic::Input::GetKeyDown(spic::Input::KeyCode key) -> bool {
+    // TODO: implement
+}
 
-auto spic::Input::GetKeyUp(spic::Input::KeyCode key) -> bool {}
+auto spic::Input::GetKeyUp(spic::Input::KeyCode key) -> bool {
+    // TODO: implement
+}
 
 auto spic::Input::GetMouseButton(spic::Input::MouseButton which) -> bool {
     auto btn = platformer_engine::InputFacade::GetFacadeMouseButtonCode(which);
@@ -43,15 +49,6 @@ auto spic::Input::GetMouseButtonDown(spic::Input::MouseButton which) -> bool {
 }
 
 auto spic::Input::GetMouseButtonUp(spic::Input::MouseButton which) -> bool {
-    // TODO: put this in separate method v
-    auto btn = platformer_engine::InputFacade::eMouseButton::MOUSE_LEFT;
-    switch (which) {
-        case MouseButton::LEFT: break;
-        case MouseButton::MIDDLE:
-            btn = platformer_engine::InputFacade::eMouseButton::MOUSE_MIDDLE; break;
-        case MouseButton::RIGHT:
-            btn = platformer_engine::InputFacade::eMouseButton::MOUSE_RIGHT; break;
-    }
-    // TODO: put this in separate method ^
+    auto btn = platformer_engine::InputFacade::GetFacadeMouseButtonCode(which);
     return platformer_engine::InputFacade::GetMouseUp(btn);
 }

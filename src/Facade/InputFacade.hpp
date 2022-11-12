@@ -9,61 +9,7 @@
 
 namespace platformer_engine {
     class InputFacade {
-    public:
-        enum eMouseButton {
-            MOUSE_LEFT = SDL_BUTTON_LEFT,
-            MOUSE_MIDDLE = SDL_BUTTON_MIDDLE,
-            MOUSE_RIGHT = SDL_BUTTON_RIGHT,
-        };
-
-        InputFacade();
-
-        /**
-         * @brief Listen of key input
-         * @platformerengine
-         */
-        auto ListenForInput() -> std::vector<EventsEnum>;
-
-        static auto IsAnyPressed() -> bool;
-
-        /**
-         * @brief Check if a key is pressed
-         * @param eKey The key to check
-         * @platformerengine
-         */
-        static auto IsKeyPressed(int key) -> bool;
-
-        /**
-         * @brief Check if a mouse button is pressed
-         * @param eMouseButton The mouse button to check
-         * @platformerengine
-         */
-        static auto IsMouseButtonPressed(eMouseButton button) -> bool;
-
-        /**
-         * @brief Get the mouse position as a tuple of x and y
-         * @platformerengine
-         */
-        static auto GetMousePosition() -> std::tuple<int, int>;
-
-        static auto GetMouseDown(eMouseButton button) -> bool;
-
-        static auto GetMouseUp(eMouseButton button) -> bool;
-
-        static auto GetFacadeKeyCode(spic::Input::KeyCode key) -> int;
-
-        static auto GetFacadeMouseButtonCode(spic::Input::MouseButton button) -> eMouseButton;
-
     private:
-        void ClearKeys();
-        void KeyDown();
-        void KeyUp();
-        void MouseDown(eMouseButton button);
-        void MouseUp(eMouseButton button);
-        const Uint8* _inputKeyStates;
-        static std::vector<eMouseButton> _mouseButtonsDown; // TODO: since we need this, should this facade be a singleton?
-        static std::vector<eMouseButton> _mouseButtonsUp;
-
         enum eKey {
             KEY_UP = SDLK_UP,
             KEY_DOWN = SDLK_DOWN,
@@ -131,6 +77,65 @@ namespace platformer_engine {
             KEY_F11 = SDLK_F11,
             KEY_F12 = SDLK_F12,
         };
+        enum eMouseButton {
+            MOUSE_LEFT = SDL_BUTTON_LEFT,
+            MOUSE_MIDDLE = SDL_BUTTON_MIDDLE,
+            MOUSE_RIGHT = SDL_BUTTON_RIGHT,
+        };
+    public:
+        InputFacade();
+
+        /**
+         * @brief Listen of key input
+         * @platformerengine
+         */
+        auto ListenForInput() -> std::vector<EventsEnum>;
+
+        static auto IsAnyPressed() -> bool;
+
+        /**
+         * @brief Check if a key is pressed
+         * @param eKey The key to check
+         * @platformerengine
+         */
+        static auto IsKeyPressed(int key) -> bool;
+
+        /**
+         * @brief Check if a mouse button is pressed
+         * @param eMouseButton The mouse button to check
+         * @platformerengine
+         */
+        static auto IsMouseButtonPressed(eMouseButton button) -> bool;
+
+        /**
+         * @brief Get the mouse position as a tuple of x and y
+         * @platformerengine
+         */
+        static auto GetMousePosition() -> std::tuple<int, int>;
+
+        static auto GetKeyDown(eKey key) -> bool;
+
+        static auto GetKeyUp(eKey key) -> bool;
+
+        static auto GetMouseDown(eMouseButton button) -> bool;
+
+        static auto GetMouseUp(eMouseButton button) -> bool;
+
+        static auto GetFacadeKeyCode(spic::Input::KeyCode key) -> int;
+
+        static auto GetFacadeMouseButtonCode(spic::Input::MouseButton button) -> eMouseButton;
+
+    private:
+        void ClearKeys();
+        void KeyDown();
+        void KeyUp();
+        void MouseDown(eMouseButton button);
+        void MouseUp(eMouseButton button);
+        const Uint8* _inputKeyStates;
+        static std::vector<eKey> _keysDown;
+        static std::vector<eKey> _keysUp;
+        static std::vector<eMouseButton> _mouseButtonsDown; // TODO: since we need this to be static, should this facade be a singleton?
+        static std::vector<eMouseButton> _mouseButtonsUp;
     };
 } // namespace platformer_engine
 

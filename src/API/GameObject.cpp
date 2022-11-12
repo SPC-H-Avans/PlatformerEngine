@@ -11,7 +11,7 @@ GameObject::GameObject(const std::string &name) {
         objName += "- Copy";
 
     this->name = objName;
-    instances[objName] = std::make_shared<GameObject>(*this);
+    instances[objName] = std::shared_ptr<GameObject>(this);
 }
 
 GameObject::GameObject(const std::string &name, const std::string& tag) {
@@ -21,7 +21,7 @@ GameObject::GameObject(const std::string &name, const std::string& tag) {
 
     this->name = objName;
     this->tag = tag;
-    instances[objName] = std::make_shared<GameObject>(*this);
+    instances[objName] = std::shared_ptr<GameObject>(this);
 }
 
 bool GameObject::operator==(const spic::GameObject &other) { return name==other.name; }
@@ -106,6 +106,9 @@ bool GameObject::IsActiveInWorld() const {
 
     return true;
 }
+
+void GameObject::SetTransform(const spic::Transform &transform) { this->transform = transform; }
+const Transform GameObject::GetTransform() { return transform; }
 
 
 

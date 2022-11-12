@@ -47,7 +47,7 @@ namespace spic {
             template<class T>
             static std::shared_ptr<GameObject> FindObjectOfType(bool includeInactive = false) {
                 for(auto const& [key, val] : instances) {
-                    if(typeid(val) == typeid(T)) {
+                    if(typeid(*val) == typeid(T)) {
                         if(!(!includeInactive && !val->Active()))
                             return val;
                     }
@@ -62,7 +62,7 @@ namespace spic {
             static std::vector<std::shared_ptr<GameObject>> FindObjectsOfType(bool includeInactive = false) {
                 std::vector<std::shared_ptr<GameObject>> result;
                 for(auto const& [key, val] : instances) {
-                    if(typeid(val) == typeid(T)) {
+                    if(typeid(*val) == typeid(T)) {
                         if(!(!includeInactive && !val->Active()))
                             result.template emplace_back(val);
                     }
@@ -304,15 +304,13 @@ namespace spic {
              * @return Transform of GameObject
              * @spicapi
              */
-            Transform& GetTransform() const;
+            const Transform GetTransform();
 
             /**
              * @brief sets the Transform of current GameObject
              * @spicapi
              */
-            void SetTransform(const Transform& transform) {
-                this->transform = transform; //TODO move to CPP
-            }
+            void SetTransform(const Transform& transform);
 
         private:
             std::string name; //Unique

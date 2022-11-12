@@ -60,15 +60,15 @@ auto platformer_engine::InputFacade::IsAnyPressed() -> bool {
         return true;
     }
     // then check keyboard
-    for (int i = 0; i < SDL_NUM_SCANCODES; i++) {
-        if (IsKeyPressed(i)) {
+    for (int i = 0; i < SDL_NUM_SCANCODES; i++) { // TODO: bugged, doesn't check all keys
+        if (IsKeyPressed(static_cast<eKey>(i))) {
             return true;
         }
     }
     return false;
 }
 
-auto platformer_engine::InputFacade::IsKeyPressed(int key) -> bool {
+auto platformer_engine::InputFacade::IsKeyPressed(eKey key) -> bool {
     return SDL_GetKeyboardState(nullptr)[SDL_GetScancodeFromKey(key)] != 0U; // NOLINT(cppcoreguidelines-pro-bounds-pointer-arithmetic)
 }
 
@@ -103,7 +103,7 @@ auto platformer_engine::InputFacade::GetMouseUp(eMouseButton button) -> bool {
     return false;
 }
 
-auto platformer_engine::InputFacade::GetFacadeKeyCode(spic::Input::KeyCode key) -> int {
+auto platformer_engine::InputFacade::GetFacadeKeyCode(spic::Input::KeyCode key) -> eKey {
     switch (key) {
         case spic::Input::KeyCode::A: return KEY_A;
         case spic::Input::KeyCode::B: return KEY_B;
@@ -170,7 +170,7 @@ auto platformer_engine::InputFacade::GetFacadeKeyCode(spic::Input::KeyCode key) 
         case spic::Input::KeyCode::RIGHT_ALT: return KEY_RALT;
         case spic::Input::KeyCode::LEFT_GUI: return KEY_LGUI;
         case spic::Input::KeyCode::RIGHT_GUI: return KEY_RGUI;
-        default: return static_cast<int>(spic::Input::KeyCode::ERROR_UNDEFINED);
+        default: return static_cast<eKey>(spic::Input::KeyCode::ERROR_UNDEFINED);
     }
 }
 

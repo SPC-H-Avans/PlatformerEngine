@@ -9,10 +9,10 @@ void platformer_engine::Window::Render() {
 //    auto foo = spic::Input::MousePosition();
 //    SDL_Log("Mouse cursor is at %f, %f", foo.x, foo.y);
 //    if (spic::Input::GetMouseButton(spic::Input::MouseButton::RIGHT)) SDL_Log("Right");
-//    if (spic::Input::GetKey(spic::Input::KeyCode::A)) SDL_Log("a");
-//    if (spic::Input::GetKey(spic::Input::KeyCode::B)) SDL_Log("b");
+    if (spic::Input::GetKey(spic::Input::KeyCode::A)) SDL_Log("a");
+    if (spic::Input::GetKey(spic::Input::KeyCode::B)) SDL_Log("b");
 //    if (spic::Input::GetKey(spic::Input::KeyCode::KEYPAD_00)) SDL_Log("keypad");
-//    if (spic::Input::AnyKey()) SDL_Log("any");
+    if (spic::Input::AnyKey()) SDL_Log("any");
     if (spic::Input::GetMouseButtonDown(spic::Input::MouseButton::LEFT)) SDL_Log("m1 down");
     if (spic::Input::GetMouseButtonUp(spic::Input::MouseButton::LEFT)) SDL_Log("m1 up");
     if (spic::Input::GetMouseButtonDown(spic::Input::MouseButton::RIGHT)) SDL_Log("m2 down");

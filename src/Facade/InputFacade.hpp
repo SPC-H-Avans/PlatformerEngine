@@ -98,7 +98,7 @@ namespace platformer_engine {
          * @param eKey The key to check
          * @platformerengine
          */
-        static auto IsKeyPressed(int key) -> bool;
+        static auto IsKeyPressed(eKey key) -> bool;
 
         /**
          * @brief Check if a mouse button is pressed
@@ -121,7 +121,7 @@ namespace platformer_engine {
 
         static auto GetMouseUp(eMouseButton button) -> bool;
 
-        static auto GetFacadeKeyCode(spic::Input::KeyCode key) -> int;
+        static auto GetFacadeKeyCode(spic::Input::KeyCode key) -> eKey;
 
         static auto GetFacadeMouseButtonCode(spic::Input::MouseButton button) -> eMouseButton;
 

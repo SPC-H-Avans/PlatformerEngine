@@ -54,8 +54,8 @@ namespace platformer_engine {
         void ClearKeys();
         void KeyDown();
         void KeyUp();
-        void MouseDown();
-        void MouseUp(int button);
+        void MouseDown(eMouseButton button);
+        void MouseUp(eMouseButton button);
         const Uint8* _inputKeyStates;
         std::vector<eMouseButton> _mouseButtonsDown;
         static std::vector<eMouseButton> _mouseButtonsUp;

@@ -57,6 +57,5 @@ auto spic::Input::GetMouseButtonUp(spic::Input::MouseButton which) -> bool {
             btn = platformer_engine::InputFacade::eMouseButton::MOUSE_RIGHT; break;
     }
     // TODO: put this in separate method ^
-//    return platformer_engine::InputFacade::GetMouseUp(btn);
-    return false;
+    return platformer_engine::InputFacade::GetMouseUp(btn);
 }

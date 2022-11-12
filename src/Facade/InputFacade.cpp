@@ -19,8 +19,12 @@ auto platformer_engine::InputFacade::ListenForInput() -> std::vector<EventsEnum>
             case SDL_QUIT: events.push_back(EventsEnum::QUIT); break;
             case SDL_KEYDOWN: KeyDown(); break;
             case SDL_KEYUP: KeyUp(); break;
-            case SDL_MOUSEBUTTONDOWN: SDL_Log("mousedown"); break; // TODO: implement
-            case SDL_MOUSEBUTTONUP: MouseUp(event.key.keysym.sym); break; // TODO: implement
+            case SDL_MOUSEBUTTONDOWN:
+                MouseDown(static_cast<eMouseButton>(event.button.button));
+                break;
+            case SDL_MOUSEBUTTONUP:
+                MouseUp(static_cast<eMouseButton>(event.button.button));
+                break;
         }
     }
     return events;
@@ -42,11 +46,12 @@ void platformer_engine::InputFacade::KeyUp() {
     _inputKeyStates = SDL_GetKeyboardState(nullptr);
 }
 
-void platformer_engine::InputFacade::MouseDown() {
-
+void platformer_engine::InputFacade::MouseDown(eMouseButton button) {
+    SDL_Log("down");
 }
-void platformer_engine::InputFacade::MouseUp(int button) {
-    _mouseButtonsUp.push_back(static_cast<eMouseButton>(button));
+void platformer_engine::InputFacade::MouseUp(eMouseButton button) {
+    SDL_Log(std::to_string(button).c_str());
+    _mouseButtonsUp.push_back(button);
 }
 
 auto platformer_engine::InputFacade::IsAnyPressed() -> bool {

@@ -35,36 +35,36 @@ auto platformer_engine::InputFacade::ListenForInput() -> std::vector<EventsEnum>
 }
 
 void platformer_engine::InputFacade::ClearKeys() {
-    _mouseButtonsDown.clear();
-    _mouseButtonsUp.clear();
-    for (auto& [k, val] : _keysDown) {
+    _mouseButtonsPressed.clear();
+    _mouseButtonsReleased.clear();
+    for (auto& [k, val] : _keysPressed) {
         val = false;
     }
-    _keysUp.clear();
+    _keysReleased.clear();
 }
 
 void platformer_engine::InputFacade::KeyDown(eKey key) {
     // add key to keys down if it's not already there
-    if (_keysDown.count(key) > 0) {
-        _keysDown[key] = false;
+    if (_keysPressed.count(key) > 0) {
+        _keysPressed[key] = false;
     } else {
-        _keysDown.insert({key, true});
+        _keysPressed.insert({key, true});
     }
     _inputKeyStates = SDL_GetKeyboardState(nullptr);
 }
 void platformer_engine::InputFacade::KeyUp(eKey key) {
     // remove key from keys down if it's there
-    if (_keysDown.count(key) > 0) {
-        _keysDown.erase(key);
+    if (_keysPressed.count(key) > 0) {
+        _keysPressed.erase(key);
     }
     _inputKeyStates = SDL_GetKeyboardState(nullptr);
 }
 
 void platformer_engine::InputFacade::MouseDown(eMouseButton button) {
-    _mouseButtonsDown.push_back(button);
+    _mouseButtonsPressed.push_back(button);
 }
 void platformer_engine::InputFacade::MouseUp(eMouseButton button) {
-    _mouseButtonsUp.push_back(button);
+    _mouseButtonsReleased.push_back(button);
 }
 
 auto platformer_engine::InputFacade::IsAnyPressed() -> bool {
@@ -86,14 +86,14 @@ auto platformer_engine::InputFacade::IsKeyPressed(eKey key) -> bool {
     return SDL_GetKeyboardState(nullptr)[SDL_GetScancodeFromKey(key)] != 0U; // NOLINT(cppcoreguidelines-pro-bounds-pointer-arithmetic)
 }
 
-auto platformer_engine::InputFacade::GetKeyDown(eKey key) -> bool {
-    if (_keysDown.count(key) > 0) {
-        return _keysDown[key];
+auto platformer_engine::InputFacade::GetKeyPress(eKey key) -> bool {
+    if (_keysPressed.count(key) > 0) {
+        return _keysPressed[key];
     }
     return false;
 }
 
-auto platformer_engine::InputFacade::GetKeyUp(eKey key) -> bool {
+auto platformer_engine::InputFacade::GetKeyRelease(eKey key) -> bool {
     return false;
 }
 
@@ -108,9 +108,9 @@ auto platformer_engine::InputFacade::GetMousePosition() -> std::tuple<int, int> 
     return std::make_tuple(xPos, yPos);
 }
 
-auto platformer_engine::InputFacade::GetMouseDown(eMouseButton button) -> bool {
+auto platformer_engine::InputFacade::GetMousePress(eMouseButton button) -> bool {
     std::vector<eMouseButton>::iterator it; // TODO: find which NOLINT to use
-    for (it = _mouseButtonsDown.begin(); it != _mouseButtonsDown.end(); it++) {
+    for (it = _mouseButtonsPressed.begin(); it != _mouseButtonsPressed.end(); it++) {
         if (*it == button) { // TODO: is this bad? could do replace iterator with "for (auto button : _mouseButtonsDown)"
             return true;
         }
@@ -118,9 +118,9 @@ auto platformer_engine::InputFacade::GetMouseDown(eMouseButton button) -> bool {
     return false;
 }
 
-auto platformer_engine::InputFacade::GetMouseUp(eMouseButton button) -> bool {
+auto platformer_engine::InputFacade::GetMouseRelease(eMouseButton button) -> bool {
     std::vector<eMouseButton>::iterator it; // TODO: find which NOLINT to use
-    for (it = _mouseButtonsUp.begin(); it != _mouseButtonsUp.end(); it++) {
+    for (it = _mouseButtonsReleased.begin(); it != _mouseButtonsReleased.end(); it++) {
         if (*it == button) {
             return true;
         }
@@ -212,7 +212,7 @@ auto platformer_engine::InputFacade::GetFacadeMouseButtonCode(spic::Input::Mouse
 }
 
 // static member var definitions
-std::map<platformer_engine::InputFacade::eKey, bool> platformer_engine::InputFacade::_keysDown;
-std::vector<platformer_engine::InputFacade::eKey> platformer_engine::InputFacade::_keysUp;
-std::vector<platformer_engine::InputFacade::eMouseButton> platformer_engine::InputFacade::_mouseButtonsDown;
-std::vector<platformer_engine::InputFacade::eMouseButton> platformer_engine::InputFacade::_mouseButtonsUp;
+std::map<platformer_engine::InputFacade::eKey, bool> platformer_engine::InputFacade::_keysPressed;
+std::vector<platformer_engine::InputFacade::eKey> platformer_engine::InputFacade::_keysReleased;
+std::vector<platformer_engine::InputFacade::eMouseButton> platformer_engine::InputFacade::_mouseButtonsPressed;
+std::vector<platformer_engine::InputFacade::eMouseButton> platformer_engine::InputFacade::_mouseButtonsReleased;

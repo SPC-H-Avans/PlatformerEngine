@@ -32,12 +32,12 @@ auto spic::Input::GetKey(spic::Input::KeyCode key) -> bool {
 
 auto spic::Input::GetKeyDown(spic::Input::KeyCode key) -> bool {
     auto facadeKey = platformer_engine::InputFacade::GetFacadeKeyCode(key);
-    return platformer_engine::InputFacade::GetKeyDown(facadeKey);
+    return platformer_engine::InputFacade::GetKeyPress(facadeKey);
 }
 
 auto spic::Input::GetKeyUp(spic::Input::KeyCode key) -> bool {
     auto facadeKey = platformer_engine::InputFacade::GetFacadeKeyCode(key);
-    return platformer_engine::InputFacade::GetKeyUp(facadeKey);
+    return platformer_engine::InputFacade::GetKeyRelease(facadeKey);
 }
 
 auto spic::Input::GetMouseButton(spic::Input::MouseButton which) -> bool {
@@ -47,10 +47,10 @@ auto spic::Input::GetMouseButton(spic::Input::MouseButton which) -> bool {
 
 auto spic::Input::GetMouseButtonDown(spic::Input::MouseButton which) -> bool {
     auto btn = platformer_engine::InputFacade::GetFacadeMouseButtonCode(which);
-    return platformer_engine::InputFacade::GetMouseDown(btn);
+    return platformer_engine::InputFacade::GetMousePress(btn);
 }
 
 auto spic::Input::GetMouseButtonUp(spic::Input::MouseButton which) -> bool {
     auto btn = platformer_engine::InputFacade::GetFacadeMouseButtonCode(which);
-    return platformer_engine::InputFacade::GetMouseUp(btn);
+    return platformer_engine::InputFacade::GetMouseRelease(btn);
 }

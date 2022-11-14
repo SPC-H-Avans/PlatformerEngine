@@ -101,9 +101,9 @@ namespace platformer_engine {
          */
         static auto IsKeyPressed(eKey key) -> bool;
 
-        static auto GetKeyDown(eKey key) -> bool;
+        static auto GetKeyPress(eKey key) -> bool;
 
-        static auto GetKeyUp(eKey key) -> bool;
+        static auto GetKeyRelease(eKey key) -> bool;
 
         /**
          * @brief Check if a mouse button is pressed
@@ -118,26 +118,25 @@ namespace platformer_engine {
          */
         static auto GetMousePosition() -> std::tuple<int, int>;
 
-        static auto GetMouseDown(eMouseButton button) -> bool;
+        static auto GetMousePress(eMouseButton button) -> bool;
 
-        static auto GetMouseUp(eMouseButton button) -> bool;
+        static auto GetMouseRelease(eMouseButton button) -> bool;
 
         static auto GetFacadeKeyCode(spic::Input::KeyCode key) -> eKey;
 
         static auto GetFacadeMouseButtonCode(spic::Input::MouseButton button) -> eMouseButton;
 
     private:
-        void ClearKeys();
+        static void ClearKeys();
         void KeyDown(eKey key);
         void KeyUp(eKey key);
         void MouseDown(eMouseButton button);
         void MouseUp(eMouseButton button);
         const Uint8* _inputKeyStates;
-//        static std::vector<eKey> _keysDown;
-        static std::map<eKey, bool> _keysDown; // because SDL_KEYDOWN can trigger multiple times, the second bool denotes if the key should trigger
-        static std::vector<eKey> _keysUp;
-        static std::vector<eMouseButton> _mouseButtonsDown; // TODO: since we need these maps/vectors to be static, should this facade be a singleton?
-        static std::vector<eMouseButton> _mouseButtonsUp;
+        static std::map<eKey, bool> _keysPressed; // because SDL_KEYDOWN can trigger multiple times, the second bool denotes if the key should trigger
+        static std::vector<eKey> _keysReleased;
+        static std::vector<eMouseButton> _mouseButtonsPressed; // TODO: since we need these maps/vectors to be static, should this facade be a singleton?
+        static std::vector<eMouseButton> _mouseButtonsReleased;
     };
 } // namespace platformer_engine
 

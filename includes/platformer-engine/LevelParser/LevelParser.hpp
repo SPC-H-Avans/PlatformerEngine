@@ -19,16 +19,35 @@ namespace platformer_engine {
 
         void operator=(LevelParser const &) = delete;
 
+        /**
+         * @brief Load a level from a file
+         * @param id The id of the level (stored in the map by this id)
+        * @param filePath A path to the file (with out the file name)
+        * @param fileName Name of the file with the extension
+         */
         void ParseLevel(const std::string &id, const std::string &filePath, const std::string &fileName);
 
+        /**
+         * @brief Get a reference to the level from the map
+         * @param id Id of the level
+         * @return A reference to the level
+         */
         inline std::unique_ptr<GameLevel> &GetLevel(const std::string &id) { return _levels[id]; }
 
+        /**
+         * @brief Get a reference to the map of levels
+         * @return The reference to the map of levels
+         */
         inline std::map<std::string, std::unique_ptr<GameLevel>> &GetLevels() { return _levels; }
 
+        /**
+         * @brief Clean the map of levels from memory
+         */
         void Clean();
 
     private:
         LevelParser() = default;
+
         std::map<std::string, std::unique_ptr<GameLevel>> _levels;
     };
 }

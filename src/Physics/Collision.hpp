@@ -11,7 +11,7 @@
     Right,
     Top,
     Bottom,
-    Ambigous
+    Uncertain
 };
 
 using namespace spic;

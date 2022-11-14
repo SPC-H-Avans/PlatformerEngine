@@ -142,7 +142,7 @@ auto PhysicsSystem::CheckBoxCollision(Point aPos, const BoxCollider& aCol, Point
             return make_unique<std::tuple<CollisionPoint, CollisionPoint>>(make_tuple(CollisionPoint::Right, CollisionPoint::Left));
         }
 
-        return make_unique<std::tuple<CollisionPoint, CollisionPoint>>(make_tuple(CollisionPoint::Ambigous, CollisionPoint::Ambigous));
+        return make_unique<std::tuple<CollisionPoint, CollisionPoint>>(make_tuple(CollisionPoint::Uncertain, CollisionPoint::Uncertain));
     }
     return nullptr; //No Collision
 }

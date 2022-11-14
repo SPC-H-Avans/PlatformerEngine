@@ -53,6 +53,7 @@ void platformer_engine::InputFacade::KeyDown(eKey key) {
     _inputKeyStates = SDL_GetKeyboardState(nullptr);
 }
 void platformer_engine::InputFacade::KeyUp(eKey key) {
+    _keysReleased.push_back(key);
     // remove key from keys down if it's there
     if (_keysPressed.count(key) > 0) {
         _keysPressed.erase(key);
@@ -94,6 +95,12 @@ auto platformer_engine::InputFacade::GetKeyPress(eKey key) -> bool {
 }
 
 auto platformer_engine::InputFacade::GetKeyRelease(eKey key) -> bool {
+    std::vector<eKey>::iterator it; // TODO: find which NOLINT to use
+    for (it = _keysReleased.begin(); it != _keysReleased.end(); it++) {
+        if (*it == key) {
+            return true;
+        }
+    }
     return false;
 }
 

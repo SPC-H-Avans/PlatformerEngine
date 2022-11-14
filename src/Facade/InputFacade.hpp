@@ -130,8 +130,8 @@ namespace platformer_engine {
         static void ClearKeys();
         void KeyDown(eKey key);
         void KeyUp(eKey key);
-        void MouseDown(eMouseButton button);
-        void MouseUp(eMouseButton button);
+        static void MouseDown(eMouseButton button);
+        static void MouseUp(eMouseButton button);
         const Uint8* _inputKeyStates;
         static std::map<eKey, bool> _keysPressed; // because SDL_KEYDOWN can trigger multiple times, the second bool denotes if the key should trigger
         static std::vector<eKey> _keysReleased;

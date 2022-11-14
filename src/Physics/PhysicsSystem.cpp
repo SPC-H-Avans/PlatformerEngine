@@ -11,6 +11,7 @@ using namespace std;
 
 //TODO test collision check method
 //TODO check speed of this.
+//TODO checks collision with self
 
 void PhysicsSystem::Update() {
     CheckCollisions();
@@ -37,23 +38,25 @@ void PhysicsSystem::CheckCollisions() {
         if(body != nullptr && aCol != nullptr && body->BodyType() == BodyType::dynamicBody) { //Checks from dynamicBody perspective
             //Find all collisions
             for(auto& receiver : collidableObjects) { //Currently only boxCollision
-                shared_ptr<BoxCollider> bCol = static_pointer_cast<BoxCollider>(receiver->GetComponent<BoxCollider>());
-                shared_ptr<RigidBody> recBody = static_pointer_cast<RigidBody>(receiver->GetComponent<RigidBody>());
+                if(receiver != initiator) {
+                    shared_ptr<BoxCollider> bCol = static_pointer_cast<BoxCollider>(receiver->GetComponent<BoxCollider>());
+                    shared_ptr<RigidBody> recBody = static_pointer_cast<RigidBody>(receiver->GetComponent<RigidBody>());
 
-                unique_ptr<tuple<CollisionPoint, CollisionPoint>> collision = CheckBoxCollision(initiator->GetTransform().position, *aCol, receiver->GetTransform().position, *bCol);
-                if(collision != nullptr) { //If collision
-                    if(_collisions.count(aCol) > 0) {
-                        if (find(_collisions[aCol].begin(), _collisions[aCol].end(), bCol) != _collisions[aCol].end()) {
-                            RemainCollision(initiator, aCol, receiver, bCol);
+                    unique_ptr<tuple<CollisionPoint, CollisionPoint>> collision = CheckBoxCollision(initiator->GetTransform().position, *aCol, receiver->GetTransform().position, *bCol);
+                    if(collision != nullptr) { //If collision
+                        if(_collisions.count(aCol) > 0) {
+                            if (find(_collisions[aCol].begin(), _collisions[aCol].end(), bCol) != _collisions[aCol].end()) {
+                                RemainCollision(initiator, aCol, receiver, bCol);
+                            } else {
+                                CreateCollision(initiator, aCol, receiver, bCol, *collision);
+                            }
                         } else {
                             CreateCollision(initiator, aCol, receiver, bCol, *collision);
                         }
                     } else {
-                        CreateCollision(initiator, aCol, receiver, bCol, *collision);
-                    }
-                } else {
-                    if (find(_collisions[aCol].begin(), _collisions[aCol].end(), bCol) != _collisions[aCol].end()) {
-                        EndCollision(initiator, aCol, receiver, bCol);
+                        if (find(_collisions[aCol].begin(), _collisions[aCol].end(), bCol) != _collisions[aCol].end()) {
+                            EndCollision(initiator, aCol, receiver, bCol);
+                        }
                     }
                 }
             }
@@ -110,9 +113,13 @@ auto PhysicsSystem::CheckBoxCollision(Point aPos, const BoxCollider& aCol, Point
     double a_right = aPos.x + aCol.Width();
     double b_right = bPos.x + bCol.Height();
 
+    //Distance between bottom b and top a
     double bottom_col = b_bottom - aPos.y;
+    //Distance between bottom a and top b
     double top_col = a_bottom - bPos.y;
+    //Distance between right a and left b
     double left_col = a_right - bPos.x;
+    //Distance between left a and right b
     double right_col = b_right - aPos.x;
 
     if (top_col < bottom_col && top_col < left_col && top_col < right_col )

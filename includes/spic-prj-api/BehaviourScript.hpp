@@ -12,34 +12,34 @@ namespace spic {
              * @brief TODO
              * @spicapi
              */
-            virtual void OnStart();
+            virtual void OnStart() {};
 
             /**
              * @brief TODO
              * @spicapi
              */
-            virtual void OnUpdate();
+            virtual void OnUpdate() {};
 
             /**
              * @brief Sent when another object enters a trigger collider
              *        attached to this object (2D physics only).
              * @spicapi
              */
-            virtual void OnTriggerEnter2D(const Collision collision);
+            virtual void OnTriggerEnter2D(const Collision collision) {};
 
             /**
              * @brief Sent when another object leaves a trigger collider
              *        attached to this object (2D physics only).
              * @spicapi
              */
-            virtual void OnTriggerExit2D(const Collision collision);
+            virtual void OnTriggerExit2D(const Collision collision) {};
 
             /**
              * @brief Sent each frame where another object is within a trigger
              *        collider attached to this object (2D physics only).
              * @spicapi
              */
-            virtual void OnTriggerStay2D(const Collision collision);
+            virtual void OnTriggerStay2D(const Collision collision) {};
     };
 
 }

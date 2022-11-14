@@ -112,8 +112,10 @@ bool GameObject::IsActiveInWorld() const {
     return true;
 }
 
-void GameObject::SetTransform(const spic::Transform &transform) { this->transform = transform; }
-const Transform GameObject::GetTransform() { return transform; }
+void GameObject::SetTransform(const spic::Transform &transform) {
+    GameObject::Find(this->name)->transform = transform;
+}
+const Transform GameObject::GetTransform() { return GameObject::Find(this->name)->transform; }
 
 
 

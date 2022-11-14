@@ -47,15 +47,16 @@ void platformer_engine::InputFacade::KeyDown(eKey key) {
     // add key to keys down if it's not already there
     if (_keysDown.count(key) > 0) {
         _keysDown[key] = false;
-        SDL_Log("A");
     } else {
         _keysDown.insert({key, true});
-        SDL_Log("B");
     }
     _inputKeyStates = SDL_GetKeyboardState(nullptr);
 }
 void platformer_engine::InputFacade::KeyUp(eKey key) {
-//    SDL_Log("up");
+    // remove key from keys down if it's there
+    if (_keysDown.count(key) > 0) {
+        _keysDown.erase(key);
+    }
     _inputKeyStates = SDL_GetKeyboardState(nullptr);
 }
 

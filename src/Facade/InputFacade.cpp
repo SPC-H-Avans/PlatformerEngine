@@ -17,8 +17,12 @@ auto platformer_engine::InputFacade::ListenForInput() -> std::vector<EventsEnum>
     while (SDL_PollEvent(&event)) {
         switch (event.type) {
             case SDL_QUIT: events.push_back(EventsEnum::QUIT); break;
-            case SDL_KEYDOWN: KeyDown(); break;
-            case SDL_KEYUP: KeyUp(); break;
+            case SDL_KEYDOWN:
+                KeyDown(static_cast<eKey>(event.key.keysym.sym));
+                break; // For some reason, this continuously fires when a key is held down after half a second
+            case SDL_KEYUP:
+                KeyUp(static_cast<eKey>(event.key.keysym.sym));
+            break;
             case SDL_MOUSEBUTTONDOWN:
                 MouseDown(static_cast<eMouseButton>(event.button.button));
                 break;
@@ -33,16 +37,25 @@ auto platformer_engine::InputFacade::ListenForInput() -> std::vector<EventsEnum>
 void platformer_engine::InputFacade::ClearKeys() {
     _mouseButtonsDown.clear();
     _mouseButtonsUp.clear();
+    for (auto& [k, val] : _keysDown) {
+        val = false;
+    }
+    _keysUp.clear();
 }
 
-void platformer_engine::InputFacade::KeyDown() {
-//    SDL_Log("up");
-    // TODO: Add logic here
+void platformer_engine::InputFacade::KeyDown(eKey key) {
+    // add key to keys down if it's not already there
+    if (_keysDown.count(key) > 0) {
+        _keysDown[key] = false;
+        SDL_Log("A");
+    } else {
+        _keysDown.insert({key, true});
+        SDL_Log("B");
+    }
     _inputKeyStates = SDL_GetKeyboardState(nullptr);
 }
-void platformer_engine::InputFacade::KeyUp() {
-//    SDL_Log("down");
-    // TODO: Add logic here
+void platformer_engine::InputFacade::KeyUp(eKey key) {
+//    SDL_Log("up");
     _inputKeyStates = SDL_GetKeyboardState(nullptr);
 }
 
@@ -70,6 +83,17 @@ auto platformer_engine::InputFacade::IsAnyPressed() -> bool {
 
 auto platformer_engine::InputFacade::IsKeyPressed(eKey key) -> bool {
     return SDL_GetKeyboardState(nullptr)[SDL_GetScancodeFromKey(key)] != 0U; // NOLINT(cppcoreguidelines-pro-bounds-pointer-arithmetic)
+}
+
+auto platformer_engine::InputFacade::GetKeyDown(eKey key) -> bool {
+    if (_keysDown.count(key) > 0) {
+        return _keysDown[key];
+    }
+    return false;
+}
+
+auto platformer_engine::InputFacade::GetKeyUp(eKey key) -> bool {
+    return false;
 }
 
 auto platformer_engine::InputFacade::IsMouseButtonPressed(eMouseButton button) -> bool {
@@ -186,7 +210,8 @@ auto platformer_engine::InputFacade::GetFacadeMouseButtonCode(spic::Input::Mouse
     }
 }
 
-
 // static member var definitions
+std::map<platformer_engine::InputFacade::eKey, bool> platformer_engine::InputFacade::_keysDown;
+std::vector<platformer_engine::InputFacade::eKey> platformer_engine::InputFacade::_keysUp;
 std::vector<platformer_engine::InputFacade::eMouseButton> platformer_engine::InputFacade::_mouseButtonsDown;
 std::vector<platformer_engine::InputFacade::eMouseButton> platformer_engine::InputFacade::_mouseButtonsUp;

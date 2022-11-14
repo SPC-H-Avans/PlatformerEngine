@@ -2,6 +2,7 @@
 #define PLATFORMER_ENGINE_INPUTFACADE_H
 
 #include <vector>
+#include <map>
 
 #include "SDL.h"
 #include "Events/EventsEnum.h"
@@ -100,6 +101,10 @@ namespace platformer_engine {
          */
         static auto IsKeyPressed(eKey key) -> bool;
 
+        static auto GetKeyDown(eKey key) -> bool;
+
+        static auto GetKeyUp(eKey key) -> bool;
+
         /**
          * @brief Check if a mouse button is pressed
          * @param eMouseButton The mouse button to check
@@ -113,10 +118,6 @@ namespace platformer_engine {
          */
         static auto GetMousePosition() -> std::tuple<int, int>;
 
-        static auto GetKeyDown(eKey key) -> bool;
-
-        static auto GetKeyUp(eKey key) -> bool;
-
         static auto GetMouseDown(eMouseButton button) -> bool;
 
         static auto GetMouseUp(eMouseButton button) -> bool;
@@ -127,14 +128,15 @@ namespace platformer_engine {
 
     private:
         void ClearKeys();
-        void KeyDown();
-        void KeyUp();
+        void KeyDown(eKey key);
+        void KeyUp(eKey key);
         void MouseDown(eMouseButton button);
         void MouseUp(eMouseButton button);
         const Uint8* _inputKeyStates;
-        static std::vector<eKey> _keysDown;
+//        static std::vector<eKey> _keysDown;
+        static std::map<eKey, bool> _keysDown; // because SDL_KEYDOWN can trigger multiple times, the second bool denotes if the key should trigger
         static std::vector<eKey> _keysUp;
-        static std::vector<eMouseButton> _mouseButtonsDown; // TODO: since we need this to be static, should this facade be a singleton?
+        static std::vector<eMouseButton> _mouseButtonsDown; // TODO: since we need these maps/vectors to be static, should this facade be a singleton?
         static std::vector<eMouseButton> _mouseButtonsUp;
     };
 } // namespace platformer_engine

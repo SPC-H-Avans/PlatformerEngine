@@ -23,6 +23,8 @@ void platformer_engine::Window::Render() {
 //    if (spic::Input::GetMouseButtonUp(spic::Input::MouseButton::LEFT)) SDL_Log("m1 up");
 //    if (spic::Input::GetMouseButtonDown(spic::Input::MouseButton::RIGHT)) SDL_Log("m2 down");
 //    if (spic::Input::GetMouseButtonUp(spic::Input::MouseButton::RIGHT)) SDL_Log("m2 up");
+    // key down/up
+    if (spic::Input::GetKeyDown(spic::Input::KeyCode::A)) SDL_Log("A press");
 
     _graphicsFacade.Clear();
     _graphicsFacade.Render();

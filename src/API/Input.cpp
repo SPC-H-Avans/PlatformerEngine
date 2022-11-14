@@ -25,17 +25,19 @@ auto spic::Input::GetAxis() -> double {
 
 auto spic::Input::GetKey(spic::Input::KeyCode key) -> bool {
     auto facadeKey = platformer_engine::InputFacade::GetFacadeKeyCode(key);
-    if (facadeKey == static_cast<int>(spic::Input::KeyCode::ERROR_UNDEFINED))
+    if (facadeKey == static_cast<int>(spic::Input::KeyCode::ERROR_UNDEFINED)) // TODO: move to GetFacadeKeyCode
         spic::Debug::LogWarning("This key is not supported by the Facade");
     return platformer_engine::InputFacade::IsKeyPressed(facadeKey);
 }
 
 auto spic::Input::GetKeyDown(spic::Input::KeyCode key) -> bool {
-    // TODO: implement
+    auto facadeKey = platformer_engine::InputFacade::GetFacadeKeyCode(key);
+    return platformer_engine::InputFacade::GetKeyDown(facadeKey);
 }
 
 auto spic::Input::GetKeyUp(spic::Input::KeyCode key) -> bool {
-    // TODO: implement
+    auto facadeKey = platformer_engine::InputFacade::GetFacadeKeyCode(key);
+    return platformer_engine::InputFacade::GetKeyUp(facadeKey);
 }
 
 auto spic::Input::GetMouseButton(spic::Input::MouseButton which) -> bool {

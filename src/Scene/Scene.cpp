@@ -28,7 +28,7 @@ void spic::Scene::RemoveObject(const std::string& name) {
     _contents.erase(itr,_contents.end());
 }
 
-std::shared_ptr<spic::GameObject> spic::Scene::GetObjectByName(const std::string& name) {
+auto spic::Scene::GetObjectByName(const std::string& name) -> std::shared_ptr<spic::GameObject> {
     auto foundItemIterator = find_if(_contents.begin(), _contents.end(), [&name](const std::shared_ptr<GameObject>& obj) {return obj->GetName() == name;});
 
     if (foundItemIterator != _contents.end())
@@ -43,14 +43,14 @@ void spic::Scene::AddCamera(const std::shared_ptr<Camera> &camera) {
         throw GameObjectAlreadyInSceneException(camera->GetName());
     }
     AddObject(camera->Parent());
-    AddCamera(camera);
+    _cameras.push_back(camera);
 
     if(_activeCamera == nullptr){
         _activeCamera = camera;
     }
 }
 
-std::shared_ptr<spic::Camera> spic::Scene::GetCameraByName(const std::string& name) {
+auto spic::Scene::GetCameraByName(const std::string& name) -> std::shared_ptr<spic::Camera> {
     auto foundItemIterator = find_if(_cameras.begin(), _cameras.end(), [&name](const std::shared_ptr<Camera>& obj) {return obj->GetName() == name;});
 
     if (foundItemIterator != _cameras.end()) {

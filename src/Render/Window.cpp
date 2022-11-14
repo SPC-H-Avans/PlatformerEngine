@@ -27,7 +27,7 @@ void platformer_engine::Window::SetActiveScene(std::unique_ptr<spic::Scene> scen
     _activeScene.swap(scene);
 }
 
-std::unique_ptr<spic::Scene> &platformer_engine::Window::GetActiveScene() {
+auto platformer_engine::Window::GetActiveScene() -> std::unique_ptr<spic::Scene> & {
     return _activeScene;
 }
 

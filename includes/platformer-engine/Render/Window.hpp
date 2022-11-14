@@ -56,7 +56,7 @@ namespace platformer_engine {
          * @brief Get the current active Scene
          * @return std::unique_ptr<spic::Scene>& Current active Scene
          */
-        std::unique_ptr<spic::Scene>& GetActiveScene();
+        auto GetActiveScene() -> std::unique_ptr<spic::Scene>&;
 
 
     private:

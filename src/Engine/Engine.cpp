@@ -69,7 +69,7 @@ void platformer_engine::Engine::SetActiveScene(std::unique_ptr<spic::Scene> scen
     _window->SetActiveScene(std::move(scene));
 }
 
-std::unique_ptr<spic::Scene> &platformer_engine::Engine::GetActiveScene() {
+auto platformer_engine::Engine::GetActiveScene() -> std::unique_ptr<spic::Scene> & {
     if(_window == nullptr){
         throw spic::NoWindowException();
     }

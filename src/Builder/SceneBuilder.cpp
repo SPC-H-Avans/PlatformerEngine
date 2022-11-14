@@ -24,6 +24,3 @@ SceneBuilder &SceneBuilder::AddCamera(const std::shared_ptr<spic::Camera>& camer
 std::unique_ptr<spic::Scene> SceneBuilder::GetScene() {
     return std::move(_scene);
 }
-
-
-#pragma clang diagnostic pop

@@ -18,27 +18,27 @@ public:
      * @param gameObject Game Object to add to the scene
      * @return SceneBuilder Modified Scene Builder
      */
-    SceneBuilder &AddGameObject(const std::shared_ptr<spic::GameObject>& gameObject);
+    auto AddGameObject(const std::shared_ptr<spic::GameObject>& gameObject) -> SceneBuilder &;
 
     /**
      * @brief Add a vector of Game Objects to the scene
      * @param gameObjects Vector of Game Objects
      * @return SceneBuilder Modified Scene Builder
      */
-    SceneBuilder &AddGameObjects(const std::vector<std::shared_ptr<spic::GameObject>>& gameObjects);
+    auto AddGameObjects(const std::vector<std::shared_ptr<spic::GameObject>>& gameObjects) -> SceneBuilder &;
 
     /**
      * @brief Add a new Camera to the scene
      * @param camera Camera to add to the scene
      * @return SceneBuilder Modified Scene Builder
      */
-    SceneBuilder &AddCamera(const std::shared_ptr<spic::Camera>& camera);
+    auto AddCamera(const std::shared_ptr<spic::Camera>& camera) -> SceneBuilder &;
 
     /**
      * @brief Finalize the scene and retrieve it
      * @return Scene Built scene
      */
-    std::unique_ptr<spic::Scene> GetScene();
+    auto GetScene() -> std::unique_ptr<spic::Scene>;
 
 private:
     /**

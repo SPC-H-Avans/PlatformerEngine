@@ -37,7 +37,7 @@ namespace spic {
              * @return std::shared_ptr<GameObject> Game Object shared pointer
              * @spicapi
              */
-            std::shared_ptr<GameObject> GetObjectByName(const std::string& name);
+            auto GetObjectByName(const std::string& name) -> std::shared_ptr<GameObject>;
 
             /**
              * @brief Import a Game Level and add it to this scene
@@ -61,7 +61,7 @@ namespace spic {
              * @return std::shared_ptr<Camera> Camera shared pointer
              * @spicapi
              */
-            std::shared_ptr<Camera> GetCameraByName(const std::string& name);
+            auto GetCameraByName(const std::string& name) -> std::shared_ptr<Camera>;
 
             /**
              * @brief Set active camera by name; this camera will be used to render the scene

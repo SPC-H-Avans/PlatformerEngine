@@ -19,7 +19,8 @@ auto platformer_engine::GraphicsFacade::Init(int width, int height, const std::s
         std::cout << "SDL could not initialize! SDL_Error: " << SDL_GetError() << std::endl;
         return false;
     }
-    auto window_flags = static_cast<SDL_WindowFlags>(SDL_WINDOW_SHOWN | SDL_WINDOW_RESIZABLE | SDL_WINDOW_ALLOW_HIGHDPI);
+    auto window_flags = static_cast<SDL_WindowFlags>(SDL_WINDOW_SHOWN | SDL_WINDOW_RESIZABLE |
+                                                     SDL_WINDOW_ALLOW_HIGHDPI);
     _window = std::unique_ptr<SDL_Window, std::function<void(SDL_Window *)>>(
             SDL_CreateWindow(title.c_str(), SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, width, height,
                              window_flags), SDL_DestroyWindow);
@@ -76,13 +77,16 @@ auto platformer_engine::GraphicsFacade::LoadTexture(const std::string &id, const
         return false;
     }
 
-    SDL_Texture *texture = SDL_CreateTextureFromSurface(_renderer.get(), surface);
+    std::unique_ptr<SDL_Texture, std::function<void(
+            SDL_Texture *)>> texture = std::unique_ptr<SDL_Texture, std::function<void(SDL_Texture *)>>(
+            SDL_CreateTextureFromSurface(_renderer.get(), surface), SDL_DestroyTexture);
+
     if (texture == nullptr) {
         spic::Debug::LogWarning("Failed to create texture from surface: " + std::string(SDL_GetError()));
         return false;
     }
 
-    _textureMap[id] = texture;
+    _textureMap[id] = std::move(texture);
     return true;
 }
 
@@ -91,7 +95,7 @@ void platformer_engine::GraphicsFacade::DrawTexture(const std::string &id, int x
     SDL_Rect srcRect{0, 0, width, height};
     SDL_Rect destRect{x, y, width, height};
 
-    SDL_RenderCopyEx(_renderer.get(), _textureMap[id], &srcRect, &destRect, 0, nullptr,
+    SDL_RenderCopyEx(_renderer.get(), _textureMap[id].get(), &srcRect, &destRect, 0, nullptr,
                      static_cast<const SDL_RendererFlip>(flip));
 }
 
@@ -102,7 +106,7 @@ void platformer_engine::GraphicsFacade::DrawTile(std::string tileSetID, int tile
 //    Vector2D cam = Camera::GetInstance()->GetPosition();
 //    SDL_Rect dstRect = {static_cast<int>(x - cam.X), static_cast<int>(y - cam.Y), tileSize, tileSize};
     SDL_Rect dstRect = {x, y, tileSize, tileSize};
-    SDL_RenderCopyEx(_renderer.get(), _textureMap[tileSetID], &srcRect, &dstRect, 0, nullptr,
+    SDL_RenderCopyEx(_renderer.get(), _textureMap[tileSetID].get(), &srcRect, &dstRect, 0, nullptr,
                      static_cast<const SDL_RendererFlip>(flip));
 }
 
@@ -115,14 +119,15 @@ platformer_engine::GraphicsFacade::DrawFrame(std::string id, int x, int y, int w
 //    SDL_Rect dstRect = {static_cast<int>(x - cam.X), static_cast<int>(y - cam.Y), width, height};
     SDL_Rect dstRect = {x, y, width, height};
 
-    SDL_RenderCopyEx(_renderer.get(), _textureMap[id], &srcRect, &dstRect, 0, nullptr,
+    SDL_RenderCopyEx(_renderer.get(), _textureMap[id].get(), &srcRect, &dstRect, 0, nullptr,
                      static_cast<const SDL_RendererFlip>(flip));
 }
 
 void platformer_engine::GraphicsFacade::ClearTextures() {
-    std::map<std::string, SDL_Texture *>::iterator it;
+    std::map<std::string, std::unique_ptr<SDL_Texture, std::function<void(
+            SDL_Texture *)>>>::iterator it;
     for (it = _textureMap.begin(); it != _textureMap.end(); it++)
-        SDL_DestroyTexture(it->second);
+        SDL_DestroyTexture(it->second.get());
 
     _textureMap.clear();
 

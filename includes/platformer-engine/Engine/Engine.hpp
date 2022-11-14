@@ -70,7 +70,6 @@ namespace platformer_engine {
         Engine() = default;
         ~Engine() = default;
         bool _isRunning = false;
-        GameLevel* _gameLevel;
 
         std::unique_ptr<Window> _window = nullptr;
     };

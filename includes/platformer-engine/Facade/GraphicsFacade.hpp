@@ -26,6 +26,7 @@ namespace platformer_engine {
     class GraphicsFacade {
     public:
         GraphicsFacade() = default;
+
         ~GraphicsFacade();
 
         /**
@@ -63,7 +64,7 @@ namespace platformer_engine {
          * @param fileName
          * @return
          */
-        bool LoadTexture(const std::string& id, const std::string& fileName);
+        bool LoadTexture(const std::string &id, const std::string &fileName);
 
         /**
          * @brief Draw a texture (complete png for example)
@@ -74,7 +75,8 @@ namespace platformer_engine {
          * @param height
          * @param flip
          */
-        void DrawTexture(const std::string& id, int x, int y, int width, int height, const SPIC_RendererFlip& flip = FLIP_NONE);
+        void DrawTexture(const std::string &id, int x, int y, int width, int height,
+                         const SPIC_RendererFlip &flip = FLIP_NONE);
 
         /**
          * @brief Draw a tile on the screen
@@ -86,9 +88,11 @@ namespace platformer_engine {
          * @param frame
          * @param flip
          */
-        void DrawTile(std::string tileSetID, int tileSize, int x, int y, int row, int frame, SPIC_RendererFlip flip=FLIP_NONE);
+        void DrawTile(std::string tileSetID, int tileSize, int x, int y, int row, int frame,
+                      SPIC_RendererFlip flip = FLIP_NONE);
 
-        void DrawFrame(std::string id, int x, int y, int width, int height, int row, int frame, SPIC_RendererFlip flip=FLIP_NONE);
+        void DrawFrame(std::string id, int x, int y, int width, int height, int row, int frame,
+                       SPIC_RendererFlip flip = FLIP_NONE);
 
         void ClearTextures();
 
@@ -101,7 +105,8 @@ namespace platformer_engine {
     private:
         std::unique_ptr<SDL_Window, std::function<void(SDL_Window *)>> _window{nullptr};
         std::unique_ptr<SDL_Renderer, std::function<void(SDL_Renderer *)>> _renderer{nullptr};
-        std::map<std::string, SDL_Texture*> _textureMap;
+        std::map<std::string, std::unique_ptr<SDL_Texture, std::function<void(
+                SDL_Texture *)>>> _textureMap;
 
         /**
          * @brief Converts the color value, which is a double between 0 and 1 to a value between 0 and 255 as int

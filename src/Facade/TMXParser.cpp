@@ -1,12 +1,13 @@
 #include "Facade/TMXParser.hpp"
 #include "LevelParser/LevelParser.hpp"
+#include "Debug.hpp"
 
 bool
 platformer_engine::TMXParser::Load(const std::string &id, const std::string &filePath, const std::string &fileName) {
     bool result = _parseLevel(id, filePath, fileName);
 
     if (result == false) {
-        std::cout << "Failed to parse level: " << id << std::endl;
+        spic::Debug::LogWarning( "Failed to parse level: " + id);
     }
     return result;
 }
@@ -17,7 +18,7 @@ bool platformer_engine::TMXParser::_parseLevel(const std::string &id, const std:
     xml.LoadFile(filePath + fileName);
 
     if (xml.Error()) {
-        std::cerr << "Failed to load: " << filePath << fileName << std::endl;
+        spic::Debug::LogWarning("Failed to load: " + filePath + fileName);
         return false;
     }
 

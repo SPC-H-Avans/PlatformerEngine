@@ -9,7 +9,7 @@
 #include "Collider.hpp"
 #include "BoxCollider.hpp"
 #include "GameObject.hpp"
-#include "Collision.hpp"
+#include "Physics/Collision.hpp"
 
 using namespace spic;
 

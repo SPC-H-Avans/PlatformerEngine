@@ -186,18 +186,19 @@ namespace spic {
              * @spicapi
              */
             template<class T>
-            auto GetComponent() const -> std::shared_ptr<Component>;
-
-/*        *//**
-         * @brief Get the first component of the specified type. Must be
-         *        a valid subclass of Component.
-         * @return Pointer to Component instance.
-         * @spicapi
-         *//*
-        template<class T>
-        std::shared_ptr<Component> GetComponents() const {
-            return components;
-        }*/
+            [[nodiscard]] auto GetComponent() const -> std::shared_ptr<Component> {
+                if(std::is_base_of<Component, T>::value) {
+                    auto obj = GameObject::Find(this->_name);
+                    if(obj != nullptr) {
+                        if(obj->_components.count(typeid(T).name()) > 0) {
+                            auto cList = obj->_components[typeid(T).name()];
+                            if(!cList.empty())
+                                return cList.front();
+                        }
+                    }
+                }
+                return nullptr;
+            }
 
             /**
              * @brief Get the first component of the specified type from

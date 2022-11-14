@@ -3,7 +3,6 @@
 #include "RigidBody.hpp"
 #include "Transform.hpp"
 #include "BehaviourScript.hpp"
-#include "Collision.hpp"
 #include <algorithm>
 
 using namespace spic;

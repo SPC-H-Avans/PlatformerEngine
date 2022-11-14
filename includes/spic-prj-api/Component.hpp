@@ -8,7 +8,7 @@ namespace spic {
      */
     class Component {
         public:
-            Component(bool active = true) : _active(active) {};
+            Component() = default;
             /**
              * @brief Virtual destructor.
              * @spicapi

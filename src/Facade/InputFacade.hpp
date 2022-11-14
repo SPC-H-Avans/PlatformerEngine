@@ -92,6 +92,8 @@ namespace platformer_engine {
          */
         auto ListenForInput() -> std::vector<EventsEnum>;
 
+        static auto IsAnyHeld() -> bool;
+
         static auto IsAnyPressed() -> bool;
 
         /**
@@ -99,7 +101,7 @@ namespace platformer_engine {
          * @param eKey The key to check
          * @platformerengine
          */
-        static auto IsKeyPressed(eKey key) -> bool;
+        static auto IsKeyHeld(eKey key) -> bool;
 
         static auto GetKeyPress(eKey key) -> bool;
 
@@ -110,7 +112,7 @@ namespace platformer_engine {
          * @param eMouseButton The mouse button to check
          * @platformerengine
          */
-        static auto IsMouseButtonPressed(eMouseButton button) -> bool;
+        static auto IsMouseButtonHeld(eMouseButton button) -> bool;
 
         /**
          * @brief Get the mouse position as a tuple of x and y

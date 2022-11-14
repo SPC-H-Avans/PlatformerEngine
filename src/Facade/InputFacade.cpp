@@ -68,22 +68,37 @@ void platformer_engine::InputFacade::MouseUp(eMouseButton button) {
     _mouseButtonsReleased.push_back(button);
 }
 
-auto platformer_engine::InputFacade::IsAnyPressed() -> bool {
+auto platformer_engine::InputFacade::IsAnyHeld() -> bool {
     // first check mouse buttons
-    if (IsMouseButtonPressed(eMouseButton::MOUSE_LEFT) || IsMouseButtonPressed(eMouseButton::MOUSE_MIDDLE) ||
-        IsMouseButtonPressed(eMouseButton::MOUSE_RIGHT)) {
+    if (IsMouseButtonHeld(eMouseButton::MOUSE_LEFT) || IsMouseButtonHeld(eMouseButton::MOUSE_MIDDLE) ||
+            IsMouseButtonHeld(eMouseButton::MOUSE_RIGHT)) {
         return true;
     }
     // then check keyboard
     for (int i = 0; i < SDL_NUM_SCANCODES; i++) { // TODO: bugged, doesn't check all keys
-        if (IsKeyPressed(static_cast<eKey>(i))) {
+        if (IsKeyHeld(static_cast<eKey>(i))) {
             return true;
         }
     }
     return false;
 }
 
-auto platformer_engine::InputFacade::IsKeyPressed(eKey key) -> bool {
+auto platformer_engine::InputFacade::IsAnyPressed() -> bool {
+    // first check mouse buttons
+    if (IsMouseButtonHeld(eMouseButton::MOUSE_LEFT) || IsMouseButtonHeld(eMouseButton::MOUSE_MIDDLE) ||
+            IsMouseButtonHeld(eMouseButton::MOUSE_RIGHT)) {
+        return true;
+    }
+    // then check keyboard
+    for (int i = 0; i < SDL_NUM_SCANCODES; i++) { // TODO: bugged, doesn't check all keys
+        if (IsKeyHeld(static_cast<eKey>(i))) {
+            return true;
+        }
+    }
+    return false;
+}
+
+auto platformer_engine::InputFacade::IsKeyHeld(eKey key) -> bool {
     return SDL_GetKeyboardState(nullptr)[SDL_GetScancodeFromKey(key)] != 0U; // NOLINT(cppcoreguidelines-pro-bounds-pointer-arithmetic)
 }
 
@@ -104,7 +119,7 @@ auto platformer_engine::InputFacade::GetKeyRelease(eKey key) -> bool {
     return false;
 }
 
-auto platformer_engine::InputFacade::IsMouseButtonPressed(eMouseButton button) -> bool {
+auto platformer_engine::InputFacade::IsMouseButtonHeld(eMouseButton button) -> bool {
     return (SDL_GetMouseState(nullptr, nullptr) & SDL_BUTTON(button)) != 0U;
 }
 

@@ -18,16 +18,16 @@ void platformer_engine::Window::Render() {
 //    if (spic::Input::GetKey(spic::Input::KeyCode::KEYPAD_00)) SDL_Log("keypad");
 //    // hold any mouse/key
 //    if (spic::Input::AnyKey()) SDL_Log("any");
-//    // mouse up/down
+//    // mouse press/release
 //    if (spic::Input::GetMouseButtonDown(spic::Input::MouseButton::LEFT)) SDL_Log("m1 down");
 //    if (spic::Input::GetMouseButtonUp(spic::Input::MouseButton::LEFT)) SDL_Log("m1 up");
 //    if (spic::Input::GetMouseButtonDown(spic::Input::MouseButton::RIGHT)) SDL_Log("m2 down");
 //    if (spic::Input::GetMouseButtonUp(spic::Input::MouseButton::RIGHT)) SDL_Log("m2 up");
-    // key down/up
-    if (spic::Input::GetKeyDown(spic::Input::KeyCode::E)) SDL_Log("E press");
-    if (spic::Input::GetKeyUp(spic::Input::KeyCode::E)) SDL_Log("E release");
-    if (spic::Input::GetKeyDown(spic::Input::KeyCode::F)) SDL_Log("F press");
-    if (spic::Input::GetKeyUp(spic::Input::KeyCode::F)) SDL_Log("F release");
+//    // key press/release
+//    if (spic::Input::GetKeyDown(spic::Input::KeyCode::E)) SDL_Log("E press");
+//    if (spic::Input::GetKeyUp(spic::Input::KeyCode::E)) SDL_Log("E release");
+//    if (spic::Input::GetKeyDown(spic::Input::KeyCode::F)) SDL_Log("F press");
+//    if (spic::Input::GetKeyUp(spic::Input::KeyCode::F)) SDL_Log("F release");
 
     _graphicsFacade.Clear();
     _graphicsFacade.Render();

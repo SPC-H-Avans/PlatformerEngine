@@ -12,11 +12,11 @@ auto spic::Input::MousePosition() -> spic::Point {
 }
 
 auto spic::Input::AnyKey() -> bool {
-    return platformer_engine::InputFacade::IsAnyPressed();
+    return platformer_engine::InputFacade::IsAnyHeld();
 }
 
 auto spic::Input::AnyKeyDown() -> bool {
-    // TODO: implement
+    return platformer_engine::InputFacade::IsAnyPressed();
 }
 
 auto spic::Input::GetAxis() -> double {
@@ -27,7 +27,7 @@ auto spic::Input::GetKey(spic::Input::KeyCode key) -> bool {
     auto facadeKey = platformer_engine::InputFacade::GetFacadeKeyCode(key);
     if (facadeKey == static_cast<int>(spic::Input::KeyCode::ERROR_UNDEFINED)) // TODO: move to GetFacadeKeyCode
         spic::Debug::LogWarning("This key is not supported by the Facade");
-    return platformer_engine::InputFacade::IsKeyPressed(facadeKey);
+    return platformer_engine::InputFacade::IsKeyHeld(facadeKey);
 }
 
 auto spic::Input::GetKeyDown(spic::Input::KeyCode key) -> bool {
@@ -42,7 +42,7 @@ auto spic::Input::GetKeyUp(spic::Input::KeyCode key) -> bool {
 
 auto spic::Input::GetMouseButton(spic::Input::MouseButton which) -> bool {
     auto btn = platformer_engine::InputFacade::GetFacadeMouseButtonCode(which);
-    return platformer_engine::InputFacade::IsMouseButtonPressed(btn);
+    return platformer_engine::InputFacade::IsMouseButtonHeld(btn);
 }
 
 auto spic::Input::GetMouseButtonDown(spic::Input::MouseButton which) -> bool {

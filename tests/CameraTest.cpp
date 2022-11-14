@@ -2,6 +2,10 @@
 #include "Camera.hpp"
 #include "Exceptions/InvalidSizeException.hpp"
 
+
+/**
+ * @brief Tests if Camera objects are created with their correct name;
+ */
 TEST(CameraTest, IsCameraCreated) {
     std::string name = "cam1";
 
@@ -12,11 +16,14 @@ TEST(CameraTest, IsCameraCreated) {
     ASSERT_TRUE(cam.GetName() == name);
 }
 
+/**
+ * @brief Tests if the correct errors are thrown when creating Camera's with illegal boundries;
+ */
 TEST(CameraTest, CameraHasCorrectBoundries) {
     std::string name = "cam";
 
-    // 1. Create a camera with invalid input values (aspectWidth and aspectHeight should be > 0)
-    // 2. Assert that an InvalidSizeException is thrown
+    // 1. Create camera's with invalid input values (aspectWidth and aspectHeight should be > 0)
+    // 2. Assert that InvalidSizeExceptions are thrown
 
     ASSERT_THROW(
             spic::Camera(name, name, spic::Color::White(), 0, 1),
@@ -36,6 +43,9 @@ TEST(CameraTest, CameraHasCorrectBoundries) {
             << "A camera with aspectHeight of -1 should throw an InvalidSizeException";
 }
 
+/**
+ * @brief Tests if the correct errors are thrown when zooming Camera's with illegal boundries;
+ */
 TEST(CameraTest, CameraZoomHasCorrectBoundries) {
     std::string name = "cam";
 
@@ -43,7 +53,6 @@ TEST(CameraTest, CameraZoomHasCorrectBoundries) {
     auto cam = spic::Camera(name, name, spic::Color::White(), 100, 100);
 
     // 2. Assert that InvalidSizeException is thrown when the camera zooms to incorrect positions
-
     ASSERT_THROW(cam.Zoom(0, 1), spic::InvalidSizeException)
             << "A camera zoom with aspectWidth of 0 should throw an InvalidSizeException";
     ASSERT_THROW(cam.Zoom(-1, 1), spic::InvalidSizeException)

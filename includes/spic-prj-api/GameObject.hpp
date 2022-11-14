@@ -320,7 +320,7 @@ namespace spic {
              * @return Transform of GameObject
              * @spicapi
              */
-            const Transform GetTransform();
+            auto GetTransform() -> Transform;
 
             /**
              * @brief sets the Transform of current GameObject

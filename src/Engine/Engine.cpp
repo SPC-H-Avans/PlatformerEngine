@@ -54,3 +54,11 @@ void platformer_engine::Engine::Quit() {
     _window->Quit();
     _isRunning = false;
 }
+
+void platformer_engine::Engine::SetActiveScene(std::unique_ptr<spic::Scene> scene) {
+    _window->SetActiveScene(std::move(scene));
+}
+
+std::unique_ptr<spic::Scene> &platformer_engine::Engine::GetActiveScene() {
+    return _window->GetActiveScene();
+}

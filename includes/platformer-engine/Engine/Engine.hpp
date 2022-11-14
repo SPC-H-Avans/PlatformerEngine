@@ -4,6 +4,7 @@
 #include "Render/Window.hpp"
 #include "Timer/Timer.hpp"
 #include <memory>
+#include "Scene.hpp"
 
 
 namespace platformer_engine {
@@ -64,6 +65,19 @@ namespace platformer_engine {
          */
         void Quit();
 
+        /**
+         * @brief Set the current active Scene
+         * @param scene Scene to make active
+         * @platformerengine
+         */
+        void SetActiveScene(std::unique_ptr<spic::Scene> scene);
+
+        /**
+         * @brief Get the current active Scene
+         * @return std::unique_ptr<spic::Scene>& Current active scene
+         * @platformerengine
+         */
+        std::unique_ptr<spic::Scene>& GetActiveScene();
 
     private:
         Engine() = default;

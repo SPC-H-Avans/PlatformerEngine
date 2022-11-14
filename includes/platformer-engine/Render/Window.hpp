@@ -6,6 +6,7 @@
 #include "Color.hpp"
 #include "Facade/GraphicsFacade.hpp"
 #include "Facade/InputFacade.hpp"
+#include "Scene.hpp"
 
 namespace platformer_engine {
     /**
@@ -45,10 +46,24 @@ namespace platformer_engine {
         static inline auto
         GetPerformanceFrequency() -> Uint64 { return platformer_engine::GraphicsFacade::GetPerformanceFrequency(); }
 
+        /**
+         * @brief Set the current active Scene
+         * @param scene Scene to make active
+         */
+        void SetActiveScene(std::unique_ptr<spic::Scene> scene);
+
+        /**
+         * @brief Get the current active Scene
+         * @return std::unique_ptr<spic::Scene>& Current active Scene
+         */
+        std::unique_ptr<spic::Scene>& GetActiveScene();
+
 
     private:
         GraphicsFacade _graphicsFacade;
         InputFacade _inputFacade;
+
+        std::unique_ptr<spic::Scene> _activeScene = nullptr;
     };
 }//namespace platformer_engine
 

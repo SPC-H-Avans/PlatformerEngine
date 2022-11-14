@@ -14,14 +14,16 @@ void TestCollision() {
     GameObject go2 ("twee"); //Static rigidbody
 
     //Set X,Y pos of objects
-    go1.SetTransform(Transform {Point {0, 3}, 0, 0});
-    go2.SetTransform(Transform {Point {3, 3}, 0, 0});
+    go1.SetTransform(Transform {Point {3, 3}, 0, 0});
+    go2.SetTransform(Transform {Point {0, 0}, 0, 0});
 
-    //Set Colliders on both objects
+    //Set Colliders on objects
     BoxCollider collider;
     collider.Width(3);
     collider.Height(3);
     go1.AddComponent<BoxCollider>(std::make_shared<BoxCollider>(collider));
+    collider.Width(10);
+    collider.Height(10);
     go2.AddComponent<BoxCollider>(std::make_shared<BoxCollider>(collider));
 
     //Set Rigidbody on both objects;

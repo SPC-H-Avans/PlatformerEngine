@@ -106,11 +106,14 @@ void PhysicsSystem::EndCollision(shared_ptr<GameObject> initiator, shared_ptr<Co
 
 auto PhysicsSystem::CheckBoxCollision(Point aPos, const BoxCollider& aCol, Point bPos, const BoxCollider& bCol) -> std::unique_ptr<std::tuple<CollisionPoint, CollisionPoint>> {
 
-    //Without direction
-    bool x_collide = (aPos.x <= bPos.x + bCol.Width()) && (aPos.x + aCol.Width() >= bPos.x);
-    bool y_collide = (aPos.y <= bPos.y + bCol.Height()) && (aPos.y + aCol.Height() >= bPos.y);
+    //TODO y = 0 top or bottom of screen
 
-    if(x_collide && y_collide) {
+    //Without direction
+    bool x_overlap = (aPos.x <= bPos.x + bCol.Width()) && (aPos.x + aCol.Width() >= bPos.x);
+    bool y_overlap = (aPos.y <= bPos.y + bCol.Height()) && (aPos.y + aCol.Height() >= bPos.y);
+
+
+    if(x_overlap && y_overlap) {
         //This does not work if object is inside the other, only overlap
         double a_bottom = aPos.y + aCol.Height();
         double b_bottom = bPos.y + bCol.Height();
@@ -126,29 +129,20 @@ auto PhysicsSystem::CheckBoxCollision(Point aPos, const BoxCollider& aCol, Point
         //Distance between left a and right b
         double right_col = b_right - aPos.x;
 
-        if (top_col < bottom_col && top_col < left_col && top_col < right_col )
-        {
-            //Top collision
+        if (top_col < bottom_col && top_col < left_col && top_col < right_col ){//Top collision
             return make_unique<std::tuple<CollisionPoint, CollisionPoint>>(make_tuple(CollisionPoint::Top, CollisionPoint::Bottom));
         }
-        if (bottom_col < top_col && bottom_col < left_col && bottom_col < right_col)
-        {
-            //bottom collision
+        if (bottom_col < top_col && bottom_col < left_col && bottom_col < right_col){ //bottom collision
             return make_unique<std::tuple<CollisionPoint, CollisionPoint>>(make_tuple(CollisionPoint::Bottom, CollisionPoint::Top));
         }
-        if (left_col < right_col && left_col < top_col && left_col < bottom_col)
-        {
-            //Left collision
+        if (left_col < right_col && left_col < top_col && left_col < bottom_col) { //Left collision
             return make_unique<std::tuple<CollisionPoint, CollisionPoint>>(make_tuple(CollisionPoint::Left, CollisionPoint::Right));
         }
-        if (right_col < left_col && right_col < top_col && right_col < bottom_col )
-        {
-            //Right collision
+        if (right_col < left_col && right_col < top_col && right_col < bottom_col ) { //Right collision
             return make_unique<std::tuple<CollisionPoint, CollisionPoint>>(make_tuple(CollisionPoint::Right, CollisionPoint::Left));
         }
 
-        //ELSE?
+        return make_unique<std::tuple<CollisionPoint, CollisionPoint>>(make_tuple(CollisionPoint::Ambigous, CollisionPoint::Ambigous));
     }
-
-    return nullptr;
+    return nullptr; //No Collision
 }

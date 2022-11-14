@@ -20,7 +20,9 @@ auto spic::Input::AnyKeyDown() -> bool {
 }
 
 auto spic::Input::GetAxis() -> double {
-    // TODO: implement, https://docs.unity3d.com/ScriptReference/Input.GetAxis.html
+    // Api bug: GetAxis has no parameter axisName (https://docs.unity3d.com/ScriptReference/Input.GetAxis.html)
+    // TODO: implement once fixed
+    spic::Debug::LogWarning("This method is currently not supported.");
 }
 
 auto spic::Input::GetKey(spic::Input::KeyCode key) -> bool {

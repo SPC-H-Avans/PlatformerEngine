@@ -61,6 +61,7 @@ std::shared_ptr<GameObject> GameObject::FindWithTag(const std::string &tag) {
         if (val->tag == tag)
             return val;
     }
+    return nullptr;
 }
 
 void GameObject::Destroy(spic::Component *obj) {

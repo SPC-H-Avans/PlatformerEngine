@@ -3,6 +3,7 @@
 
 #include "InputFacade.hpp"
 #include "Input.hpp"
+#include "Debug.hpp"
 
 platformer_engine::InputFacade::InputFacade() : _inputKeyStates(SDL_GetKeyboardState(nullptr)) {
 }
@@ -110,9 +111,9 @@ auto platformer_engine::InputFacade::GetKeyPress(eKey key) -> bool {
 }
 
 auto platformer_engine::InputFacade::GetKeyRelease(eKey key) -> bool {
-    std::vector<eKey>::iterator it; // TODO: find which NOLINT to use
-    for (it = _keysReleased.begin(); it != _keysReleased.end(); it++) {
-        if (*it == key) {
+    std::vector<eKey>::iterator itr;
+    for (itr = _keysReleased.begin(); itr != _keysReleased.end(); itr++) {
+        if (*itr == key) {
             return true;
         }
     }
@@ -131,9 +132,9 @@ auto platformer_engine::InputFacade::GetMousePosition() -> std::tuple<int, int> 
 }
 
 auto platformer_engine::InputFacade::GetMousePress(eMouseButton button) -> bool {
-    std::vector<eMouseButton>::iterator it; // TODO: find which NOLINT to use
-    for (it = _mouseButtonsPressed.begin(); it != _mouseButtonsPressed.end(); it++) {
-        if (*it == button) { // TODO: is this bad? could do replace iterator with "for (auto button : _mouseButtonsDown)"
+    std::vector<eMouseButton>::iterator itr;
+    for (itr = _mouseButtonsPressed.begin(); itr != _mouseButtonsPressed.end(); itr++) {
+        if (*itr == button) {
             return true;
         }
     }
@@ -141,9 +142,9 @@ auto platformer_engine::InputFacade::GetMousePress(eMouseButton button) -> bool 
 }
 
 auto platformer_engine::InputFacade::GetMouseRelease(eMouseButton button) -> bool {
-    std::vector<eMouseButton>::iterator it; // TODO: find which NOLINT to use
-    for (it = _mouseButtonsReleased.begin(); it != _mouseButtonsReleased.end(); it++) {
-        if (*it == button) {
+    std::vector<eMouseButton>::iterator itr;
+    for (itr = _mouseButtonsReleased.begin(); itr != _mouseButtonsReleased.end(); itr++) {
+        if (*itr == button) {
             return true;
         }
     }
@@ -217,7 +218,9 @@ auto platformer_engine::InputFacade::GetFacadeKeyCode(spic::Input::KeyCode key) 
         case spic::Input::KeyCode::RIGHT_ALT: return KEY_RALT;
         case spic::Input::KeyCode::LEFT_GUI: return KEY_LGUI;
         case spic::Input::KeyCode::RIGHT_GUI: return KEY_RGUI;
-        default: return static_cast<eKey>(spic::Input::KeyCode::ERROR_UNDEFINED);
+        default:
+            spic::Debug::LogWarning("This key is not supported by the Facade");
+            return static_cast<eKey>(spic::Input::KeyCode::ERROR_UNDEFINED);
     }
 }
 

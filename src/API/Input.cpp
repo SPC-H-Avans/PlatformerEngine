@@ -27,8 +27,6 @@ auto spic::Input::GetAxis() -> double {
 
 auto spic::Input::GetKey(spic::Input::KeyCode key) -> bool {
     auto facadeKey = platformer_engine::InputFacade::GetFacadeKeyCode(key);
-    if (facadeKey == static_cast<int>(spic::Input::KeyCode::ERROR_UNDEFINED)) // TODO: move to GetFacadeKeyCode
-        spic::Debug::LogWarning("This key is not supported by the Facade");
     return platformer_engine::InputFacade::IsKeyHeld(facadeKey);
 }
 

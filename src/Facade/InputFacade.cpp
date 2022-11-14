@@ -75,7 +75,7 @@ auto platformer_engine::InputFacade::IsAnyHeld() -> bool {
         return true;
     }
     // then check keyboard
-    for (int i = 0; i < SDL_NUM_SCANCODES; i++) { // TODO: bugged, doesn't check all keys
+    for (int i = 0; i < SDL_NUM_SCANCODES; i++) { // checks all keys on standard qwerty keyboard, but not all keys
         if (IsKeyHeld(static_cast<eKey>(i))) {
             return true;
         }
@@ -90,7 +90,7 @@ auto platformer_engine::InputFacade::IsAnyPressed() -> bool {
         return true;
     }
     // then check keyboard
-    for (int i = 0; i < SDL_NUM_SCANCODES; i++) { // TODO: bugged, doesn't check all keys
+    for (int i = 0; i < SDL_NUM_SCANCODES; i++) { // checks all keys on standard qwerty keyboard, but not all keys
         if (GetKeyPress(static_cast<eKey>(i))) {
             return true;
         }

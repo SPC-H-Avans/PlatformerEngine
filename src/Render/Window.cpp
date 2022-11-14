@@ -18,8 +18,8 @@ void platformer_engine::Window::Render() {
 //    if (spic::Input::GetKey(spic::Input::KeyCode::KEYPAD_00)) SDL_Log("keypad");
 //    // hold any mouse/key
 //    if (spic::Input::AnyKey()) SDL_Log("any held");
-    // press any mouse/key
-    if (spic::Input::AnyKeyDown()) SDL_Log("any press");
+//    // press any mouse/key
+//    if (spic::Input::AnyKeyDown()) SDL_Log("any press");
 //    // mouse press/release
 //    if (spic::Input::GetMouseButtonDown(spic::Input::MouseButton::LEFT)) SDL_Log("m1 down");
 //    if (spic::Input::GetMouseButtonUp(spic::Input::MouseButton::LEFT)) SDL_Log("m1 up");

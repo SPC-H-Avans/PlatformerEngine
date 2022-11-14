@@ -1,6 +1,5 @@
 #include <gtest/gtest.h>
 #include "Builder/SceneBuilder.hpp"
-#include "Scene.hpp"
 #include "Builder/GameObjectBuilder.hpp"
 #include <list>
 

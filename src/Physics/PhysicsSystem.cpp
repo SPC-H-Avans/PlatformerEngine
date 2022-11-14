@@ -11,7 +11,6 @@ using namespace std;
 
 //TODO test collision check method
 //TODO check speed of this.
-//TODO checks collision with self
 
 void PhysicsSystem::Update() {
     CheckCollisions();

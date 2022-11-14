@@ -336,7 +336,7 @@ namespace spic {
             std::shared_ptr<GameObject> parent;
             std::vector<std::shared_ptr<GameObject>> children;
             std::map<std::string, std::vector<std::shared_ptr<Component>>> components; //Key is typeid.name
-            Transform transform;
+            Transform transform = Transform {Point {0, 0}, 0, 0};
 
             //Multiton Pattern
             static std::map<std::string, std::shared_ptr<GameObject>> instances;

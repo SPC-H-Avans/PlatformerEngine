@@ -48,6 +48,14 @@ namespace spic {
              */
             void ImportLevel(const std::string& path, const std::string& fileName, const std::string& levelName);
 
+            void AddCamera(const std::shared_ptr<Camera>& camera);
+
+            std::shared_ptr<Camera> GetCameraByName(const std::string& name);
+
+            void SetActiveCameraByName(const std::string& name);
+
+            void DeleteCameraByName(const std::string& name);
+
     private:
         /**
          * @brief List of all Game Objects in this scene
@@ -55,7 +63,9 @@ namespace spic {
          */
         std::vector<std::shared_ptr<GameObject>> _contents;
 
-        std::vector<std::unique_ptr<Camera>> _cameras;
+        std::vector<std::shared_ptr<Camera>> _cameras;
+
+        std::shared_ptr<Camera> _activeCamera = nullptr;
 
     };
 

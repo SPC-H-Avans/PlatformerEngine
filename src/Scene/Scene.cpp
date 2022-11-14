@@ -2,6 +2,7 @@
 #include "Scene.hpp"
 #include "Exceptions/NotImplementedException.hpp"
 #include "Exceptions/GameObjectAlreadyInSceneException.hpp"
+#include "Exceptions/CameraNotInSceneException.hpp"
 
 void spic::Scene::RenderScene() {
     //Loop through all game objects in scene, call the render component and render it
@@ -35,4 +36,41 @@ std::shared_ptr<spic::GameObject> spic::Scene::GetObjectByName(const std::string
         return foundItemIterator.operator*();
     }
     return nullptr;
+}
+
+void spic::Scene::AddCamera(const std::shared_ptr<Camera> &camera) {
+    if(GetCameraByName(camera->GetName()) != nullptr){
+        throw GameObjectAlreadyInSceneException(camera->GetName());
+    }
+    AddObject(camera->Parent());
+    AddCamera(camera);
+
+    if(_activeCamera == nullptr){
+        _activeCamera = camera;
+    }
+}
+
+std::shared_ptr<spic::Camera> spic::Scene::GetCameraByName(const std::string& name) {
+    auto foundItemIterator = find_if(_cameras.begin(), _cameras.end(), [&name](const std::shared_ptr<Camera>& obj) {return obj->GetName() == name;});
+
+    if (foundItemIterator != _cameras.end()) {
+        return foundItemIterator.operator*();
+    }
+
+    return nullptr;
+}
+
+void spic::Scene::DeleteCameraByName(const std::string &name) {
+    auto itr = std::remove_if(_cameras.begin(),_cameras.end(), [&name](const std::shared_ptr<Camera>& obj){return obj->GetName() == name;});
+
+    _cameras.erase(itr,_cameras.end());
+    RemoveObject(name);
+}
+
+void spic::Scene::SetActiveCameraByName(const std::string &name) {
+    auto foundCamera = GetCameraByName(name);
+    if(foundCamera == nullptr){
+        throw CameraNotInSceneException(name);
+    }
+    _activeCamera = foundCamera;
 }

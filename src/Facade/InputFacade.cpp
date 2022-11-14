@@ -85,13 +85,13 @@ auto platformer_engine::InputFacade::IsAnyHeld() -> bool {
 
 auto platformer_engine::InputFacade::IsAnyPressed() -> bool {
     // first check mouse buttons
-    if (IsMouseButtonHeld(eMouseButton::MOUSE_LEFT) || IsMouseButtonHeld(eMouseButton::MOUSE_MIDDLE) ||
-            IsMouseButtonHeld(eMouseButton::MOUSE_RIGHT)) {
+    if (GetMousePress(eMouseButton::MOUSE_LEFT) || GetMousePress(eMouseButton::MOUSE_MIDDLE) ||
+            GetMousePress(eMouseButton::MOUSE_RIGHT)) {
         return true;
     }
     // then check keyboard
     for (int i = 0; i < SDL_NUM_SCANCODES; i++) { // TODO: bugged, doesn't check all keys
-        if (IsKeyHeld(static_cast<eKey>(i))) {
+        if (GetKeyPress(static_cast<eKey>(i))) {
             return true;
         }
     }

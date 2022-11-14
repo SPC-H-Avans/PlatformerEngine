@@ -38,10 +38,6 @@ bool platformer_engine::TMXParser::_parseLevel(const std::string &id, const std:
         if (e->Value() == std::string("tileset")) {
             tileSets.emplace_back(std::move(_parseTileSet(*e)));
         }
-//        if (e->Value() == std::string("layer")) {
-//            std::unique_ptr<TileLayer> tileLayer = ParseTileLayer(*e, tileSets, tileSize, rowCount, colCount);
-//            gameLevel->_mapLayers.emplace_back(std::move(tileLayer));
-//        }
     }
 
     // Parse Layers
@@ -55,9 +51,7 @@ bool platformer_engine::TMXParser::_parseLevel(const std::string &id, const std:
     gameLevel->RowCount = rowCount;
     gameLevel->ColCount = colCount;
 
-//    auto levels = LevelParser::GetInstance().GetLevels();
-
-//    levels[id] = std::move(gameLevel);
+    _levels[id] = std::move(gameLevel);
 
     return true;
 }

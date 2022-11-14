@@ -32,7 +32,7 @@ namespace platformer_engine {
         void operator=(Engine &&) = delete;
 
         /**
-         * @brief Start the engine and create a window
+         * @brief Initialize the engine
          * @param width The width of the window in px
          * @param height The height of the window in px
          * @param title  Title of the window
@@ -41,6 +41,12 @@ namespace platformer_engine {
          * @platformerengine
          */
         auto Init(int width, int height, const std::string &title, const spic::Color &color) -> bool;
+
+        /**
+         * @brief Start the engine, open window, start timer etc.
+         * @platformerengine
+         */
+        void Start();
 
         /**
          * @brief Render the game on the screen

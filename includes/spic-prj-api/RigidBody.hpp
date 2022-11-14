@@ -28,16 +28,16 @@ namespace spic {
              */
             void AddForce(const Point& forceDirection);
 
-            void BodyType (BodyType bodyType) { this->bodyType = bodyType; }
-            enum BodyType BodyType() { return bodyType; }
+            void BodyType (BodyType bodyType) { this->_bodyType = bodyType; }
+            auto BodyType() -> enum BodyType { return _bodyType; }
 
 
         private:
-            double mass;
-            double gravityScale;
-            enum BodyType bodyType;
+            double _mass;
+            double _gravityScale;
+            enum BodyType _bodyType;
     };
 
-}
+} // namespace spic
 
 #endif // RIGIDBODY_H_

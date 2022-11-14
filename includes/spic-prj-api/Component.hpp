@@ -8,7 +8,7 @@ namespace spic {
      */
     class Component {
         public:
-            Component() = default;
+            Component(bool active = true) : _active(active) {};
             /**
              * @brief Virtual destructor.
              * @spicapi
@@ -27,21 +27,21 @@ namespace spic {
              * @return true if active, false otherwise.
              * @spicapi
              */
-            bool Active() const { return active; }
+            [[nodiscard]] auto Active() const -> bool { return _active; }
 
             /**
              * @brief flag New active status.
              * @spicapi
              */
-            void Active(bool flag) { active = flag; }
+            void Active(bool flag) { _active = flag; }
 
         private:
             /**
              * @brief Active status.
              */
-            bool active;
+            bool _active;
     };
 
-}
+} // namespace spic
 
 #endif // COMPONENT_H_

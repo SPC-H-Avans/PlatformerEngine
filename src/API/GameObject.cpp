@@ -117,6 +117,21 @@ void GameObject::SetTransform(const spic::Transform &transform) {
 }
 auto GameObject::GetTransform() -> Transform { return GameObject::Find(this->name)->transform; }
 
+template<class T>
+auto GameObject::GetComponent() const -> std::shared_ptr<Component> {
+    if(std::is_base_of<Component, T>::value) {
+        auto obj = GameObject::Find(this->_name);
+        if(obj != nullptr) {
+            if(obj->_components.count(typeid(T).name()) > 0) {
+                auto cList = obj->_components[typeid(T).name()];
+                if(!cList.empty())
+                    return cList.front();
+            }
+        }
+    }
+    return nullptr;
+}
+
 
 
 

@@ -42,6 +42,6 @@ namespace spic {
             virtual void OnTriggerStay2D(const Collision collision) {};
     };
 
-}
+}  // namespace spic
 
 #endif // BEHAVIOURSCRIPT_H_

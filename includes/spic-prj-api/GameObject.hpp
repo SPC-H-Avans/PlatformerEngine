@@ -120,7 +120,7 @@ namespace spic {
              * @return true if not equal, false otherwise.
              * @spicapi
              */
-            bool operator!=(const GameObject& other);
+            auto operator!=(const GameObject& other) -> bool;
 
             /**
              * @brief Compare two GameObjects
@@ -128,7 +128,7 @@ namespace spic {
              * @return true if equal, false otherwise.
              * @spicapi
              */
-            bool operator==(const GameObject& other);
+            auto operator==(const GameObject& other) -> bool;
 
             /**
              * @brief Add given GameObject reference to this object's children list

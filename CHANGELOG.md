@@ -20,6 +20,7 @@ Set up the project and add the first version of the code.
 - SPCH-31: Added SPIC-API as submodule
 - SPCH-41: Created GitHub Actions
 - SPCH-31: Added Google Test 
+- SPCH-38: Added Collision Detection with direction of collision.
 
 ### Bug Fixes
 - SPCH-50: Fixed the freezing window issue

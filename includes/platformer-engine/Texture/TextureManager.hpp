@@ -32,7 +32,7 @@ namespace platformer_engine {
          * @param fileName Path to the texture file
          * @return A true or false value, true if the texture is loaded, false if not
          */
-        bool LoadTexture(const std::string &id, const std::string &fileName);
+        auto LoadTexture(const std::string &id, const std::string &fileName) -> bool;
 
         /**
          * @brief Remove a texture from the texture manager and memory

@@ -2,7 +2,7 @@
 
 #include "Texture/TextureManager.hpp"
 
-bool platformer_engine::TextureManager::LoadTexture(const std::string &id, const std::string &fileName) {
+auto platformer_engine::TextureManager::LoadTexture(const std::string &id, const std::string &fileName) -> bool {
     return _graphicsFacade->LoadTexture(id, fileName);
 }
 
@@ -14,7 +14,7 @@ platformer_engine::TextureManager::DrawTexture(const std::string &id, int x, int
 
 void platformer_engine::TextureManager::DrawTile(const std::string &tileSetID, int tileSize, int x, int y, int row, int frame,
                                                  const platformer_engine::SPIC_RendererFlip &flip) {
-    _graphicsFacade->DrawTile(std::move(tileSetID), tileSize, x, y, row, frame, flip);
+    _graphicsFacade->DrawTile(tileSetID, tileSize, x, y, row, frame, flip);
 }
 
 void

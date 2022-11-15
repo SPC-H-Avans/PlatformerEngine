@@ -31,13 +31,13 @@ namespace platformer_engine {
          * @param id Id of the level
          * @return A reference to the level
          */
-        inline std::unique_ptr<GameLevel> &GetLevel(const std::string &id) { return _levels[id]; }
+        inline auto GetLevel(const std::string &id) -> std::unique_ptr<GameLevel> & { return _levels[id]; }
 
         /**
          * @brief Get a reference to the map of levels
          * @return The reference to the map of levels
          */
-        inline std::map<std::string, std::unique_ptr<GameLevel>> &GetLevels() { return _levels; }
+        inline auto GetLevels() -> std::map<std::string, std::unique_ptr<GameLevel>> & { return _levels; }
 
         /**
          * @brief Clean the map of levels from memory

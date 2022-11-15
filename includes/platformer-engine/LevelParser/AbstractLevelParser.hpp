@@ -16,7 +16,7 @@ namespace platformer_engine {
          * @param fileName Name of the file with the extension
          * @return True if the level was loaded successfully
          */
-        virtual bool Load(const std::string &id, const std::string &filePath, const std::string &fileName) = 0;
+        virtual auto Load(const std::string &id, const std::string &filePath, const std::string &fileName) -> bool = 0;
     };
 }
 

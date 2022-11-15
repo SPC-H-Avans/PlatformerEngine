@@ -22,11 +22,11 @@ namespace platformer_engine {
         TileLayer(const std::string &filePath, int tileSize, int rowCount, int colCount, TileMap tileMap,
                   TileSetsList tileSets);
 
-        virtual void Render();
+        void Render() override;
 
-        virtual void Update();
+        void Update() override;
 
-        inline TileMap GetTileMap() { return _tileMap; }
+        inline auto GetTileMap() -> TileMap { return _tileMap; }
 
     private:
         int _tileSize;

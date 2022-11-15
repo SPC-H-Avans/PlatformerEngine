@@ -5,10 +5,10 @@
 namespace platformer_engine {
     void LevelParser::ParseLevel(const std::string &id, const std::string &filePath, const std::string &fileName) {
 
-        std::string fileType = fileName.substr(fileName.find(".") + 1);
+        std::string fileType = fileName.substr(fileName.find('.') + 1);
 
         if (fileType == "tmx") {
-            TMXParser parser = TMXParser(_levels);
+            auto parser = TMXParser(_levels);
             parser.Load(id, filePath, fileName);
         } else {
             spic::Debug::LogWarning("No LevelParser defined for filetype: " + fileType);

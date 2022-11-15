@@ -17,6 +17,6 @@ void platformer_engine::Window::Quit() {
 }
 
 auto platformer_engine::Window::ListenForEvents() -> std::vector<EventsEnum> {
-   return _inputFacade.ListenForInput();
+    return _inputFacade.ListenForInput();
 }
 

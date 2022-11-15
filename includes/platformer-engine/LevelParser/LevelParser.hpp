@@ -9,12 +9,11 @@
 namespace platformer_engine {
     class LevelParser {
     public:
-        static LevelParser &GetInstance() {
+        static auto GetInstance() -> LevelParser & {
             static LevelParser s_instance;
             return s_instance;
         }
 
-        //for singleton
         LevelParser(LevelParser const &) = delete;
 
         void operator=(LevelParser const &) = delete;
@@ -47,6 +46,8 @@ namespace platformer_engine {
 
     private:
         LevelParser() = default;
+
+        ~LevelParser() = default;
 
         std::map<std::string, std::unique_ptr<GameLevel>> _levels;
     };

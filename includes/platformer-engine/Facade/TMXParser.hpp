@@ -14,18 +14,19 @@ namespace platformer_engine {
     class TMXParser : public AbstractLevelParser {
     public:
         TMXParser(std::map<std::string, std::unique_ptr<GameLevel>> &levels) : _levels(levels) {};
-        bool Load(const std::string &id, const std::string &filePath, const std::string &fileName);
+
+        auto Load(const std::string &id, const std::string &filePath, const std::string &fileName) -> bool override;
 
     private:
-        bool ParseLevel(const std::string &id, const std::string &filePath, const std::string &fileName);
+        auto ParseLevel(const std::string &id, const std::string &filePath, const std::string &fileName) -> bool;
 
-        TileSet ParseTileSet(const TiXmlElement &xmlTileSet);
+        auto ParseTileSet(const TiXmlElement &xmlTileSet) -> TileSet;
 
-        std::unique_ptr<TileLayer>
+        auto
         ParseTileLayer(TiXmlElement &xmlLayer, const std::string &filePath, const TileSetsList &tileSets, int tileSize,
-                       int rowCount, int colCount);
+                       int rowCount, int colCount) -> std::unique_ptr<TileLayer>;
 
-        std::map<std::string, std::unique_ptr<GameLevel>>& _levels;
+        std::map<std::string, std::unique_ptr<GameLevel>> &_levels;
     };
 }
 

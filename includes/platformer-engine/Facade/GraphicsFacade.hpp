@@ -64,7 +64,7 @@ namespace platformer_engine {
          * @param fileName
          * @return
          */
-        bool LoadTexture(const std::string &id, const std::string &fileName);
+        auto LoadTexture(const std::string &id, const std::string &fileName) -> bool;
 
         /**
          * @brief Draw a texture (complete png for example)

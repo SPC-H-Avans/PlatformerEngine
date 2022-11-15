@@ -5,8 +5,8 @@
 #include "Input.hpp"
 #include "Debug.hpp"
 
-platformer_engine::InputFacade::InputFacade() : _inputKeyStates(SDL_GetKeyboardState(nullptr)) {
-}
+//platformer_engine::InputFacade::InputFacade() : _inputKeyStates(SDL_GetKeyboardState(nullptr)) {
+//}
 
 auto platformer_engine::InputFacade::ListenForInput() -> std::vector<EventsEnum> {
     SDL_Event event;

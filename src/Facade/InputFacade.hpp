@@ -84,7 +84,8 @@ namespace platformer_engine {
             MOUSE_RIGHT = SDL_BUTTON_RIGHT,
         };
     public:
-        InputFacade();
+
+//        InputFacade();
 
         /**
          * @brief Listen of key input

@@ -130,6 +130,4 @@ void platformer_engine::GraphicsFacade::ClearTextures() {
         SDL_DestroyTexture(it->second.get());
 
     _textureMap.clear();
-
-    spic::Debug::LogWarning("Success! All textures were removed from memory!");
 }

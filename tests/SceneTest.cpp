@@ -85,11 +85,44 @@ TEST(SceneTest, IsGameObjectRemoved) {
 
 }
 
-// 8. Create a camera, add it to the scene and get it by name
+/**
+ * @brief Tests if a Camera can be added to the Scene using a SceneBuilder;
+ */
 TEST(SceneTest, IsCameraAddedToScene) {
+    std::string name = "Camera1";
+    // 1. Create a Camera
+    auto cam = Camera(name, "Camera1Tag", spic::Color::White(), 100, 100);
 
+    // 2. Retrieve the Camera shared pointer from the GameObject and add it to the scene
+    auto pointer = std::static_pointer_cast<Camera>(GameObject::Find(cam.GetName()));
+
+    auto scene = SceneBuilder()
+            .AddCamera(pointer)
+            .GetScene();
+
+    // 3. Get Camera by name
+    auto addedCam = scene->GetCameraByName(name);
+
+    // 4. Assert that the Camera pointer in the scene points to the correct value
+    ASSERT_TRUE(addedCam != nullptr) << "The added Camera {" + name + "} was not found by it's name.";
+    ASSERT_TRUE(addedCam == pointer) << "The returned pointer for {" + name + "} was not equal to the added Camera's pointer.";
 }
 
 // 11. Create a camera, get it by name and set it as the active camera
-
+//TEST(SceneTest, IsCameraActiveInScene) {
+//    std::string name = "Camera1";
+//    // 1. Create a scene with a Camera
+//    auto cam = Camera(name, "Camera1Tag", spic::Color::White(), 100, 100);
+//    auto ptr = std::make_shared<Camera>(cam);
+//    auto scene = SceneBuilder()
+//            .AddCamera(ptr)
+//            .GetScene();
+//
+//    // 2. Get Camera by name
+//    auto addedCam = scene->GetCameraByName(name);
+//
+//    // 3. Assert that the Camera pointer in the scene points to the correct value
+//    ASSERT_TRUE(addedCam != nullptr) << "The added Camera {" + name + "} was not found by it's name.";
+//    ASSERT_TRUE(addedCam == ptr) << "The returned pointer for {" + name + "} was not equal to the added Camera's pointer.";
+//}
 

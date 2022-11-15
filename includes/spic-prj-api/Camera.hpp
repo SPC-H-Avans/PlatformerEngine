@@ -16,6 +16,7 @@ namespace spic {
                double aspectWidth, double aspectHeight);
         void Zoom(double aspectWidth, double aspectHeight);
         private:
+            std::string SetValues(const double aspectWidth, const double aspectHeight, const std::string name);
             Color _backgroundColor;
             double _aspectWidth;
             double _aspectHeight;

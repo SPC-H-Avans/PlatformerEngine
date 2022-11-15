@@ -107,6 +107,10 @@ namespace spic {
              */
             GameObject(const std::string& name, const std::string& tag);
 
+
+            //TODO: Add documentation
+            GameObject(const std::string& name, const std::string& tag, const std::shared_ptr<GameObject> ptr);
+
             /**
              * @brief Does the object exist? TODO wat wordt hiermee bedoeld?
              * @spicapi

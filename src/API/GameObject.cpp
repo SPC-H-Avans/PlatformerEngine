@@ -11,6 +11,16 @@ std::map<std::string, std::shared_ptr<GameObject>> GameObject::instances;
  * Als deze functie null is, run de default make_shared
  *
  */
+GameObject::GameObject(const std::string &name, const std::string& tag, const std::shared_ptr<GameObject> ptr) {
+    std::string objName = name;
+    if(instances.count(name) > 0)
+        objName += "- Copy";
+
+    this->name = objName;
+    this->tag = tag;
+    instances[objName] = ptr;
+}
+
 GameObject::GameObject(const std::string &name) {
     std::string objName = name;
     if(instances.count(name) > 0)

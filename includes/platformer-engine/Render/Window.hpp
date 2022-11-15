@@ -1,10 +1,10 @@
-
 #ifndef PLATFORMER_ENGINE_WINDOW_HPP
 #define PLATFORMER_ENGINE_WINDOW_HPP
 
 #include <string>
 #include "Color.hpp"
 #include "Facade/GraphicsFacade.hpp"
+#include "Texture/TextureManager.hpp"
 #include "Facade/InputFacade.hpp"
 
 namespace platformer_engine {
@@ -45,9 +45,8 @@ namespace platformer_engine {
         static inline auto
         GetPerformanceFrequency() -> Uint64 { return platformer_engine::GraphicsFacade::GetPerformanceFrequency(); }
 
-
     private:
-        GraphicsFacade _graphicsFacade;
+        std::shared_ptr<GraphicsFacade> _graphicsFacade{nullptr};
         InputFacade _inputFacade;
     };
 }//namespace platformer_engine

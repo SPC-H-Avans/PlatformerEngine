@@ -232,9 +232,3 @@ auto platformer_engine::InputFacade::GetFacadeMouseButtonCode(spic::Input::Mouse
         default: return MOUSE_LEFT;
     }
 }
-
-// static member var definitions
-std::map<platformer_engine::InputFacade::eKey, bool> platformer_engine::InputFacade::_keysPressed;
-std::vector<platformer_engine::InputFacade::eKey> platformer_engine::InputFacade::_keysReleased;
-std::vector<platformer_engine::InputFacade::eMouseButton> platformer_engine::InputFacade::_mouseButtonsPressed;
-std::vector<platformer_engine::InputFacade::eMouseButton> platformer_engine::InputFacade::_mouseButtonsReleased;

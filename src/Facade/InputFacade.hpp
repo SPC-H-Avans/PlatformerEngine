@@ -102,7 +102,7 @@ namespace platformer_engine {
 
         static auto IsAnyHeld() -> bool;
 
-        static auto IsAnyPressed() -> bool;
+        auto IsAnyPressed() -> bool;
 
         /**
          * @brief Check if a key is pressed
@@ -111,9 +111,9 @@ namespace platformer_engine {
          */
         static auto IsKeyHeld(eKey key) -> bool;
 
-        static auto GetKeyPress(eKey key) -> bool;
+        auto GetKeyPress(eKey key) -> bool;
 
-        static auto GetKeyRelease(eKey key) -> bool;
+        auto GetKeyRelease(eKey key) -> bool;
 
         /**
          * @brief Check if a mouse button is pressed
@@ -128,28 +128,28 @@ namespace platformer_engine {
          */
         static auto GetMousePosition() -> std::tuple<int, int>;
 
-        static auto GetMousePress(eMouseButton button) -> bool;
+        auto GetMousePress(eMouseButton button) -> bool;
 
-        static auto GetMouseRelease(eMouseButton button) -> bool;
+        auto GetMouseRelease(eMouseButton button) -> bool;
 
         static auto GetFacadeKeyCode(spic::Input::KeyCode key) -> eKey;
 
         static auto GetFacadeMouseButtonCode(spic::Input::MouseButton button) -> eMouseButton;
 
     private:
-        InputFacade() = default;
+        InputFacade() = default; // TODO
         ~InputFacade() = default;
 
-        static void ClearKeys();
+        void ClearKeys();
         void KeyDown(eKey key);
         void KeyUp(eKey key);
-        static void MouseDown(eMouseButton button);
-        static void MouseUp(eMouseButton button);
+        void MouseDown(eMouseButton button);
+        void MouseUp(eMouseButton button);
         const Uint8* _inputKeyStates;
-        static std::map<eKey, bool> _keysPressed; // because SDL_KEYDOWN can trigger multiple times, the second bool denotes if the key should trigger
-        static std::vector<eKey> _keysReleased;
-        static std::vector<eMouseButton> _mouseButtonsPressed; // TODO: since we need these maps/vectors to be static, should this facade be a singleton?
-        static std::vector<eMouseButton> _mouseButtonsReleased;
+        std::map<eKey, bool> _keysPressed; // because SDL_KEYDOWN can trigger multiple times, the second bool denotes if the key should trigger
+        std::vector<eKey> _keysReleased;
+        std::vector<eMouseButton> _mouseButtonsPressed;
+        std::vector<eMouseButton> _mouseButtonsReleased;
     };
 } // namespace platformer_engine
 

@@ -70,7 +70,7 @@ auto platformer_engine::GraphicsFacade::ConvertColorValueToSDLValue(const double
 
 auto platformer_engine::GraphicsFacade::LoadTexture(const std::string &id, const std::string &fileName) -> bool {
     //load the textures file
-    SDL_Surface *surface = IMG_Load(fileName.c_str());
+    std::unique_ptr<SDL_Surface> surface(IMG_Load(fileName.c_str()));
 
     if (surface == nullptr) {
         spic::Debug::LogWarning("Failed to load texture: " + fileName + ", " + std::string(SDL_GetError()));
@@ -79,7 +79,7 @@ auto platformer_engine::GraphicsFacade::LoadTexture(const std::string &id, const
 
     std::unique_ptr<SDL_Texture, std::function<void(
             SDL_Texture *)>> texture = std::unique_ptr<SDL_Texture, std::function<void(SDL_Texture *)>>(
-            SDL_CreateTextureFromSurface(_renderer.get(), surface), SDL_DestroyTexture);
+            SDL_CreateTextureFromSurface(_renderer.get(), surface.get()), SDL_DestroyTexture);
 
     if (texture == nullptr) {
         spic::Debug::LogWarning("Failed to create texture from surface: " + std::string(SDL_GetError()));
@@ -99,8 +99,8 @@ void platformer_engine::GraphicsFacade::DrawTexture(const std::string &id, int x
                      static_cast<const SDL_RendererFlip>(flip));
 }
 
-void platformer_engine::GraphicsFacade::DrawTile(std::string tileSetID, int tileSize, int x, int y, int row, int frame,
-                                                 platformer_engine::SPIC_RendererFlip flip) {
+void platformer_engine::GraphicsFacade::DrawTile(const std::string &tileSetID, int tileSize, int x, int y, int row,
+                                                 int frame, const SPIC_RendererFlip &flip) {
     SDL_Rect srcRect = {tileSize * frame, tileSize * row, tileSize, tileSize};
 //TODO CAMERA
 //    Vector2D cam = Camera::GetInstance()->GetPosition();
@@ -111,8 +111,8 @@ void platformer_engine::GraphicsFacade::DrawTile(std::string tileSetID, int tile
 }
 
 void
-platformer_engine::GraphicsFacade::DrawFrame(std::string id, int x, int y, int width, int height, int row, int frame,
-                                             platformer_engine::SPIC_RendererFlip flip) {
+platformer_engine::GraphicsFacade::DrawFrame(const std::string &id, int x, int y, int width, int height, int row,
+                                             int frame, const platformer_engine::SPIC_RendererFlip &flip) {
     SDL_Rect srcRect = {width * frame, height * (row - 1), width, height};
 //TODO CAMERA
 //    Vector2D cam = Camera::GetInstance()->GetPosition();

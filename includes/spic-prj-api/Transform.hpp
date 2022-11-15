@@ -13,6 +13,6 @@ namespace spic {
         double rotation; // Rotation, in radians
         double scale; // Multiplication factor
     };
-}
+} // namespace spic
 
 #endif // TRANSFORM_H_

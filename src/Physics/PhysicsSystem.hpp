@@ -11,8 +11,6 @@
 #include "GameObject.hpp"
 #include "Physics/Collision.hpp"
 
-using namespace spic;
-
 /**
  * @brief System that controls forces and collision on GameObjects. Currently collision only
  * supports BoxCollider and doesn't work if object is inside another object (works for overlap)
@@ -32,19 +30,19 @@ private:
     /**
      * @brief Collision was not in motion yet. Collision is now added to the active collisions list and the OnTriggerEnter2D handlers have been invoked.
      */
-    void CreateCollision(std::shared_ptr<GameObject> initiator, std::shared_ptr<Collider> init_collider,
-                         std::shared_ptr<GameObject> receiver, std::shared_ptr<Collider> rec_collider
+    void CreateCollision(const std::shared_ptr<GameObject>& initiator, const std::shared_ptr<Collider>& init_collider,
+                         const std::shared_ptr<GameObject>& receiver, const std::shared_ptr<Collider>& rec_collider
                         ,std::tuple<CollisionPoint, CollisionPoint> direction);
 
     /**
      * @brief Collision is no longer in motion. Collision is now removed from the active collisions list and the OnTriggerExit2D handlers have been invoked.
      */
-    void EndCollision(std::shared_ptr<GameObject> initiator, std::shared_ptr<Collider> init_collider, std::shared_ptr<GameObject> receiver, std::shared_ptr<Collider> rec_collider);
+    void EndCollision(const std::shared_ptr<GameObject>& initiator, const std::shared_ptr<Collider>& init_collider, const std::shared_ptr<GameObject>& receiver, const std::shared_ptr<Collider>& rec_collider);
 
     /**
      * @brief Collision was already in motion yet. Collision the OnTriggerStay2D handlers have been invoked.
      */
-    void RemainCollision(const std::shared_ptr<GameObject>& initiator, const std::shared_ptr<Collider>& init_collider, const std::shared_ptr<GameObject>& receiver, const std::shared_ptr<Collider>& rec_collider);
+    static void RemainCollision(const std::shared_ptr<GameObject>& initiator, const std::shared_ptr<Collider>& init_collider, const std::shared_ptr<GameObject>& receiver, const std::shared_ptr<Collider>& rec_collider);
 
     /**
      * @brief Checks for given objects if collision is active, also checks the side on which the collision occurs.

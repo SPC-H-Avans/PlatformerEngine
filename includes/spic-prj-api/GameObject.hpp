@@ -48,7 +48,7 @@ namespace spic {
             static auto FindObjectOfType(bool includeInactive = false) -> std::shared_ptr<GameObject> {
                 for(auto const& [key, val] : instances) {
                     if(typeid(*val) == typeid(T)) {
-                        if(!(!includeInactive && !val->Active()))
+                        if(includeInactive || val->Active())
                             return val;
                     }
                 }
@@ -63,7 +63,7 @@ namespace spic {
                 std::vector<std::shared_ptr<GameObject>> result;
                 for(auto const& [key, val] : instances) {
                     if(typeid(*val) == typeid(T)) {
-                        if(!(!includeInactive && !val->Active()))
+                        if(includeInactive || val->Active())
                             result.template emplace_back(val);
                     }
                 }

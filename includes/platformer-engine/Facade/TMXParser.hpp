@@ -17,12 +17,12 @@ namespace platformer_engine {
         bool Load(const std::string &id, const std::string &filePath, const std::string &fileName);
 
     private:
-        bool _parseLevel(const std::string &id, const std::string &filePath, const std::string &fileName);
+        bool ParseLevel(const std::string &id, const std::string &filePath, const std::string &fileName);
 
-        TileSet _parseTileSet(const TiXmlElement &xmlTileSet);
+        TileSet ParseTileSet(const TiXmlElement &xmlTileSet);
 
         std::unique_ptr<TileLayer>
-        _parseTileLayer(TiXmlElement &xmlLayer, const std::string &filePath, const TileSetsList &tileSets, int tileSize,
+        ParseTileLayer(TiXmlElement &xmlLayer, const std::string &filePath, const TileSetsList &tileSets, int tileSize,
                        int rowCount, int colCount);
 
         std::map<std::string, std::unique_ptr<GameLevel>>& _levels;

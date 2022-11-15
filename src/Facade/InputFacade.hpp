@@ -84,8 +84,15 @@ namespace platformer_engine {
             MOUSE_RIGHT = SDL_BUTTON_RIGHT,
         };
     public:
+        static inline auto GetInstance() -> InputFacade & {
+            static InputFacade instance;
+            return instance;
+        }
 
-//        InputFacade();
+        InputFacade(const InputFacade&) = delete;
+        auto operator=(const InputFacade&) -> InputFacade& = delete;
+        InputFacade(InputFacade &&) = delete;
+        void operator=(InputFacade &&) = delete;
 
         /**
          * @brief Listen of key input
@@ -130,6 +137,9 @@ namespace platformer_engine {
         static auto GetFacadeMouseButtonCode(spic::Input::MouseButton button) -> eMouseButton;
 
     private:
+        InputFacade() = default;
+        ~InputFacade() = default;
+
         static void ClearKeys();
         void KeyDown(eKey key);
         void KeyUp(eKey key);

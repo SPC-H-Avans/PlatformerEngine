@@ -26,10 +26,10 @@ void platformer_engine::Window::Render() {
 //    if (spic::Input::GetMouseButtonDown(spic::Input::MouseButton::RIGHT)) SDL_Log("m2 down");
 //    if (spic::Input::GetMouseButtonUp(spic::Input::MouseButton::RIGHT)) SDL_Log("m2 up");
 //    // key press/release
-//    if (spic::Input::GetKeyDown(spic::Input::KeyCode::E)) SDL_Log("E press");
-//    if (spic::Input::GetKeyUp(spic::Input::KeyCode::E)) SDL_Log("E release");
-//    if (spic::Input::GetKeyDown(spic::Input::KeyCode::F)) SDL_Log("F press");
-//    if (spic::Input::GetKeyUp(spic::Input::KeyCode::F)) SDL_Log("F release");
+    if (spic::Input::GetKeyDown(spic::Input::KeyCode::E)) SDL_Log("E press");
+    if (spic::Input::GetKeyUp(spic::Input::KeyCode::E)) SDL_Log("E release");
+    if (spic::Input::GetKeyDown(spic::Input::KeyCode::F)) SDL_Log("F press");
+    if (spic::Input::GetKeyUp(spic::Input::KeyCode::F)) SDL_Log("F release");
 
     _graphicsFacade.Clear();
     _graphicsFacade.Render();
@@ -40,6 +40,6 @@ void platformer_engine::Window::Quit() {
 }
 
 auto platformer_engine::Window::ListenForEvents() -> std::vector<EventsEnum> {
-   return _inputFacade.ListenForInput();
+   return InputFacade::GetInstance().ListenForInput();
 }
 

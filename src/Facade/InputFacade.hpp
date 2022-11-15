@@ -137,7 +137,7 @@ namespace platformer_engine {
         static auto GetFacadeMouseButtonCode(spic::Input::MouseButton button) -> eMouseButton;
 
     private:
-        InputFacade() = default; // TODO
+        InputFacade();
         ~InputFacade() = default;
 
         void ClearKeys();

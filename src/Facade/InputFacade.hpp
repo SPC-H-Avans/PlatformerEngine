@@ -84,6 +84,11 @@ namespace platformer_engine {
             MOUSE_RIGHT = SDL_BUTTON_RIGHT,
         };
     public:
+        /**
+         * @brief Get instance of the InputFacade class
+         * @return InputFacade class
+         * @platformerengine
+         */
         static inline auto GetInstance() -> InputFacade & {
             static InputFacade instance;
             return instance;
@@ -96,44 +101,94 @@ namespace platformer_engine {
 
         /**
          * @brief Listen of key input
+         * @return Vector of events
          * @platformerengine
          */
         auto ListenForInput() -> std::vector<EventsEnum>;
 
+        /**
+         * @brief Returns if any key or mouseButton is currently pressed
+         * @return bool
+         * @platformerengine
+         */
         static auto IsAnyHeld() -> bool;
 
+        /**
+         * @brief
+         * @return bool
+         * @platformerengine
+         */
         auto IsAnyPressed() -> bool;
 
         /**
          * @brief Check if a key is pressed
          * @param eKey The key to check
+         * @return bool
          * @platformerengine
          */
         static auto IsKeyHeld(eKey key) -> bool;
 
+        /**
+         * @brief
+         * @param eKey The key to check
+         * @return bool
+         * @platformerengine
+         */
         auto GetKeyPress(eKey key) -> bool;
 
+        /**
+         * @brief
+         * @param eKey The key to check
+         * @return bool
+         * @platformerengine
+         */
         auto GetKeyRelease(eKey key) -> bool;
 
         /**
          * @brief Check if a mouse button is pressed
          * @param eMouseButton The mouse button to check
+         * @return bool
          * @platformerengine
          */
         static auto IsMouseButtonHeld(eMouseButton button) -> bool;
 
         /**
          * @brief Get the mouse position as a tuple of x and y
+         * @return a tuple of x and y
          * @platformerengine
          */
         static auto GetMousePosition() -> std::tuple<int, int>;
 
+        /**
+         * @brief
+         * @param eMouseButton The mouse button to check
+         * @return bool
+         * @platformerengine
+         */
         auto GetMousePress(eMouseButton button) -> bool;
 
+        /**
+         * @brief
+         * @param eMouseButton The mouse button to check
+         * @return bool
+         * @platformerengine
+         */
         auto GetMouseRelease(eMouseButton button) -> bool;
 
+        /**
+         * @brief Converts an Input::KeyCode to a InputFacade::eKey
+         * @param Input::KeyCode a KeyCode enum member
+         * @return An eKey as used by the Facade
+         * @platformerengine
+         */
         static auto GetFacadeKeyCode(spic::Input::KeyCode key) -> eKey;
 
+        /**
+         * @brief Converts an Input::MouseButton to a InputFacade::eMouseButton
+         * @param Input::MouseButton a MouseButton enum member
+         * @return An eMouseButton as used by the Facade
+         * @platformerengine
+         */
         static auto GetFacadeMouseButtonCode(spic::Input::MouseButton button) -> eMouseButton;
 
     private:

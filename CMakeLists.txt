@@ -22,7 +22,7 @@ include(vcpkg_install_deps.cmake)
 vcpkg_install_deps(MANIFEST_ROOT ${PROJECT_SOURCE_DIR})
 
 
-file(GLOB_RECURSE SOURCE src/*.cpp src/*.hpp ${PROJECT_INCLUDES_DIR}/spic-prj-api/*.hpp ${PROJECT_INCLUDES_DIR}/spic-prj-api/*.cpp ${PROJECT_INCLUDES_DIR}/platformer-engine/*.hpp)
+file(GLOB_RECURSE SOURCE src/*.hpp src/*.cpp ${PROJECT_INCLUDES_DIR}/spic-prj-api/*.hpp ${PROJECT_INCLUDES_DIR}/spic-prj-api/*.cpp ${PROJECT_INCLUDES_DIR}/platformer-engine/*.hpp)
 file(GLOB_RECURSE TEST_SOURCE tests/*.cpp tests/*.hpp)
 
 add_library(${PROJECT_NAME} STATIC ${SOURCE})

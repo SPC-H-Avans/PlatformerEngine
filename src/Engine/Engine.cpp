@@ -30,6 +30,7 @@ auto platformer_engine::Engine::Init(int width, int height, const std::string &t
 void platformer_engine::Engine::Update() {
     auto &timer = Timer::Instance();
     timer.Update();
+    _physicsSystem->Update();
     //Call systems
 }
 

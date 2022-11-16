@@ -9,7 +9,6 @@ auto platformer_engine::Engine::Init(int width, int height, const std::string &t
         return false;
     }
     _window = std::make_unique<Window>(width, height, title, color);
-    _physicsSystem = std::make_unique<PhysicsSystem>(); //TODO remove, this is for testing purposes
     _isRunning = true;
     while (_isRunning) {
         uint64_t start = Window::GetPerformanceFrequency();

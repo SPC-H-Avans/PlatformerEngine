@@ -11,6 +11,7 @@
     Right,
     Top,
     Bottom,
+    Uncertain
 };
 
 using namespace spic;
@@ -37,13 +38,13 @@ public:
      * @brief Setter for adding a collider to the collision object
      * @param other Collider that we are colliding with.
      */
-    void Collider(const Collider& other);
+    void SetCollider(const Collider& other);
 
     /**
      * @brief Getter for collider of the collision object
      * @return Collider that we are colliding with.
      */
-    [[nodiscard]] auto Collider() const -> spic::Collider&;
+    [[nodiscard]] auto GetCollider() const -> spic::Collider&;
 
     /**
      * @brief Setter for direction on the collision object

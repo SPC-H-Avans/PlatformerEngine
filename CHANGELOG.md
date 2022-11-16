@@ -11,6 +11,9 @@ Set up the project and add the first version of the code.
 
 
 ### Changes
+- SPCH-30: Added the ability to render a TileSet on the screen
+- SPCH-1: Added GameLevel that contains all map layers
+- SPCH-29: Added a TMX reader with a strategy pattern
 
 - SPCH-41: Added Doxygen action for development branch
 - SPCH-40: Implemented functions of GameObject and Component
@@ -19,7 +22,10 @@ Set up the project and add the first version of the code.
 - SPCH-39: Added window, engine and graphics facade classes
 - SPCH-31: Added SPIC-API as submodule
 - SPCH-41: Created GitHub Actions
+- SPCH-31: Added Google Test
+- SPCH-4: Added Methods to check if mouse/keyboard inputs are being pressed, and get the mouse position
 - SPCH-31: Added Google Test 
+- SPCH-38: Added Collision Detection with direction of collision.
 
 ### Bug Fixes
 - SPCH-50: Fixed the freezing window issue

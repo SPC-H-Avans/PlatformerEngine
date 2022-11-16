@@ -1,3 +1,6 @@
+#pragma clang diagnostic push
+#pragma ide diagnostic ignored "cppcoreguidelines-avoid-non-const-global-variables"
+#pragma ide diagnostic ignored "cppcoreguidelines-non-private-member-variables-in-classes"
 #ifndef GAMEOBJECT_H_
 #define GAMEOBJECT_H_
 
@@ -21,7 +24,7 @@ namespace spic {
              * @return Pointer to GameObject, or nullptr if not found.
              * @spicapi
              */
-            static std::shared_ptr<GameObject> Find(const std::string& name);
+            static auto Find(const std::string& name) -> std::shared_ptr<GameObject>;
 
             /**
              * @brief Returns a vector of active GameObjects tagged tag. Returns empty
@@ -30,7 +33,7 @@ namespace spic {
              * @return std::vector of GameObject pointers. No ownership.
              * @spicapi
              */
-            static std::vector<std::shared_ptr<GameObject>> FindGameObjectsWithTag(const std::string& tag);
+            static auto FindGameObjectsWithTag(const std::string& tag) -> std::vector<std::shared_ptr<GameObject>>;
 
             /**
              * @brief Returns one active GameObject tagged tag. Returns nullptr if no GameObject was found.
@@ -38,17 +41,17 @@ namespace spic {
              * @return Pointer to GameObject, or nullptr if not found.
              * @spicapi
              */
-            static std::shared_ptr<GameObject> FindWithTag(const std::string& tag);
+            static auto FindWithTag(const std::string& tag) -> std::shared_ptr<GameObject>;
 
             /**
              * @brief Returns the first active loaded object of type T.
              * @spicapi
              */
             template<class T>
-            static std::shared_ptr<GameObject> FindObjectOfType(bool includeInactive = false) {
-                for(auto const& [key, val] : instances) {
+            static auto FindObjectOfType(bool includeInactive = false) -> std::shared_ptr<GameObject> {
+                for(auto const& [key, val] : _instances) {
                     if(typeid(*val) == typeid(T)) {
-                        if(!(!includeInactive && !val->Active()))
+                        if(includeInactive || val->Active())
                             return val;
                     }
                 }
@@ -59,11 +62,11 @@ namespace spic {
              * @spicapi
              */
             template<class T>
-            static std::vector<std::shared_ptr<GameObject>> FindObjectsOfType(bool includeInactive = false) {
+            static auto FindObjectsOfType(bool includeInactive = false) -> std::vector<std::shared_ptr<GameObject>> {
                 std::vector<std::shared_ptr<GameObject>> result;
-                for(auto const& [key, val] : instances) {
+                for(auto const& [key, val] : _instances) {
                     if(typeid(*val) == typeid(T)) {
-                        if(!(!includeInactive && !val->Active()))
+                        if(includeInactive || val->Active())
                             result.template emplace_back(val);
                     }
                 }
@@ -120,7 +123,7 @@ namespace spic {
              * @return true if not equal, false otherwise.
              * @spicapi
              */
-            bool operator!=(const GameObject& other);
+            auto operator!=(const GameObject& other) -> bool;
 
             /**
              * @brief Compare two GameObjects
@@ -128,7 +131,7 @@ namespace spic {
              * @return true if equal, false otherwise.
              * @spicapi
              */
-            bool operator==(const GameObject& other);
+            auto operator==(const GameObject& other) -> bool;
 
             /**
              * @brief Add given GameObject reference to this object's children list
@@ -144,21 +147,21 @@ namespace spic {
              * @return name of the gameobject
              * @spicapi
              */
-            std::string GetName();
+            auto GetName() -> std::string;
 
             /**
              * @brief Returns the parent GameObject of this instance.
              * @return pointer to the parent GameObject, nullptr if no parent set.
              * @spicapi
              */
-             std::shared_ptr<GameObject> Parent();
+             auto Parent() -> std::shared_ptr<GameObject>;
 
             /**
             * @brief Returns the children of this instance
             * @return list of pointers to the child GameObjects, empty list if no children set.
             * @spicapi
             */
-            std::vector<std::shared_ptr<GameObject>> Children();
+            auto Children() -> std::vector<std::shared_ptr<GameObject>>;
 
 
             /**
@@ -173,9 +176,7 @@ namespace spic {
             template<class T>
             void AddComponent(std::shared_ptr<Component> component) {
                 if(std::is_base_of<Component, T>::value && component != nullptr) { //T is Component
-                    auto obj = GameObject::Find(this->name);
-                    if(obj != nullptr)
-                        obj->components[typeid(T).name()].template emplace_back(component);
+                    _self.lock()->_components[typeid(T).name()].template emplace_back(component);
                 }
             }
 
@@ -186,30 +187,17 @@ namespace spic {
              * @spicapi
              */
             template<class T>
-            std::shared_ptr<Component> GetComponent() const {
+            [[nodiscard]] auto GetComponent() const -> std::shared_ptr<Component> {
                 if(std::is_base_of<Component, T>::value) {
-                    auto obj = GameObject::Find(this->name);
-                    if(obj != nullptr) {
-                        if(obj->components.count(typeid(T).name()) > 0) {
-                            auto cList = obj->components[typeid(T).name()];
-                            if(!cList.empty())
-                                return cList.front();
-                        }
+                    auto comps = _self.lock()->_components;
+                    if(comps.count(typeid(T).name()) > 0) {
+                      auto cList = comps[typeid(T).name()];
+                              if(!cList.empty())
+                                  return cList.front();
                     }
                 }
                 return nullptr;
             }
-
-/*        *//**
-         * @brief Get the first component of the specified type. Must be
-         *        a valid subclass of Component.
-         * @return Pointer to Component instance.
-         * @spicapi
-         *//*
-        template<class T>
-        std::shared_ptr<Component> GetComponents() const {
-            return components;
-        }*/
 
             /**
              * @brief Get the first component of the specified type from
@@ -219,8 +207,8 @@ namespace spic {
              * @spicapi
              */
             template<class T>
-            std::shared_ptr<Component> GetComponentInChildren() const {
-                for(const auto& child : children) {
+            [[nodiscard]] auto GetComponentInChildren() const -> std::shared_ptr<Component> {
+                for(const auto& child : _self.lock()->_children) {
                     auto comp = child->template GetComponent<T>();
                     if(comp != nullptr)
                         return comp;
@@ -236,8 +224,8 @@ namespace spic {
              * @spicapi
              */
             template<class T>
-            std::shared_ptr<Component> GetComponentInParent() const {
-                return parent->template GetComponent<T>();
+            [[nodiscard]] auto GetComponentInParent() const -> std::shared_ptr<Component> {
+                return _parent->template GetComponent<T>();
             }
 
             /**
@@ -247,11 +235,12 @@ namespace spic {
              * @spicapi
              */
             template<class T>
-            std::vector<std::shared_ptr<Component>> GetComponents() const {
+            [[nodiscard]] auto GetComponents() const -> std::vector<std::shared_ptr<Component>> {
                 std::vector<std::shared_ptr<Component>> result;
                 if(std::is_base_of<Component, T>::value) { //Check if T is derived from Component
-                    auto cList = components.find(typeid(T).name()); //Finds all components on object with type T
-                    if(cList != components.end()) {
+                    auto comps = _self.lock()->_components;
+                    auto cList = comps.find(typeid(T).name()); //Finds all components on object with type T
+                    if(cList != comps.end()) {
                         for(const auto& comp : cList->second)
                             result.template emplace_back(comp);
                     }
@@ -267,9 +256,10 @@ namespace spic {
              * @spicapi
              */
             template<class T>
-            std::vector<std::shared_ptr<Component>> GetComponentsInChildren() const {
+            [[nodiscard]] auto GetComponentsInChildren() const -> std::vector<std::shared_ptr<Component>> {
                 std::vector<std::shared_ptr<Component>> result;
-                for(const auto& child : children) {
+                for(auto& child : _self.lock()->_children) {
+
                     std::vector<std::shared_ptr<Component>> comps = child->template GetComponents<T>();
                     if(result.empty())
                         result = comps;
@@ -288,8 +278,8 @@ namespace spic {
              * @spicapi
              */
             template<class T>
-            std::vector<std::shared_ptr<Component>> GetComponentsInParent() const {
-                return parent->template GetComponents<T>();
+            [[nodiscard]] auto GetComponentsInParent() const -> std::vector<std::shared_ptr<Component>> {
+                return _parent->template GetComponents<T>();
             }
 
             /**
@@ -304,7 +294,7 @@ namespace spic {
              * @return true if active, false if not.
              * @spicapi
              */
-            bool Active() const;
+            [[nodiscard]] auto Active() const -> bool;
 
             /**
              * @brief Returns whether this game component is active, taking its parents
@@ -313,35 +303,37 @@ namespace spic {
              *        false otherwise.
              * @spicapi
              */
-            bool IsActiveInWorld() const;
+            [[nodiscard]] auto IsActiveInWorld() const -> bool;
 
             /**
              * @brief Returns the Transform set on this object
              * @return Transform of GameObject
              * @spicapi
              */
-            const Transform GetTransform();
+            auto GetTransform() -> Transform;
 
             /**
              * @brief sets the Transform of current GameObject
              * @spicapi
              */
-            void SetTransform(const Transform& transform);
+            void SetTransform(const Transform& transform);  
+        protected:
+            std::string _name; //Unique
+            std::string _tag;
+            bool _active;
+            int _layer;
+            std::shared_ptr<GameObject> _parent;
+            std::vector<std::shared_ptr<GameObject>> _children;
+            std::map<std::string, std::vector<std::shared_ptr<Component>>> _components; //Key is typeid.name
+            Transform _transform = Transform {Point {0, 0}, 0, 0};
+            std::weak_ptr<GameObject> _self;
 
-        private:
-            std::string name; //Unique
-            std::string tag;
-            bool active;
-            int layer;
-            std::shared_ptr<GameObject> parent;
-            std::vector<std::shared_ptr<GameObject>> children;
-            std::map<std::string, std::vector<std::shared_ptr<Component>>> components; //Key is typeid.name
-            Transform transform;
-
-            //Multiton Pattern
-            static std::map<std::string, std::shared_ptr<GameObject>> instances;
+        //Multiton Pattern
+        static std::map<std::string, std::shared_ptr<GameObject>> _instances;
     };
 
-}
+} // namespace spic
 
 #endif // GAMEOBJECT_H_
+
+#pragma clang diagnostic pop

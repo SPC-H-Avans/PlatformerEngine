@@ -1,10 +1,10 @@
-
 #ifndef PLATFORMER_ENGINE_WINDOW_HPP
 #define PLATFORMER_ENGINE_WINDOW_HPP
 
 #include <string>
 #include "Color.hpp"
 #include "Facade/GraphicsFacade.hpp"
+#include "Texture/TextureManager.hpp"
 #include "Facade/InputFacade.hpp"
 
 namespace platformer_engine {
@@ -36,7 +36,7 @@ namespace platformer_engine {
          */
         void Quit();
 
-        auto ListenForEvents() -> std::vector<EventsEnum>;
+        static auto ListenForEvents() -> std::vector<EventsEnum>;
 
         /**
          * @brief Get tick interval
@@ -45,10 +45,8 @@ namespace platformer_engine {
         static inline auto
         GetPerformanceFrequency() -> Uint64 { return platformer_engine::GraphicsFacade::GetPerformanceFrequency(); }
 
-
     private:
-        GraphicsFacade _graphicsFacade;
-        InputFacade _inputFacade;
+        std::shared_ptr<GraphicsFacade> _graphicsFacade{nullptr};
     };
 }//namespace platformer_engine
 

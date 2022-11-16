@@ -49,12 +49,6 @@ namespace spic {
 
         private:
             /**
-             * @brief frames per second (playing speed)
-             * @spicapi
-             */
-            [[maybe_unused]] int _fps;
-
-            /**
              * @brief Map with animation ID and animated sprite shared_ptr
              */
             std::map<std::string, std::shared_ptr<platformer_engine::AnimatedSprite>> _animationMap;

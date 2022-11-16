@@ -7,16 +7,54 @@
 #define PLATFORMER_ENGINE_ANIMATEDSPRITE_HPP
 
 namespace platformer_engine{
+    /**
+     * @brief AnimatedSprite class which is used to animate sprites
+     */
     class AnimatedSprite: public spic::Sprite {
 
     public:
+        /**
+         * @brief Animated sprite constructor
+         * @param spriteId sprite ID to use
+         * @param sortingLayer sorting layer
+         * @param orderInLayer order in layer
+         * @param spriteWidth width of the sprite
+         * @param spriteHeight height of the sprite
+         * @param frameCount amount of frames in animation
+         * @param animationSpeed speed of the animation
+         * @param spriteRow row where the animation is located in the sprite
+         * @param flip If the sprite should be flipped and in which direction
+         * @param color background color
+         */
         AnimatedSprite(std::string spriteId, int sortingLayer,
                        int orderInLayer, int spriteWidth, int spriteHeight,
                        int frameCount, int animationSpeed, int spriteRow, platformer_engine::SPIC_RendererFlip flip = platformer_engine::FLIP_NONE, spic::Color color = spic::Color::Transparent());
 
+        /**
+         * @brief Update frame count
+         */
         void Update();
+        /**
+         * @brief Draw the animation on the window
+         * @param location Location where to draw the animation
+         */
         void Draw(spic::Point location);
+        /**
+         * @brief Set current frame to 0
+         */
         void ResetCurrentFrame();
+
+        /**
+         * @brief Get the current frame
+         * @return int current frame
+         */
+        [[nodiscard]] inline auto GetCurrentFrame() const -> int { return _currentFrame;};
+        /**
+         * @brief Get the animation frame count
+         * @return int animation frame count
+         */
+        [[nodiscard]] inline auto GetFrameCount() const -> int {return _frameCount;};
+
 
     private:
         int _currentFrame;

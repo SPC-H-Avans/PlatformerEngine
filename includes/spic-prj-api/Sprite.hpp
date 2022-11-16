@@ -15,6 +15,7 @@ namespace spic {
     class Sprite : public Component {
     public:
         Sprite(std::string spriteId, int sortingLayer, int orderInLayer, int spriteWidth, int spriteHeight, platformer_engine::SPIC_RendererFlip flip = platformer_engine::FLIP_NONE, Color color = Color::Transparent());
+        inline auto GetSpriteId() -> const std::string {return _spriteId;};
         private:
         Color _color;
             platformer_engine::SPIC_RendererFlip _flip;

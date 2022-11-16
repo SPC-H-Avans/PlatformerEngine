@@ -3,6 +3,7 @@
 
 #include "Render/Window.hpp"
 #include "Timer/Timer.hpp"
+#include "Physics/PhysicsSystem.hpp"
 #include "GameLevel/GameLevel.hpp"
 #include <memory>
 #include "Scene.hpp"
@@ -92,6 +93,7 @@ namespace platformer_engine {
         bool _isRunning = false;
 
         std::unique_ptr<Window> _window = nullptr;
+        std::unique_ptr<PhysicsSystem> _physicsSystem = nullptr;
     };
 }//namespace platformer_engine
 

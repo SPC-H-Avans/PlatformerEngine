@@ -13,5 +13,8 @@ auto main([[maybe_unused]] int argc, [[maybe_unused]] char *argv[]) -> int {
     engine.Init(SCREEN_WIDTH, SCREEN_HEIGHT, "PlatFormer Engine Debug", spic::Color::Green());
     engine.Start();
 
+    std::cout << "Hello, World!" << std::endl;
     return 0;
 }
+
+

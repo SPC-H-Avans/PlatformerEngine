@@ -38,6 +38,7 @@ void platformer_engine::Engine::Start() {
 void platformer_engine::Engine::Update() {
     auto &timer = Timer::Instance();
     timer.Update();
+    _physicsSystem->Update();
     //Call systems
 }
 

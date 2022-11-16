@@ -173,9 +173,7 @@ namespace spic {
             template<class T>
             void AddComponent(std::shared_ptr<Component> component) {
                 if(std::is_base_of<Component, T>::value && component != nullptr) { //T is Component
-                    auto obj = GameObject::Find(this->_name);
-                    if(obj != nullptr)
-                        obj->_components[typeid(T).name()].template emplace_back(component);
+                    self.lock()->components[typeid(T).name()].template emplace_back(component);
                 }
             }
 
@@ -188,13 +186,11 @@ namespace spic {
             template<class T>
             [[nodiscard]] auto GetComponent() const -> std::shared_ptr<Component> {
                 if(std::is_base_of<Component, T>::value) {
-                    auto obj = GameObject::Find(this->_name);
-                    if(obj != nullptr) {
-                        if(obj->_components.count(typeid(T).name()) > 0) {
-                            auto cList = obj->_components[typeid(T).name()];
-                            if(!cList.empty())
-                                return cList.front();
-                        }
+                    auto comps = self.lock()->components;
+                    if(comps.count(typeid(T).name()) > 0) {
+                      auto cList = obj->_components[typeid(T).name()];
+                              if(!cList.empty())
+                                  return cList.front();
                     }
                 }
                 return nullptr;
@@ -209,7 +205,7 @@ namespace spic {
              */
             template<class T>
             [[nodiscard]] auto GetComponentInChildren() const -> std::shared_ptr<Component> {
-                for(const auto& child : _children) {
+                for(const auto& child : self.lock()->children) {
                     auto comp = child->template GetComponent<T>();
                     if(comp != nullptr)
                         return comp;
@@ -239,8 +235,9 @@ namespace spic {
             [[nodiscard]] auto GetComponents() const -> std::vector<std::shared_ptr<Component>> {
                 std::vector<std::shared_ptr<Component>> result;
                 if(std::is_base_of<Component, T>::value) { //Check if T is derived from Component
-                    auto cList = _components.find(typeid(T).name()); //Finds all components on object with type T
-                    if(cList != _components.end()) {
+                    auto comps = self.lock()->components;
+                    auto cList = comps.find(typeid(T).name()); //Finds all components on object with type T
+                    if(cList != comps.end()) {
                         for(const auto& comp : cList->second)
                             result.template emplace_back(comp);
                     }
@@ -258,7 +255,8 @@ namespace spic {
             template<class T>
             [[nodiscard]] auto GetComponentsInChildren() const -> std::vector<std::shared_ptr<Component>> {
                 std::vector<std::shared_ptr<Component>> result;
-                for(const auto& child : _children) {
+                for(auto& child : self.lock()->children) {
+
                     std::vector<std::shared_ptr<Component>> comps = child->template GetComponents<T>();
                     if(result.empty())
                         result = comps;
@@ -315,9 +313,8 @@ namespace spic {
              * @brief sets the Transform of current GameObject
              * @spicapi
              */
-            void SetTransform(const Transform& transform);
-
-        private:
+            void SetTransform(const Transform& transform);  
+        protected:
             std::string _name; //Unique
             std::string _tag;
             bool _active;
@@ -326,9 +323,10 @@ namespace spic {
             std::vector<std::shared_ptr<GameObject>> _children;
             std::map<std::string, std::vector<std::shared_ptr<Component>>> _components; //Key is typeid.name
             Transform _transform = Transform {Point {0, 0}, 0, 0};
+            std::weak_ptr<GameObject> _self;
 
-            //Multiton Pattern
-            static std::map<std::string, std::shared_ptr<GameObject>> instances;
+        //Multiton Pattern
+        static std::map<std::string, std::shared_ptr<GameObject>> _instances;
     };
 
 } // namespace spic

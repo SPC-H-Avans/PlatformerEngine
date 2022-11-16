@@ -43,7 +43,6 @@ auto main([[maybe_unused]] int argc, [[maybe_unused]] char *argv[]) -> int {
     platformer_engine::Engine &engine = platformer_engine::Engine::GetInstance();
 
     TestCollision();
-
     engine.Init(SCREEN_WIDTH, SCREEN_HEIGHT, "Hallo", spic::Color::Green());
 
     std::cout << "Hello, World!" << std::endl;

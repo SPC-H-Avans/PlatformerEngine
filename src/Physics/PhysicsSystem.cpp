@@ -3,7 +3,10 @@
 #include "RigidBody.hpp"
 #include "Transform.hpp"
 #include "BehaviourScript.hpp"
+#include "MarioRigidBody.hpp"
+#include "Input.hpp"
 #include <algorithm>
+#include <opencl-c.h>
 
 using spic::GameObject;
 using spic::RigidBody;
@@ -18,6 +21,61 @@ using std::unique_ptr;
 
 void PhysicsSystem::Update() {
     CheckCollisions();
+}
+
+void PhysicsSystem::MoveObjects() {
+    //TODO: Okay right now the Mario character physics are HARDCODED here, which is obviously VERY STUPID
+    //TODO: but I will fix that later, right now I just want any result I can get lol.
+
+    //Get all GameObjects
+    vector<shared_ptr<GameObject>> gameObjects = GameObject::FindObjectsOfType<GameObject>();
+
+    //Loop through the GameObjects and find ones with MarioRigidBody
+    for(auto& gameObject : gameObjects) {
+        shared_ptr<MarioRigidBody> mario = std::static_pointer_cast<MarioRigidBody>(gameObject->GetComponent<MarioRigidBody>());
+
+        if(mario != nullptr) {
+            // We found mario!
+
+            //todo: Maybe call a mario behaviorscript here and put the physics code in there?
+            if (spic::Input::GetKey(spic::Input::KeyCode::LEFT_ARROW)) {
+                //TODO: I know I know hardcoded left arrow hier, wat de fuck?! komt goed
+                mario->horizontal_speed = max(mario->horizontal_speed - mario->MARIO_ACCELERATION, -mario->MARIO_WALK_SPEED);
+            }
+            if (spic::Input::GetKey(spic::Input::KeyCode::RIGHT_ARROW)) {
+                mario->horizontal_speed = min(mario->horizontal_speed + mario->MARIO_ACCELERATION, mario->MARIO_WALK_SPEED);
+            }
+
+            if(mario->horizontal_speed < 0) {
+                mario->horizontal_speed -= mario->MARIO_ACCELERATION;
+            }
+            else if(mario->horizontal_speed > 0) {
+                mario->horizontal_speed += mario->MARIO_ACCELERATION;
+            }
+
+            if (spic::Input::GetKey(spic::Input::KeyCode::UP_ARROW)) {
+                //TODO: Onlu update vertical speed if mario is standing on an object
+                mario->vertical_speed = mario->JUMP_SPEED;
+                mario->jump_timer = mario->MARIO_JUMP_TIMER;
+            }
+            else if(mario->jump_timer > 0) { // High jump
+                mario->vertical_speed = mario->JUMP_SPEED;
+                mario->jump_timer -= 1;
+            }
+            else {
+                mario->vertical_speed = min(mario->GetGravity() + mario->vertical_speed, mario->MAX_VERTICAL_SPEED);
+            }
+
+            // Move mario
+            mario->vertical_speed += mario->GetGravity();
+
+            auto transform = gameObject->GetTransform();
+            transform.position.x += mario->horizontal_speed;
+            transform.position.y += mario->vertical_speed;
+
+        }
+    }
+
 }
 
 auto GetBoxColliders() -> vector<shared_ptr<GameObject>> {
@@ -69,7 +127,7 @@ void PhysicsSystem::CheckCollisions() {
             }
         }
     }
-    }
+}
 
 void PhysicsSystem::CreateCollision(const shared_ptr<GameObject>& initiator, const shared_ptr<Collider>& init_collider,
                                     const shared_ptr<GameObject>& receiver, const shared_ptr<Collider>& rec_collider,
@@ -149,3 +207,4 @@ auto PhysicsSystem::CheckBoxCollision(Point aPos, const BoxCollider& aCol, Point
     }
     return nullptr; //No Collision
 }
+

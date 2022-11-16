@@ -1,8 +1,10 @@
 #include "MarioMoveBehavior.hpp"
+#include "Input.hpp"
 
 namespace platformer_engine {
 
     void MarioMoveBehavior::OnStart() {
+        spic::Input::GetMouseButton(spic::Input::MouseButton::RIGHT);
         BehaviourScript::OnStart();
     }
 

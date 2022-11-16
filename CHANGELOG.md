@@ -22,6 +22,8 @@ Set up the project and add the first version of the code.
 - SPCH-39: Added window, engine and graphics facade classes
 - SPCH-31: Added SPIC-API as submodule
 - SPCH-41: Created GitHub Actions
+- SPCH-31: Added Google Test
+- SPCH-4: Added Methods to check if mouse/keyboard inputs are being pressed, and get the mouse position
 - SPCH-31: Added Google Test 
 
 ### Bug Fixes

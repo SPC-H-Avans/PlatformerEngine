@@ -36,7 +36,7 @@ namespace platformer_engine {
          */
         void Quit();
 
-        auto ListenForEvents() -> std::vector<EventsEnum>;
+        static auto ListenForEvents() -> std::vector<EventsEnum>;
 
         /**
          * @brief Get tick interval
@@ -47,7 +47,6 @@ namespace platformer_engine {
 
     private:
         std::shared_ptr<GraphicsFacade> _graphicsFacade{nullptr};
-        InputFacade _inputFacade;
     };
 }//namespace platformer_engine
 

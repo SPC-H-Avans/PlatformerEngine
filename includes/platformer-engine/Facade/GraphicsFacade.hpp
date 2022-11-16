@@ -58,6 +58,8 @@ namespace platformer_engine {
          */
         void Clear();
 
+        static inline auto GetTicks() -> Uint64 {return SDL_GetTicks64();};
+
         /**
          * @brief Load a texture
          * @param id

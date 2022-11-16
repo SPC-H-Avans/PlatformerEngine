@@ -45,6 +45,8 @@ namespace platformer_engine {
         static inline auto
         GetPerformanceFrequency() -> Uint64 { return platformer_engine::GraphicsFacade::GetPerformanceFrequency(); }
 
+        static inline auto GetTicks() -> Uint64 { return platformer_engine::GraphicsFacade::GetTicks();};
+
     private:
         std::shared_ptr<GraphicsFacade> _graphicsFacade{nullptr};
     };

@@ -3,6 +3,8 @@
 
 #include "GameObject.hpp"
 #include "ObjectBuilder.hpp"
+#include "Animator.hpp"
+#include "Texture/AnimatedSprite.hpp"
 using namespace spic;
 
 /**
@@ -39,7 +41,7 @@ public:
      * @brief Adds an Animator component to the current GameObject being build.
      * @return reference to ObjectBuilder, allows method chaining.
      */
-    ObjectBuilder& AddAnimator() override;
+    ObjectBuilder& AddAnimator(std::shared_ptr<platformer_engine::AnimatedSprite> animatedSprite) override;
 
     /**
      * @brief Adds a BehaviourScript component to the current GameObject being build.

@@ -1,7 +1,7 @@
 #include "Animator.hpp"
 
 spic::Animator::Animator(const std::shared_ptr<platformer_engine::AnimatedSprite> &animatedSprite, bool isPlaying,
-                         bool isLooping):  _isPlaying(isPlaying), _isLooping(isLooping)  {
+                         bool isLooping):  _isPlaying(isPlaying), _isLooping(isLooping) , _currentAnimation(animatedSprite) {
     AddAnimation(animatedSprite);
 }
 

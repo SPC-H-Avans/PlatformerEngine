@@ -1,6 +1,8 @@
 #ifndef PLATFORMER_ENGINE_BUILDER_HPP
 #define PLATFORMER_ENGINE_BUILDER_HPP
 
+#include "Texture/AnimatedSprite.hpp"
+
 /**
  * @brief Base class for GameObjectBuilders.
 */
@@ -16,7 +18,7 @@ public:
      * @brief Adds an Animator component to the current GameObject being build.
      * @return reference to ObjectBuilder, allows method chaining.
      */
-    virtual ObjectBuilder& AddAnimator() = 0;
+    virtual ObjectBuilder& AddAnimator(std::shared_ptr<platformer_engine::AnimatedSprite> animatedSprite) = 0;
 
     /**
      * @brief Adds a BehaviourScript component to the current GameObject being build.

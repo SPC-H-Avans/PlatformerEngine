@@ -61,7 +61,7 @@ namespace spic {
             /**
              * @brief Current active animation
              */
-            std::shared_ptr<platformer_engine::AnimatedSprite> _currentAnimation;
+            std::shared_ptr<platformer_engine::AnimatedSprite> _currentAnimation {nullptr};
             /**
              * @brief boolean to toggle if an animation is playing
              */

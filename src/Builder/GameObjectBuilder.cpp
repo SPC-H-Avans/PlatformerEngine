@@ -3,7 +3,7 @@
 
 GameObjectBuilder::GameObjectBuilder(const std::string &name) : _gameObject(std::make_shared<GameObject>(name)) {}
 
-//If reset with exisitng name append number to it
+//If reset with existing name append number to it
 void GameObjectBuilder::Reset(const std::string &name) {
     _gameObject = std::make_shared<GameObject>(name);
 }
@@ -21,9 +21,8 @@ ObjectBuilder& GameObjectBuilder::AddAudioSource() {
     return *this;
 }
 
-ObjectBuilder& GameObjectBuilder::AddAnimator() {
-    //TODO add animotor to gameobject
-    throw std::logic_error("Function not implemented");
+ObjectBuilder& GameObjectBuilder::AddAnimator(std::shared_ptr<platformer_engine::AnimatedSprite> animatedSprite) {
+    _gameObject->AddComponent<Animator>(std::make_shared<Animator>(animatedSprite));
     return *this;
 }
 

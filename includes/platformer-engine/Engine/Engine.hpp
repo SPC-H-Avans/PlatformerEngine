@@ -3,7 +3,7 @@
 
 #include "Render/Window.hpp"
 #include "Timer/Timer.hpp"
-#include "../../../src/Physics/PhysicsSystem.hpp"
+#include "Physics/PhysicsSystem.hpp"
 #include <memory>
 
 

@@ -3,6 +3,7 @@
 
 #include "Component.hpp"
 #include "Collider.hpp"
+#include "Physics/Collision.hpp"
 
 namespace spic {
 

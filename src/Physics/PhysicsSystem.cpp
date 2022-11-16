@@ -1,4 +1,4 @@
-#include "PhysicsSystem.hpp"
+#include "Physics/PhysicsSystem.hpp"
 #include "GameObject.hpp"
 #include "RigidBody.hpp"
 #include "Transform.hpp"
@@ -69,7 +69,7 @@ void PhysicsSystem::CheckCollisions() {
             }
         }
     }
-}
+    }
 
 void PhysicsSystem::CreateCollision(const shared_ptr<GameObject>& initiator, const shared_ptr<Collider>& init_collider,
                                     const shared_ptr<GameObject>& receiver, const shared_ptr<Collider>& rec_collider,

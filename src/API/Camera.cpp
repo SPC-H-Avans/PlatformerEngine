@@ -2,7 +2,7 @@
 #include "Exceptions/InvalidSizeException.hpp"
 
 spic::Camera::Camera(const std::string &name, const std::string &tag, spic::Color backgroundColor,
-                     double aspectWidth, double aspectHeight) : GameObject(name, tag, SetValues(aspectWidth, aspectHeight)),
+                     double aspectWidth, double aspectHeight) : GameObject(SetValues(aspectWidth, aspectHeight, name), tag),
                                                                 _backgroundColor(backgroundColor)
 {
 
@@ -19,7 +19,7 @@ void spic::Camera::Zoom(double aspectWidth, double aspectHeight) {
     _aspectHeight = aspectHeight;
 }
 
-std::shared_ptr<spic::Camera> spic::Camera::SetValues(const double aspectWidth, const double aspectHeight) {
+std::string spic::Camera::SetValues(const double aspectWidth, const double aspectHeight, const std::string name) {
     if(aspectWidth <= 0){
         throw InvalidSizeException(std::to_string(aspectWidth), "Aspect width must be greater than 0");
     }
@@ -29,8 +29,5 @@ std::shared_ptr<spic::Camera> spic::Camera::SetValues(const double aspectWidth, 
     _aspectWidth = aspectWidth;
     _aspectHeight = aspectHeight;
 
-    auto ptr = std::make_shared<Camera>(*this);
-    std::string test = typeid(this).name();
-
-    return ptr;
+    return name;
 }

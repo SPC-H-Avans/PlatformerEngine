@@ -42,7 +42,7 @@ void spic::Scene::AddCamera(const std::shared_ptr<Camera> &camera) {
     if(GetCameraByName(camera->GetName()) != nullptr){
         throw GameObjectAlreadyInSceneException(camera->GetName());
     }
-    AddObject(camera->Parent());
+
     _cameras.push_back(camera);
 
     if(_activeCamera == nullptr){

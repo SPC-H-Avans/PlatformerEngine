@@ -5,12 +5,6 @@ using namespace spic;
 //Creates the static instances of GameObjects
 std::map<std::string, std::shared_ptr<GameObject>> GameObject::instances;
 
-/*
- *
- * Geef een functie mee aan de gameobject constructor waarin make_shared wordt aangeroepen
- * Als deze functie null is, run de default make_shared
- *
- */
 GameObject::GameObject(const std::string &name) {
     std::string objName = name;
     if(instances.count(name) > 0)

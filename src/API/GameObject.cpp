@@ -13,6 +13,7 @@ GameObject::GameObject(const std::string &name) {
     this->_name = objName;
     auto selfptr = std::make_shared<GameObject>(*this);
     _self = selfptr;
+    selfptr->_self = selfptr;
     _instances[objName] = selfptr;
 }
 
@@ -24,6 +25,7 @@ GameObject::GameObject(const std::string &name, const std::string& tag) : _tag(t
     this->_name = objName;
     auto selfptr = std::make_shared<GameObject>(*this);
     _self = selfptr;
+    selfptr->_self = selfptr;
     _instances[objName] = selfptr;
 }
 

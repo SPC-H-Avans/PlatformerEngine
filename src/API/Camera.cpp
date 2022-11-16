@@ -6,5 +6,6 @@ spic::Camera::Camera(const std::string &name, const std::string &tag, spic::Colo
 {
     auto selfptr = std::make_shared<Camera>(*this);
     _self = selfptr;
+    selfptr->_self = selfptr;
     _instances[this->_name] = selfptr;
 }

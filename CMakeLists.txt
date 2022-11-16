@@ -16,6 +16,7 @@ find_package(tinyxml CONFIG REQUIRED)
 include(GoogleTest)
 include_directories(${PROJECT_INCLUDES_DIR}/spic-prj-api/)
 include_directories(${PROJECT_INCLUDES_DIR}/platformer-engine/)
+include_directories(${PROJECT_SOURCE_DIR}/src/)
 
 include(vcpkg_install_deps.cmake)
 vcpkg_install_deps(MANIFEST_ROOT ${PROJECT_SOURCE_DIR})

@@ -1,10 +1,10 @@
-
 #ifndef PLATFORMER_ENGINE_WINDOW_HPP
 #define PLATFORMER_ENGINE_WINDOW_HPP
 
 #include <string>
 #include "Color.hpp"
 #include "Facade/GraphicsFacade.hpp"
+#include "Texture/TextureManager.hpp"
 #include "Facade/InputFacade.hpp"
 #include "Scene.hpp"
 
@@ -58,9 +58,8 @@ namespace platformer_engine {
          */
         auto GetActiveScene() -> std::unique_ptr<spic::Scene>&;
 
-
     private:
-        GraphicsFacade _graphicsFacade;
+        std::shared_ptr<GraphicsFacade> _graphicsFacade{nullptr};
         InputFacade _inputFacade;
 
         std::unique_ptr<spic::Scene> _activeScene = nullptr;

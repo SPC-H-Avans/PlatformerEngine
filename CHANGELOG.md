@@ -11,6 +11,9 @@ Set up the project and add the first version of the code.
 
 
 ### Changes
+- SPCH-30: Added the ability to render a TileSet on the screen
+- SPCH-1: Added GameLevel that contains all map layers
+- SPCH-29: Added a TMX reader with a strategy pattern
 
 - SPCH-3: Added scenes, scene builder and a way to switch from active scene
 - SPCH-41: Added Doxygen action for development branch

@@ -15,10 +15,10 @@ namespace spic {
         Camera(const std::string &name, const std::string &tag, spic::Color backgroundColor,
                double aspectWidth, double aspectHeight);
         void Zoom(double aspectWidth, double aspectHeight);
-        private:
-            Color _backgroundColor;
-            double _aspectWidth;
-            double _aspectHeight;
+    private:
+        Color _backgroundColor;
+        double _aspectWidth;
+        double _aspectHeight;
     };
 
 }  // namespace spic

@@ -11,17 +11,20 @@ GameObject::GameObject(const std::string &name) {
         objName += "- Copy";
 
     this->name = objName;
-    instances[objName] = std::make_shared<GameObject>(*this);
+    auto selfptr = std::make_shared<GameObject>(*this);
+    self = selfptr;
+    instances[objName] = selfptr;
 }
 
-GameObject::GameObject(const std::string &name, const std::string& tag) {
+GameObject::GameObject(const std::string &name, const std::string& tag) : tag(tag) {
     std::string objName = name;
     if(instances.count(name) > 0)
         objName += "- Copy";
 
     this->name = objName;
-    this->tag = tag;
-    instances[objName] = std::make_shared<GameObject>(*this);
+    auto selfptr = std::make_shared<GameObject>(*this);
+    self = selfptr;
+    instances[objName] = selfptr;
 }
 
 bool GameObject::operator==(const spic::GameObject &other) { return name==other.name; }
@@ -94,15 +97,17 @@ void GameObject::Destroy(std::shared_ptr<GameObject> obj) {
 }
 
 
-void GameObject::Active(bool flag) { active = flag; }
-bool GameObject::Active() const { return active; }
+void GameObject::Active(bool flag) { self.lock()->active = flag; }
+bool GameObject::Active() const { return self.lock()->active; }
 
 bool GameObject::IsActiveInWorld() const {
     if(!Active())
         return false;
 
-    if(parent != nullptr)
-        return parent->IsActiveInWorld();
+    auto par = self.lock()->parent;
+
+    if(par != nullptr)
+        return par->IsActiveInWorld();
 
     return true;
 }

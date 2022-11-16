@@ -172,7 +172,7 @@ namespace spic {
             template<class T>
             void AddComponent(std::shared_ptr<Component> component) {
                 if(std::is_base_of<Component, T>::value && component != nullptr) { //T is Component
-                    components[typeid(T).name()].template emplace_back(std::make_unique<T>(component));
+                    self.lock()->components[typeid(T).name()].template emplace_back(std::make_unique<T>(component));
                 }
             }
 
@@ -185,8 +185,9 @@ namespace spic {
             template<class T>
             std::shared_ptr<Component> GetComponent() const {
                 if(std::is_base_of<Component, T>::value) {
-                    auto cList = components.find(typeid(T).name());
-                    if(cList != components.end()) { //Value found
+                    auto comps = self.lock()->components;
+                    auto cList = comps.find(typeid(T).name());
+                    if(cList != comps.end()) { //Value found
                         if(!cList->second.empty())
                             return cList->second.front();
                     }
@@ -202,7 +203,7 @@ namespace spic {
              */
             template<class T>
             std::shared_ptr<Component> GetComponentInChildren() const {
-                for(const auto& child : children) {
+                for(const auto& child : self.lock()->children) {
                     auto comp = child->template GetComponent<T>();
                     if(comp != nullptr)
                         return comp;
@@ -231,8 +232,9 @@ namespace spic {
             std::vector<std::shared_ptr<Component>> GetComponents() const {
                 std::vector<std::shared_ptr<Component>> result;
                 if(std::is_base_of<Component, T>::value) { //Check if T is derived from Component
-                    auto cList = components.find(typeid(T).name()); //Finds all components on object with type T
-                    if(cList != components.end()) {
+                    auto comps = self.lock()->components;
+                    auto cList = comps.find(typeid(T).name()); //Finds all components on object with type T
+                    if(cList != comps.end()) {
                         for(const auto& comp : cList->second)
                             result.template emplace_back(comp);
                     }
@@ -250,7 +252,7 @@ namespace spic {
             template<class T>
             std::vector<std::shared_ptr<Component>> GetComponentsInChildren() const {
                 std::vector<std::shared_ptr<Component>> result;
-                for(const auto& child : children) {
+                for(auto& child : self.lock()->children) {
                     std::vector<std::shared_ptr<Component>> comps = child->template GetComponents<T>();
                     if(result.empty())
                         result = comps;
@@ -296,7 +298,7 @@ namespace spic {
              */
             bool IsActiveInWorld() const;
 
-        private:
+        protected:
             std::string name; //Unique
             std::string tag;
             bool active;
@@ -305,8 +307,10 @@ namespace spic {
             std::vector<std::shared_ptr<GameObject>> children;
             std::map<std::string, std::vector<std::shared_ptr<Component>>> components; //Key is typeid.name
 
-            //Multiton Pattern
-            static std::map<std::string, std::shared_ptr<GameObject>> instances;
+            std::weak_ptr<GameObject> self;
+
+        //Multiton Pattern
+        static std::map<std::string, std::shared_ptr<GameObject>> instances;
     };
 
 }

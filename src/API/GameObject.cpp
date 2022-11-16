@@ -3,28 +3,28 @@
 using namespace spic;
 
 //Creates the static instances of GameObjects
-std::map<std::string, std::shared_ptr<GameObject>> GameObject::instances;
+std::map<std::string, std::shared_ptr<GameObject>> GameObject::_instances;
 
 GameObject::GameObject(const std::string &name) {
     std::string objName = name;
-    if(instances.count(name) > 0)
+    if(_instances.count(name) > 0)
         objName += "- Copy";
 
-    this->name = objName;
+    this->_name = objName;
     auto selfptr = std::make_shared<GameObject>(*this);
-    self = selfptr;
-    instances[objName] = selfptr;
+    _self = selfptr;
+    _instances[objName] = selfptr;
 }
 
-GameObject::GameObject(const std::string &name, const std::string& tag) : tag(tag) {
+GameObject::GameObject(const std::string &name, const std::string& tag) : _tag(tag) {
     std::string objName = name;
-    if(instances.count(name) > 0)
+    if(_instances.count(name) > 0)
         objName += "- Copy";
 
-    this->name = objName;
+    this->_name = objName;
     auto selfptr = std::make_shared<GameObject>(*this);
-    self = selfptr;
-    instances[objName] = selfptr;
+    _self = selfptr;
+    _instances[objName] = selfptr;
 }
 
 bool GameObject::operator==(const spic::GameObject &other) { return _name==other._name; }
@@ -47,15 +47,15 @@ auto GameObject::Parent() -> std::shared_ptr<GameObject> { return _parent; }
 
 
 auto GameObject::Find(const std::string &name) -> std::shared_ptr<GameObject> {
-    if(instances.count(name) > 0)
-        return instances[name];
+    if(_instances.count(name) > 0)
+        return _instances[name];
 
     return nullptr;
 }
 
 auto GameObject::FindGameObjectsWithTag(const std::string &tag) -> std::vector<std::shared_ptr<GameObject>> {
     std::vector<std::shared_ptr<GameObject>> result;
-    for(auto const& [key, val] : instances) {
+    for(auto const& [key, val] : _instances) {
         if (val->_tag == tag)
             result.emplace_back(val);
     }
@@ -63,7 +63,7 @@ auto GameObject::FindGameObjectsWithTag(const std::string &tag) -> std::vector<s
 }
 
 auto GameObject::FindWithTag(const std::string &tag) -> std::shared_ptr<GameObject> {
-    for(auto const& [key, val] : instances) {
+    for(auto const& [key, val] : _instances) {
         if (val->_tag == tag)
             return val;
     }
@@ -74,7 +74,7 @@ void GameObject::Destroy(spic::Component *obj) {
     if(obj == nullptr)
         throw std::runtime_error("Given pointer is empty or invalid");
 
-    for(auto& [name, instance] : instances) { //For every gameobject
+    for(auto& [name, instance] : _instances) { //For every gameobject
         for(auto& [type, cList] : instance->_components ) { //For every componentType
             for(auto iter = cList.begin(); iter != cList.end(); iter++) { //For every component in list
                 if(obj == iter->get()) {
@@ -95,20 +95,20 @@ void GameObject::Destroy(std::shared_ptr<GameObject> obj) {
     }
 
     std::shared_ptr<GameObject> gameObject = Find(obj->_name);
-    instances.erase(gameObject->_name);
+    _instances.erase(gameObject->_name);
     gameObject.reset();
 }
 
 
 
-void GameObject::Active(bool flag) { self.lock()->active = flag; }
-bool GameObject::Active() const { return self.lock()->active; }
+void GameObject::Active(bool flag) { _self.lock()->_active = flag; }
+bool GameObject::Active() const { return _self.lock()->_active; }
 
 auto GameObject::IsActiveInWorld() const -> bool {
     if(!Active())
         return false;
 
-    auto par = self.lock()->parent;
+    auto par = _self.lock()->_parent;
 
     if(par != nullptr)
         return par->IsActiveInWorld();
@@ -117,9 +117,9 @@ auto GameObject::IsActiveInWorld() const -> bool {
 }
 
 void GameObject::SetTransform(const spic::Transform &transform) {
-    GameObject::Find(this->_name)->_transform = transform;
+    _self.lock()->_transform = transform;
 }
-auto GameObject::GetTransform() -> Transform { return GameObject::Find(this->_name)->_transform; }
+auto GameObject::GetTransform() -> Transform { return _self.lock()->_transform; }
 
 
 

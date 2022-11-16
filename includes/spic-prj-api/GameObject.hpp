@@ -1,3 +1,6 @@
+#pragma clang diagnostic push
+#pragma ide diagnostic ignored "cppcoreguidelines-avoid-non-const-global-variables"
+#pragma ide diagnostic ignored "cppcoreguidelines-non-private-member-variables-in-classes"
 #ifndef GAMEOBJECT_H_
 #define GAMEOBJECT_H_
 
@@ -46,7 +49,7 @@ namespace spic {
              */
             template<class T>
             static auto FindObjectOfType(bool includeInactive = false) -> std::shared_ptr<GameObject> {
-                for(auto const& [key, val] : instances) {
+                for(auto const& [key, val] : _instances) {
                     if(typeid(*val) == typeid(T)) {
                         if(includeInactive || val->Active())
                             return val;
@@ -61,7 +64,7 @@ namespace spic {
             template<class T>
             static auto FindObjectsOfType(bool includeInactive = false) -> std::vector<std::shared_ptr<GameObject>> {
                 std::vector<std::shared_ptr<GameObject>> result;
-                for(auto const& [key, val] : instances) {
+                for(auto const& [key, val] : _instances) {
                     if(typeid(*val) == typeid(T)) {
                         if(includeInactive || val->Active())
                             result.template emplace_back(val);
@@ -173,7 +176,7 @@ namespace spic {
             template<class T>
             void AddComponent(std::shared_ptr<Component> component) {
                 if(std::is_base_of<Component, T>::value && component != nullptr) { //T is Component
-                    self.lock()->components[typeid(T).name()].template emplace_back(component);
+                    _self.lock()->_components[typeid(T).name()].template emplace_back(component);
                 }
             }
 
@@ -186,9 +189,9 @@ namespace spic {
             template<class T>
             [[nodiscard]] auto GetComponent() const -> std::shared_ptr<Component> {
                 if(std::is_base_of<Component, T>::value) {
-                    auto comps = self.lock()->components;
+                    auto comps = _self.lock()->_components;
                     if(comps.count(typeid(T).name()) > 0) {
-                      auto cList = obj->_components[typeid(T).name()];
+                      auto cList = comps[typeid(T).name()];
                               if(!cList.empty())
                                   return cList.front();
                     }
@@ -205,7 +208,7 @@ namespace spic {
              */
             template<class T>
             [[nodiscard]] auto GetComponentInChildren() const -> std::shared_ptr<Component> {
-                for(const auto& child : self.lock()->children) {
+                for(const auto& child : _self.lock()->_children) {
                     auto comp = child->template GetComponent<T>();
                     if(comp != nullptr)
                         return comp;
@@ -235,7 +238,7 @@ namespace spic {
             [[nodiscard]] auto GetComponents() const -> std::vector<std::shared_ptr<Component>> {
                 std::vector<std::shared_ptr<Component>> result;
                 if(std::is_base_of<Component, T>::value) { //Check if T is derived from Component
-                    auto comps = self.lock()->components;
+                    auto comps = _self.lock()->_components;
                     auto cList = comps.find(typeid(T).name()); //Finds all components on object with type T
                     if(cList != comps.end()) {
                         for(const auto& comp : cList->second)
@@ -255,7 +258,7 @@ namespace spic {
             template<class T>
             [[nodiscard]] auto GetComponentsInChildren() const -> std::vector<std::shared_ptr<Component>> {
                 std::vector<std::shared_ptr<Component>> result;
-                for(auto& child : self.lock()->children) {
+                for(auto& child : _self.lock()->_children) {
 
                     std::vector<std::shared_ptr<Component>> comps = child->template GetComponents<T>();
                     if(result.empty())
@@ -332,3 +335,5 @@ namespace spic {
 } // namespace spic
 
 #endif // GAMEOBJECT_H_
+
+#pragma clang diagnostic pop

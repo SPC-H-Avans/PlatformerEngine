@@ -13,26 +13,26 @@ protected:
         GameObject g1 = GameObject("dynamic1"); //Dynamic rigidbody
         GameObject g2 = GameObject("static1");
 
-        go1 = GameObject::Find("dynamic1");
-        go2 = GameObject::Find("static1");
-
         //Set X,Y pos of objects
-        go1->SetTransform(Transform {Point {3, 3}, 0, 0});
-        go2->SetTransform(Transform {Point {0, 0}, 0, 0});
+        g1.SetTransform(Transform {Point {3, 3}, 0, 0});
+        g2.SetTransform(Transform {Point {0, 0}, 0, 0});
 
         //Set Rigidbody on both objects;
         RigidBody body;
         body.BodyType(spic::BodyType::dynamicBody);
-        go1->AddComponent<RigidBody>(std::make_shared<RigidBody>(body));
+        g1.AddComponent<RigidBody>(std::make_shared<RigidBody>(body));
         body.BodyType(spic::BodyType::staticBody);
-        go2->AddComponent<RigidBody>(std::make_shared<RigidBody>(body));
+        g2.AddComponent<RigidBody>(std::make_shared<RigidBody>(body));
 
 
-        go1->AddComponent<BehaviourScript>(std::make_shared<BehaviourScript>());
-        go2->AddComponent<BehaviourScript>(std::make_shared<BehaviourScript>());
+        g1.AddComponent<BehaviourScript>(std::make_shared<BehaviourScript>());
+        g2.AddComponent<BehaviourScript>(std::make_shared<BehaviourScript>());
+
+
+        go1 = GameObject::Find("dynamic1");
+        go2 = GameObject::Find("static1");
     }
 
-    // void TearDown() override {}
     std::shared_ptr<GameObject> go1;
     std::shared_ptr<GameObject> go2;
     PhysicsSystem physics = PhysicsSystem();

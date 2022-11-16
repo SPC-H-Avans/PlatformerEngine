@@ -71,6 +71,12 @@ namespace spic {
             void SetActiveCameraByName(const std::string& name);
 
             /**
+             * @brief Get the currently active camera
+             * @spicapi
+             */
+            std::shared_ptr<spic::Camera> GetActiveCamera();
+
+            /**
              * @brief Delete camera by name from this scene
              * @param name Camera name
              */

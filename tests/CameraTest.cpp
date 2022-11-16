@@ -57,26 +57,37 @@ TEST(CameraTest, CameraHasCorrectBoundries) {
 }
 
 /**
- * @brief Tests if the correct errors are thrown when zooming Camera's with illegal boundries;
+ * @brief Tests if the correct errors are thrown when zooming Camera's with illegal boundries and test that the
+ * values are correctly updated after zooming;
  */
 TEST(CameraTest, CameraZoomHasCorrectBoundries) {
     std::string name = "Cam_CameraZoomHasCorrectBoundries";
+    int startWidth = 100;
+    int startHeight = 100;
+    int endWidth = 1;
+    int endHeight = 3;
 
     // 1. Create a camera with valid input values (aspectWidth and aspectHeight should be > 0)
-    auto cam = spic::Camera(name, name, spic::Color::White(), 100, 100);
+    auto cam = spic::Camera(name, name, spic::Color::White(), startWidth, startHeight);
+    auto camObjPtr = std::static_pointer_cast<spic::Camera>(spic::GameObject::Find(name));
 
     // 2. Assert that InvalidSizeException is thrown when the camera zooms to incorrect positions
-    ASSERT_THROW(cam.Zoom(0, 1), spic::InvalidSizeException)
+    ASSERT_THROW(camObjPtr->Zoom(0, 1), spic::InvalidSizeException)
             << "A camera zoom with aspectWidth of 0 should throw an InvalidSizeException";
-    ASSERT_THROW(cam.Zoom(-1, 1), spic::InvalidSizeException)
+    ASSERT_THROW(camObjPtr->Zoom(-1, 1), spic::InvalidSizeException)
             << "A camera zoom with aspectWidth of -1 should throw an InvalidSizeException";
-    ASSERT_THROW(cam.Zoom(1, 0), spic::InvalidSizeException)
+    ASSERT_THROW(camObjPtr->Zoom(1, 0), spic::InvalidSizeException)
             << "A camera zoom with aspectHeight of 0 should throw an InvalidSizeException";
-    ASSERT_THROW(cam.Zoom(1, -1), spic::InvalidSizeException)
+    ASSERT_THROW(camObjPtr->Zoom(1, -1), spic::InvalidSizeException)
             << "A camera zoom with aspectHeight of -1 should throw an InvalidSizeException";
 
-    ASSERT_NO_THROW(cam.Zoom(1, 1))
+    ASSERT_NO_THROW(camObjPtr->Zoom(endWidth, endHeight))
             << "A Camera zoom with aspectWidth = 1 and aspectHeight = 1 should not throw an error";
+
+    // Assert that the values are now updated
+    ASSERT_TRUE(camObjPtr->GetAspectWidth() == endWidth);
+    ASSERT_TRUE(camObjPtr->GetAspectHeight() == endHeight);
+
 
 }
 

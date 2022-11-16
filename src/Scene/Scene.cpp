@@ -74,3 +74,8 @@ void spic::Scene::SetActiveCameraByName(const std::string &name) {
     }
     _activeCamera = foundCamera;
 }
+
+std::shared_ptr<spic::Camera> spic::Scene::GetActiveCamera() {
+    return _activeCamera;
+}
+

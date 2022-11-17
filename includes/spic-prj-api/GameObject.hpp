@@ -66,8 +66,9 @@ namespace spic {
                 std::vector<std::shared_ptr<GameObject>> result;
                 for(auto const& [key, val] : _instances) {
                     if(typeid(*val) == typeid(T)) {
-                        if(includeInactive || val->Active())
+                        if(includeInactive || val->Active()) {
                             result.template emplace_back(val);
+                        }
                     }
                 }
                 return result;

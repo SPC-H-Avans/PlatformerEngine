@@ -6,6 +6,7 @@
 #include "Facade/GraphicsFacade.hpp"
 #include "Texture/TextureManager.hpp"
 #include "Facade/InputFacade.hpp"
+#include "Scene.hpp"
 
 namespace platformer_engine {
     /**
@@ -45,8 +46,21 @@ namespace platformer_engine {
         static inline auto
         GetPerformanceFrequency() -> Uint64 { return platformer_engine::GraphicsFacade::GetPerformanceFrequency(); }
 
+        /**
+         * @brief Set the current active Scene
+         * @param scene Scene to make active
+         */
+        void SetActiveScene(std::unique_ptr<spic::Scene> scene);
+
+        /**
+         * @brief Get the current active Scene
+         * @return std::unique_ptr<spic::Scene>& Current active Scene
+         */
+        auto GetActiveScene() -> std::unique_ptr<spic::Scene>&;
+
     private:
         std::shared_ptr<GraphicsFacade> _graphicsFacade{nullptr};
+        std::unique_ptr<spic::Scene> _activeScene = nullptr;
     };
 }//namespace platformer_engine
 

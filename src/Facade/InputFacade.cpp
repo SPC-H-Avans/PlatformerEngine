@@ -1,7 +1,7 @@
 #include <vector>
 #include <tuple>
 
-#include "InputFacade.hpp"
+#include "Facade/InputFacade.hpp"
 #include "Input.hpp"
 #include "Debug.hpp"
 

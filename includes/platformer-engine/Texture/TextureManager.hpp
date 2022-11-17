@@ -7,6 +7,9 @@
 
 //Singleton class to manage all textures
 namespace platformer_engine {
+    /**
+     * @brief The Texture Manager is a singleton class that manages the loading and rendering of textures
+     */
     class TextureManager {
     public:
         static auto GetInstance() -> TextureManager & {
@@ -54,15 +57,39 @@ namespace platformer_engine {
          * @param width width of the texture
          * @param height height of the texture
          * @param flip Flip the texture according to SPIC_RendererFlip Enum
+         * @param scale Scale of the sprite
          */
         void DrawTexture(const std::string &id, int x, int y, int width, int height,
-                         const SPIC_RendererFlip &flip = FLIP_NONE);
+                         const SPIC_RendererFlip &flip = FLIP_NONE, double scale = 1.0);
 
+        /**
+         * @brief Render a Game Map tile on the screen
+         * @param tileSetID ID of the texture
+         * @param tileSize size of the tile to render
+         * @param x X location on the screen
+         * @param y Y location on the screen
+         * @param row Row where the sprite can be found
+         * @param frame Frame where to sprite can be found
+         * @param flip Flip the texture according to SPIC_RendererFlip Enum
+         * @param scale Scale of the sprite
+         */
         void DrawTile(const std::string &tileSetID, int tileSize, int x, int y, int row, int frame,
-                      const SPIC_RendererFlip &flip = FLIP_NONE);
+                      const SPIC_RendererFlip &flip = FLIP_NONE, double scale = 1.0);
 
+        /**
+         * @brief Draw a frame of a sprite sheet animation
+         * @param id ID of the texture
+         * @param x X location on screen
+         * @param y Y Location on screen
+         * @param width Width of the sprite
+         * @param height Height of the sprite
+         * @param row Row where the animation is located in the sprite
+         * @param frame Frame to draw
+         * @param flip Flip the texture according to SPIC_RendererFlip Enum
+         * @param scale Scale of the sprite
+         */
         void DrawFrame(const std::string &id, int x, int y, int width, int height, int row, int frame,
-                       const SPIC_RendererFlip &flip = FLIP_NONE);
+                       const SPIC_RendererFlip &flip = FLIP_NONE, double scale = 1.0);
 
     private:
         TextureManager() = default;

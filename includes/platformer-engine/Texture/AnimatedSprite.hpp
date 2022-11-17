@@ -29,7 +29,7 @@ namespace platformer_engine{
          */
         AnimatedSprite(std::string spriteId, int sortingLayer,
                        int orderInLayer, int spriteWidth, int spriteHeight,
-                       int frameCount, int animationSpeed, int spriteRow, platformer_engine::SPIC_RendererFlip flip = platformer_engine::FLIP_NONE, spic::Color color = spic::Color::Transparent());
+                       int frameCount, int animationSpeed, int spriteRow, platformer_engine::SPIC_RendererFlip flip = platformer_engine::FLIP_NONE, spic::Color color = spic::Color::Transparent(), double spriteScale = 1.0f);
 
         /**
          * @brief Update frame count

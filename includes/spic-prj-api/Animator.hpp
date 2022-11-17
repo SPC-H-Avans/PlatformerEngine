@@ -41,6 +41,7 @@ namespace spic {
             void SetActiveAnimation(const std::string& animationId);
             /**
              * @brief Render the current animated sprite
+             * @param Transform transform to use
              */
             void Render(spic::Transform transform);
             /**

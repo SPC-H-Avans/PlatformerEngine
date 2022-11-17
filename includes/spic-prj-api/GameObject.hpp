@@ -320,7 +320,7 @@ namespace spic {
         protected:
             std::string _name; //Unique
             std::string _tag;
-            bool _active;
+            bool _active = true;
             int _layer;
             std::shared_ptr<GameObject> _parent;
             std::vector<std::shared_ptr<GameObject>> _children;

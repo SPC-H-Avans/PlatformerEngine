@@ -3,7 +3,6 @@
 #include "BehaviourScript.hpp"
 #include "RigidBody.hpp"
 #include "BoxCollider.hpp"
-#include <queue>
 #include "Physics/PhysicsSystem.hpp"
 
 class CollisionTests : public ::testing::Test {

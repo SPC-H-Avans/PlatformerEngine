@@ -6,7 +6,6 @@
 #include "MarioRigidBody.hpp"
 #include "Input.hpp"
 #include <algorithm>
-#include <opencl-c.h>
 
 using spic::GameObject;
 using spic::RigidBody;
@@ -36,42 +35,28 @@ void PhysicsSystem::MoveObjects() {
 
         if(mario != nullptr) {
             // We found mario!
+            auto point = Point();
 
             //todo: Maybe call a mario behaviorscript here and put the physics code in there?
             if (spic::Input::GetKey(spic::Input::KeyCode::LEFT_ARROW)) {
                 //TODO: I know I know hardcoded left arrow hier, wat de fuck?! komt goed
-                mario->horizontal_speed = max(mario->horizontal_speed - mario->MARIO_ACCELERATION, -mario->MARIO_WALK_SPEED);
+                point.x--;
             }
             if (spic::Input::GetKey(spic::Input::KeyCode::RIGHT_ARROW)) {
-                mario->horizontal_speed = min(mario->horizontal_speed + mario->MARIO_ACCELERATION, mario->MARIO_WALK_SPEED);
-            }
-
-            if(mario->horizontal_speed < 0) {
-                mario->horizontal_speed -= mario->MARIO_ACCELERATION;
-            }
-            else if(mario->horizontal_speed > 0) {
-                mario->horizontal_speed += mario->MARIO_ACCELERATION;
+                point.x++;
             }
 
             if (spic::Input::GetKey(spic::Input::KeyCode::UP_ARROW)) {
                 //TODO: Onlu update vertical speed if mario is standing on an object
-                mario->vertical_speed = mario->JUMP_SPEED;
-                mario->jump_timer = mario->MARIO_JUMP_TIMER;
+                point.y++;
             }
-            else if(mario->jump_timer > 0) { // High jump
-                mario->vertical_speed = mario->JUMP_SPEED;
-                mario->jump_timer -= 1;
-            }
-            else {
-                mario->vertical_speed = min(mario->GetGravity() + mario->vertical_speed, mario->MAX_VERTICAL_SPEED);
-            }
+
+            mario->AddForce(point);
 
             // Move mario
-            mario->vertical_speed += mario->GetGravity();
-
             auto transform = gameObject->GetTransform();
-            transform.position.x += mario->horizontal_speed;
-            transform.position.y += mario->vertical_speed;
+            transform.position.x += mario->GetHorizontalSpeed();
+            transform.position.y += mario->GetVerticalSpeed();
 
         }
     }

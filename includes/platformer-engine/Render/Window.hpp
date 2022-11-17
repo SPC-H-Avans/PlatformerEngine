@@ -30,6 +30,11 @@ namespace platformer_engine {
          * @platformerengine
          */
         void Render();
+        /**
+         * @brief Clears the window before rendering new objects
+         * @platformerengine
+         */
+        void Clear();
 
         /**
          * @brief Close the window

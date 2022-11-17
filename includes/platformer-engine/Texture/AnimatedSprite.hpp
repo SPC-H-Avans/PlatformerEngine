@@ -2,6 +2,7 @@
 #include "Point.hpp"
 #include "Timer/Timer.hpp"
 #include "Render/Window.hpp"
+#include "Transform.hpp"
 
 #ifndef PLATFORMER_ENGINE_ANIMATEDSPRITE_HPP
 #define PLATFORMER_ENGINE_ANIMATEDSPRITE_HPP
@@ -38,7 +39,7 @@ namespace platformer_engine{
          * @brief Draw the animation on the window
          * @param location Location where to draw the animation
          */
-        void Draw(spic::Point location);
+        void Draw(spic::Transform transform);
         /**
          * @brief Set current frame to 0
          */

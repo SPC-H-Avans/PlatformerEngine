@@ -8,8 +8,11 @@ platformer_engine::Window::Window(int width, int height, const std::string &titl
     TextureManager::GetInstance().Init(_graphicsFacade);
 }
 
-void platformer_engine::Window::Render() {
+void platformer_engine::Window::Clear() {
     _graphicsFacade->Clear();
+}
+
+void platformer_engine::Window::Render() {
     _graphicsFacade->Render();
 }
 

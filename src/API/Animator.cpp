@@ -15,9 +15,9 @@ void spic::Animator::SetActiveAnimation(const std::string& animationId) {
     }
 }
 
-void spic::Animator::Render(spic::Point location) {
+void spic::Animator::Render(spic::Transform transform) {
     if(!_isPlaying || _currentAnimation == nullptr) return;
-    _currentAnimation->Draw(location);
+    _currentAnimation->Draw(transform);
 }
 
 void spic::Animator::Update() {

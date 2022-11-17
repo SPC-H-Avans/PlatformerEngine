@@ -13,8 +13,12 @@ void platformer_engine::AnimatedSprite::Update() {
     _currentFrame = (static_cast<int>(platformer_engine::Window::GetTicks())/_animationSpeed) % _frameCount;
 }
 
-void platformer_engine::AnimatedSprite::Draw(spic::Point location) {
-    TextureManager::GetInstance().DrawFrame(_spriteId, static_cast<int>(location.x), static_cast<int>(location.y), _spriteWidth, _spriteHeight, _spriteRow, _currentFrame, FLIP_NONE);
+void platformer_engine::AnimatedSprite::Draw(spic::Transform transform) {
+    SPIC_RendererFlip flip = FLIP_NONE;
+    if(transform.rotation == 180.0f || transform.rotation == -180.0f){
+        flip = FLIP_HORIZONTAL;
+    }
+    TextureManager::GetInstance().DrawFrame(_spriteId, static_cast<int>(transform.position.x), static_cast<int>(transform.position.y), _spriteWidth, _spriteHeight, _spriteRow, _currentFrame, FLIP_NONE);
 }
 
 void platformer_engine::AnimatedSprite::ResetCurrentFrame() {

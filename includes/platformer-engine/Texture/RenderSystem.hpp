@@ -6,6 +6,15 @@
  * @brief System that updates the animation of the AnimatedSprite component.
  */
 class RenderSystem {
-    void Update();
+
+public:
+    /**
+     * @brief Update all sprites, currently only used to update animated sprites
+     */
+    static void Update();
+    /**
+     * @brief Render all objects on the screen
+     */
+    static void Render();
 };
 #endif //PLATFORMER_ENGINE_RENDERSYSTEM_HPP

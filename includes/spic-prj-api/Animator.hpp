@@ -5,6 +5,7 @@
 #include "Sprite.hpp"
 #include "Texture/AnimatedSprite.hpp"
 #include "Point.hpp"
+#include "Transform.hpp"
 
 namespace spic {
 
@@ -41,7 +42,7 @@ namespace spic {
             /**
              * @brief Render the current animated sprite
              */
-            void Render(spic::Point location);
+            void Render(spic::Transform transform);
             /**
              * @brief Update the animated sprite (current frame)
              */

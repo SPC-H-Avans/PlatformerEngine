@@ -15,6 +15,7 @@ Set up the project and add the first version of the code.
 - SPCH-1: Added GameLevel that contains all map layers
 - SPCH-29: Added a TMX reader with a strategy pattern
 
+- SPCH-3: Added scenes, scene builder and a way to switch from active scene
 - SPCH-41: Added Doxygen action for development branch
 - SPCH-40: Implemented functions of GameObject and Component
 - SPCH-40: Added Multiton pattern, Children and Parent to GameObject (insunated by API docs)

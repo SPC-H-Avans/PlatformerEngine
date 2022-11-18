@@ -65,7 +65,7 @@ public:
      * @brief Adds a Sprite component to the current GameObject being build.
      * @return reference to ObjectBuilder, allows method chaining.
      */
-    ObjectBuilder& AddSprite() override;
+    ObjectBuilder& AddSprite(const std::shared_ptr<spic::Sprite>& sprite) override;
 private:
     //Shares ptr with GameObject static instace list
     std::shared_ptr<GameObject> _gameObject;

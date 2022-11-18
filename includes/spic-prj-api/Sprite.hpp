@@ -5,6 +5,8 @@
 #include "Color.hpp"
 #include <string>
 #include "Facade/GraphicsFacade.hpp"
+#include "Transform.hpp"
+#include "Texture/TextureManager.hpp"
 
 namespace spic {
 
@@ -15,8 +17,14 @@ namespace spic {
     class Sprite : public Component {
     public:
         Sprite(std::string spriteId, int sortingLayer, int orderInLayer, int spriteWidth, int spriteHeight, platformer_engine::SPIC_RendererFlip flip = platformer_engine::FLIP_NONE, Color color = Color::Transparent(), double spriteScale = 1.0);
-        inline auto GetSpriteId() -> std::string {return _spriteId;};
-        inline auto GetSpriteScale() -> double {return _spriteScale;};
+        [[nodiscard]] inline auto GetSpriteId() const -> std::string {return _spriteId;};
+        [[nodiscard]] inline auto GetSpriteScale() const -> double {return _spriteScale;};
+
+        /**
+         * @brief Render the current sprite
+         * @param Transform transform to use
+         */
+        void Render(spic::Transform transform);
 
         private:
         Color _color;
@@ -25,10 +33,10 @@ namespace spic {
             int _orderInLayer;
 
     protected:
-        std::string _spriteId;
-        int _spriteWidth;
-        int _spriteHeight;
-        double _spriteScale;
+        std::string _spriteId; // NOLINT(cppcoreguidelines-non-private-member-variables-in-classes)
+        int _spriteWidth; // NOLINT(cppcoreguidelines-non-private-member-variables-in-classes)
+        int _spriteHeight; // NOLINT(cppcoreguidelines-non-private-member-variables-in-classes)
+        double _spriteScale; // NOLINT(cppcoreguidelines-non-private-member-variables-in-classes)
     };
 
 }  // namespace spic

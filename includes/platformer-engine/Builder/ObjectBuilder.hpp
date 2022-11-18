@@ -42,7 +42,7 @@ public:
      * @brief Adds a Sprite component to the current GameObject being build.
      * @return reference to ObjectBuilder, allows method chaining.
      */
-    virtual ObjectBuilder& AddSprite() = 0;
+    virtual ObjectBuilder& AddSprite(const std::shared_ptr<spic::Sprite>& sprite) = 0;
 };
 
 #endif //PLATFORMER_ENGINE_BUILDER_HPP

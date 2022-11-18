@@ -22,7 +22,7 @@ ObjectBuilder& GameObjectBuilder::AddAudioSource() {
 }
 
 ObjectBuilder& GameObjectBuilder::AddAnimator(std::shared_ptr<platformer_engine::AnimatedSprite> animatedSprite) {
-    _gameObject->AddComponent<Animator>(std::make_shared<Animator>(animatedSprite));
+    _gameObject->AddComponent<Animator>(animatedSprite);
     return *this;
 }
 
@@ -45,8 +45,7 @@ ObjectBuilder &GameObjectBuilder::AddRigidBody() {
     return *this;
 }
 
-ObjectBuilder &GameObjectBuilder::AddSprite() {
-    //TODO add sprite to gameobject
-    throw std::logic_error("Function not implemented");
+ObjectBuilder &GameObjectBuilder::AddSprite(const std::shared_ptr<spic::Sprite>& sprite) {
+    _gameObject->AddComponent<Sprite>(sprite);
     return *this;
 }

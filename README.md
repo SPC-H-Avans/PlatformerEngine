@@ -46,3 +46,4 @@
 # Documentation
 - [Doxygen Main](https://engine.mrproper.dev)
 - [Doxygen Dev](https://engine-dev.mrproper.dev)
+- [Code Coverage](https://app.codecov.io/github/SPC-H-Avans/PlatformerEngine)

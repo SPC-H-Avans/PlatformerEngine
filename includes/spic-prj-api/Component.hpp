@@ -39,7 +39,7 @@ namespace spic {
             /**
              * @brief Active status.
              */
-            bool _active;
+            bool _active = true;
     };
 
 } // namespace spic

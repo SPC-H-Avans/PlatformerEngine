@@ -34,6 +34,7 @@ namespace spic {
              * @param animatedSprite animatedSprite to add
              */
             void AddAnimation(const std::shared_ptr<platformer_engine::AnimatedSprite>& animatedSprite);
+
             /**
              * @brief Set the current animation
              * @param animatedSprite animatedSprite to set

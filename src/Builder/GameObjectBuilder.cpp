@@ -26,6 +26,14 @@ ObjectBuilder& GameObjectBuilder::AddAnimator(std::shared_ptr<platformer_engine:
     return *this;
 }
 
+ObjectBuilder &
+GameObjectBuilder::AddAnimator(std::vector<std::shared_ptr<platformer_engine::AnimatedSprite>> animatedSprite) {
+    for (const auto &item: animatedSprite) {
+        _gameObject->AddComponent<Animator>(item);
+    }
+    return *this;
+}
+
 ObjectBuilder& GameObjectBuilder::AddBehaviourScript() {
     //TODO add behaviourscript to gameobject
     throw std::logic_error("Function not implemented");

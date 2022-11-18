@@ -15,14 +15,18 @@ void RenderSystem::Render() {
     for (const auto &item: allGameObjects){
         auto animatorComponent = item->GetComponent<spic::Animator>();
         if(animatorComponent != nullptr){
-        auto animator = std::static_pointer_cast<spic::Animator>(animatorComponent);
-        animator->Render(item->GetTransform());
+            auto animator = std::static_pointer_cast<spic::Animator>(animatorComponent);
+            if(animator->Active()) {
+                animator->Render(item->GetTransform());
+                continue;
+            }
         }
-        else{
-            auto spriteComponent = item->GetComponent<spic::Sprite>();
-            if(spriteComponent != nullptr){
-                auto sprite = std::static_pointer_cast<spic::Sprite>(spriteComponent);
+        auto spriteComponent = item->GetComponent<spic::Sprite>();
+        if(spriteComponent != nullptr){
+            auto sprite = std::static_pointer_cast<spic::Sprite>(spriteComponent);
+            if(sprite->Active()) {
                 sprite->Render(item->GetTransform());
+                continue;
             }
         }
     }

@@ -3,6 +3,10 @@ name: 'CodeCov'
 on:
   pull_request:
 
+
+env:
+  CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
+
 jobs:
   build:
     name: Build (${{ matrix.os }})
@@ -65,9 +69,9 @@ jobs:
           path: coverage.xml
 
       - name: 'Run CodeCov'
-        uses: codecov/codecov-action@v1
+        uses: codecov/codecov-action@v3
         with:
-          token: ${{ secrets.CODECOV_TOKEN }}
+          token: ${{ env.CODECOV_TOKEN }}
           file: coverage.xml
           flags: unittests
           name: codecov-umbrella

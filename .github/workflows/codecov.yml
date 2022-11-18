@@ -42,11 +42,17 @@ jobs:
           buildPreset: ninja-multi-vcpkg
           testPreset: ninja-multi-vcpkg
 
-      - name: 'Upload current dir as artifact'
+      # zip current directory and upload as artifact
+      - name: 'Zip'
+        uses: thedoctor0/zip@v1
+        with:
+          args: -r build.zip .
+
+      - name: 'Upload artifact'
         uses: actions/upload-artifact@v2
         with:
-          name: 'current-dir'
-          path: .
+          name: build
+          path: build.zip
 
       # - name: 'Log files and dirs'
       #   run: ls -la

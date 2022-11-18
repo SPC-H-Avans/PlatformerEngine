@@ -1,0 +1,63 @@
+name: 'CodeCov'
+
+# on:
+#   pull_request:
+
+jobs:
+  build:
+    name: Build (${{ matrix.os }})
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - os: self-hosted-linux-x64
+            triplet: x64-linux
+
+    env:
+      VCPKG_DEFAULT_TRIPLET: ${{ matrix.triplet }}
+
+    steps:
+      - name: 'Install SDL2 dev'
+        if: runner.os == 'Linux'
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y libsdl2-dev
+      - name: 'Checkout'
+        uses: actions/checkout@v2
+        with:
+          token: ${{ secrets.PAT }}
+          submodules: recursive
+
+      - name: 'Install CMake'
+        uses: lukka/get-cmake@latest
+
+      - name: 'Setup vcpkg'
+        uses: lukka/run-vcpkg@v10
+
+      - name: 'Run CMake'
+        uses: lukka/run-cmake@v10
+        with:
+          configurePreset: ninja-multi-vcpkg
+          buildPreset: ninja-multi-vcpkg
+
+      - name: 'Install lcov'
+        if: runner.os == 'Linux'
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y lcov
+      
+      - name: 'Run lcov'
+        if: runner.os == 'Linux'
+        run: |
+          lcov --directory . --capture --output-file coverage.info
+          lcov --remove coverage.info '/usr/*' --output-file coverage.info
+          lcov --list coverage.info
+          
+      - name: 'Upload coverage to Codecov'
+        uses: codecov/codecov-action@v1
+        with:
+          file: ./coverage.info
+          flags: unittests
+          name: PlatformerEngine
+          fail_ci_if_error: true

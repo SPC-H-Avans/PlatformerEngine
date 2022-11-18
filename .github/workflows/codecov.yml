@@ -55,7 +55,7 @@ jobs:
       - name: 'Run gcovr'
         if: runner.os == 'Linux'
         run: |
-          gcovr -r ./builds/ninja-multi-vcpkg/CMakeFiles/platformer-engine.dir/Debug/src --xml-pretty -o coverage.xml
+          gcovr -r ./builds/ninja-multi-vcpkg/CMakeFiles/platformer-engine.dir/Debug/src --xml-pretty -o coverage.xml ./builds/ninja-multi-vcpkg/CMakeFiles/platformer-engine.dir/Debug/src/API
 
 
       - name: 'Upload coverage to artifact'

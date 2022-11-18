@@ -3,7 +3,7 @@
 
 GameObjectBuilder::GameObjectBuilder(const std::string &name) : _gameObject(std::make_shared<GameObject>(name)) {}
 
-//If reset with exisitng name append number to it
+//If reset with existing name append number to it
 void GameObjectBuilder::Reset(const std::string &name) {
     _gameObject = std::make_shared<GameObject>(name);
 }

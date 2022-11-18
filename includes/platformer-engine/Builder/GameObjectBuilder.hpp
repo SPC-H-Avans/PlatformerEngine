@@ -6,7 +6,7 @@
 using namespace spic;
 
 /**
- * @brief Implementation of ObjectBuilder to create gameobjects with ease.
+ * @brief Implementation of ObjectBuilder to create GameObjects with ease.
  */
 class GameObjectBuilder : ObjectBuilder{
 public:
@@ -17,7 +17,7 @@ public:
     GameObjectBuilder(const std::string& name);
 
     /**
-     * @brief Sets a new instance of GameObject on the gameObject variable using the given name;
+     * @brief Sets a new instance of GameObject on the GameObject variable using the given name;
      * @param name the name being used to instantiate the new GameObject
      * @return shared pointer to GameObject. (Shared with static instance list)
      */

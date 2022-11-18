@@ -44,9 +44,10 @@ jobs:
 
       # zip current directory and upload as artifact
       - name: 'Zip'
-        uses: thedoctor0/zip@v1
-        with:
-          args: -r build.zip .
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y zip
+          zip -r build.zip .
 
       - name: 'Upload artifact'
         uses: actions/upload-artifact@v2

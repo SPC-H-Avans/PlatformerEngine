@@ -48,7 +48,7 @@ public:
      * @param animatedSprite List of AnimatedSprite to be used by the Animator.
      * @return reference to ObjectBuilder, allows method chaining.
      */
-    ObjectBuilder& AddAnimator(std::vector<std::shared_ptr<platformer_engine::AnimatedSprite>> animatedSprite) = 0;
+    ObjectBuilder& AddAnimator(std::vector<std::shared_ptr<platformer_engine::AnimatedSprite>> animatedSprite) override;
 
     /**
      * @brief Adds a BehaviourScript component to the current GameObject being build.

@@ -44,5 +44,9 @@ target_link_libraries(${PROJECT_NAME} PRIVATE unofficial-tinyxml::unofficial-tin
 add_executable(${PROJECT_NAME}-exec main.cpp)
 target_link_libraries(${PROJECT_NAME}-exec ${PROJECT_NAME})
 
+# add -fprofile-arcs -ftest-coverage -fPIC to CMAKE_CXX_FLAGS for tests
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fprofile-arcs -ftest-coverage -fPIC")
+set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -fprofile-arcs -ftest-coverage -fPIC")
+
 
 

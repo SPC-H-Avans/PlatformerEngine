@@ -41,6 +41,9 @@ jobs:
           configurePreset: ninja-multi-vcpkg
           buildPreset: ninja-multi-vcpkg
 
+      - name: 'Log files and dirs'
+        run: ls -la
+
       - name: 'Install lcov'
         if: runner.os == 'Linux'
         run: |
@@ -51,7 +54,6 @@ jobs:
         run: |
           ./cmake-build-debug/platformer-engine-tests
 
-
       - name: 'Run gcovr'
         if: runner.os == 'Linux'
         run: |
@@ -61,7 +63,7 @@ jobs:
         uses: codecov/codecov-action@v1
         with:
           token: ${{ secrets.CODECOV_TOKEN }}
-          file: ./cmake-build-debug/coverage.xml
+          file: coverage.xml
           flags: unittests
           name: codecov-umbrella
           fail_ci_if_error: true

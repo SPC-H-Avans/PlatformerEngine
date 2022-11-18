@@ -1,42 +1,40 @@
-name: Upload CodeCov Report
-on: [push, pull_request]
+
+name: Github Actions C++ Standard
+on: [pull_request]
 jobs:
-  run:
-    runs-on: windows-latest
-    name: Build, Test , Upload Code Coverage Report
+  test-and-upstream:
+    runs-on: ubuntu-latest
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v2
+      - uses: actions/checkout@v2
         with:
-          fetch-depth: ‘2’
-        id: checkout_code
-
-      - name: Setup MSBuild and add to PATH
-        uses: microsoft/setup-msbuild@v1.0.2
-        id: setup_msbuild
-
-      - name: Run MSBuild
-        id: run_msbuild
-        run: msbuild /p:Configuration=Debug /p:Platform=x86 HelloCovDemo.sln
-
-      - name: Setup VSTest and add to PATH
-        uses: darenm/Setup-VSTest@v1
-        id: setup_vstest
-
-      - name: Setup OpenCppCoverage and add to PATh
-        id: setup_opencppcoverage
+          fetch-depth: 2
+      - name: Set up Python 3.9
+        uses: actions/setup-python@v2
+        with:
+          python-version: '3.9'
+      - name: Before Install
         run: |
-          choco install OpenCppCoverage -y
-          echo "C:\Program Files\OpenCppCoverage" >> $env:GITHUB_PATH
-
-      - name: Generate Report
-        id: generate_test_report
-        shell: cmd
-        run: OpenCppCoverage.exe --sources HelloCov --export_type cobertura:HelloCov.xml -- "vstest.console.exe" Debug\HelloTest.dll
-
-      - name: Upload Report to Codecov
-        uses: codecov/codecov-action@v2
-        with:
-          files: ./HelloCov.xml
-          fail_ci_if_error: true
-          functionalities: fix
+          pip install requests
+          sudo apt-get install g++
+      - name: Run Tests
+        env:
+          API_KEY: ${{ secrets.API_KEY }}
+          EXPECTED_COVERAGE: 70
+        run: |
+          g++ -std=c++11 -o PlatformerEngine -fprofile-arcs -ftest-coverage tests/main.cpp
+          ./PlatformerEngine
+          gcov -o . tests/main.cpp
+          curl -Os https://uploader.codecov.io/latest/linux/codecov
+          chmod +x codecov
+          ./codecov
+          python request.py
+      - name: Upstream to Standards
+        env:
+          GH_TOKEN: ${{ secrets.GH_TOKEN }}
+          COVERAGE_SOURCE_FILE: ${{ secrets.COVERAGE_SOURCE_FILE }}
+        if: ${{ github.event_name == 'pull_request'}}
+        run: |
+          wget --header "Authorization: token ${GH_TOKEN}" \
+          --header "Accept: application/vnd.github.v3.raw" \
+          https://api.github.com/repos/codecov/standards/contents/upstream.sh
+          bash upstream.sh

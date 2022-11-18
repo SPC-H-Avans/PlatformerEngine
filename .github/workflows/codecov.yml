@@ -42,29 +42,35 @@ jobs:
           buildPreset: ninja-multi-vcpkg
           testPreset: ninja-multi-vcpkg
 
-      - name: 'Log files and dirs'
-        run: ls -la
-
-      - name: 'Install lcov'
-        if: runner.os == 'Linux'
-        run: |
-          sudo apt-get update
-          sudo apt-get install -y lcov gcovr
-
-      - name: 'Run executable'
-        run: |
-          ./cmake-build-debug/platformer-engine-tests
-
-      - name: 'Run gcovr'
-        if: runner.os == 'Linux'
-        run: |
-          gcovr -r ./cmake-build-debug/ --xml-pretty -o coverage.xml
-
-      - name: 'Run CodeCov'
-        uses: codecov/codecov-action@v1
+      - name: 'Upload current dir as artifact'
+        uses: actions/upload-artifact@v2
         with:
-          token: ${{ secrets.CODECOV_TOKEN }}
-          file: coverage.xml
-          flags: unittests
-          name: codecov-umbrella
-          fail_ci_if_error: true
+          name: 'current-dir'
+          path: .
+
+      # - name: 'Log files and dirs'
+      #   run: ls -la
+
+      # - name: 'Install lcov'
+      #   if: runner.os == 'Linux'
+      #   run: |
+      #     sudo apt-get update
+      #     sudo apt-get install -y lcov gcovr
+
+      # - name: 'Run executable'
+      #   run: |
+      #     ./cmake-build-debug/platformer-engine-tests
+
+      # - name: 'Run gcovr'
+      #   if: runner.os == 'Linux'
+      #   run: |
+      #     gcovr -r ./cmake-build-debug/ --xml-pretty -o coverage.xml
+
+      # - name: 'Run CodeCov'
+      #   uses: codecov/codecov-action@v1
+      #   with:
+      #     token: ${{ secrets.CODECOV_TOKEN }}
+      #     file: coverage.xml
+      #     flags: unittests
+      #     name: codecov-umbrella
+      #     fail_ci_if_error: true

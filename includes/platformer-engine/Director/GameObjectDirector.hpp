@@ -11,9 +11,9 @@ public:
     /**
      * @brief Constructor
      */
-    GameObjectDirector();
+    GameObjectDirector() = default;
 
-    auto CreatePlayer() -> GameObject&;
+    auto CreatePlayer() -> std::shared_ptr<GameObject>;
 private:
 //    GameObjectBuilder _builder;
 };

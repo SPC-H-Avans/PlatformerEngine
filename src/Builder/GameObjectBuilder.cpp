@@ -15,38 +15,38 @@ std::shared_ptr<GameObject> GameObjectBuilder::GetGameObject() {
 }
 
 //Return *this in every component method to allow chaining
-ObjectBuilder& GameObjectBuilder::AddAudioSource() {
+GameObjectBuilder& GameObjectBuilder::AddAudioSource() {
     //TODO Add audiosource to gameobject
     throw std::logic_error("Function not implemented");
     return *this;
 }
 
-ObjectBuilder& GameObjectBuilder::AddAnimator() {
+GameObjectBuilder& GameObjectBuilder::AddAnimator() {
     //TODO add animotor to gameobject
     throw std::logic_error("Function not implemented");
     return *this;
 }
 
-ObjectBuilder& GameObjectBuilder::AddBehaviourScript() {
+GameObjectBuilder& GameObjectBuilder::AddBehaviourScript() {
     //TODO add behaviourscript to gameobject
     throw std::logic_error("Function not implemented");
     return *this;
 }
 
-ObjectBuilder &GameObjectBuilder::AddCollider() {
+GameObjectBuilder &GameObjectBuilder::AddCollider() {
     //TODO add collider to gameobject
     //DO WE NEED SEPERATE FUNCTIONS FOR DIFFERENT COLLIDERS?
     throw std::logic_error("Function not implemented");
     return *this;
 }
 
-ObjectBuilder &GameObjectBuilder::AddRigidBody() {
+GameObjectBuilder &GameObjectBuilder::AddRigidBody() {
     //TODO add rigidbody to gameobject
     throw std::logic_error("Function not implemented");
     return *this;
 }
 
-ObjectBuilder &GameObjectBuilder::AddSprite() {
+GameObjectBuilder &GameObjectBuilder::AddSprite() {
     //TODO add sprite to gameobject
     throw std::logic_error("Function not implemented");
     return *this;

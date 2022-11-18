@@ -1,9 +1,8 @@
+#include <stdexcept>
 
 #include "Director/GameObjectDirector.hpp"
 
-GameObjectDirector::GameObjectDirector() {}
-
-GameObject &GameObjectDirector::CreatePlayer() {
-
-    return <#initializer#>;
+auto GameObjectDirector::CreatePlayer() -> std::shared_ptr<GameObject> {
+    auto builder = GameObjectBuilder("gameObject1").AddAnimator();
+    throw std::logic_error("Function not implemented");
 }

@@ -33,37 +33,37 @@ public:
      * @brief Adds an AudioSource component to the current GameObject being build.
      * @return reference to ObjectBuilder, allows method chaining.
      */
-    ObjectBuilder& AddAudioSource() override;
+    GameObjectBuilder& AddAudioSource() override;
 
     /**
      * @brief Adds an Animator component to the current GameObject being build.
      * @return reference to ObjectBuilder, allows method chaining.
      */
-    ObjectBuilder& AddAnimator() override;
+    GameObjectBuilder& AddAnimator() override;
 
     /**
      * @brief Adds a BehaviourScript component to the current GameObject being build.
      * @return reference to ObjectBuilder, allows method chaining.
      */
-    ObjectBuilder& AddBehaviourScript() override;
+    GameObjectBuilder& AddBehaviourScript() override;
 
     /**
      * @brief Adds a Collider component to the current GameObject being build.
      * @return reference to ObjectBuilder, allows method chaining.
      */
-    ObjectBuilder& AddCollider() override;
+    GameObjectBuilder& AddCollider() override;
 
     /**
      * @brief Adds a RigidBody component to the current GameObject being build.
      * @return reference to ObjectBuilder, allows method chaining.
      */
-    ObjectBuilder& AddRigidBody() override;
+    GameObjectBuilder& AddRigidBody() override;
 
     /**
      * @brief Adds a Sprite component to the current GameObject being build.
      * @return reference to ObjectBuilder, allows method chaining.
      */
-    ObjectBuilder& AddSprite() override;
+    GameObjectBuilder& AddSprite() override;
 private:
     //Shares ptr with GameObject static instace list
     std::shared_ptr<GameObject> _gameObject;

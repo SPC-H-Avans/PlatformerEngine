@@ -8,7 +8,7 @@
  */
 TEST(SceneTest, IsSceneCreated) {
     // 1. Create an empty scene using the SceneBuilder
-    auto scene = SceneBuilder().GetScene();
+    auto scene = platformer_engine::SceneBuilder().GetScene();
 
     // 2. Assert that the GetScene pointer didn't return a null pointer
     ASSERT_TRUE(scene != nullptr) << "The empty SceneBuilder's GetScene function didn't return a scene pointer.";
@@ -20,7 +20,7 @@ TEST(SceneTest, IsSceneCreated) {
 TEST(SceneTest, IsGameObjectAddedToScene) {
     // 1. Create a GameObject and add it to a new Scene using the SceneBuilder
     auto gO1 = GameObjectBuilder("gameObject1").GetGameObject();
-    auto scene = SceneBuilder()
+    auto scene = platformer_engine::SceneBuilder()
             .AddGameObject(gO1)
             .GetScene();
 
@@ -38,7 +38,7 @@ TEST(SceneTest, IsGameObjectAddedToScene) {
  */
 TEST(SceneTest, AreGameObjectsAddedToScene) {
     int const amount_of_objects_to_add = 10;
-    auto builder = SceneBuilder();
+    auto builder = platformer_engine::SceneBuilder();
     std::vector<std::shared_ptr<GameObject>> gos;
 
     // 1. Add a number of GameObjects to a vector (gos)
@@ -72,7 +72,7 @@ TEST(SceneTest, IsGameObjectRemoved) {
 
     // 1. Create a scene with a gameObject
     auto gO1 = GameObjectBuilder(name).GetGameObject();
-    auto scene = SceneBuilder()
+    auto scene = platformer_engine::SceneBuilder()
             .AddGameObject(gO1)
             .GetScene();
 
@@ -96,7 +96,7 @@ TEST(SceneTest, IsCameraAddedToScene) {
     // 2. Retrieve the Camera shared pointer from the GameObject and add it to the scene
     auto pointer = std::static_pointer_cast<Camera>(GameObject::Find(cam.GetName()));
 
-    auto scene = SceneBuilder()
+    auto scene = platformer_engine::SceneBuilder()
             .AddCamera(pointer)
             .GetScene();
 
@@ -120,7 +120,7 @@ TEST(SceneTest, IsCameraActiveInScene) {
     // 2. Retrieve the Camera shared pointer from the GameObject and add it to the scene
     auto pointer = std::static_pointer_cast<Camera>(GameObject::Find(cam.GetName()));
 
-    auto scene = SceneBuilder()
+    auto scene = platformer_engine::SceneBuilder()
             .AddCamera(pointer)
             .GetScene();
 

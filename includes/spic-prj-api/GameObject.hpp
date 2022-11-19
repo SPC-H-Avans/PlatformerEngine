@@ -11,7 +11,10 @@
 #include <memory>
 #include <map>
 
+
 namespace spic {
+
+   // class Component;
 
     /**
      * @brief Any object which should be represented on screen.
@@ -177,6 +180,7 @@ namespace spic {
             template<class T>
             void AddComponent(std::shared_ptr<Component> component) {
                 if(std::is_base_of<Component, T>::value && component != nullptr) { //T is Component
+                    component->SetGameObject(_self);
                     _self.lock()->_components[typeid(T).name()].template emplace_back(component);
                 }
             }

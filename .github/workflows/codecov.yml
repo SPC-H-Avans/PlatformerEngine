@@ -89,4 +89,4 @@ jobs:
           flags: unittests
           name: codecov-umbrella
           fail_ci_if_error: false
-          dry_run: true
+          dry_run: false

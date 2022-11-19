@@ -72,22 +72,25 @@ TEST_F(CollisionTests, IsNoCollisionDetected) {
 }
 
 /**
- * @brief Tests if there is a collision detected;
+ * @brief Tests if collisions between two objects are correctly detected and the behaviour script is called with the
+ * right CollisionPoint;
  */
-TEST_F(CollisionTests, IsCollisionDetected) {
+TEST_F(CollisionTests, IsCollisionBetweenTwoObjectsDetected) {
 
-    // 1. Transform both objects to make sure they're not colliding
+    // 1. Transform both objects to make sure they're colliding
     go1->SetTransform(Transform {Point {0, 10}, 0, 0});
     go2->SetTransform(Transform {Point {0, 0}, 0, 0});
 
-    // 2. Set Colliders on objects (with sizes that don't collide)
-    BoxCollider collider;
-    collider.Width(10);
-    collider.Height(10);
-    go1->AddComponent<BoxCollider>(std::make_shared<BoxCollider>(collider));
-    collider.Width(10);
-    collider.Height(10);
-    go2->AddComponent<BoxCollider>(std::make_shared<BoxCollider>(collider));
+    // 2. Set Colliders on objects (with sizes that do collide)
+    BoxCollider bc1;
+    bc1.Width(10);
+    bc1.Height(10);
+    go1->AddComponent<BoxCollider>(std::make_shared<BoxCollider>(bc1));
+
+    BoxCollider bc2;
+    bc2.Width(10);
+    bc2.Height(10);
+    go2->AddComponent<BoxCollider>(std::make_shared<BoxCollider>(bc2));
 
     // 3. Run PhysicsEngine for collisions
     physics.Update();
@@ -105,10 +108,23 @@ TEST_F(CollisionTests, IsCollisionDetected) {
                                    std::to_string(go1Script->GetTriggerCount()) +
                                    " triggers, expected 1";
 
-    // 5. Assert that the collisions where with each other
+    // 5. Assert that the collision points are correct
+    auto cp1 = go1Script->GetTriggerFor(Trigger::Enter).second;
+    auto cp2 = go2Script->GetTriggerFor(Trigger::Enter).second;
+    ASSERT_EQ(cp1, CollisionPoint::Top);
+    ASSERT_EQ(cp2, CollisionPoint::Bottom);
 
-    // 6. Assert that the collision points are correct
+    // 6. Update GameObject 1's location so they don't overlap anymore
+    go1->SetTransform(Transform {Point {0, 20}, 0, 0});
 
+    // 7. Run PhysicsEngine for collisions
+    physics.Update();
+
+    // 8. Assert that the Collision left has been triggered
+    auto exitTrigger1 = go1Script->HasTriggered(Trigger::Exit);
+    auto exitTrigger2 = go2Script->HasTriggered(Trigger::Exit);
+    ASSERT_TRUE(exitTrigger1);
+    ASSERT_TRUE(exitTrigger2);
 
 }
 

@@ -21,6 +21,8 @@ public:
     std::pair<Collider, CollisionPoint> GetTriggerFor(Trigger trigger);
     uint64_t GetTriggerCount();
 
+    bool HasTriggered(Trigger trigger);
+
 private:
     std::map<Trigger, std::pair<Collider, CollisionPoint>> _triggers;
 };

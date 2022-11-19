@@ -19,3 +19,7 @@ std::pair<Collider, CollisionPoint> TestCollisionBehavior::GetTriggerFor(Trigger
 uint64_t TestCollisionBehavior::GetTriggerCount() {
     return _triggers.size();
 }
+
+bool TestCollisionBehavior::HasTriggered(Trigger trigger) {
+    return _triggers.count(trigger) > 0;
+}

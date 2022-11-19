@@ -2,7 +2,7 @@
 #include "Physics/Collision.hpp"
 
 Collision::Collision(spic::Collider &other, CollisionPoint direction) : _other(other), _contact(std::make_unique<CollisionPoint>(direction)) {}
-Collision::Collision(spic::Collider &other) : _other(other), _contact(nullptr) {}
+Collision::Collision(spic::Collider &other) : _other(other), _contact(std::make_unique<CollisionPoint>(CollisionPoint::Uncertain)) {}
 
 auto Collision::GetCollider() const -> spic::Collider& { return _other; }
 

@@ -27,7 +27,7 @@ TEST_F(SceneBuilderTest, ShouldAddGameObject) {
     auto scene = platformer_engine::SceneBuilder().AddGameObject(gameObject).GetScene();
 
     ASSERT_TRUE(scene != nullptr);
-    ASSERT_TRUE(scene->GetObjectByName("Test") != nullptr);
+    ASSERT_TRUE(scene->GetObjectByName(gameObject->GetName()) != nullptr);
 }
 
 /**
@@ -59,9 +59,9 @@ TEST_F(SceneBuilderTest, ShouldAddMultipleObjectsAtOnce) {
     auto scene = sceneBuilder.GetScene();
 
     ASSERT_TRUE(scene != nullptr);
-    ASSERT_TRUE(scene->GetObjectByName("Test") != nullptr);
-    ASSERT_TRUE(scene->GetObjectByName("Test2") != nullptr);
-    ASSERT_TRUE(scene->GetObjectByName("Test3") != nullptr);
+    ASSERT_TRUE(scene->GetObjectByName(gameObject->GetName()) != nullptr);
+    ASSERT_TRUE(scene->GetObjectByName(gameObject2->GetName()) != nullptr);
+    ASSERT_TRUE(scene->GetObjectByName(gameObject3->GetName()) != nullptr);
 }
 
 /**

@@ -25,7 +25,6 @@ protected:
         body.BodyType(spic::BodyType::staticBody);
         g2.AddComponent<RigidBody>(std::make_shared<RigidBody>(body));
 
-
         g1.AddComponent<BehaviourScript>(std::make_shared<TestCollisionBehavior>());
         g2.AddComponent<BehaviourScript>(std::make_shared<TestCollisionBehavior>());
 
@@ -37,6 +36,7 @@ protected:
     std::shared_ptr<GameObject> go1;
     std::shared_ptr<GameObject> go2;
     PhysicsSystem physics = PhysicsSystem();
+    void SetBoxColliders();
      //Static rigidbody
 };
 
@@ -48,23 +48,15 @@ TEST_F(CollisionTests, IsNoCollisionDetected) {
     // 1. Transform both objects to make sure they're not colliding
     go1->SetTransform(Transform {Point {0, 20}, 0, 0});
     go2->SetTransform(Transform {Point {0, 0}, 0, 0});
+    SetBoxColliders();
 
-    // 2. Set Colliders on objects (with sizes that don't collide)
-    BoxCollider collider;
-    collider.Width(10);
-    collider.Height(10);
-    go1->AddComponent<BoxCollider>(std::make_shared<BoxCollider>(collider));
-    collider.Width(10);
-    collider.Height(10);
-    go2->AddComponent<BoxCollider>(std::make_shared<BoxCollider>(collider));
-
-    // 3. Run PhysicsEngine for collisions
+    // 2. Run PhysicsEngine for collisions
     physics.Update();
 
     auto go1Script = std::static_pointer_cast<TestCollisionBehavior>(go1->GetComponent<BehaviourScript>());
     auto go2Script = std::static_pointer_cast<TestCollisionBehavior>(go2->GetComponent<BehaviourScript>());
 
-    // 4. Assert that both Behaviour scripts have no collision triggers
+    // 3. Assert that both Behaviour scripts have no collision triggers
     ASSERT_EQ(go1Script->GetTriggerCount(), 0)
         << "The GameObject 1 had more than 0 triggers, a collision was falsely detected";
     ASSERT_EQ(go2Script->GetTriggerCount(), 0)
@@ -80,25 +72,15 @@ TEST_F(CollisionTests, IsCollisionBetweenTwoObjectsDetected) {
     // 1. Transform both objects to make sure they're colliding
     go1->SetTransform(Transform {Point {0, 10}, 0, 0});
     go2->SetTransform(Transform {Point {0, 0}, 0, 0});
+    SetBoxColliders();
 
-    // 2. Set Colliders on objects (with sizes that do collide)
-    BoxCollider bc1;
-    bc1.Width(10);
-    bc1.Height(10);
-    go1->AddComponent<BoxCollider>(std::make_shared<BoxCollider>(bc1));
-
-    BoxCollider bc2;
-    bc2.Width(10);
-    bc2.Height(10);
-    go2->AddComponent<BoxCollider>(std::make_shared<BoxCollider>(bc2));
-
-    // 3. Run PhysicsEngine for collisions
+    // 2. Run PhysicsEngine for collisions
     physics.Update();
 
     auto go1Script = std::static_pointer_cast<TestCollisionBehavior>(go1->GetComponent<BehaviourScript>());
     auto go2Script = std::static_pointer_cast<TestCollisionBehavior>(go2->GetComponent<BehaviourScript>());
 
-    // 4. Assert that both Behaviour scripts have one collision trigger
+    // 3. Assert that both Behaviour scripts have one collision trigger
     ASSERT_EQ(go1Script->GetTriggerCount(), 1)
                                 << "The GameObject 1 had " +
                                 std::to_string(go1Script->GetTriggerCount()) +
@@ -108,34 +90,88 @@ TEST_F(CollisionTests, IsCollisionBetweenTwoObjectsDetected) {
                                    std::to_string(go1Script->GetTriggerCount()) +
                                    " triggers, expected 1";
 
-    // 5. Assert that the collision points are correct
+    // 4. Assert that the collision points are correct
     auto cp1 = go1Script->GetTriggerFor(Trigger::Enter).second;
     auto cp2 = go2Script->GetTriggerFor(Trigger::Enter).second;
     ASSERT_EQ(cp1, CollisionPoint::Top);
     ASSERT_EQ(cp2, CollisionPoint::Bottom);
 
-    // 6. Run the physics system again without changing any values
+    // 5. Run the physics system again without changing any values
     physics.Update();
 
-    // 7. Assert that the 'Stay' Trigger has been triggered
+    // 6. Assert that the 'Stay' Trigger has been triggered
     auto stayTrigger1 = go1Script->HasTriggered(Trigger::Stay);
     auto stayTrigger2 = go2Script->HasTriggered(Trigger::Stay);
     ASSERT_TRUE(stayTrigger1);
     ASSERT_TRUE(stayTrigger2);
 
 
-    // 8. Update GameObject 1's location so they don't overlap anymore
+    // 7. Update GameObject 1's location so they don't overlap anymore
     go1->SetTransform(Transform {Point {0, 20}, 0, 0});
 
-    // 9. Run PhysicsEngine for collisions
+    // 8. Run PhysicsEngine for collisions
     physics.Update();
 
-    // 10. Assert that the Collision left has been triggered
+    // 9. Assert that the Collision left has been triggered
     auto exitTrigger1 = go1Script->HasTriggered(Trigger::Exit);
     auto exitTrigger2 = go2Script->HasTriggered(Trigger::Exit);
     ASSERT_TRUE(exitTrigger1);
     ASSERT_TRUE(exitTrigger2);
 
+}
+
+/**
+ * @brief Tests collisions for all directions (up, down, left and right) and asserts that the right CollisionPoint is
+ * saved;
+ */
+TEST_F(CollisionTests, AreCollisionPointsCorrect) {
+
+    // 1. Transform both objects to collide on top and bottom
+    go1->SetTransform(Transform {Point {0, 10}, 0, 0}); // below, so collision on top
+    go2->SetTransform(Transform {Point {0, 0}, 0, 0}); // above, so collision on bottom
+    SetBoxColliders();
+
+    // 2. Run PhysicsEngine for collisions
+    physics.Update();
+
+    auto go1Script = std::static_pointer_cast<TestCollisionBehavior>(go1->GetComponent<BehaviourScript>());
+    auto go2Script = std::static_pointer_cast<TestCollisionBehavior>(go2->GetComponent<BehaviourScript>());
+
+    auto go1Collision = go1Script->GetTriggerFor(Trigger::Enter).second;
+    auto go2Collision = go2Script->GetTriggerFor(Trigger::Enter).second;
+
+    // 3. Assert that go1 has a collision on top and go2 on bottom
+    ASSERT_EQ(go1Collision, CollisionPoint::Top)
+        << "GameObject 1 gave the wrong CollisionPoint, expected Top";
+    ASSERT_EQ(go2Collision, CollisionPoint::Bottom)
+        << "GameObject 2 gave the wrong CollisionPoint, expected Bottom";
+
+    // 4. Update the go1 location so it collides on the right of go2
+    go1->SetTransform(Transform {Point {10, 1}, 0, 0}); // right, so collision left
+//    SetBoxColliders(); // Set box colliders again, so they can collide again
+    // Use a new phyics system so collisions are reset.
+    physics = PhysicsSystem();
+    physics.Update();
+
+    // 5. Assert that go1 has a collision on the left and go2 on the right
+    go1Collision = go1Script->GetTriggerFor(Trigger::Enter).second;
+    go2Collision = go2Script->GetTriggerFor(Trigger::Enter).second;
+    ASSERT_EQ(go1Collision, CollisionPoint::Left)
+        << "GameObject 1 gave the wrong CollisionPoint, expected Left";
+    ASSERT_EQ(go2Collision, CollisionPoint::Right)
+        << "GameObject 2 gave the wrong CollisionPoint, expected Right";
+
+
+}
+
+void CollisionTests::SetBoxColliders() {
+    BoxCollider collider;
+    collider.Width(10);
+    collider.Height(10);
+    go1->AddComponent<BoxCollider>(std::make_shared<BoxCollider>(collider));
+    collider.Width(10);
+    collider.Height(10);
+    go2->AddComponent<BoxCollider>(std::make_shared<BoxCollider>(collider));
 }
 
 // todo: Test collision system for left, right, up, down collision locations

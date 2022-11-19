@@ -8,52 +8,60 @@ void GameObjectBuilder::Reset(const std::string &name) {
     _gameObject = std::make_shared<GameObject>(name);
 }
 
-std::shared_ptr<GameObject> GameObjectBuilder::GetGameObject() {
+auto GameObjectBuilder::GetGameObject() -> std::shared_ptr<GameObject> {
     auto name = _gameObject->GetName();
     Reset(name);
     return GameObject::Find(name);
 }
 
 //Return *this in every component method to allow chaining
-ObjectBuilder& GameObjectBuilder::AddAudioSource() {
+auto GameObjectBuilder::AddAudioSource() -> ObjectBuilder & {
     //TODO Add audiosource to gameobject
     throw std::logic_error("Function not implemented");
     return *this;
 }
 
-ObjectBuilder& GameObjectBuilder::AddAnimator(std::shared_ptr<platformer_engine::AnimatedSprite> animatedSprite) {
-    _gameObject->AddComponent<Animator>(animatedSprite);
+auto
+GameObjectBuilder::AddAnimator(std::shared_ptr<platformer_engine::AnimatedSprite> animatedSprite) -> ObjectBuilder & {
+    std::shared_ptr<Animator> animator = std::make_shared<Animator>(animatedSprite);
+    _gameObject->AddComponent<Animator>(animator);
     return *this;
 }
 
-ObjectBuilder &
-GameObjectBuilder::AddAnimator(std::vector<std::shared_ptr<platformer_engine::AnimatedSprite>> animatedSprite) {
-    for (const auto &item: animatedSprite) {
-        _gameObject->AddComponent<Animator>(item);
+auto
+GameObjectBuilder::AddAnimator(
+        std::vector<std::shared_ptr<platformer_engine::AnimatedSprite>> animatedSprite) -> ObjectBuilder & {
+    if (animatedSprite.empty()) {
+        throw std::invalid_argument("animatedSprite is empty");
     }
+    std::shared_ptr<Animator> animator = std::make_shared<Animator>(animatedSprite.back());
+    for (const auto &item: animatedSprite) {
+        animator->AddAnimation(item);
+    }
+    _gameObject->AddComponent<Animator>(animator);
     return *this;
 }
 
-ObjectBuilder& GameObjectBuilder::AddBehaviourScript() {
+auto GameObjectBuilder::AddBehaviourScript() -> ObjectBuilder & {
     //TODO add behaviourscript to gameobject
     throw std::logic_error("Function not implemented");
     return *this;
 }
 
-ObjectBuilder &GameObjectBuilder::AddCollider() {
+auto GameObjectBuilder::AddCollider() -> ObjectBuilder & {
     //TODO add collider to gameobject
     //DO WE NEED SEPERATE FUNCTIONS FOR DIFFERENT COLLIDERS?
     throw std::logic_error("Function not implemented");
     return *this;
 }
 
-ObjectBuilder &GameObjectBuilder::AddRigidBody() {
+auto GameObjectBuilder::AddRigidBody() -> ObjectBuilder & {
     //TODO add rigidbody to gameobject
     throw std::logic_error("Function not implemented");
     return *this;
 }
 
-ObjectBuilder &GameObjectBuilder::AddSprite(const std::shared_ptr<spic::Sprite>& sprite) {
+auto GameObjectBuilder::AddSprite(const std::shared_ptr<spic::Sprite> &sprite) -> ObjectBuilder & {
     _gameObject->AddComponent<Sprite>(sprite);
     return *this;
 }

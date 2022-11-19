@@ -13,6 +13,10 @@ namespace platformer_engine {
     }
 
     void MarioMoveBehavior::OnTriggerEnter2D(const Collision collision) {
+        auto collider = collision.GetCollider();
+        auto point = collision.Contact();
+
+        //todo: In the gameobject this behavior belongs to; set a 'canMoveRight' and 'CanMoveLeft' values
 //        BehaviourScript::OnTriggerEnter2D(collision);
     }
 

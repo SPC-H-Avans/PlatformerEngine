@@ -7,7 +7,7 @@
 
 namespace spic {
 
-    class BehaviourScript : public Component {
+    class  BehaviourScript : public Component {
         public:
             /**
              * @brief TODO

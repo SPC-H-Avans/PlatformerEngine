@@ -6,7 +6,7 @@ on:
       - main
       - develop
   pull_request:
-  
+
 
 env:
   CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
@@ -24,6 +24,7 @@ jobs:
 
     env:
       VCPKG_DEFAULT_TRIPLET: ${{ matrix.triplet }}
+      COVERAGE: 1
 
     steps:
       - name: 'Install SDL2 dev'
@@ -49,6 +50,8 @@ jobs:
           configurePreset: ninja-multi-vcpkg
           buildPreset: ninja-multi-vcpkg
           testPreset: ninja-multi-vcpkg
+        env:
+          COVERAGE: ${{ env.COVERAGE }}
 
       - name: 'Install lcov'
         if: runner.os == 'Linux'

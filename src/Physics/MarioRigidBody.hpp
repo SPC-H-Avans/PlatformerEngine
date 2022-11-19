@@ -4,7 +4,7 @@
 
 
 class MarioRigidBody : public spic::RigidBody {
-public: //todo make private with public getters and setters
+public:
     void AddForce(const Point& forceDirection) override;
     float GetHorizontalSpeed() const;
     float GetVerticalSpeed() const;

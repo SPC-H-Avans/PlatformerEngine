@@ -5,7 +5,10 @@ void spic::RigidBody::AddForce(const spic::Point &forceDirection) {
 }
 
 bool spic::RigidBody::CanMoveTo(CollisionPoint point) {
-    return _canMoveTo[point];
+    if(_canMoveTo.count(point)) {
+        return _canMoveTo[point];
+    }
+    return true;
 }
 
 void spic::RigidBody::AllowMoveTo(CollisionPoint point) {

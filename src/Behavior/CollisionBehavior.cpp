@@ -6,16 +6,12 @@
 namespace platformer_engine {
 
     void CollisionBehavior::OnStart() {
-        spic::Input::GetMouseButton(spic::Input::MouseButton::RIGHT);
-        BehaviourScript::OnStart();
     }
 
     void CollisionBehavior::OnUpdate() {
-        BehaviourScript::OnUpdate();
     }
 
     void CollisionBehavior::OnTriggerEnter2D(const Collision collision) {
-        auto collider = collision.GetCollider();
         auto point = collision.Contact();
 
         auto gameObjWeak = GetGameObject();
@@ -29,8 +25,6 @@ namespace platformer_engine {
             gameObjWeak.reset();
         }
 
-        //todo: In the gameobject this behavior belongs to; set a 'canMoveRight' and 'CanMoveLeft' values
-//        BehaviourScript::OnTriggerEnter2D(collision);
     }
 
     void CollisionBehavior::OnTriggerExit2D(const Collision collision) {

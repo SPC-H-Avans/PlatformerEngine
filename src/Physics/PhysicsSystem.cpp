@@ -20,6 +20,7 @@ using std::unique_ptr;
 
 void PhysicsSystem::Update() {
     CheckCollisions();
+    MoveObjects();
 }
 
 void PhysicsSystem::MoveObjects() {
@@ -31,7 +32,7 @@ void PhysicsSystem::MoveObjects() {
 
     //Loop through the GameObjects and find ones with MarioRigidBody
     for(auto& gameObject : gameObjects) {
-        shared_ptr<MarioRigidBody> mario = std::static_pointer_cast<MarioRigidBody>(gameObject->GetComponent<MarioRigidBody>());
+        shared_ptr<MarioRigidBody> mario = std::dynamic_pointer_cast<MarioRigidBody>(gameObject->GetComponent<RigidBody>());
 
         if(mario != nullptr) {
             // We found mario!
@@ -57,7 +58,10 @@ void PhysicsSystem::MoveObjects() {
             auto transform = gameObject->GetTransform();
             transform.position.x += mario->GetHorizontalSpeed();
             transform.position.y += mario->GetVerticalSpeed();
-
+            if(transform.position.y > 30) { //todo: This is just for testing
+                transform.position.y = 30; // todo: Collision system breaks when y > 30?!?!?!?!
+            }
+            gameObject->SetTransform(transform);
         }
     }
 
@@ -176,10 +180,10 @@ auto PhysicsSystem::CheckBoxCollision(Point aPos, const BoxCollider& aCol, Point
         double right_col = b_right - aPos.x;
 
         if (top_col < bottom_col && top_col < left_col && top_col < right_col ){//Top collision
-            return std::make_unique<std::tuple<CollisionPoint, CollisionPoint>>(std::make_tuple(CollisionPoint::Top, CollisionPoint::Bottom));
+            return std::make_unique<std::tuple<CollisionPoint, CollisionPoint>>(std::make_tuple(CollisionPoint::Bottom, CollisionPoint::Top));
         }
         if (bottom_col < top_col && bottom_col < left_col && bottom_col < right_col){ //bottom collision
-            return std::make_unique<std::tuple<CollisionPoint, CollisionPoint>>(std::make_tuple(CollisionPoint::Bottom, CollisionPoint::Top));
+            return std::make_unique<std::tuple<CollisionPoint, CollisionPoint>>(std::make_tuple(CollisionPoint::Top, CollisionPoint::Bottom));
         }
         if (left_col < right_col && left_col < top_col && left_col < bottom_col) { //Left collision
             return std::make_unique<std::tuple<CollisionPoint, CollisionPoint>>(std::make_tuple(CollisionPoint::Left, CollisionPoint::Right));

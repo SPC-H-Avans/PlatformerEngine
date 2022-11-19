@@ -70,3 +70,46 @@ TEST_F(CollisionTests, IsNoCollisionDetected) {
     ASSERT_EQ(go2Script->GetTriggerCount(), 0)
         << "The GameObject 2 had more than 0 triggers, a collision was falsely detected";
 }
+
+/**
+ * @brief Tests if there is a collision detected;
+ */
+TEST_F(CollisionTests, IsCollisionDetected) {
+
+    // 1. Transform both objects to make sure they're not colliding
+    go1->SetTransform(Transform {Point {0, 10}, 0, 0});
+    go2->SetTransform(Transform {Point {0, 0}, 0, 0});
+
+    // 2. Set Colliders on objects (with sizes that don't collide)
+    BoxCollider collider;
+    collider.Width(10);
+    collider.Height(10);
+    go1->AddComponent<BoxCollider>(std::make_shared<BoxCollider>(collider));
+    collider.Width(10);
+    collider.Height(10);
+    go2->AddComponent<BoxCollider>(std::make_shared<BoxCollider>(collider));
+
+    // 3. Run PhysicsEngine for collisions
+    physics.Update();
+
+    auto go1Script = std::static_pointer_cast<TestCollisionBehavior>(go1->GetComponent<BehaviourScript>());
+    auto go2Script = std::static_pointer_cast<TestCollisionBehavior>(go2->GetComponent<BehaviourScript>());
+
+    // 4. Assert that both Behaviour scripts have one collision trigger
+    ASSERT_EQ(go1Script->GetTriggerCount(), 1)
+                                << "The GameObject 1 had " +
+                                std::to_string(go1Script->GetTriggerCount()) +
+                                " triggers, expected 1";
+    ASSERT_EQ(go2Script->GetTriggerCount(), 1)
+                                << "The GameObject 2 had " +
+                                   std::to_string(go1Script->GetTriggerCount()) +
+                                   " triggers, expected 1";
+
+    // 5. Assert that the collisions where with each other
+
+    // 6. Assert that the collision points are correct
+
+
+}
+
+// todo: Test collision system for left, right, up, down collision locations

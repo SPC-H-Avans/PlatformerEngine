@@ -132,11 +132,11 @@ auto PhysicsSystem::CheckBoxCollision(Point aPos, const BoxCollider& aCol, Point
         //Distance between left a and right b
         double right_col = b_right - aPos.x;
 
-        if (top_col < bottom_col && top_col < left_col && top_col < right_col ){//Top collision
-            return std::make_unique<std::tuple<CollisionPoint, CollisionPoint>>(std::make_tuple(CollisionPoint::Top, CollisionPoint::Bottom));
-        }
-        if (bottom_col < top_col && bottom_col < left_col && bottom_col < right_col){ //bottom collision
+        if (top_col < bottom_col && top_col < left_col && top_col < right_col ){//Bottom collision
             return std::make_unique<std::tuple<CollisionPoint, CollisionPoint>>(std::make_tuple(CollisionPoint::Bottom, CollisionPoint::Top));
+        }
+        if (bottom_col < top_col && bottom_col < left_col && bottom_col < right_col){ //Top collision
+            return std::make_unique<std::tuple<CollisionPoint, CollisionPoint>>(std::make_tuple(CollisionPoint::Top, CollisionPoint::Bottom));
         }
         if (left_col < right_col && left_col < top_col && left_col < bottom_col) { //Left collision
             return std::make_unique<std::tuple<CollisionPoint, CollisionPoint>>(std::make_tuple(CollisionPoint::Left, CollisionPoint::Right));

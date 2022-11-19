@@ -5,6 +5,7 @@
 #include "BoxCollider.hpp"
 #include <queue>
 #include "Physics/PhysicsSystem.hpp"
+#include "Resources/TestCollisionBehavior.hpp"
 
 class CollisionTests : public ::testing::Test {
 protected:
@@ -25,8 +26,8 @@ protected:
         g2.AddComponent<RigidBody>(std::make_shared<RigidBody>(body));
 
 
-        g1.AddComponent<BehaviourScript>(std::make_shared<BehaviourScript>());
-        g2.AddComponent<BehaviourScript>(std::make_shared<BehaviourScript>());
+        g1.AddComponent<BehaviourScript>(std::make_shared<TestCollisionBehavior>());
+        g2.AddComponent<BehaviourScript>(std::make_shared<TestCollisionBehavior>());
 
 
         go1 = GameObject::Find("dynamic1");
@@ -44,7 +45,11 @@ protected:
  */
 TEST_F(CollisionTests, IsNoCollisionDetected) {
 
-    //Set Colliders on objects
+    // 1. Transform both objects to make sure they're not colliding
+    go1->SetTransform(Transform {Point {0, 20}, 0, 0});
+    go2->SetTransform(Transform {Point {0, 0}, 0, 0});
+
+    // 2. Set Colliders on objects (with sizes that don't collide)
     BoxCollider collider;
     collider.Width(10);
     collider.Height(10);
@@ -53,5 +58,15 @@ TEST_F(CollisionTests, IsNoCollisionDetected) {
     collider.Height(10);
     go2->AddComponent<BoxCollider>(std::make_shared<BoxCollider>(collider));
 
+    // 3. Run PhysicsEngine for collisions
     physics.Update();
+
+    auto go1Script = std::static_pointer_cast<TestCollisionBehavior>(go1->GetComponent<BehaviourScript>());
+    auto go2Script = std::static_pointer_cast<TestCollisionBehavior>(go2->GetComponent<BehaviourScript>());
+
+    // 4. Assert that both Behaviour scripts have no collision triggers
+    ASSERT_EQ(go1Script->GetTriggerCount(), 0)
+        << "The GameObject 1 had more than 0 triggers, a collision was falsely detected";
+    ASSERT_EQ(go2Script->GetTriggerCount(), 0)
+        << "The GameObject 2 had more than 0 triggers, a collision was falsely detected";
 }

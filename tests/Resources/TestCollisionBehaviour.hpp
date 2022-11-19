@@ -1,5 +1,5 @@
-#ifndef PLATFORMER_ENGINE_TESTCOLLISIONBEHAVIOR_HPP
-#define PLATFORMER_ENGINE_TESTCOLLISIONBEHAVIOR_HPP
+#ifndef PLATFORMER_ENGINE_TESTCOLLISIONBEHAVIOUR_HPP
+#define PLATFORMER_ENGINE_TESTCOLLISIONBEHAVIOUR_HPP
 
 #include "BehaviourScript.hpp"
 #include <map>
@@ -10,7 +10,7 @@ enum Trigger {
     Stay
 };
 
-class TestCollisionBehavior : public BehaviourScript {
+class TestCollisionBehaviour : public BehaviourScript {
 public:
 //    void OnStart() override;
 //    void OnUpdate() override;
@@ -28,4 +28,4 @@ private:
 };
 
 
-#endif //PLATFORMER_ENGINE_TESTCOLLISIONBEHAVIOR_HPP
+#endif //PLATFORMER_ENGINE_TESTCOLLISIONBEHAVIOUR_HPP

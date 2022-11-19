@@ -5,7 +5,7 @@
 #include "BoxCollider.hpp"
 #include <queue>
 #include "Physics/PhysicsSystem.hpp"
-#include "Resources/TestCollisionBehavior.hpp"
+#include "Resources/TestCollisionBehaviour.hpp"
 
 class CollisionTests : public ::testing::Test {
 protected:
@@ -25,8 +25,8 @@ protected:
         body.BodyType(spic::BodyType::staticBody);
         g2.AddComponent<RigidBody>(std::make_shared<RigidBody>(body));
 
-        g1.AddComponent<BehaviourScript>(std::make_shared<TestCollisionBehavior>());
-        g2.AddComponent<BehaviourScript>(std::make_shared<TestCollisionBehavior>());
+        g1.AddComponent<BehaviourScript>(std::make_shared<TestCollisionBehaviour>());
+        g2.AddComponent<BehaviourScript>(std::make_shared<TestCollisionBehaviour>());
 
 
         go1 = GameObject::Find("dynamic1");
@@ -53,8 +53,8 @@ TEST_F(CollisionTests, IsNoCollisionDetected) {
     // 2. Run PhysicsEngine for collisions
     physics.Update();
 
-    auto go1Script = std::static_pointer_cast<TestCollisionBehavior>(go1->GetComponent<BehaviourScript>());
-    auto go2Script = std::static_pointer_cast<TestCollisionBehavior>(go2->GetComponent<BehaviourScript>());
+    auto go1Script = std::static_pointer_cast<TestCollisionBehaviour>(go1->GetComponent<BehaviourScript>());
+    auto go2Script = std::static_pointer_cast<TestCollisionBehaviour>(go2->GetComponent<BehaviourScript>());
 
     // 3. Assert that both Behaviour scripts have no collision triggers
     ASSERT_EQ(go1Script->GetTriggerCount(), 0)
@@ -77,8 +77,8 @@ TEST_F(CollisionTests, IsCollisionBetweenTwoObjectsDetected) {
     // 2. Run PhysicsEngine for collisions
     physics.Update();
 
-    auto go1Script = std::static_pointer_cast<TestCollisionBehavior>(go1->GetComponent<BehaviourScript>());
-    auto go2Script = std::static_pointer_cast<TestCollisionBehavior>(go2->GetComponent<BehaviourScript>());
+    auto go1Script = std::static_pointer_cast<TestCollisionBehaviour>(go1->GetComponent<BehaviourScript>());
+    auto go2Script = std::static_pointer_cast<TestCollisionBehaviour>(go2->GetComponent<BehaviourScript>());
 
     // 3. Assert that both Behaviour scripts have one collision trigger
     ASSERT_EQ(go1Script->GetTriggerCount(), 1)
@@ -122,7 +122,7 @@ TEST_F(CollisionTests, IsCollisionBetweenTwoObjectsDetected) {
 
 /**
  * @brief Tests collisions for all directions (up, down, left and right) and asserts that the right CollisionPoint is
- * saved;
+ * passed to the Behaviour Script;
  */
 TEST_F(CollisionTests, AreCollisionPointsCorrect) {
 
@@ -134,8 +134,8 @@ TEST_F(CollisionTests, AreCollisionPointsCorrect) {
     // 2. Run PhysicsEngine for collisions
     physics.Update();
 
-    auto go1Script = std::static_pointer_cast<TestCollisionBehavior>(go1->GetComponent<BehaviourScript>());
-    auto go2Script = std::static_pointer_cast<TestCollisionBehavior>(go2->GetComponent<BehaviourScript>());
+    auto go1Script = std::static_pointer_cast<TestCollisionBehaviour>(go1->GetComponent<BehaviourScript>());
+    auto go2Script = std::static_pointer_cast<TestCollisionBehaviour>(go2->GetComponent<BehaviourScript>());
 
     auto go1Collision = go1Script->GetTriggerFor(Trigger::Enter).second;
     auto go2Collision = go2Script->GetTriggerFor(Trigger::Enter).second;

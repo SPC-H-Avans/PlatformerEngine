@@ -1,5 +1,4 @@
 #include "Render/Window.hpp"
-#include "../../includes/spic-prj-api/Input.hpp"
 #include "LevelParser/LevelParser.hpp"
 
 platformer_engine::Window::Window(int width, int height, const std::string &title, const spic::Color &color) {
@@ -21,7 +20,7 @@ void platformer_engine::Window::Quit() {
 }
 
 auto platformer_engine::Window::ListenForEvents() -> std::vector<EventsEnum> {
-   return InputFacade::GetInstance().ListenForInput();
+    return InputFacade::GetInstance().ListenForInput();
 }
 
 void platformer_engine::Window::SetActiveScene(std::unique_ptr<spic::Scene> scene) {

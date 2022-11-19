@@ -98,6 +98,11 @@ namespace spic {
 
     private:
         /**
+         * @brief Render all GameObjects in this scene
+         */
+        void RenderGameObjects();
+
+        /**
          * @brief List of all Game Objects in this scene
          * @spicapi
          */

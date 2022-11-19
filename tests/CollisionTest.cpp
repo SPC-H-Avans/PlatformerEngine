@@ -73,7 +73,7 @@ TEST_F(CollisionTests, IsNoCollisionDetected) {
 
 /**
  * @brief Tests if collisions between two objects are correctly detected and the behaviour script is called with the
- * right CollisionPoint;
+ * right CollisionPoint on Enter, Stay and Exit;
  */
 TEST_F(CollisionTests, IsCollisionBetweenTwoObjectsDetected) {
 
@@ -114,13 +114,23 @@ TEST_F(CollisionTests, IsCollisionBetweenTwoObjectsDetected) {
     ASSERT_EQ(cp1, CollisionPoint::Top);
     ASSERT_EQ(cp2, CollisionPoint::Bottom);
 
-    // 6. Update GameObject 1's location so they don't overlap anymore
-    go1->SetTransform(Transform {Point {0, 20}, 0, 0});
-
-    // 7. Run PhysicsEngine for collisions
+    // 6. Run the physics system again without changing any values
     physics.Update();
 
-    // 8. Assert that the Collision left has been triggered
+    // 7. Assert that the 'Stay' Trigger has been triggered
+    auto stayTrigger1 = go1Script->HasTriggered(Trigger::Stay);
+    auto stayTrigger2 = go2Script->HasTriggered(Trigger::Stay);
+    ASSERT_TRUE(stayTrigger1);
+    ASSERT_TRUE(stayTrigger2);
+
+
+    // 8. Update GameObject 1's location so they don't overlap anymore
+    go1->SetTransform(Transform {Point {0, 20}, 0, 0});
+
+    // 9. Run PhysicsEngine for collisions
+    physics.Update();
+
+    // 10. Assert that the Collision left has been triggered
     auto exitTrigger1 = go1Script->HasTriggered(Trigger::Exit);
     auto exitTrigger2 = go2Script->HasTriggered(Trigger::Exit);
     ASSERT_TRUE(exitTrigger1);

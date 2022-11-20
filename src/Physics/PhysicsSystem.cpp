@@ -58,9 +58,6 @@ void PhysicsSystem::MoveObjects() {
             auto transform = gameObject->GetTransform();
             transform.position.x += mario->GetHorizontalSpeed();
             transform.position.y += mario->GetVerticalSpeed();
-            if(transform.position.y > 30) { //todo: This is just for testing
-                transform.position.y = 30; // todo: Collision system breaks when y > 30?!?!?!?!
-            }
             gameObject->SetTransform(transform);
         }
     }

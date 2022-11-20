@@ -53,7 +53,7 @@ void PhysicsSystem::CheckCollisions() {
                     if(collision != nullptr) { //If collision
                         if(_collisions.count(aCol) > 0) {
                             if (find(_collisions[aCol].begin(), _collisions[aCol].end(), bCol) != _collisions[aCol].end()) {
-                                RemainCollision(initiator, aCol, receiver, bCol);
+                                RemainCollision(initiator, aCol, receiver, bCol, *collision);
                             } else {
                                 CreateCollision(initiator, aCol, receiver, bCol, *collision);
                             }
@@ -88,12 +88,13 @@ void PhysicsSystem::CreateCollision(const shared_ptr<GameObject>& initiator, con
 }
 
 void PhysicsSystem::RemainCollision(const shared_ptr<GameObject>& initiator, const shared_ptr<Collider>& init_collider,
-                                    const shared_ptr<GameObject>& receiver, const shared_ptr<Collider>& rec_collider) {
+                                    const shared_ptr<GameObject>& receiver, const shared_ptr<Collider>& rec_collider,
+                                    std::tuple<CollisionPoint, CollisionPoint> direction) {
 
     for(auto& script : initiator->GetComponents<BehaviourScript>())
-        std::static_pointer_cast<BehaviourScript>(script)->OnTriggerStay2D(Collision (*rec_collider));
+        std::static_pointer_cast<BehaviourScript>(script)->OnTriggerStay2D(Collision (*rec_collider, std::get<0>(direction)));
     for(auto& script : receiver->GetComponents<BehaviourScript>())
-        std::static_pointer_cast<BehaviourScript>(script)->OnTriggerStay2D(Collision (*init_collider));
+        std::static_pointer_cast<BehaviourScript>(script)->OnTriggerStay2D(Collision (*init_collider, std::get<1>(direction)));
 }
 
 void PhysicsSystem::EndCollision(const shared_ptr<GameObject>& initiator, const shared_ptr<Collider>& init_collider,

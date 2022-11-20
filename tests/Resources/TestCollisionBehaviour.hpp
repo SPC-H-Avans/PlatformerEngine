@@ -18,13 +18,14 @@ public:
     void OnTriggerExit2D(Collision collision) override;
     void OnTriggerStay2D(Collision collision) override;
 
-    std::pair<Collider, CollisionPoint> GetTriggerFor(Trigger trigger);
-    uint64_t GetTriggerCount();
-
-    bool HasTriggered(Trigger trigger);
+    int GetCollisionPointCountFor(Trigger trigger, CollisionPoint point);
+    int GetTriggerCount();
+    void Reset();
 
 private:
-    std::map<Trigger, std::pair<Collider, CollisionPoint>> _triggers;
+    std::map<Trigger, std::map<CollisionPoint, int>> _triggers;
+    int _triggerCount = 0;
+
 };
 
 

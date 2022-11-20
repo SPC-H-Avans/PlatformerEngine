@@ -1,25 +1,29 @@
 #include "TestCollisionBehaviour.hpp"
 
 void TestCollisionBehaviour::OnTriggerEnter2D(const Collision collision) {
-    _triggers[Trigger::Enter] = std::pair<Collider, CollisionPoint>(collision.GetCollider(), collision.Contact());
+    _triggers[Trigger::Enter][collision.Contact()] += 1;
+    _triggerCount++;
 }
 
 void TestCollisionBehaviour::OnTriggerExit2D(const Collision collision) {
-    _triggers[Trigger::Exit] = std::pair<Collider, CollisionPoint>(collision.GetCollider(), collision.Contact());
+    _triggers[Trigger::Exit][collision.Contact()] += 1;
+    _triggerCount++;
 }
 
 void TestCollisionBehaviour::OnTriggerStay2D(const Collision collision) {
-    _triggers[Trigger::Stay] = std::pair<Collider, CollisionPoint>(collision.GetCollider(), collision.Contact());
+    _triggers[Trigger::Stay][collision.Contact()] += 1;
+    _triggerCount++;
 }
 
-std::pair<Collider, CollisionPoint> TestCollisionBehaviour::GetTriggerFor(Trigger trigger) {
-    return _triggers[trigger];
+int TestCollisionBehaviour::GetCollisionPointCountFor(Trigger trigger, CollisionPoint point) {
+    return _triggers[trigger][point];
 }
 
-uint64_t TestCollisionBehaviour::GetTriggerCount() {
-    return _triggers.size();
+int TestCollisionBehaviour::GetTriggerCount() {
+    return _triggerCount;
 }
 
-bool TestCollisionBehaviour::HasTriggered(Trigger trigger) {
-    return _triggers.count(trigger) > 0;
+void TestCollisionBehaviour::Reset() {
+    _triggerCount = 0;
+    _triggers = std::map<Trigger, std::map<CollisionPoint, int>>();
 }

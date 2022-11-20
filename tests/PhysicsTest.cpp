@@ -15,42 +15,40 @@ protected:
         GameObject mario = GameObject("Mario"); //Dynamic rigidbody
         GameObject block = GameObject("Block");
 
+        _mario = GameObject::Find("Mario");
+        _block = GameObject::Find("Block");
+
         //Set X,Y pos of objects
-        mario.SetTransform(Transform {Point {0, 3}, 0, 0});
-        block.SetTransform(Transform {Point {0, 0}, 0, 0});
+        _mario->SetTransform(Transform {Point {0, 3}, 0, 0});
+        _block->SetTransform(Transform {Point {0, 0}, 0, 0});
 
         //Set Rigidbody on both objects;
         MarioRigidBody marioBody;
         marioBody.BodyType(spic::BodyType::dynamicBody);
-        mario.AddComponent<RigidBody>(std::make_shared<MarioRigidBody>(marioBody));
+        _mario->AddComponent<RigidBody>(std::make_shared<MarioRigidBody>(marioBody));
 
         RigidBody blockBody;
         blockBody.BodyType(spic::BodyType::staticBody);
-        block.AddComponent<RigidBody>(std::make_shared<RigidBody>(blockBody));
+        _block->AddComponent<RigidBody>(std::make_shared<RigidBody>(blockBody));
 
 
-        mario.AddComponent<BehaviourScript>(std::make_shared<platformer_engine::CollisionBehavior>());
-        block.AddComponent<BehaviourScript>(std::make_shared<BehaviourScript>());
+        _mario->AddComponent<BehaviourScript>(std::make_shared<platformer_engine::CollisionBehavior>());
+        _block->AddComponent<BehaviourScript>(std::make_shared<BehaviourScript>());
 
         //Set Colliders on objects
-        BoxCollider collider;
-        collider.Width(10);
-        collider.Height(10);
-        mario.AddComponent<BoxCollider>(std::make_shared<BoxCollider>(collider));
+        SetBoxColliders();
+    }
 
-        collider.Width(10);
-        collider.Height(10);
-        block.AddComponent<BoxCollider>(std::make_shared<BoxCollider>(collider));
-
-
-        _mario = GameObject::Find("Mario");
-        _block = GameObject::Find("Block");
+    void TearDown() override {
+        GameObject::Destroy(_mario);
+        GameObject::Destroy(_block);
     }
 
     std::shared_ptr<GameObject> _mario;
     std::shared_ptr<GameObject> _block;
     PhysicsSystem physics = PhysicsSystem();
-    //Static rigidbody
+
+    void SetBoxColliders();
 };
 
 /**
@@ -60,7 +58,7 @@ TEST_F(PhysicsTests, MarioDoesntFallThroughBlock) {
 
     // 1. Declare start x and y location of the Mario GameObject
     auto marioStartX = 0.0;
-    auto marioStartY = 10.0;
+    auto marioStartY = -10.0;
 
     // 2. Set the location so that the block and mario overlap
     _mario->SetTransform(Transform {Point {marioStartX, marioStartY}, 0, 0});
@@ -107,16 +105,12 @@ TEST_F(PhysicsTests, MarioFallsUntilBlock) {
 
 }
 
-
-//TEST(PhysicsTest, DoesMarioMove) {
-//    auto go1 = spic::GameObject("Mario_DoesMarioMove");
-//    go1.SetTransform(Transform {Point {3, 3}, 0, 0});
-//
-//
-//    MarioRigidBody body;
-//    body.BodyType(spic::BodyType::dynamicBody);
-//    go1.AddComponent<MarioRigidBody>(std::make_shared<MarioRigidBody>(body));
-//
-//    auto physics = PhysicsSystem();
-//    physics.MoveObjects();
-//}
+void PhysicsTests::SetBoxColliders() {
+    BoxCollider collider;
+    collider.Width(10);
+    collider.Height(10);
+    _mario->AddComponent<BoxCollider>(std::make_shared<BoxCollider>(collider));
+    collider.Width(10);
+    collider.Height(10);
+    _block->AddComponent<BoxCollider>(std::make_shared<BoxCollider>(collider));
+}

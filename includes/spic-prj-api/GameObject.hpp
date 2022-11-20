@@ -11,6 +11,7 @@
 #include <memory>
 #include <map>
 
+
 namespace spic {
 
     /**
@@ -166,22 +167,22 @@ namespace spic {
         */
         auto Children() -> std::vector<std::shared_ptr<GameObject>>;
 
-
-        /**
-         * @brief Add a Component of the specified type. Must be a valid
-         *        subclass of Component. The GameObject assumes ownership of
-         *        the Component.
-         * @details This function places a pointer to the component in
-         *          a suitable container.
-         * @param component Reference to the component.
-         * @spicapi
-         */
-        template<class T>
-        void AddComponent(std::shared_ptr<Component> component) {
-            if (std::is_base_of<Component, T>::value && component != nullptr) { //T is Component
-                _self.lock()->_components[typeid(T).name()].template emplace_back(component);
+            /**
+             * @brief Add a Component of the specified type. Must be a valid
+             *        subclass of Component. The GameObject assumes ownership of
+             *        the Component.
+             * @details This function places a pointer to the component in
+             *          a suitable container.
+             * @param component Reference to the component.
+             * @spicapi
+             */
+            template<class T>
+            void AddComponent(std::shared_ptr<Component> component) {
+                if(std::is_base_of<Component, T>::value && component != nullptr) { //T is Component
+                    component->SetGameObject(_self);
+                    _self.lock()->_components[typeid(T).name()].template emplace_back(component);
+                }
             }
-        }
 
         /**
          * @brief Get the first component of the specified type. Must be

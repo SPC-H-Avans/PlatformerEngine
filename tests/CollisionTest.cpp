@@ -164,6 +164,10 @@ TEST_F(CollisionTests, AreCollisionPointsCorrect) {
 
 }
 
+TEST_F(CollisionTests, IsCollisionBetweenThreeObjectsDetected) {
+
+}
+
 void CollisionTests::SetBoxColliders() {
     BoxCollider collider;
     collider.Width(10);

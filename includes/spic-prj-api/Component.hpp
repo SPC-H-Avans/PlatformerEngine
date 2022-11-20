@@ -1,7 +1,10 @@
 #ifndef COMPONENT_H_
 #define COMPONENT_H_
 
+#include <memory>
+
 namespace spic {
+    class GameObject;
 
     /**
      * @brief Base class for all components.
@@ -18,9 +21,7 @@ namespace spic {
             auto operator=(const Component& other) -> Component& = default;
             Component(Component&& other) = default;
 
-
-
-        auto operator=(Component&& other) -> Component& = default;
+            auto operator=(Component&& other) -> Component& = default;
 
             /**
              * @brief Getter for active status.
@@ -35,11 +36,23 @@ namespace spic {
              */
             void Active(bool flag) { _active = flag; }
 
+            void SetGameObject(std::weak_ptr<GameObject> gObj) {
+                _gameObject = std::move(gObj);
+            }
+
+            std::weak_ptr<GameObject> GetGameObject() {
+                return _gameObject;
+            }
+
         private:
             /**
              * @brief Active status.
              */
             bool _active;
+            /**
+             * @brief weak pointer to it's GameObject
+             */
+            std::weak_ptr<GameObject> _gameObject;
     };
 
 } // namespace spic

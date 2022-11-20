@@ -1,4 +1,4 @@
-#include "MarioRigidBody.hpp"
+#include "Physics/MarioRigidBody.hpp"
 #include "Point.hpp"
 #include <algorithm>
 #include "Physics/Collision.hpp"

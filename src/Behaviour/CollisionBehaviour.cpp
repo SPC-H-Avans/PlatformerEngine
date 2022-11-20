@@ -1,4 +1,4 @@
-#include "CollisionBehaviour.hpp"
+#include "Behaviour/CollisionBehaviour.hpp"
 #include "Input.hpp"
 #include "GameObject.hpp"
 #include "RigidBody.hpp"

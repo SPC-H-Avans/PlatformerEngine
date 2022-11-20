@@ -11,6 +11,7 @@ Set up the project and add the first version of the code.
 
 
 ### Changes
+- SPCH-38: Added Collision Unit tests and fixed bugs where the wrong CollisionPoint was detected.
 - SPCH-30: Added the ability to render a TileSet on the screen
 - SPCH-1: Added GameLevel that contains all map layers
 - SPCH-29: Added a TMX reader with a strategy pattern

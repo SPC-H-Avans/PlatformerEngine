@@ -14,25 +14,25 @@ protected:
         GameObject mario = GameObject("Mario"); //Dynamic rigidbody
         GameObject block = GameObject("Block");
 
-        _mario = GameObject::Find("Mario");
-        _block = GameObject::Find("Block");
-
         //Set X,Y pos of objects
-        _mario->SetTransform(Transform {Point {0, 3}, 0, 0});
-        _block->SetTransform(Transform {Point {0, 0}, 0, 0});
+        mario.SetTransform(Transform {Point {0, 3}, 0, 0});
+        block.SetTransform(Transform {Point {0, 0}, 0, 0});
 
         //Set Rigidbody on both objects;
         MarioRigidBody marioBody;
         marioBody.BodyType(spic::BodyType::dynamicBody);
-        _mario->AddComponent<RigidBody>(std::make_shared<MarioRigidBody>(marioBody));
+        mario.AddComponent<RigidBody>(std::make_shared<MarioRigidBody>(marioBody));
 
         RigidBody blockBody;
         blockBody.BodyType(spic::BodyType::staticBody);
-        _block->AddComponent<RigidBody>(std::make_shared<RigidBody>(blockBody));
+        block.AddComponent<RigidBody>(std::make_shared<RigidBody>(blockBody));
 
 
-        _mario->AddComponent<BehaviourScript>(std::make_shared<platformer_engine::CollisionBehaviour>());
-        _block->AddComponent<BehaviourScript>(std::make_shared<BehaviourScript>());
+        mario.AddComponent<BehaviourScript>(std::make_shared<platformer_engine::CollisionBehaviour>());
+        block.AddComponent<BehaviourScript>(std::make_shared<BehaviourScript>());
+
+        _mario = GameObject::Find("Mario");
+        _block = GameObject::Find("Block");
 
         //Set Colliders on objects
         SetBoxColliders();
@@ -108,6 +108,8 @@ TEST_F(PhysicsTests, MarioFallsUntilBlock) {
 
 // todo: Make test with 3 colliding items; 2 blocks on top of mario. Test that it collides with BOTH and only if
 // todo: both collisions are resolved, it should be allowed to move up
+// todo: This should be made in CollisionTests
+
 
 void PhysicsTests::SetBoxColliders() {
     BoxCollider collider;

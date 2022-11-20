@@ -14,8 +14,6 @@
 
 namespace spic {
 
-   // class Component;
-
     /**
      * @brief Any object which should be represented on screen.
      */

@@ -174,4 +174,3 @@ void CollisionTests::SetBoxColliders() {
     go2->AddComponent<BoxCollider>(std::make_shared<BoxCollider>(collider));
 }
 
-// todo: Test collision system for left, right, up, down collision locations

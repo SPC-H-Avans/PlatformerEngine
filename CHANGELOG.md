@@ -29,6 +29,7 @@ Set up the project and add the first version of the code.
 - SPCH-4: Added Methods to check if mouse/keyboard inputs are being pressed, and get the mouse position
 - SPCH-31: Added Google Test 
 - SPCH-38: Added Collision Detection with direction of collision.
+- SPCH-35: Added weak pointer to GameObject from component
 
 ### Bug Fixes
 - SPCH-50: Fixed the freezing window issue

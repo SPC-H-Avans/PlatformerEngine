@@ -69,11 +69,13 @@ TEST_F(PhysicsTests, MarioDoesntFallThroughBlock) {
 
     // 3. Assert that the Mario object's location has not been updated
     ASSERT_TRUE(marioNextX == marioStartX && marioNextY == marioStartY)
-        << "The Mario Physics character fell through a block, the y velocity should have been 0, but was " + std::to_string(marioNextY);
+        << "The Mario Physics character fell through a block, the y velocity should have been 0, but was " +
+        std::to_string(marioNextY);
 }
 
 /**
- * @brief Tests if a Mario Phyics GameObject falls when there is no Collision at the bottom, but stops falling when it has reached the ground;
+ * @brief Tests if a Mario Phyics GameObject falls when there is no Collision at the bottom, but stops falling when
+ * it has reached the ground;
  */
 TEST_F(PhysicsTests, MarioFallsUntilBlock) {
 

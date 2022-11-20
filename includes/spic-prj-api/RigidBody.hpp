@@ -42,7 +42,7 @@ namespace spic {
             double _gravityScale;
             enum BodyType _bodyType;
 
-            std::map<CollisionPoint, bool> _canMoveTo;
+            std::map<CollisionPoint, int> _moveRestrictions;
     };
 
 } // namespace spic

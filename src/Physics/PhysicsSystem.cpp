@@ -82,9 +82,9 @@ void PhysicsSystem::CreateCollision(const shared_ptr<GameObject>& initiator, con
     }
 
     for(auto& script : initiator->GetComponents<BehaviourScript>())
-        std::static_pointer_cast<BehaviourScript>(script)->OnTriggerEnter2D(Collision (*rec_collider, std::get<0>(direction)));
+        std::static_pointer_cast<BehaviourScript>(script)->OnTriggerEnter2D(Collision (*rec_collider, std::get<0>(direction), 0)); //todo implement id
     for(auto& script : receiver->GetComponents<BehaviourScript>())
-        std::static_pointer_cast<BehaviourScript>(script)->OnTriggerEnter2D(Collision (*init_collider, std::get<1>(direction)));
+        std::static_pointer_cast<BehaviourScript>(script)->OnTriggerEnter2D(Collision (*init_collider, std::get<1>(direction), 0)); //todo implement id
 }
 
 void PhysicsSystem::RemainCollision(const shared_ptr<GameObject>& initiator, const shared_ptr<Collider>& init_collider,
@@ -92,9 +92,9 @@ void PhysicsSystem::RemainCollision(const shared_ptr<GameObject>& initiator, con
                                     std::tuple<CollisionPoint, CollisionPoint> direction) {
 
     for(auto& script : initiator->GetComponents<BehaviourScript>())
-        std::static_pointer_cast<BehaviourScript>(script)->OnTriggerStay2D(Collision (*rec_collider, std::get<0>(direction)));
+        std::static_pointer_cast<BehaviourScript>(script)->OnTriggerStay2D(Collision (*rec_collider, std::get<0>(direction), 0)); //todo implement id
     for(auto& script : receiver->GetComponents<BehaviourScript>())
-        std::static_pointer_cast<BehaviourScript>(script)->OnTriggerStay2D(Collision (*init_collider, std::get<1>(direction)));
+        std::static_pointer_cast<BehaviourScript>(script)->OnTriggerStay2D(Collision (*init_collider, std::get<1>(direction), 0)); //todo implement id
 }
 
 void PhysicsSystem::EndCollision(const shared_ptr<GameObject>& initiator, const shared_ptr<Collider>& init_collider,

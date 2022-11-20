@@ -66,12 +66,12 @@ using namespace spic;
          * @brief Getter for unique id
          * @return Unique id
          */
-        int GetId() const;
+        [[nodiscard]] auto GetId() const -> int;
 
     private:
         Collider &_other;
         std::unique_ptr<CollisionPoint> _contact;
-        int _id;
+        int _id{};
     };
 
 

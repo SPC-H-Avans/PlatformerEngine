@@ -1,17 +1,17 @@
-#include "CollisionBehavior.hpp"
+#include "CollisionBehaviour.hpp"
 #include "Input.hpp"
 #include "GameObject.hpp"
 #include "RigidBody.hpp"
 
 namespace platformer_engine {
 
-    void CollisionBehavior::OnStart() {
+    void CollisionBehaviour::OnStart() {
     }
 
-    void CollisionBehavior::OnUpdate() {
+    void CollisionBehaviour::OnUpdate() {
     }
 
-    void CollisionBehavior::OnTriggerEnter2D(const Collision collision) {
+    void CollisionBehaviour::OnTriggerEnter2D(const Collision collision) {
         auto point = collision.Contact();
 
         auto gameObjWeak = GetGameObject();
@@ -27,7 +27,7 @@ namespace platformer_engine {
 
     }
 
-    void CollisionBehavior::OnTriggerExit2D(const Collision collision) {
+    void CollisionBehaviour::OnTriggerExit2D(const Collision collision) {
         auto point = collision.Contact();
 
         auto gameObjWeak = GetGameObject();
@@ -42,7 +42,7 @@ namespace platformer_engine {
         }
     }
 
-    void CollisionBehavior::OnTriggerStay2D(const Collision collision) {
+    void CollisionBehaviour::OnTriggerStay2D(const Collision collision) {
 //        BehaviourScript::OnTriggerStay2D(collision);
     }
 } // platformer_engine

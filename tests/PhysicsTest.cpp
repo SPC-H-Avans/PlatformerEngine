@@ -3,10 +3,9 @@
 #include "BehaviourScript.hpp"
 #include "RigidBody.hpp"
 #include "BoxCollider.hpp"
-#include <queue>
 #include "Physics/PhysicsSystem.hpp"
 #include "Physics/MarioRigidBody.hpp"
-#include "Behavior/CollisionBehavior.hpp"
+#include "Behaviour/CollisionBehaviour.hpp"
 
 class PhysicsTests : public ::testing::Test {
 protected:
@@ -32,7 +31,7 @@ protected:
         _block->AddComponent<RigidBody>(std::make_shared<RigidBody>(blockBody));
 
 
-        _mario->AddComponent<BehaviourScript>(std::make_shared<platformer_engine::CollisionBehavior>());
+        _mario->AddComponent<BehaviourScript>(std::make_shared<platformer_engine::CollisionBehaviour>());
         _block->AddComponent<BehaviourScript>(std::make_shared<BehaviourScript>());
 
         //Set Colliders on objects

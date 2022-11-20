@@ -1,11 +1,11 @@
-#ifndef PLATFORMER_ENGINE_COLLISIONBEHAVIOR_HPP
-#define PLATFORMER_ENGINE_COLLISIONBEHAVIOR_HPP
+#ifndef PLATFORMER_ENGINE_COLLISIONBEHAVIOUR_HPP
+#define PLATFORMER_ENGINE_COLLISIONBEHAVIOUR_HPP
 
 #include "BehaviourScript.hpp"
 
 namespace platformer_engine {
 
-    class CollisionBehavior : public spic::BehaviourScript {
+    class CollisionBehaviour : public spic::BehaviourScript {
     public:
         void OnStart() override;
         void OnUpdate() override;
@@ -16,4 +16,4 @@ namespace platformer_engine {
 
 } // platformer_engine
 
-#endif //PLATFORMER_ENGINE_COLLISIONBEHAVIOR_HPP
+#endif //PLATFORMER_ENGINE_COLLISIONBEHAVIOUR_HPP

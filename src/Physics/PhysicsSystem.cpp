@@ -107,9 +107,9 @@ void PhysicsSystem::EndCollision(const shared_ptr<GameObject>& initiator, const 
 
     //Call Behaviour scripts
     for(auto& script : initiator->GetComponents<BehaviourScript>())
-        std::static_pointer_cast<BehaviourScript>(script)->OnTriggerExit2D(Collision (*rec_collider));
+        std::static_pointer_cast<BehaviourScript>(script)->OnTriggerExit2D(Collision (*rec_collider, 0)); //todo implement id
     for(auto& script : receiver->GetComponents<BehaviourScript>())
-        std::static_pointer_cast<BehaviourScript>(script)->OnTriggerExit2D(Collision (*init_collider));
+        std::static_pointer_cast<BehaviourScript>(script)->OnTriggerExit2D(Collision (*init_collider, 0));//todo implement id
 }
 
 auto PhysicsSystem::CheckBoxCollision(Point aPos, const BoxCollider& aCol, Point bPos, const BoxCollider& bCol) -> std::unique_ptr<std::tuple<CollisionPoint, CollisionPoint>> {

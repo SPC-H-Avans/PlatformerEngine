@@ -9,9 +9,12 @@ namespace platformer_engine {
     public:
         void OnStart() override;
         void OnUpdate() override;
-        void OnTriggerEnter2D(const Collision collision) override;
-        void OnTriggerExit2D(const Collision collision) override;
-        void OnTriggerStay2D(const Collision collision) override;
+        void OnTriggerEnter2D(Collision collision) override;
+        void OnTriggerExit2D(Collision collision) override;
+        void OnTriggerStay2D(Collision collision) override;
+    private:
+        std::vector<Collision> _activeCollisions;
+        bool CanMoveTo(CollisionPoint point);
     };
 
 } // platformer_engine

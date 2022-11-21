@@ -1,5 +1,7 @@
 #include "Collider.hpp"
 #include "Physics/Collision.hpp"
+#include "Exceptions/CollisionByIdNotFoundException.hpp"
+#include "GameObject.hpp"
 
 const std::vector<Collision> &spic::Collider::GetCollisions() const {
     return _collisions;
@@ -11,6 +13,12 @@ Collision& spic::Collider::GetCollisionById(int uid) {
             return col;
         }
     }
+    std::string gameObjectName = "Unknown";
+    auto gob { GetGameObject().lock() };
+    if (gob) {
+        gob->GetName();
+    }
+    throw CollisionByIdNotFoundException(uid, gameObjectName);
 }
 
 void spic::Collider::AddCollision(const Collision col) {

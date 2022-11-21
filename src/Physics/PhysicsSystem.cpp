@@ -13,16 +13,14 @@ using std::vector;
 using std::shared_ptr;
 using std::unique_ptr;
 
-//TODO test collision check method
-//TODO check speed of this.
-
 void PhysicsSystem::Update() {
     CheckCollisions();
 }
 
 auto GetBoxColliders() -> vector<shared_ptr<GameObject>> {
-    vector<shared_ptr<GameObject>> gameObjects = GameObject::FindObjectsOfType<GameObject>();
-    vector<shared_ptr<GameObject>> result;
+    auto gameObjects = vector<shared_ptr<GameObject>>();
+    gameObjects = GameObject::FindObjectsOfType<GameObject>();
+    auto result = vector<shared_ptr<GameObject>>();
     for(const auto& obj : gameObjects) {
         if(obj != nullptr) {
             auto val = obj->GetComponent<BoxCollider>();

@@ -19,7 +19,7 @@ protected:
         g2.SetTransform(Transform {Point {0, 0}, 0, 0});
 
         //Set Rigidbody on both objects;
-        RigidBody body;
+        auto body = RigidBody();
         body.BodyType(spic::BodyType::dynamicBody);
         g1.AddComponent<RigidBody>(std::make_shared<RigidBody>(body));
         body.BodyType(spic::BodyType::staticBody);
@@ -38,8 +38,8 @@ protected:
         GameObject::Destroy(go2);
     }
 
-    std::shared_ptr<GameObject> go1;
-    std::shared_ptr<GameObject> go2;
+    std::shared_ptr<GameObject> go1 = std::shared_ptr<GameObject>();
+    std::shared_ptr<GameObject> go2 = std::shared_ptr<GameObject>();
     PhysicsSystem physics = PhysicsSystem();
     void SetBoxColliders();
 };

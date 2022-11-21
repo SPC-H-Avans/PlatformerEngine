@@ -44,7 +44,7 @@ namespace platformer_engine {
         std::shared_ptr<spic::GameObject> gameObj { gameObjWeak.lock() };
         if (gameObj) {
             auto body = std::static_pointer_cast<RigidBody>(gameObj->GetComponent<RigidBody>());
-            if(body != nullptr && CanMoveTo(point)) {
+            if(body != nullptr) {
                 body->AllowMoveTo(point);
             }
         } else { // gameObjWeak is already deleted
@@ -56,14 +56,5 @@ namespace platformer_engine {
         for(auto &col : _activeCollisions) {
             col.Contact(collision.Contact()); // Update the contact point (for if an object could move through another)
         }
-    }
-
-    bool CollisionBehaviour::CanMoveTo(CollisionPoint point) {
-        for(auto &col : _activeCollisions) {
-            if(col.Contact() == point) {
-                return false;
-            }
-        }
-        return true;
     }
 }  // namespace platformer_engine

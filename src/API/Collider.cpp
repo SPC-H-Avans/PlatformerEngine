@@ -26,7 +26,10 @@ void spic::Collider::AddCollision(const Collision col) {
 }
 
 void spic::Collider::RemoveCollision(int uid) {
-
+    auto col = GetCollisionById(uid);
+    auto new_end = std::remove_if(_collisions.begin(), _collisions.end(),
+                                  [uid](const Collision & col) { return col.GetId() == uid; });
+    _collisions.erase(new_end, _collisions.end());
 }
 
 std::vector<Collision> Collider::GetCollisionsWith(const Collider& col) {

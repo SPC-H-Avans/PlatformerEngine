@@ -18,7 +18,7 @@ protected:
         g2.SetTransform(Transform {Point {0, 0}, 0, 0});
 
         //Set Rigidbody on both objects;
-        RigidBody body;
+        auto body = RigidBody();
         body.BodyType(spic::BodyType::dynamicBody);
         g1.AddComponent<RigidBody>(std::make_shared<RigidBody>(body));
         body.BodyType(spic::BodyType::staticBody);
@@ -37,8 +37,8 @@ protected:
         GameObject::Destroy(go2);
     }
 
-    std::shared_ptr<GameObject> go1;
-    std::shared_ptr<GameObject> go2;
+    std::shared_ptr<GameObject> go1 = std::shared_ptr<GameObject>();
+    std::shared_ptr<GameObject> go2 = std::shared_ptr<GameObject>();
     PhysicsSystem physics = PhysicsSystem();
     void SetBoxColliders();
 };
@@ -115,9 +115,9 @@ TEST_F(CollisionTests, IsCollisionBetweenTwoObjectsDetected) {
     // 8. Run PhysicsEngine for collisions
     physics.Update();
 
-    // 9. Assert that the Collision left has been triggered
-    auto exitTrigger1 = go1Script->GetCollisionPointCountFor(Trigger::Exit, CollisionPoint::Uncertain);
-    auto exitTrigger2 = go2Script->GetCollisionPointCountFor(Trigger::Exit, CollisionPoint::Uncertain);
+    // 9. Assert that the Collision exit has been triggered
+    auto exitTrigger1 = go1Script->GetCollisionPointCountFor(Trigger::Exit, CollisionPoint::Top);
+    auto exitTrigger2 = go2Script->GetCollisionPointCountFor(Trigger::Exit, CollisionPoint::Bottom);
     ASSERT_TRUE(exitTrigger1);
     ASSERT_TRUE(exitTrigger2);
 
@@ -151,14 +151,12 @@ TEST_F(CollisionTests, AreCollisionPointsCorrect) {
 
     // 4. Update the go1 location so it collides on the right of go2
     go1->SetTransform(Transform {Point {10, 1}, 0, 0}); // right, so collision left
-    //SetBoxColliders(); // Set box colliders again, so they can collide again
-    // Use a new phyics system so collisions are reset.
-    physics = PhysicsSystem();
+
     physics.Update();
 
     // 5. Assert that go1 has a collision on the left and go2 on the right
-    go1Collision = go1Script->GetCollisionPointCountFor(Trigger::Enter, CollisionPoint::Left);
-    go2Collision = go2Script->GetCollisionPointCountFor(Trigger::Enter, CollisionPoint::Right);
+    go1Collision = go1Script->GetCollisionPointCountFor(Trigger::Stay, CollisionPoint::Left);
+    go2Collision = go2Script->GetCollisionPointCountFor(Trigger::Stay, CollisionPoint::Right);
     ASSERT_EQ(go1Collision, 1)
         << "GameObject 1 gave the wrong CollisionPoint, expected Left";
     ASSERT_EQ(go2Collision, 1)

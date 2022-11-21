@@ -14,6 +14,8 @@ namespace platformer_engine {
         void OnTriggerStay2D(Collision collision) override;
     private:
         std::vector<Collision> _activeCollisions;
+
+        void UpdateMoveRestriction(const Collision &col, bool allow);
     };
 
 } // platformer_engine

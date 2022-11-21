@@ -13,12 +13,12 @@ void MarioRigidBody::AddForce(const spic::Point& forceDirection) {
         _horizontal_speed = std::min(_horizontal_speed + _MARIO_ACCELERATION, _MARIO_WALK_SPEED);
     }
 
-    if(_horizontal_speed < 0 && CanMoveTo(CollisionPoint::Left)) {
-        _horizontal_speed -= _MARIO_ACCELERATION;
-    }
-    else if(_horizontal_speed > 0 && CanMoveTo(CollisionPoint::Right)) {
-        _horizontal_speed += _MARIO_ACCELERATION;
-    }
+//    if(_horizontal_speed < 0 && CanMoveTo(CollisionPoint::Left)) {
+//        _horizontal_speed -= _MARIO_ACCELERATION;
+//    }
+//    else if(_horizontal_speed > 0 && CanMoveTo(CollisionPoint::Right)) {
+//        _horizontal_speed += _MARIO_ACCELERATION;
+//    }
 
     if(forceDirection.y > 0
         && CanMoveTo(CollisionPoint::Top)

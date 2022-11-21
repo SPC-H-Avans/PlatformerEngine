@@ -51,5 +51,3 @@ if (DEFINED ENV{COVERAGE})
     set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -fprofile-arcs -ftest-coverage -fPIC")
 endif ()
 
-
-

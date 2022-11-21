@@ -53,7 +53,7 @@ void PhysicsSystem::CheckCollisions() {
                     if(collision != nullptr) { //If collision
                         if(_collisions.count(aCol) > 0) {
                             if (find(_collisions[aCol].begin(), _collisions[aCol].end(), bCol) != _collisions[aCol].end()) {
-                                RemainCollision(initiator, aCol, receiver, bCol);
+                                RemainCollision(initiator, aCol, receiver, bCol, *collision);
                             } else {
                                 CreateCollision(initiator, aCol, receiver, bCol, *collision);
                             }
@@ -82,18 +82,19 @@ void PhysicsSystem::CreateCollision(const shared_ptr<GameObject>& initiator, con
     }
 
     for(auto& script : initiator->GetComponents<BehaviourScript>())
-        std::static_pointer_cast<BehaviourScript>(script)->OnTriggerEnter2D(Collision (*rec_collider, std::get<0>(direction)));
+        std::static_pointer_cast<BehaviourScript>(script)->OnTriggerEnter2D(Collision (*rec_collider, std::get<0>(direction), 0)); //todo implement id
     for(auto& script : receiver->GetComponents<BehaviourScript>())
-        std::static_pointer_cast<BehaviourScript>(script)->OnTriggerEnter2D(Collision (*init_collider, std::get<1>(direction)));
+        std::static_pointer_cast<BehaviourScript>(script)->OnTriggerEnter2D(Collision (*init_collider, std::get<1>(direction), 0)); //todo implement id
 }
 
 void PhysicsSystem::RemainCollision(const shared_ptr<GameObject>& initiator, const shared_ptr<Collider>& init_collider,
-                                    const shared_ptr<GameObject>& receiver, const shared_ptr<Collider>& rec_collider) {
+                                    const shared_ptr<GameObject>& receiver, const shared_ptr<Collider>& rec_collider,
+                                    std::tuple<CollisionPoint, CollisionPoint> direction) {
 
     for(auto& script : initiator->GetComponents<BehaviourScript>())
-        std::static_pointer_cast<BehaviourScript>(script)->OnTriggerStay2D(Collision (*rec_collider));
+        std::static_pointer_cast<BehaviourScript>(script)->OnTriggerStay2D(Collision (*rec_collider, std::get<0>(direction), 0)); //todo implement id
     for(auto& script : receiver->GetComponents<BehaviourScript>())
-        std::static_pointer_cast<BehaviourScript>(script)->OnTriggerStay2D(Collision (*init_collider));
+        std::static_pointer_cast<BehaviourScript>(script)->OnTriggerStay2D(Collision (*init_collider, std::get<1>(direction), 0)); //todo implement id
 }
 
 void PhysicsSystem::EndCollision(const shared_ptr<GameObject>& initiator, const shared_ptr<Collider>& init_collider,
@@ -106,9 +107,9 @@ void PhysicsSystem::EndCollision(const shared_ptr<GameObject>& initiator, const 
 
     //Call Behaviour scripts
     for(auto& script : initiator->GetComponents<BehaviourScript>())
-        std::static_pointer_cast<BehaviourScript>(script)->OnTriggerExit2D(Collision (*rec_collider));
+        std::static_pointer_cast<BehaviourScript>(script)->OnTriggerExit2D(Collision (*rec_collider, 0)); //todo implement id
     for(auto& script : receiver->GetComponents<BehaviourScript>())
-        std::static_pointer_cast<BehaviourScript>(script)->OnTriggerExit2D(Collision (*init_collider));
+        std::static_pointer_cast<BehaviourScript>(script)->OnTriggerExit2D(Collision (*init_collider, 0));//todo implement id
 }
 
 auto PhysicsSystem::CheckBoxCollision(Point aPos, const BoxCollider& aCol, Point bPos, const BoxCollider& bCol) -> std::unique_ptr<std::tuple<CollisionPoint, CollisionPoint>> {
@@ -132,17 +133,17 @@ auto PhysicsSystem::CheckBoxCollision(Point aPos, const BoxCollider& aCol, Point
         //Distance between left a and right b
         double right_col = b_right - aPos.x;
 
-        if (top_col < bottom_col && top_col < left_col && top_col < right_col ){//Top collision
-            return std::make_unique<std::tuple<CollisionPoint, CollisionPoint>>(std::make_tuple(CollisionPoint::Top, CollisionPoint::Bottom));
-        }
-        if (bottom_col < top_col && bottom_col < left_col && bottom_col < right_col){ //bottom collision
+        if (top_col < bottom_col && top_col < left_col && top_col < right_col ){//Bottom collision
             return std::make_unique<std::tuple<CollisionPoint, CollisionPoint>>(std::make_tuple(CollisionPoint::Bottom, CollisionPoint::Top));
         }
-        if (left_col < right_col && left_col < top_col && left_col < bottom_col) { //Left collision
-            return std::make_unique<std::tuple<CollisionPoint, CollisionPoint>>(std::make_tuple(CollisionPoint::Left, CollisionPoint::Right));
+        if (bottom_col < top_col && bottom_col < left_col && bottom_col < right_col){ //Top collision
+            return std::make_unique<std::tuple<CollisionPoint, CollisionPoint>>(std::make_tuple(CollisionPoint::Top, CollisionPoint::Bottom));
         }
-        if (right_col < left_col && right_col < top_col && right_col < bottom_col ) { //Right collision
+        if (left_col < right_col && left_col < top_col && left_col < bottom_col) { //Right collision
             return std::make_unique<std::tuple<CollisionPoint, CollisionPoint>>(std::make_tuple(CollisionPoint::Right, CollisionPoint::Left));
+        }
+        if (right_col < left_col && right_col < top_col && right_col < bottom_col ) { //Left collision
+            return std::make_unique<std::tuple<CollisionPoint, CollisionPoint>>(std::make_tuple(CollisionPoint::Left, CollisionPoint::Right));
         }
 
         return std::make_unique<std::tuple<CollisionPoint, CollisionPoint>>(std::make_tuple(CollisionPoint::Uncertain, CollisionPoint::Uncertain));

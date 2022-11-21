@@ -11,6 +11,8 @@ Set up the project and add the first version of the code.
 
 
 ### Changes
+- SPCH-38: Added support for multiple collisions at the same CollisionPoint.
+- SPCH-38: Added Collision Unit tests and fixed bugs where the wrong CollisionPoint was detected.
 - SPCH-42: Added sprites which can be added to a Game Object
 - SPCH-10: Added animated sprites and render system
 - SPCH-30: Added the ability to render a TileSet on the screen

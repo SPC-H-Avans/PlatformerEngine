@@ -7,6 +7,7 @@
 #include "GameLevel/GameLevel.hpp"
 #include <memory>
 #include "Scene.hpp"
+#include "Texture/RenderSystem.hpp"
 
 
 namespace platformer_engine {
@@ -94,6 +95,7 @@ namespace platformer_engine {
 
         std::unique_ptr<Window> _window = nullptr;
         std::unique_ptr<PhysicsSystem> _physicsSystem = nullptr;
+        std::unique_ptr<RenderSystem> _renderSystem = nullptr;
     };
 }//namespace platformer_engine
 

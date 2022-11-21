@@ -83,7 +83,7 @@ namespace spic {
          * @brief Get the currently active camera
          * @spicapi
          */
-        std::shared_ptr<spic::Camera> GetActiveCamera();
+        auto GetActiveCamera() -> std::shared_ptr<spic::Camera>;
 
         /**
          * @brief Delete camera by name from this scene
@@ -97,6 +97,11 @@ namespace spic {
         ~Scene();
 
     private:
+        /**
+         * @brief Render all GameObjects in this scene
+         */
+        void RenderGameObjects();
+
         /**
          * @brief List of all Game Objects in this scene
          * @spicapi

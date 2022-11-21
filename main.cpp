@@ -2,6 +2,8 @@
 #include "Builder/SceneBuilder.hpp"
 
 #include <iostream>
+#include "Sprite.hpp"
+#include "Builder/GameObjectBuilder.hpp"
 
 const int SCREEN_WIDTH = 640;
 const int SCREEN_HEIGHT = 480;

@@ -13,10 +13,11 @@ Set up the project and add the first version of the code.
 ### Changes
 - SPCH-38: Added support for multiple collisions at the same CollisionPoint.
 - SPCH-38: Added Collision Unit tests and fixed bugs where the wrong CollisionPoint was detected.
+- SPCH-42: Added sprites which can be added to a Game Object
+- SPCH-10: Added animated sprites and render system
 - SPCH-30: Added the ability to render a TileSet on the screen
 - SPCH-1: Added GameLevel that contains all map layers
 - SPCH-29: Added a TMX reader with a strategy pattern
-
 - SPCH-3: Added scenes, scene builder and a way to switch from active scene
 - SPCH-41: Added Doxygen action for development branch
 - SPCH-40: Implemented functions of GameObject and Component

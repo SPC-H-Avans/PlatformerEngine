@@ -2,7 +2,7 @@ cmake_minimum_required(VERSION 3.23)
 project(platformer-engine)
 enable_testing()
 
-set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_CXX_STANDARD 20)
 
 set(PROJECT_INCLUDES_DIR ${PROJECT_SOURCE_DIR}/includes)
 #set(CMAKE_MSVC_RUNTIME_LIBRARY "MultiThreaded$<$<CONFIG:Debug>:Debug>")
@@ -50,5 +50,4 @@ if (DEFINED ENV{COVERAGE})
     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fprofile-arcs -ftest-coverage -fPIC")
     set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -fprofile-arcs -ftest-coverage -fPIC")
 endif ()
-
 

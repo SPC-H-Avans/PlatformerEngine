@@ -10,6 +10,8 @@ auto platformer_engine::Engine::Init(int width, int height, const std::string &t
         return false;
     }
     _window = std::make_unique<Window>(width, height, title, color);
+    _renderSystem = std::make_unique<RenderSystem>();
+    _physicsSystem = std::make_unique<PhysicsSystem>();
 
     return true;
 }
@@ -39,6 +41,7 @@ void platformer_engine::Engine::Update() {
     auto &timer = Timer::Instance();
     timer.Update();
     _physicsSystem->Update();
+    _renderSystem->Update();
     //Call systems
 }
 
@@ -55,6 +58,8 @@ void platformer_engine::Engine::Render() {
     if (_window == nullptr) {
         throw spic::NoWindowException();
     }
+    _window->Clear();
+    _renderSystem->Render();
     _window->Render();
 }
 

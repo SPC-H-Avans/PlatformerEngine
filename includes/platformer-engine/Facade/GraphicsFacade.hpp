@@ -58,6 +58,8 @@ namespace platformer_engine {
          */
         void Clear();
 
+        static inline auto GetTicks() -> Uint64 {return SDL_GetTicks64();};
+
         /**
          * @brief Load a texture
          * @param id
@@ -76,7 +78,7 @@ namespace platformer_engine {
          * @param flip
          */
         void DrawTexture(const std::string &id, int x, int y, int width, int height,
-                         const SPIC_RendererFlip &flip = FLIP_NONE);
+                         const SPIC_RendererFlip &flip = FLIP_NONE, double scale = 1.0);
 
         /**
          * @brief Draw a tile on the screen
@@ -89,10 +91,10 @@ namespace platformer_engine {
          * @param flip
          */
         void DrawTile(const std::string &tileSetID, int tileSize, int x, int y, int row, int frame,
-                      const SPIC_RendererFlip &flip = FLIP_NONE);
+                      const SPIC_RendererFlip &flip = FLIP_NONE, double scale = 1.0);
 
         void DrawFrame(const std::string &id, int x, int y, int width, int height, int row, int frame,
-                       const SPIC_RendererFlip &flip = FLIP_NONE);
+                       const SPIC_RendererFlip &flip = FLIP_NONE, double scale = 1.0);
 
         void ClearTextures();
 

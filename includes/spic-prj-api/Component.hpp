@@ -48,7 +48,7 @@ namespace spic {
             /**
              * @brief Active status.
              */
-            bool _active;
+            bool _active = true;
             /**
              * @brief weak pointer to it's GameObject
              */

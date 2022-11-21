@@ -8,6 +8,8 @@ namespace platformer_engine {
         virtual void Render() = 0;
 
         virtual void Update() = 0;
+
+        virtual ~Layer() = default;
     };
 }
 

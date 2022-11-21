@@ -30,6 +30,11 @@ namespace platformer_engine {
          * @platformerengine
          */
         void Render();
+        /**
+         * @brief Clears the window before rendering new objects
+         * @platformerengine
+         */
+        void Clear();
 
         /**
          * @brief Close the window
@@ -57,6 +62,8 @@ namespace platformer_engine {
          * @return std::unique_ptr<spic::Scene>& Current active Scene
          */
         auto GetActiveScene() -> std::unique_ptr<spic::Scene>&;
+
+        static inline auto GetTicks() -> Uint64 { return platformer_engine::GraphicsFacade::GetTicks();};
 
     private:
         std::shared_ptr<GraphicsFacade> _graphicsFacade{nullptr};

@@ -47,7 +47,8 @@ private:
     /**
      * @brief Collision was already in motion yet. Collision the OnTriggerStay2D handlers have been invoked.
      */
-    static void RemainCollision(const std::shared_ptr<GameObject>& initiator, const std::shared_ptr<Collider>& init_collider, const std::shared_ptr<GameObject>& receiver, const std::shared_ptr<Collider>& rec_collider);
+    static void RemainCollision(const std::shared_ptr<GameObject>& initiator, const std::shared_ptr<Collider>& init_collider, const std::shared_ptr<GameObject>& receiver, const std::shared_ptr<Collider>& rec_collider,
+                                std::tuple<CollisionPoint, CollisionPoint> direction);
 
     /**
      * @brief Checks for given objects if collision is active, also checks the side on which the collision occurs.

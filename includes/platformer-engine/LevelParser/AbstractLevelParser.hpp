@@ -17,6 +17,8 @@ namespace platformer_engine {
          * @return True if the level was loaded successfully
          */
         virtual auto Load(const std::string &id, const std::string &filePath, const std::string &fileName) -> bool = 0;
+
+        virtual ~AbstractLevelParser() = default;
     };
 }
 

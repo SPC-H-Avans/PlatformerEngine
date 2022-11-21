@@ -68,6 +68,12 @@ namespace spic {
         static auto Yellow() -> const Color & { return _yellow; }
 
         /**
+         * @brief One of the standard colors (read-only): transparent.
+         * @return
+         */
+        static auto Transparent() -> const Color & { return _transparent; }
+
+        /**
          * @brief One of the standard colors (read-only): black.
          * @return A reference to a statically allocated Color instance.
          * @spicapi
@@ -117,6 +123,7 @@ namespace spic {
         static Color _magenta;
         static Color _yellow;
         static Color _black;
+        static Color _transparent;
         // ... more standard color here
     };
 

@@ -6,6 +6,7 @@
 #include "Exceptions/NotImplementedException.hpp"
 #include "Exceptions/GameObjectAlreadyInSceneException.hpp"
 #include "Exceptions/CameraNotInSceneException.hpp"
+#include "Animator.hpp"
 
 void spic::Scene::RenderScene() {
     if (_currentLevel.empty()) {
@@ -20,6 +21,28 @@ void spic::Scene::RenderScene() {
         }
 
         level->Render();
+    }
+    RenderGameObjects();
+}
+
+void spic::Scene::RenderGameObjects() {
+    for (const auto &item: _contents) {
+        auto animatorComponent = item->GetComponent<spic::Animator>();
+        if (animatorComponent != nullptr) {
+            auto animator = std::static_pointer_cast<spic::Animator>(animatorComponent);
+            if (animator->Active()) {
+                animator->Render(item->GetTransform());
+                continue;
+            }
+        }
+        auto spriteComponent = item->GetComponent<spic::Sprite>();
+        if (spriteComponent != nullptr) {
+            auto sprite = std::static_pointer_cast<spic::Sprite>(spriteComponent);
+            if (sprite->Active()) {
+                sprite->Render(item->GetTransform());
+                continue;
+            }
+        }
     }
 }
 

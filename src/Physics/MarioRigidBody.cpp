@@ -37,7 +37,16 @@ void MarioRigidBody::AddForce(const spic::Point& forceDirection) {
     _vertical_speed += _GRAVITY;
     if(_vertical_speed > 0 && !CanMoveTo(CollisionPoint::Bottom)) {
         // Mario is standing on top of an object, so shouldn't fall down
-        _vertical_speed = 0;
+        _vertical_speed = -0.1;
+    }
+
+    if(_horizontal_speed > 0 && !CanMoveTo(CollisionPoint::Right)) {
+        _horizontal_speed = -0.1;
+    }
+
+    if(_horizontal_speed < 0 && !CanMoveTo(CollisionPoint::Left)) {
+        // Mario is standing on top of an object, so shouldn't fall down
+        _horizontal_speed = 0.1;
     }
 }
 

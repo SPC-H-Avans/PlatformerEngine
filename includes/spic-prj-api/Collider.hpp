@@ -1,8 +1,8 @@
 #ifndef COLLIDER2D_H_
 #define COLLIDER2D_H_
 
-#include "Component.hpp"
 #include <vector>
+#include "Component.hpp"
 
 // Forward decleration of Collider
 class Collision;
@@ -15,13 +15,13 @@ namespace spic {
      */
     class Collider : public Component {
     public:
-        std::vector<std::shared_ptr<Collision>> GetCollisions();
-        std::shared_ptr<Collision> GetCollisionById(int uid);
-        void AddCollision(std::shared_ptr<Collision> col);
+        [[nodiscard]] auto GetCollisions() const -> std::vector<Collision>;
+        auto GetCollisionsWith(const Collider& col) -> std::vector<Collision>;
+        auto GetCollisionById(int uid) -> Collision;
+        void AddCollision(Collision col);
         void RemoveCollision(int uid);
     private:
-
-        std::vector<std::shared_ptr<Collision>> _collisions;
+        std::vector<Collision> _collisions;
     };
 
 }

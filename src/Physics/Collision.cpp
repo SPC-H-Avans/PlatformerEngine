@@ -1,18 +1,20 @@
 #include "Physics/Collision.hpp"
 
-Collision::Collision(Collider &other, CollisionPoint direction, int uid)
-        : _other(other), _contact(std::make_unique<CollisionPoint>(direction)), _id(uid) {}
+#include <utility>
 
-Collision::Collision(Collider &other, int uid)
-        : _other(other), _contact(std::make_unique<CollisionPoint>(CollisionPoint::Uncertain)), _id(uid) {}
+Collision::Collision(std::shared_ptr<Collider> other, CollisionPoint direction, const int uid)
+        : _other(std::move(other)), _contact(direction), _id(uid) {}
 
-auto Collision::GetCollider() const -> Collider& { return _other; }
+Collision::Collision(std::shared_ptr<Collider> other, const int uid)
+        : _other(std::move(other)), _contact(CollisionPoint::Uncertain), _id(uid) {}
 
-void Collision::SetCollider(const Collider &other) { this->_other = other; }
+auto Collision::GetCollider() const -> std::shared_ptr<Collider> { return _other; }
 
-auto Collision::Contact() const -> CollisionPoint& { return *_contact; }
+void Collision::SetCollider(const std::shared_ptr<Collider>& other) { this->_other = other; }
 
-void Collision::Contact(const CollisionPoint point) { _contact = std::make_unique<CollisionPoint>(point); }
+auto Collision::Contact() const -> CollisionPoint { return _contact; }
+
+void Collision::Contact(const CollisionPoint point) { _contact = point; }
 
 auto Collision::GetId() const -> int {
     return _id;

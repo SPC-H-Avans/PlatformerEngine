@@ -51,15 +51,24 @@ void PhysicsSystem::CheckCollisions() {
 
                     unique_ptr<std::tuple<CollisionPoint, CollisionPoint>> collision = CheckBoxCollision(initiator->GetTransform().position, *aCol, receiver->GetTransform().position, *bCol);
                     if(collision != nullptr) { //If collision
-                        if(_collisions.count(aCol) > 0) {
-                            if (find(_collisions[aCol].begin(), _collisions[aCol].end(), bCol) != _collisions[aCol].end()) {
-                                RemainCollision(initiator, aCol, receiver, bCol, *collision);
-                            } else {
-                                CreateCollision(initiator, aCol, receiver, bCol, *collision);
-                            }
+
+                        if(!aCol->GetCollisions().empty() && !aCol->GetCollisionsWith(*bCol).empty()) {
+                            // Remain Collision
+                            RemainCollision(initiator, aCol, receiver, bCol, *collision);
                         } else {
+                            // Create collision
                             CreateCollision(initiator, aCol, receiver, bCol, *collision);
                         }
+
+//                        if(_collisions.count(aCol) > 0) {
+//                            if (find(_collisions[aCol].begin(), _collisions[aCol].end(), bCol) != _collisions[aCol].end()) {
+//                                RemainCollision(initiator, aCol, receiver, bCol, *collision);
+//                            } else {
+//                                CreateCollision(initiator, aCol, receiver, bCol, *collision);
+//                            }
+//                        } else {
+//                            CreateCollision(initiator, aCol, receiver, bCol, *collision);
+//                        }
                     } else {
                         if (find(_collisions[aCol].begin(), _collisions[aCol].end(), bCol) != _collisions[aCol].end()) {
                             EndCollision(initiator, aCol, receiver, bCol);
@@ -75,16 +84,16 @@ void PhysicsSystem::CreateCollision(const shared_ptr<GameObject>& initiator, con
                                     const shared_ptr<GameObject>& receiver, const shared_ptr<Collider>& rec_collider,
                                     std::tuple<CollisionPoint, CollisionPoint> direction) {
 
-    if(_collisions.count(init_collider) > 0) {
-        _collisions[init_collider].emplace_back(rec_collider);
-    } else {
-        _collisions[init_collider] = {rec_collider};
-    }
+    // Create two Collision objects with the same ID
+    auto collisionInit = Collision(rec_collider, std::get<0>(direction), _collisionCnt);
+    auto collisionRec = Collision(init_collider, std::get<1>(direction), _collisionCnt++);
+    init_collider->AddCollision(collisionInit);
+    rec_collider->AddCollision(collisionRec);
 
     for(auto& script : initiator->GetComponents<BehaviourScript>())
-        std::static_pointer_cast<BehaviourScript>(script)->OnTriggerEnter2D(Collision (*rec_collider, std::get<0>(direction), 0)); //todo implement id
+        std::static_pointer_cast<BehaviourScript>(script)->OnTriggerEnter2D(collisionInit);
     for(auto& script : receiver->GetComponents<BehaviourScript>())
-        std::static_pointer_cast<BehaviourScript>(script)->OnTriggerEnter2D(Collision (*init_collider, std::get<1>(direction), 0)); //todo implement id
+        std::static_pointer_cast<BehaviourScript>(script)->OnTriggerEnter2D(collisionRec);
 }
 
 void PhysicsSystem::RemainCollision(const shared_ptr<GameObject>& initiator, const shared_ptr<Collider>& init_collider,
@@ -92,9 +101,9 @@ void PhysicsSystem::RemainCollision(const shared_ptr<GameObject>& initiator, con
                                     std::tuple<CollisionPoint, CollisionPoint> direction) {
 
     for(auto& script : initiator->GetComponents<BehaviourScript>())
-        std::static_pointer_cast<BehaviourScript>(script)->OnTriggerStay2D(Collision (*rec_collider, std::get<0>(direction), 0)); //todo implement id
+        std::static_pointer_cast<BehaviourScript>(script)->OnTriggerStay2D(Collision (rec_collider, std::get<0>(direction), 0)); //todo implement id
     for(auto& script : receiver->GetComponents<BehaviourScript>())
-        std::static_pointer_cast<BehaviourScript>(script)->OnTriggerStay2D(Collision (*init_collider, std::get<1>(direction), 0)); //todo implement id
+        std::static_pointer_cast<BehaviourScript>(script)->OnTriggerStay2D(Collision (init_collider, std::get<1>(direction), 0)); //todo implement id
 }
 
 void PhysicsSystem::EndCollision(const shared_ptr<GameObject>& initiator, const shared_ptr<Collider>& init_collider,
@@ -107,9 +116,9 @@ void PhysicsSystem::EndCollision(const shared_ptr<GameObject>& initiator, const 
 
     //Call Behaviour scripts
     for(auto& script : initiator->GetComponents<BehaviourScript>())
-        std::static_pointer_cast<BehaviourScript>(script)->OnTriggerExit2D(Collision (*rec_collider, 0)); //todo implement id
+        std::static_pointer_cast<BehaviourScript>(script)->OnTriggerExit2D(Collision (rec_collider, 0)); //todo implement id
     for(auto& script : receiver->GetComponents<BehaviourScript>())
-        std::static_pointer_cast<BehaviourScript>(script)->OnTriggerExit2D(Collision (*init_collider, 0));//todo implement id
+        std::static_pointer_cast<BehaviourScript>(script)->OnTriggerExit2D(Collision (init_collider, 0));//todo implement id
 }
 
 auto PhysicsSystem::CheckBoxCollision(Point aPos, const BoxCollider& aCol, Point bPos, const BoxCollider& bCol) -> std::unique_ptr<std::tuple<CollisionPoint, CollisionPoint>> {

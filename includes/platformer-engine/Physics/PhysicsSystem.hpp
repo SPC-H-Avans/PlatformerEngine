@@ -56,6 +56,7 @@ private:
     static auto CheckBoxCollision(Point aPos, const BoxCollider& aCol, Point bPos, const BoxCollider& bCol) -> std::unique_ptr<std::tuple<CollisionPoint, CollisionPoint>>;
 
     std::map<std::shared_ptr<Collider>, std::vector<std::shared_ptr<Collider>>> _collisions;
+    int _collisionCnt = 0;
 };
 
 #endif //PLATFORMER_ENGINE_PHYSICSSYSTEM_HPP

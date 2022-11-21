@@ -1,12 +1,14 @@
 #include <algorithm>
 #include "Scene.hpp"
 #include "LevelParser/LevelParser.hpp"
-#include "Texture/TextureManager.hpp"
 #include "Debug.hpp"
 #include "Exceptions/NotImplementedException.hpp"
 #include "Exceptions/GameObjectAlreadyInSceneException.hpp"
 #include "Exceptions/CameraNotInSceneException.hpp"
 #include "Animator.hpp"
+#include "BoxCollider.hpp"
+#include "Physics/Collision.hpp"
+#include "RigidBody.hpp"
 
 void spic::Scene::RenderScene() {
     if (_currentLevel.empty()) {
@@ -50,6 +52,16 @@ void spic::Scene::AddObject(const std::shared_ptr<GameObject> &gameObject) {
     if (GetObjectByName(gameObject->GetName()) != nullptr) {
         throw GameObjectAlreadyInSceneException(gameObject->GetName());
     }
+
+    auto collider = BoxCollider();
+    collider.Width(10);
+    collider.Height(10);
+    gameObject->AddComponent<BoxCollider>(std::make_shared<BoxCollider>(collider));
+
+    auto body = RigidBody();
+    body.BodyType(spic::BodyType::staticBody);
+    gameObject->AddComponent<RigidBody>(std::make_shared<RigidBody>(body));
+
     _contents.push_back(gameObject);
 }
 

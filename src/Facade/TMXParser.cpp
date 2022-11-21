@@ -3,11 +3,11 @@
 #include "Debug.hpp"
 
 bool
-platformer_engine::TMXParser::Load(const std::string &id, const std::string &filePath, const std::string &fileName) {
-    bool result = ParseLevel(id, filePath, fileName);
+platformer_engine::TMXParser::Load(const std::string &uid, const std::string &filePath, const std::string &fileName) {
+    bool result = ParseLevel(uid, filePath, fileName);
 
-    if (result == false) {
-        spic::Debug::LogWarning( "Failed to parse level: " + id);
+    if (!result) {
+        spic::Debug::LogWarning( "Failed to parse level: " + uid);
     }
     return result;
 }

@@ -117,8 +117,8 @@ TEST_F(CollisionTests, IsCollisionBetweenTwoObjectsDetected) {
     physics.Update();
 
     // 9. Assert that the Collision exit has been triggered
-    auto exitTrigger1 = go1Script->GetCollisionPointCountFor(Trigger::Exit, CollisionPoint::Uncertain);
-    auto exitTrigger2 = go2Script->GetCollisionPointCountFor(Trigger::Exit, CollisionPoint::Uncertain);
+    auto exitTrigger1 = go1Script->GetCollisionPointCountFor(Trigger::Exit, CollisionPoint::Top);
+    auto exitTrigger2 = go2Script->GetCollisionPointCountFor(Trigger::Exit, CollisionPoint::Bottom);
     ASSERT_TRUE(exitTrigger1);
     ASSERT_TRUE(exitTrigger2);
 

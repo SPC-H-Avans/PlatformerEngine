@@ -1,12 +1,12 @@
 #include "Collider.hpp"
 #include "Physics/Collision.hpp"
 
-std::vector<Collision> spic::Collider::GetCollisions() const {
+const std::vector<Collision> &spic::Collider::GetCollisions() const {
     return _collisions;
 }
 
-Collision spic::Collider::GetCollisionById(int uid) {
-    for(auto col : _collisions) {
+Collision& spic::Collider::GetCollisionById(int uid) {
+    for(auto& col : _collisions) {
         if(col.GetId() == uid) {
             return col;
         }

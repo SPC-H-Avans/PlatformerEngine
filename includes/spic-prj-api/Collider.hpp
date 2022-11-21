@@ -15,9 +15,9 @@ namespace spic {
      */
     class Collider : public Component {
     public:
-        [[nodiscard]] auto GetCollisions() const -> std::vector<Collision>;
+        [[nodiscard]] auto GetCollisions() const -> const std::vector<Collision>&;
         auto GetCollisionsWith(const Collider& col) -> std::vector<Collision>;
-        auto GetCollisionById(int uid) -> Collision;
+        auto GetCollisionById(int uid) -> Collision&;
         void AddCollision(Collision col);
         void RemoveCollision(int uid);
     private:

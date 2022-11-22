@@ -34,8 +34,9 @@ namespace platformer_engine {
          * @brief Send update to all clients
          * @param data Data from type MessageHeader
          * @param dataLength length of the data
+         * @param reliable If the packet needs to be sent as a reliable packet
          */
-        void SendUpdateToClients(const uint8_t* data, size_t dataLength);
+        void SendUpdateToClients(const uint8_t* data, size_t dataLength, bool reliable = false);
         /**
          * @brief Perform all actions needed to intialize a new client
          * @param client Reference to client

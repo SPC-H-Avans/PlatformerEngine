@@ -12,6 +12,7 @@ find_package(sdl2-image CONFIG REQUIRED)
 find_package(SDL2_mixer CONFIG REQUIRED)
 find_package(GTest CONFIG REQUIRED)
 find_package(tinyxml CONFIG REQUIRED)
+find_package(unofficial-enet CONFIG REQUIRED)
 
 include(GoogleTest)
 include_directories(${PROJECT_INCLUDES_DIR}/spic-prj-api/)
@@ -29,6 +30,7 @@ add_library(${PROJECT_NAME} STATIC ${SOURCE})
 
 target_link_libraries(${PROJECT_NAME} PUBLIC SDL2::SDL2 SDL2::SDL2main SDL2::SDL2_image)
 target_link_libraries(${PROJECT_NAME} PUBLIC $<IF:$<TARGET_EXISTS:SDL2_mixer::SDL2_mixer>,SDL2_mixer::SDL2_mixer,SDL2_mixer::SDL2_mixer-static>)
+target_link_libraries(${PROJECT_NAME} PUBLIC unofficial::enet::enet)
 
 
 #-lSDL2

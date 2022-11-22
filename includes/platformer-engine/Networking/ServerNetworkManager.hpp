@@ -1,0 +1,8 @@
+#ifndef PLATFORMER_ENGINE_SERVERNETWORKMANAGER_HPP
+#define PLATFORMER_ENGINE_SERVERNETWORKMANAGER_HPP
+namespace platformer_engine {
+    class ServerNetworkManager{
+
+    };
+}
+#endif //PLATFORMER_ENGINE_SERVERNETWORKMANAGER_HPP

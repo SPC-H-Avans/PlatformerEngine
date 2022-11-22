@@ -7,8 +7,8 @@ namespace platformer_engine {
     class ClientNetworkManager{
     public:
         std::vector<std::shared_ptr<spic::GameObject>> GameObjects;
-        inline auto GetLocalPlayerId() const -> int {return _localPlayerId; }
-        inline auto IsPartyleader() const -> bool {return _isPartyleader; }
+        [[nodiscard]] inline auto GetLocalPlayerId() const -> int {return _localPlayerId; }
+        [[nodiscard]] inline auto IsPartyleader() const -> bool {return _isPartyleader; }
         inline auto GetConnectionStatus() -> ConnectionStatus {return _connectionStatus; }
         void ConnectToServer(const std::string& ip, int port);
         void DisconnectFromServer();

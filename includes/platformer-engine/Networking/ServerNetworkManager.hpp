@@ -9,17 +9,16 @@
 namespace platformer_engine {
     class ServerNetworkManager{
     public:
-        std::vector<Client> clients;
-        std::vector<std::shared_ptr<spic::GameObject>> gameObjects;
-        std::string getLevelName() { return _levelName;}
-        inline void setLevelName(const std::string& levelName){ _levelName = levelName;}
+        std::vector<Client> Clients;
+        std::vector<std::shared_ptr<spic::GameObject>> GameObjects;
+        auto GetLevelName() -> std::string { return _levelName;}
+        inline void SetLevelName(const std::string& levelName){ _levelName = levelName;}
 
-        void sendUpdateToClients(const uint8_t* data, size_t dataLength);
-        void initializeClient(const Client& client);
-        void chooseNewPartyLeader();
+        void SendUpdateToClients(const uint8_t* data, size_t dataLength);
+        void InitializeClient(const Client& client);
+        void ChooseNewPartyLeader();
     private:
         std::string _levelName;
-
     };
-}
+}  // namespace platformer_engine
 #endif //PLATFORMER_ENGINE_SERVERNETWORKMANAGER_HPP

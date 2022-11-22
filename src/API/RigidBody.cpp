@@ -13,7 +13,7 @@ bool spic::RigidBody::CanMoveTo(CollisionPoint point) {
 }
 
 void spic::RigidBody::AllowMoveTo(CollisionPoint point) {
-    if(!_moveRestrictions.contains(point) || _moveRestrictions[point] <= 0) { // Numbers below zero are illegal
+    if(_moveRestrictions[point] <= 0) { // Numbers below zero are illegal
         throw IllegalCollisionBehaviourException(_bodyType, point);
     }
     _moveRestrictions[point] -= 1;

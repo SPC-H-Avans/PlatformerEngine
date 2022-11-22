@@ -7,15 +7,43 @@
 #include "ProtocolPackages.hpp"
 
 namespace platformer_engine {
+    /**
+     * @brief The ServerNetworkManager class, handles all the networking for the server.
+     */
     class ServerNetworkManager{
     public:
+        /**
+         * @brief List of connected clients
+         */
         std::vector<Client> Clients;
+        /**
+         * @brief List of networked game objects
+         */
         std::vector<std::shared_ptr<spic::GameObject>> GameObjects;
+        /**
+         * @brief Get current level name
+         * @return std::string level name
+         */
         auto GetLevelName() -> std::string { return _levelName;}
+        /**
+         * @brief Set current level name
+         * @param levelName level name to set
+         */
         inline void SetLevelName(const std::string& levelName){ _levelName = levelName;}
-
+        /**
+         * @brief Send update to all clients
+         * @param data Data from type MessageHeader
+         * @param dataLength length of the data
+         */
         void SendUpdateToClients(const uint8_t* data, size_t dataLength);
+        /**
+         * @brief Perform all actions needed to intialize a new client
+         * @param client Reference to client
+         */
         void InitializeClient(const Client& client);
+        /**
+         * @brief Randomly choose new party leader
+         */
         void ChooseNewPartyLeader();
     private:
         std::string _levelName;

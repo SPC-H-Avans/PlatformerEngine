@@ -19,9 +19,6 @@ private:
     const float _MARIO_WALK_SPEED = 2;
     const int _MARIO_JUMP_TIMER = 8;
     const float _GRAVITY = 0.25F;
-
-
-
 };
 
 

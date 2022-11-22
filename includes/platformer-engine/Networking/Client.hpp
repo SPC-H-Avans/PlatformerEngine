@@ -6,7 +6,7 @@
 namespace platformer_engine {
     class Client{
     public:
-        Client(std::string ip, int port, int clientId, bool isPartyLeader = false);
+        Client(const std::string& ip, int port, int clientId, bool isPartyLeader = false);
 
         [[nodiscard]] auto GetIp() const -> std::string { return _ip; }
         [[nodiscard]] auto GetPort() const -> int { return _port; }

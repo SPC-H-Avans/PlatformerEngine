@@ -1,0 +1,92 @@
+name: 'CodeCov'
+
+on:
+  push:
+    branches:
+      - main
+      - develop
+  pull_request:
+
+
+env:
+  CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
+
+jobs:
+  build:
+    name: Build (${{ matrix.os }})
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - os: self-hosted-linux-x64
+            triplet: x64-linux
+
+    env:
+      VCPKG_DEFAULT_TRIPLET: ${{ matrix.triplet }}
+      COVERAGE: 1
+
+    steps:
+      - name: 'Install SDL2 dev'
+        if: runner.os == 'Linux'
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y libsdl2-dev
+      - name: 'Checkout'
+        uses: actions/checkout@v2
+        with:
+          token: ${{ secrets.PAT }}
+          submodules: recursive
+
+      - name: 'Install CMake'
+        uses: lukka/get-cmake@latest
+
+      - name: 'Setup vcpkg'
+        uses: lukka/run-vcpkg@v10
+
+      - name: 'Run CMake'
+        uses: lukka/run-cmake@v10
+        with:
+          configurePreset: ninja-multi-vcpkg
+          buildPreset: ninja-multi-vcpkg
+          testPreset: ninja-multi-vcpkg
+        env:
+          COVERAGE: ${{ env.COVERAGE }}
+
+      - name: 'Install lcov'
+        if: runner.os == 'Linux'
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y lcov gcovr
+
+      - name: 'Run executable'
+        run: |
+          ./builds/ninja-multi-vcpkg/Debug/platformer-engine-tests
+
+      - name: 'Run gcovr'
+        if: runner.os == 'Linux'
+        run: |
+          gcovr -r ./builds/ninja-multi-vcpkg/CMakeFiles/platformer-engine.dir/Debug/src -f '.*' --xml-pretty -o coverage.xml
+
+
+      - name: 'Run CodeCov Push'
+        if: github.event_name == 'push'
+        uses: codecov/codecov-action@v3
+        with:
+          token: ${{ env.CODECOV_TOKEN }}
+          file: coverage.xml
+          flags: unittests
+          name: codecov-umbrella
+          fail_ci_if_error: false
+          dry_run: false
+
+      - name: 'Run CodeCov PR'
+        if: github.event_name == 'pull_request'
+        uses: codecov/codecov-action@v3
+        with:
+          token: ${{ env.CODECOV_TOKEN }}
+          file: coverage.xml
+          flags: unittests
+          name: codecov-umbrella
+          fail_ci_if_error: false
+          dry_run: false

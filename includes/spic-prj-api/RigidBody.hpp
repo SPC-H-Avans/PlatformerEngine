@@ -3,6 +3,8 @@
 
 #include "Component.hpp"
 #include "Point.hpp"
+#include "Physics/Collision.hpp"
+#include <map>
 
 namespace spic {
 
@@ -28,12 +30,22 @@ namespace spic {
              */
             void AddForce(const Point& forceDirection);
 
+            void BodyType (BodyType bodyType) { this->_bodyType = bodyType; }
+            auto BodyType() -> enum BodyType { return _bodyType; }
+
+            bool CanMoveTo(CollisionPoint point);
+            void AllowMoveTo(CollisionPoint point);
+            void DenyMoveTo(CollisionPoint point);
+
         private:
-            double mass;
-            double gravityScale;
-            BodyType bodyType;
+            double _mass;
+            double _gravityScale;
+            enum BodyType _bodyType;
+
+
+            std::map<CollisionPoint, int> _moveRestrictions;
     };
 
-}
+} // namespace spic
 
 #endif // RIGIDBODY_H_

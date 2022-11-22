@@ -1,10 +1,12 @@
-
 #ifndef PLATFORMER_ENGINE_WINDOW_HPP
 #define PLATFORMER_ENGINE_WINDOW_HPP
 
 #include <string>
 #include "Color.hpp"
-#include "GraphicsFacade/GraphicsFacade.hpp"
+#include "Facade/GraphicsFacade.hpp"
+#include "Texture/TextureManager.hpp"
+#include "Facade/InputFacade.hpp"
+#include "Scene.hpp"
 
 namespace platformer_engine {
     /**
@@ -28,12 +30,19 @@ namespace platformer_engine {
          * @platformerengine
          */
         void Render();
+        /**
+         * @brief Clears the window before rendering new objects
+         * @platformerengine
+         */
+        void Clear();
 
         /**
          * @brief Close the window
          * @platformerengine
          */
         void Quit();
+
+        static auto ListenForEvents() -> std::vector<EventsEnum>;
 
         /**
          * @brief Get tick interval
@@ -42,9 +51,23 @@ namespace platformer_engine {
         static inline auto
         GetPerformanceFrequency() -> Uint64 { return platformer_engine::GraphicsFacade::GetPerformanceFrequency(); }
 
+        /**
+         * @brief Set the current active Scene
+         * @param scene Scene to make active
+         */
+        void SetActiveScene(std::unique_ptr<spic::Scene> scene);
+
+        /**
+         * @brief Get the current active Scene
+         * @return std::unique_ptr<spic::Scene>& Current active Scene
+         */
+        auto GetActiveScene() -> std::unique_ptr<spic::Scene>&;
+
+        static inline auto GetTicks() -> Uint64 { return platformer_engine::GraphicsFacade::GetTicks();};
 
     private:
-        GraphicsFacade _graphicsFacade;
+        std::shared_ptr<GraphicsFacade> _graphicsFacade{nullptr};
+        std::unique_ptr<spic::Scene> _activeScene = nullptr;
     };
 }//namespace platformer_engine
 

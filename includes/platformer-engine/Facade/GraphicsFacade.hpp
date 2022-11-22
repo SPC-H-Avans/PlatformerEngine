@@ -11,8 +11,14 @@
 
 #include <string>
 #include <vector>
+#include <map>
 
 namespace platformer_engine {
+    typedef enum {
+        FLIP_NONE = SDL_FLIP_NONE,     /**< Do not flip */
+        FLIP_HORIZONTAL = SDL_FLIP_HORIZONTAL,    /**< flip horizontally */
+        FLIP_VERTICAL = SDL_FLIP_VERTICAL     /**< flip vertically */
+    } SPIC_RendererFlip;
 
     /**
      * @brief Facade class that creates a SDL2 window and renderer
@@ -20,6 +26,7 @@ namespace platformer_engine {
     class GraphicsFacade {
     public:
         GraphicsFacade() = default;
+
         ~GraphicsFacade();
 
         /**
@@ -50,7 +57,47 @@ namespace platformer_engine {
          * @platformerengine
          */
         void Clear();
-        
+
+        static inline auto GetTicks() -> Uint64 {return SDL_GetTicks64();};
+
+        /**
+         * @brief Load a texture
+         * @param id
+         * @param fileName
+         * @return
+         */
+        auto LoadTexture(const std::string &id, const std::string &fileName) -> bool;
+
+        /**
+         * @brief Draw a texture (complete png for example)
+         * @param id
+         * @param x
+         * @param y
+         * @param width
+         * @param height
+         * @param flip
+         */
+        void DrawTexture(const std::string &id, int x, int y, int width, int height,
+                         const SPIC_RendererFlip &flip = FLIP_NONE, double scale = 1.0);
+
+        /**
+         * @brief Draw a tile on the screen
+         * @param tileSetID
+         * @param tileSize
+         * @param x
+         * @param y
+         * @param row
+         * @param frame
+         * @param flip
+         */
+        void DrawTile(const std::string &tileSetID, int tileSize, int x, int y, int row, int frame,
+                      const SPIC_RendererFlip &flip = FLIP_NONE, double scale = 1.0);
+
+        void DrawFrame(const std::string &id, int x, int y, int width, int height, int row, int frame,
+                       const SPIC_RendererFlip &flip = FLIP_NONE, double scale = 1.0);
+
+        void ClearTextures();
+
         /**
          * @brief Get interval between tick
          * @return Uinit64 tick interval
@@ -60,6 +107,8 @@ namespace platformer_engine {
     private:
         std::unique_ptr<SDL_Window, std::function<void(SDL_Window *)>> _window{nullptr};
         std::unique_ptr<SDL_Renderer, std::function<void(SDL_Renderer *)>> _renderer{nullptr};
+        std::map<std::string, std::unique_ptr<SDL_Texture, std::function<void(
+                SDL_Texture *)>>> _textureMap;
 
         /**
          * @brief Converts the color value, which is a double between 0 and 1 to a value between 0 and 255 as int

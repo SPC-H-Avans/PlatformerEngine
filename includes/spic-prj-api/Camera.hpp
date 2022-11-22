@@ -11,12 +11,19 @@ namespace spic {
      * @spicapi
      */
     class Camera : public GameObject {
-        private:
-            Color backgroundColor;
-            double aspectWidth;
-            double aspectHeight;
+    public:
+        Camera(const std::string &name, const std::string &tag, spic::Color backgroundColor,
+               double aspectWidth, double aspectHeight);
+        void Zoom(double aspectWidth, double aspectHeight);
+
+        double GetAspectWidth();
+        double GetAspectHeight();
+    private:
+        Color _backgroundColor;
+        double _aspectWidth;
+        double _aspectHeight;
     };
 
-}
+}  // namespace spic
 
 #endif // CAMERA_H_

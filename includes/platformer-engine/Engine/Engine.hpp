@@ -3,6 +3,11 @@
 
 #include "Render/Window.hpp"
 #include "Timer/Timer.hpp"
+#include "Physics/PhysicsSystem.hpp"
+#include "GameLevel/GameLevel.hpp"
+#include <memory>
+#include "Scene.hpp"
+#include "Texture/RenderSystem.hpp"
 
 
 namespace platformer_engine {
@@ -30,7 +35,7 @@ namespace platformer_engine {
         void operator=(Engine &&) = delete;
 
         /**
-         * @brief Start the engine and create a window
+         * @brief Initialize the engine
          * @param width The width of the window in px
          * @param height The height of the window in px
          * @param title  Title of the window
@@ -41,17 +46,47 @@ namespace platformer_engine {
         auto Init(int width, int height, const std::string &title, const spic::Color &color) -> bool;
 
         /**
+         * @brief Start the engine, open window, start timer etc.
+         * @platformerengine
+         */
+        void Start();
+
+        /**
          * @brief Render the game on the screen
          * @platformerengine
          */
         void Render();
 
         /**
+         * @brief Run systems to update gameObjects
+         */
+        void Update();
+
+        /**
+         * @brief Check for events
+         * @platformerengine
+         */
+        void Events();
+
+        /**
          * @brief Quit the engine
          * @platformerengine
          */
-        void Quit();;
+        void Quit();
 
+        /**
+         * @brief Set the current active Scene
+         * @param scene Scene to make active
+         * @platformerengine
+         */
+        void SetActiveScene(std::unique_ptr<spic::Scene> scene);
+
+        /**
+         * @brief Get the current active Scene
+         * @return std::unique_ptr<spic::Scene>& Current active scene
+         * @platformerengine
+         */
+        auto GetActiveScene() -> std::unique_ptr<spic::Scene>&;
 
     private:
         Engine() = default;
@@ -59,6 +94,8 @@ namespace platformer_engine {
         bool _isRunning = false;
 
         std::unique_ptr<Window> _window = nullptr;
+        std::unique_ptr<PhysicsSystem> _physicsSystem = nullptr;
+        std::unique_ptr<RenderSystem> _renderSystem = nullptr;
     };
 }//namespace platformer_engine
 

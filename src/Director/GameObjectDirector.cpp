@@ -5,11 +5,12 @@
 //auto GameObjectDirector::CreatePlayer() -> std::shared_ptr<GameObject> { // probably add width and height parameters and more to use in GameObjectBuilder functions
 //    auto builder =
 //            GameObjectBuilder("player")
-//            .AddAnimator()
+////            .AddAnimator()
 //            .AddAudioSource()
 //            .AddBehaviourScript()
 //            .AddCollider()
 //            .AddRigidBody()
-//            .AddSprite();
+//            ;
+////            .AddSprite();
 //    return builder.GetGameObject();
 //}

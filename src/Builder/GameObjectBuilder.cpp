@@ -15,14 +15,14 @@ auto GameObjectBuilder::GetGameObject() -> std::shared_ptr<GameObject> {
 }
 
 //Return *this in every component method to allow chaining
-auto GameObjectBuilder::AddAudioSource() -> ObjectBuilder & {
+auto GameObjectBuilder::AddAudioSource() -> GameObjectBuilder & {
     //TODO Add audiosource to gameobject
     throw std::logic_error("Function not implemented");
     return *this;
 }
 
 auto
-GameObjectBuilder::AddAnimator(std::shared_ptr<platformer_engine::AnimatedSprite> animatedSprite) -> ObjectBuilder & {
+GameObjectBuilder::AddAnimator(std::shared_ptr<platformer_engine::AnimatedSprite> animatedSprite) -> GameObjectBuilder & {
     std::shared_ptr<Animator> animator = std::make_shared<Animator>(animatedSprite);
     _gameObject->AddComponent<Animator>(animator);
     return *this;
@@ -30,7 +30,7 @@ GameObjectBuilder::AddAnimator(std::shared_ptr<platformer_engine::AnimatedSprite
 
 auto
 GameObjectBuilder::AddAnimator(
-        std::vector<std::shared_ptr<platformer_engine::AnimatedSprite>> animatedSprite) -> ObjectBuilder & {
+        std::vector<std::shared_ptr<platformer_engine::AnimatedSprite>> animatedSprite) -> GameObjectBuilder & {
     if (animatedSprite.empty()) {
         throw std::invalid_argument("animatedSprite is empty");
     }
@@ -42,26 +42,26 @@ GameObjectBuilder::AddAnimator(
     return *this;
 }
 
-auto GameObjectBuilder::AddBehaviourScript() -> ObjectBuilder & {
+auto GameObjectBuilder::AddBehaviourScript() -> GameObjectBuilder & {
     //TODO add behaviourscript to gameobject
     throw std::logic_error("Function not implemented");
     return *this;
 }
 
-auto GameObjectBuilder::AddCollider() -> ObjectBuilder & {
+auto GameObjectBuilder::AddCollider() -> GameObjectBuilder & {
     //TODO add collider to gameobject
     //DO WE NEED SEPERATE FUNCTIONS FOR DIFFERENT COLLIDERS?
     throw std::logic_error("Function not implemented");
     return *this;
 }
 
-auto GameObjectBuilder::AddRigidBody() -> ObjectBuilder & {
+auto GameObjectBuilder::AddRigidBody() -> GameObjectBuilder & {
     //TODO add rigidbody to gameobject
     throw std::logic_error("Function not implemented");
     return *this;
 }
 
-auto GameObjectBuilder::AddSprite(const std::shared_ptr<spic::Sprite> &sprite) -> ObjectBuilder & {
+auto GameObjectBuilder::AddSprite(const std::shared_ptr<spic::Sprite> &sprite) -> GameObjectBuilder & {
     _gameObject->AddComponent<Sprite>(sprite);
     return *this;
 }

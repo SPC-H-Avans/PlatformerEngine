@@ -33,16 +33,16 @@ public:
     auto GetGameObject() -> std::shared_ptr<GameObject>;
 
     /**
-     * @brief Adds an AudioSource component to the current GameObject being build.
-     * @return reference to ObjectBuilder, allows method chaining.
-     */
-    auto AddAudioSource() -> ObjectBuilder & override;
-
-    /**
      * @brief Adds an Animator component to the current GameObject being build.
      * @return reference to ObjectBuilder, allows method chaining.
      */
-    auto AddAnimator(std::shared_ptr<platformer_engine::AnimatedSprite> animatedSprite) -> ObjectBuilder & override;
+    auto AddAnimator(std::shared_ptr<platformer_engine::AnimatedSprite> animatedSprite) -> GameObjectBuilder & override;
+
+    /**
+     * @brief Adds an AudioSource component to the current GameObject being build.
+     * @return reference to ObjectBuilder, allows method chaining.
+     */
+    auto AddAudioSource() -> GameObjectBuilder & override;
 
     /**
      * @brief Adds an Animator component to the current GameObject being build.
@@ -50,31 +50,31 @@ public:
      * @return reference to ObjectBuilder, allows method chaining.
      */
     auto AddAnimator(
-            std::vector<std::shared_ptr<platformer_engine::AnimatedSprite>> animatedSprite) -> ObjectBuilder & override;
+            std::vector<std::shared_ptr<platformer_engine::AnimatedSprite>> animatedSprite) -> GameObjectBuilder & override;
 
     /**
      * @brief Adds a BehaviourScript component to the current GameObject being build.
      * @return reference to ObjectBuilder, allows method chaining.
      */
-    auto AddBehaviourScript() -> ObjectBuilder & override;
+    auto AddBehaviourScript() -> GameObjectBuilder & override;
 
     /**
      * @brief Adds a Collider component to the current GameObject being build.
      * @return reference to ObjectBuilder, allows method chaining.
      */
-    auto AddCollider() -> ObjectBuilder & override;
+    auto AddCollider() -> GameObjectBuilder & override;
 
     /**
      * @brief Adds a RigidBody component to the current GameObject being build.
      * @return reference to ObjectBuilder, allows method chaining.
      */
-    auto AddRigidBody() -> ObjectBuilder & override;
+    auto AddRigidBody() -> GameObjectBuilder & override;
 
     /**
      * @brief Adds a Sprite component to the current GameObject being build.
      * @return reference to ObjectBuilder, allows method chaining.
      */
-    auto AddSprite(const std::shared_ptr<spic::Sprite> &sprite) -> ObjectBuilder & override;
+    auto AddSprite(const std::shared_ptr<spic::Sprite> &sprite) -> GameObjectBuilder & override;
 
 private:
     //Shares ptr with GameObject static instace list

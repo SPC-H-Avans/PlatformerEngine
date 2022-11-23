@@ -9,19 +9,19 @@
 #include "Animator.hpp"
 
 void spic::Scene::RenderScene() {
-    if (_currentLevel.empty()) {
-        spic::Debug::LogWarning("No current level set in the scene!");
-    } else {
-        std::unique_ptr<platformer_engine::GameLevel> &level = platformer_engine::LevelParser::GetInstance().GetLevel(
-                _currentLevel);
-
-        if (level == nullptr) {
-            spic::Debug::LogWarning(
-                    "The level that was provided as current level is not imported / does not exist, and could not be loaded!");
-        }
-
-        level->Render();
-    }
+//    if (_currentLevel.empty()) {
+//        spic::Debug::LogWarning("No current level set in the scene!");
+//    } else {
+//        std::unique_ptr<platformer_engine::GameLevel> &level = platformer_engine::LevelParser::GetInstance().GetLevel(
+//                _currentLevel);
+//
+//        if (level == nullptr) {
+//            spic::Debug::LogWarning(
+//                    "The level that was provided as current level is not imported / does not exist, and could not be loaded!");
+//        }
+//
+//        level->Render();
+//    }
     RenderGameObjects();
 }
 
@@ -53,12 +53,12 @@ void spic::Scene::AddObject(const std::shared_ptr<GameObject> &gameObject) {
     _contents.push_back(gameObject);
 }
 
-void spic::Scene::ImportLevel(const std::string &id, const std::string &filePath, const std::string &fileName,
-                              const std::map<int, std::function<std::shared_ptr<spic::GameObject>()>> &config) {
-    //Import level and set it to a local variable in this scene object
-    platformer_engine::LevelParser::LevelParser::GetInstance().ParseLevel(id, filePath, fileName, config);
-    _currentLevel = id;
-}
+//void spic::Scene::ImportLevel(const std::string &id, const std::string &filePath, const std::string &fileName,
+//                              const std::map<int, std::function<std::shared_ptr<spic::GameObject>()>> &config) {
+//    //Import level and set it to a local variable in this scene object
+//    platformer_engine::LevelParser::LevelParser::GetInstance().ParseLevel(id, filePath, fileName, config);
+//    _currentLevel = id;
+//}
 
 void spic::Scene::RemoveObject(const std::string &name) {
     auto itr = std::remove_if(_contents.begin(), _contents.end(),
@@ -122,6 +122,6 @@ std::shared_ptr<spic::Camera> spic::Scene::GetActiveCamera() {
     return _activeCamera;
 }
 
-spic::Scene::~Scene() {
-    platformer_engine::LevelParser::LevelParser::GetInstance().Clean();
-}
+//spic::Scene::~Scene() {
+//    platformer_engine::LevelParser::LevelParser::GetInstance().Clean();
+//}

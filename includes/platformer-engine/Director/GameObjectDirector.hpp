@@ -13,7 +13,7 @@ public:
      */
     GameObjectDirector() = default;
 
-    auto CreateTile() -> std::shared_ptr<GameObject>;
+    static auto CreateTile() -> std::shared_ptr<GameObject>;
 //    auto CreatePlayer() -> std::shared_ptr<GameObject>;
 private:
 //    GameObjectBuilder _builder;

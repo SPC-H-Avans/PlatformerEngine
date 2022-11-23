@@ -3,6 +3,7 @@
 #include "Director/GameObjectDirector.hpp"
 
 auto GameObjectDirector::CreateTile() -> std::shared_ptr<GameObject> {
+    std::cout << 123 << "\n";
     auto builder =
             GameObjectBuilder("tile")
             // TODO

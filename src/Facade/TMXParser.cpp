@@ -1,6 +1,7 @@
 #include "Facade/TMXParser.hpp"
 #include "LevelParser/LevelParser.hpp"
 #include "Debug.hpp"
+#include "Engine/Engine.hpp"
 
 bool
 platformer_engine::TMXParser::Load(const std::string &id, const std::string &filePath, const std::string &fileName) {
@@ -13,7 +14,7 @@ platformer_engine::TMXParser::Load(const std::string &id, const std::string &fil
 }
 
 bool platformer_engine::TMXParser::ParseLevel(const std::string &id, const std::string &filePath,
-                                              const std::string &fileName) {
+                                              const std::string &fileName) { // TODO: parse config
     TiXmlDocument xml;
     xml.LoadFile(filePath + fileName);
 
@@ -24,7 +25,7 @@ bool platformer_engine::TMXParser::ParseLevel(const std::string &id, const std::
 
     TiXmlElement *root = xml.RootElement();
 
-    int colCount, rowCount, tileSize = 0;
+    int colCount, rowCount, tileSize = 0; // col/row not initialized?
     root->Attribute("width", &colCount);
     root->Attribute("height", &rowCount);
     root->Attribute("tilewidth", &tileSize);
@@ -51,6 +52,9 @@ bool platformer_engine::TMXParser::ParseLevel(const std::string &id, const std::
     gameLevel->BaseTileSize = tileSize;
     gameLevel->RowCount = rowCount;
     gameLevel->ColCount = colCount;
+
+    platformer_engine::Engine& engine = platformer_engine::Engine::GetInstance(); // maybe let the director add them to the scene instead
+    std::unique_ptr<Scene>& scene =  engine.GetActiveScene();
 
     _levels[id] = std::move(gameLevel);
 

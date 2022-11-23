@@ -4,10 +4,13 @@
 #include <map>
 #include <string>
 #include <memory>
+#include <functional>
+
 #include "GameLevel/GameLevel.hpp"
 #include "GameLevel/TileLayer.hpp"
 #include "tinyxml.h"
 #include "LevelParser/AbstractLevelParser.hpp"
+#include "GameObject.hpp"
 
 namespace platformer_engine {
 
@@ -15,10 +18,10 @@ namespace platformer_engine {
     public:
         TMXParser(std::map<std::string, std::unique_ptr<GameLevel>> &levels) : _levels(levels) {};
 
-        auto Load(const std::string &id, const std::string &filePath, const std::string &fileName) -> bool override;
+        auto Load(const std::string &id, const std::string &filePath, const std::string &fileName, const std::map<int, std::function<std::shared_ptr<spic::GameObject>()>> &config) -> bool override;
 
     private:
-        auto ParseLevel(const std::string &id, const std::string &filePath, const std::string &fileName) -> bool;
+        auto ParseLevel(const std::string &id, const std::string &filePath, const std::string &fileName, const std::map<int, std::function<std::shared_ptr<spic::GameObject>()>> &config) -> bool;
 
         auto ParseTileSet(const TiXmlElement &xmlTileSet) -> TileSet;
 

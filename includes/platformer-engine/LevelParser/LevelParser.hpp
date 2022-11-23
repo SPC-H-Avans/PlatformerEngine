@@ -4,7 +4,10 @@
 #include <string>
 #include <map>
 #include <memory>
+#include <functional>
+
 #include "GameLevel/GameLevel.hpp"
+#include "GameObject.hpp"
 
 namespace platformer_engine {
     class LevelParser {
@@ -24,7 +27,7 @@ namespace platformer_engine {
         * @param filePath A path to the file (with out the file name)
         * @param fileName Name of the file with the extension
          */
-        bool ParseLevel(const std::string &id, const std::string &filePath, const std::string &fileName);
+        auto ParseLevel(const std::string &id, const std::string &filePath, const std::string &fileName, const std::map<int, std::function<std::shared_ptr<spic::GameObject>()>> &config) -> bool;
 
         /**
          * @brief Get a reference to the level from the map

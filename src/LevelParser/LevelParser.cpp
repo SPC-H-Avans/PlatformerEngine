@@ -4,12 +4,13 @@
 #include "Exceptions/LevelCouldNotBeParsedException.hpp"
 
 namespace platformer_engine {
-    bool LevelParser::ParseLevel(const std::string &id, const std::string &filePath, const std::string &fileName) {
+    auto LevelParser::ParseLevel(const std::string &id, const std::string &filePath, const std::string &fileName,
+                                 const std::map<int, std::function<std::shared_ptr<spic::GameObject>()>> &config) -> bool {
         std::string fileType = fileName.substr(fileName.find('.') + 1);
 
         if (fileType == "tmx") {
             auto parser = TMXParser(_levels);
-            return parser.Load(id, filePath, fileName);
+            return parser.Load(id, filePath, fileName, config);
         } else {
             throw spic::LevelCouldNotBeParsedException(filePath + fileName);
         }

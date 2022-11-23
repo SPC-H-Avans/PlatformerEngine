@@ -3,18 +3,18 @@
 #include "Debug.hpp"
 #include "Engine/Engine.hpp"
 
-bool
-platformer_engine::TMXParser::Load(const std::string &id, const std::string &filePath, const std::string &fileName) {
-    bool result = ParseLevel(id, filePath, fileName);
+bool platformer_engine::TMXParser::Load(const std::string &id, const std::string &filePath, const std::string &fileName,
+                                   const std::map<int, std::function<std::shared_ptr<spic::GameObject>()>> &config) {
+    bool result = ParseLevel(id, filePath, fileName, config);
 
-    if (result == false) {
+    if (!result) {
         spic::Debug::LogWarning( "Failed to parse level: " + id);
     }
     return result;
 }
 
-bool platformer_engine::TMXParser::ParseLevel(const std::string &id, const std::string &filePath,
-                                              const std::string &fileName) { // TODO: parse config
+bool platformer_engine::TMXParser::ParseLevel(const std::string &id, const std::string &filePath, const std::string &fileName,
+                                              const std::map<int, std::function<std::shared_ptr<spic::GameObject>()>> &config) {
     TiXmlDocument xml;
     xml.LoadFile(filePath + fileName);
 

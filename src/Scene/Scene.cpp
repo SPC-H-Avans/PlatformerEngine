@@ -53,9 +53,10 @@ void spic::Scene::AddObject(const std::shared_ptr<GameObject> &gameObject) {
     _contents.push_back(gameObject);
 }
 
-void spic::Scene::ImportLevel(const std::string &id, const std::string &filePath, const std::string &fileName) {
+void spic::Scene::ImportLevel(const std::string &id, const std::string &filePath, const std::string &fileName,
+                              const std::map<int, std::function<std::shared_ptr<spic::GameObject>()>> &config) {
     //Import level and set it to a local variable in this scene object
-    platformer_engine::LevelParser::LevelParser::GetInstance().ParseLevel(id, filePath, fileName);
+    platformer_engine::LevelParser::LevelParser::GetInstance().ParseLevel(id, filePath, fileName, config);
     _currentLevel = id;
 }
 

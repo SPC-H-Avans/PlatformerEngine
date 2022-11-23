@@ -14,6 +14,7 @@ public:
     GameObjectDirector() = default;
 
     static auto CreateTile(
+            std::string name,
             const std::shared_ptr<Sprite>& sprite,
             Transform transform
             ) -> std::shared_ptr<GameObject>;

@@ -3,14 +3,14 @@
 #include "Director/GameObjectDirector.hpp"
 
 auto GameObjectDirector::CreateTile(
+        std::string name, // TODO: instead of parsing name, just use a generic name and concat the number of GameObjects at the end, create a method in Scene to get no. of objects
         const std::shared_ptr<Sprite>& sprite,
         Transform transform
         ) -> std::shared_ptr<GameObject> {
-    std::cout << 123 << "\n";
     auto builder =
-            GameObjectBuilder("tile")
+            GameObjectBuilder(name)
                     .AddSprite(sprite)
-            // TODO
+            // TODO add rigidbody and such
             ;
     auto obj = builder.GetGameObject();
     obj->SetTransform(transform);

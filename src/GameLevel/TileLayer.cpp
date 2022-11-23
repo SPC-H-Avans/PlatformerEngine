@@ -3,7 +3,8 @@
 
 platformer_engine::TileLayer::TileLayer(const std::string &filePath, int tileSize, int rowCount, int colCount,
                                         platformer_engine::TileMap tileMap,
-                                        platformer_engine::TileSetsList tileSets) :
+                                        platformer_engine::TileSetsList tileSets,
+                                        const std::map<int, std::function<std::shared_ptr<spic::GameObject>()>> &config) :
         _tileSize(tileSize), _rowCount(rowCount), _colCount(colCount), _tileMap(std::move(tileMap)),
         _tileSets(std::move(tileSets)) {
     for (auto &_tileSet: _tileSets)

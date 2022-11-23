@@ -1,10 +1,13 @@
 #ifndef PLATFORMER_ENGINE_TILELAYER_H
 #define PLATFORMER_ENGINE_TILELAYER_H
 
-#include "Layer.hpp"
 #include <string>
 #include <utility>
 #include <vector>
+#include <functional>
+
+#include "Layer.hpp"
+#include "GameObject.hpp"
 
 namespace platformer_engine {
     struct TileSet {
@@ -19,8 +22,8 @@ namespace platformer_engine {
 
     class TileLayer : public Layer {
     public:
-        TileLayer(const std::string &filePath, int tileSize, int rowCount, int colCount, TileMap tileMap,
-                  TileSetsList tileSets);
+        TileLayer(const std::string &filePath, int tileSize, int rowCount, int colCount, TileMap tileMap, TileSetsList tileSets,
+                  const std::map<int, std::function<std::shared_ptr<spic::GameObject>()>> &config);
 
         void Render() override;
 

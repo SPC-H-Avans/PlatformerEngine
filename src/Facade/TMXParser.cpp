@@ -88,7 +88,6 @@ void platformer_engine::TMXParser::ParseTileLayer(TiXmlElement &xmlLayer, const 
 //                                             const std::map<int, std::function<std::shared_ptr<spic::GameObject>()>> &config) {
     TiXmlElement *data;
     for (TiXmlElement *e = xmlLayer.FirstChildElement(); e != nullptr; e = e->NextSiblingElement()) {
-        std::cout << "parse \n";
         if (e->Value() == std::string("data")) {
             data = e;
             break;
@@ -110,7 +109,11 @@ void platformer_engine::TMXParser::ParseTileLayer(TiXmlElement &xmlLayer, const 
 
             // if tile key exists in config, do the method
             if (config.find(tileMap[row][col]) != config.end()) {
-                auto transform = Transform { Point {150, 250}, 0, 1.0 };
+                auto transform = Transform {
+                    Point {
+                        static_cast<double>(colCount * tileSize),
+                        static_cast<double>(rowCount * tileSize)}, 
+                    0, 1.0 };
                 auto obj = config.at(tileMap[row][col])(transform);
                 auto& scene = platformer_engine::Engine::GetInstance().GetActiveScene();
                 scene->AddObject(obj);

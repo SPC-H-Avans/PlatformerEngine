@@ -111,8 +111,8 @@ void platformer_engine::TMXParser::ParseTileLayer(TiXmlElement &xmlLayer, const 
             // if tile key exists in config, do the method
             if (config.find(tileMap[row][col]) != config.end()) {
                 auto obj = config.at(tileMap[row][col])();
-                platformer_engine::Engine& engine = platformer_engine::Engine::GetInstance();
-                std::unique_ptr<Scene>& scene = engine.GetActiveScene();
+                auto& engine = platformer_engine::Engine::GetInstance();
+                auto& scene = engine.GetActiveScene();
                 scene->AddObject(obj);
             }
 

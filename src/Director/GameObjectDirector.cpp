@@ -1,14 +1,16 @@
 #include <stdexcept>
 
 #include "Director/GameObjectDirector.hpp"
+#include "Engine/Engine.hpp"
 
 auto GameObjectDirector::CreateTile(
         const std::shared_ptr<Sprite>& sprite,
         Transform transform
         ) -> std::shared_ptr<GameObject> {
-    std::cout << 123 << "\n";
+
+    auto& scene = platformer_engine::Engine::GetInstance().GetActiveScene();
     auto builder =
-            GameObjectBuilder("tile")
+            GameObjectBuilder("tile" + std::to_string(scene->GetObjectCount()))
                     .AddSprite(sprite)
             // TODO
             ;

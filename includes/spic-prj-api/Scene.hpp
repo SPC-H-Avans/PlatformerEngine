@@ -41,6 +41,8 @@ namespace spic {
          */
         auto GetObjectByName(const std::string &name) -> std::shared_ptr<GameObject>;
 
+        auto GetObjectCount() -> int;
+
         /**
          * @brief Import a Game Level and add it to this scene
          * @param path Folder path where to find the Game Level

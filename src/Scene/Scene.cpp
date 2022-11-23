@@ -78,6 +78,10 @@ auto spic::Scene::GetObjectByName(const std::string &name) -> std::shared_ptr<sp
     return nullptr;
 }
 
+auto spic::Scene::GetObjectCount() -> int {
+    return _contents.size();
+}
+
 void spic::Scene::AddCamera(const std::shared_ptr<Camera> &camera) {
     if (GetCameraByName(camera->GetName()) != nullptr) {
         throw GameObjectAlreadyInSceneException(camera->GetName());

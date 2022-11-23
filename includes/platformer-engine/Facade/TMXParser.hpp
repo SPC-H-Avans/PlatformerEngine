@@ -27,17 +27,17 @@ namespace platformer_engine {
 
 //        TMXParser(std::map<std::string, std::unique_ptr<GameLevel>> &levels) : _levels(levels) {};
 
-        auto Load(const std::string &id, const std::string &filePath, const std::string &fileName, const std::map<int, std::function<std::shared_ptr<spic::GameObject>()>> &config) -> bool override;
+        auto Load(const std::string &id, const std::string &filePath, const std::string &fileName, const std::map<int, std::function<std::shared_ptr<spic::GameObject>(spic::Transform)>> &config) -> bool override;
 
     private:
-        auto ParseLevel(const std::string &id, const std::string &filePath, const std::string &fileName, const std::map<int, std::function<std::shared_ptr<spic::GameObject>()>> &config) -> bool;
+        auto ParseLevel(const std::string &id, const std::string &filePath, const std::string &fileName, const std::map<int, std::function<std::shared_ptr<spic::GameObject>(spic::Transform)>> &config) -> bool;
 
         auto ParseTileSet(const TiXmlElement &xmlTileSet) -> TileSet;
 
         void ParseTileLayer(TiXmlElement &xmlLayer, const std::string &filePath,
                             const platformer_engine::TMXParser::TileSetsList &tileSets,
                             int tileSize, int rowCount, int colCount,
-                            const std::map<int, std::function<std::shared_ptr<spic::GameObject>()>> &config);
+                            const std::map<int, std::function<std::shared_ptr<spic::GameObject>(spic::Transform)>> &config);
 //        auto ParseTileLayer(TiXmlElement &xmlLayer, const std::string &filePath, const TileSetsList &tileSets,
 //                       int tileSize, int rowCount, int colCount,
 //                        const std::map<int, std::function<std::shared_ptr<spic::GameObject>()>> &config) -> std::unique_ptr<TileLayer>;

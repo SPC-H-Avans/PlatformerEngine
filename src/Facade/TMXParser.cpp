@@ -4,7 +4,7 @@
 #include "Engine/Engine.hpp"
 
 bool platformer_engine::TMXParser::Load(const std::string &id, const std::string &filePath, const std::string &fileName,
-                                        const std::map<int, std::function<std::shared_ptr<spic::GameObject>()>> &config) {
+                                        const std::map<int, std::function<std::shared_ptr<spic::GameObject>(Transform)>> &config) {
     bool result = ParseLevel(id, filePath, fileName, config);
 
     if (!result) {
@@ -14,7 +14,7 @@ bool platformer_engine::TMXParser::Load(const std::string &id, const std::string
 }
 
 bool platformer_engine::TMXParser::ParseLevel(const std::string &id, const std::string &filePath, const std::string &fileName,
-                                              const std::map<int, std::function<std::shared_ptr<spic::GameObject>()>> &config) {
+                                              const std::map<int, std::function<std::shared_ptr<spic::GameObject>(Transform)>> &config) {
     TiXmlDocument xml;
     xml.LoadFile(filePath + fileName);
 
@@ -80,7 +80,7 @@ platformer_engine::TMXParser::TileSet platformer_engine::TMXParser::ParseTileSet
 void platformer_engine::TMXParser::ParseTileLayer(TiXmlElement &xmlLayer, const std::string &filePath,
                                                   const platformer_engine::TMXParser::TileSetsList &tileSets,
                                                   int tileSize, int rowCount, int colCount,
-                                                  const std::map<int, std::function<std::shared_ptr<spic::GameObject>()>> &config) {
+                                                  const std::map<int, std::function<std::shared_ptr<spic::GameObject>(Transform)>> &config) {
 //std::unique_ptr<platformer_engine::TileLayer>
 //platformer_engine::TMXParser::ParseTileLayer(TiXmlElement &xmlLayer, const std::string &filePath,
 //                                             const platformer_engine::TileSetsList &tileSets,
@@ -110,9 +110,9 @@ void platformer_engine::TMXParser::ParseTileLayer(TiXmlElement &xmlLayer, const 
 
             // if tile key exists in config, do the method
             if (config.find(tileMap[row][col]) != config.end()) {
-                auto obj = config.at(tileMap[row][col])();
-                auto& engine = platformer_engine::Engine::GetInstance();
-                auto& scene = engine.GetActiveScene();
+                auto transform = Transform { Point {150, 250}, 0, 1.0 };
+                auto obj = config.at(tileMap[row][col])(transform);
+                auto& scene = platformer_engine::Engine::GetInstance().GetActiveScene();
                 scene->AddObject(obj);
             }
 

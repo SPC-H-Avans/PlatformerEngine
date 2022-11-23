@@ -27,7 +27,7 @@ namespace platformer_engine {
         * @param filePath A path to the file (with out the file name)
         * @param fileName Name of the file with the extension
          */
-        auto ParseLevel(const std::string &id, const std::string &filePath, const std::string &fileName, const std::map<int, std::function<std::shared_ptr<spic::GameObject>()>> &config) -> bool;
+        auto ParseLevel(const std::string &id, const std::string &filePath, const std::string &fileName, const std::map<int, std::function<std::shared_ptr<spic::GameObject>(spic::Transform)>> &config) -> bool;
 
         /**
          * @brief Get a reference to the level from the map

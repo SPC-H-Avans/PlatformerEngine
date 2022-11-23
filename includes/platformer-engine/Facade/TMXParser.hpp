@@ -22,6 +22,8 @@ namespace platformer_engine {
             int TileCount, TileSize;
             std::string Name, Source;
         };
+        using TileSetsList = std::vector<TileSet>;
+        using TileMap = std::vector<std::vector<int>>;
 
 //        TMXParser(std::map<std::string, std::unique_ptr<GameLevel>> &levels) : _levels(levels) {};
 
@@ -32,6 +34,10 @@ namespace platformer_engine {
 
         auto ParseTileSet(const TiXmlElement &xmlTileSet) -> TileSet;
 
+        void ParseTileLayer(TiXmlElement &xmlLayer, const std::string &filePath,
+                            const platformer_engine::TMXParser::TileSetsList &tileSets,
+                            int tileSize, int rowCount, int colCount,
+                            const std::map<int, std::function<std::shared_ptr<spic::GameObject>()>> &config);
 //        auto ParseTileLayer(TiXmlElement &xmlLayer, const std::string &filePath, const TileSetsList &tileSets,
 //                       int tileSize, int rowCount, int colCount,
 //                        const std::map<int, std::function<std::shared_ptr<spic::GameObject>()>> &config) -> std::unique_ptr<TileLayer>;

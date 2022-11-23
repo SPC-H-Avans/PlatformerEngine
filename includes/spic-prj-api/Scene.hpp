@@ -48,7 +48,7 @@ namespace spic {
          * @param levelName Name of the Game Level (This level name will be used to retrieve the Game Level from the level ist)
          * @spicapi
          */
-//        void ImportLevel(const std::string &id, const std::string &filePath, const std::string &fileName, const std::map<int, std::function<std::shared_ptr<spic::GameObject>()>> &config);
+        void ImportLevel(const std::string &id, const std::string &filePath, const std::string &fileName, const std::map<int, std::function<std::shared_ptr<spic::GameObject>()>> &config);
 
         /**
          * @brief Set the current level by level id

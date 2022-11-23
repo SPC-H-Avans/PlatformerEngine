@@ -9,7 +9,7 @@ namespace platformer_engine {
         std::string fileType = fileName.substr(fileName.find('.') + 1);
 
         if (fileType == "tmx") {
-            auto parser = TMXParser(/*_levels*/);
+            auto parser = TMXParser(/*_levels*/);  // can be made static instead of using a singleton after removing _levels
             return parser.Load(id, filePath, fileName, config);
         } else {
             throw spic::LevelCouldNotBeParsedException(filePath + fileName);

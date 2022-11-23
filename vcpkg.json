@@ -6,6 +6,7 @@
     "sdl2-image",
     "sdl2-mixer",
     "gtest",
-    "tinyxml"
+    "tinyxml",
+    "enet"
   ]
 }

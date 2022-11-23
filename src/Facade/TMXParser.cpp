@@ -99,17 +99,18 @@ platformer_engine::TMXParser::ParseTileLayer(TiXmlElement &xmlLayer, const std::
 
     TileMap tileMap(rowCount, std::vector<int>(colCount, 0));
 
-    std::cout << id << "\n";
-//    for (int row = 0; row < rowCount; row++) {
-//        for (int col = 0; col < colCount; col++) {
-//            getline(iss, id, ',');
-//            std::stringstream convertor(id);
-//            convertor >> tileMap[row][col];
-//
-//            if (!iss.good())
-//                break;
-//        }
-//    }
+
+    for (int row = 0; row < rowCount; row++) {
+        for (int col = 0; col < colCount; col++) {
+            getline(iss, id, ',');
+            std::stringstream convertor(id);
+            std::cout << id << "\n";
+            convertor >> tileMap[row][col];
+
+            if (!iss.good())
+                break;
+        }
+    }
 
     return std::make_unique<TileLayer>(filePath, tileSize, rowCount, colCount, tileMap, tileSets);
 }

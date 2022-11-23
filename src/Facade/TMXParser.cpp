@@ -45,7 +45,7 @@ bool platformer_engine::TMXParser::ParseLevel(const std::string &id, const std::
     // Parse Layers
     for (TiXmlElement *e = root->FirstChildElement(); e != nullptr; e = e->NextSiblingElement()) {
         if (e->Value() == std::string("layer")) {
-            std::unique_ptr<TileLayer> tileLayer = ParseTileLayer(*e, filePath, tileSets, config, tileSize, rowCount, colCount);
+            std::unique_ptr<TileLayer> tileLayer = ParseTileLayer(*e, filePath, tileSets, tileSize, rowCount, colCount, config);
             gameLevel->_mapLayers.push_back(std::move(tileLayer));
         }
     }

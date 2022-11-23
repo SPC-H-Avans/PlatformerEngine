@@ -111,8 +111,8 @@ void platformer_engine::TMXParser::ParseTileLayer(TiXmlElement &xmlLayer, const 
             if (config.find(tileMap[row][col]) != config.end()) {
                 auto transform = Transform {
                     Point {
-                        static_cast<double>(colCount * tileSize),
-                        static_cast<double>(rowCount * tileSize)}, 
+                        static_cast<double>(col * tileSize),
+                        static_cast<double>(row * tileSize)},
                     0, 1.0 };
                 auto obj = config.at(tileMap[row][col])(transform);
                 auto& scene = platformer_engine::Engine::GetInstance().GetActiveScene();

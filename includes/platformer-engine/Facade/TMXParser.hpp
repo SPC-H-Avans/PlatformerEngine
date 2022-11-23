@@ -26,8 +26,9 @@ namespace platformer_engine {
         auto ParseTileSet(const TiXmlElement &xmlTileSet) -> TileSet;
 
         auto
-        ParseTileLayer(TiXmlElement &xmlLayer, const std::string &filePath, const TileSetsList &tileSets, int tileSize,
-                       int rowCount, int colCount) -> std::unique_ptr<TileLayer>;
+        ParseTileLayer(TiXmlElement &xmlLayer, const std::string &filePath, const TileSetsList &tileSets,
+                       const std::map<int, std::function<std::shared_ptr<spic::GameObject>()>> &config,
+                       int tileSize, int rowCount, int colCount) -> std::unique_ptr<TileLayer>;
 
         std::map<std::string, std::unique_ptr<GameLevel>> &_levels;
     };

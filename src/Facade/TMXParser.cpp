@@ -82,8 +82,8 @@ platformer_engine::TileSet platformer_engine::TMXParser::ParseTileSet(const TiXm
 std::unique_ptr<platformer_engine::TileLayer>
 platformer_engine::TMXParser::ParseTileLayer(TiXmlElement &xmlLayer, const std::string &filePath,
                                              const platformer_engine::TileSetsList &tileSets,
-                                             int tileSize, int rowCount,
-                                             int colCount) {
+                                             const std::map<int, std::function<std::shared_ptr<spic::GameObject>()>> &config,
+                                             int tileSize, int rowCount, int colCount) {
     TiXmlElement *data;
     for (TiXmlElement *e = xmlLayer.FirstChildElement(); e != nullptr; e = e->NextSiblingElement()) {
         if (e->Value() == std::string("data")) {
@@ -99,16 +99,17 @@ platformer_engine::TMXParser::ParseTileLayer(TiXmlElement &xmlLayer, const std::
 
     TileMap tileMap(rowCount, std::vector<int>(colCount, 0));
 
-    for (int row = 0; row < rowCount; row++) {
-        for (int col = 0; col < colCount; col++) {
-            getline(iss, id, ',');
-            std::stringstream convertor(id);
-            convertor >> tileMap[row][col];
-
-            if (!iss.good())
-                break;
-        }
-    }
+    std::cout << id << "\n";
+//    for (int row = 0; row < rowCount; row++) {
+//        for (int col = 0; col < colCount; col++) {
+//            getline(iss, id, ',');
+//            std::stringstream convertor(id);
+//            convertor >> tileMap[row][col];
+//
+//            if (!iss.good())
+//                break;
+//        }
+//    }
 
     return std::make_unique<TileLayer>(filePath, tileSize, rowCount, colCount, tileMap, tileSets);
 }

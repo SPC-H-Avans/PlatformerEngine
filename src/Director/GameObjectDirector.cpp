@@ -1,16 +1,12 @@
 #include <stdexcept>
 
 #include "Director/GameObjectDirector.hpp"
-#include "Engine/Engine.hpp"
 
 auto GameObjectDirector::CreateTile(
         const std::shared_ptr<Sprite>& sprite,
         Transform transform
         ) -> std::shared_ptr<GameObject> {
     std::cout << 123 << "\n";
-    auto& engine = platformer_engine::Engine::GetInstance();
-    auto& scene =  engine.GetActiveScene();
-
     auto builder =
             GameObjectBuilder("tile")
                     .AddSprite(sprite)
@@ -18,8 +14,6 @@ auto GameObjectDirector::CreateTile(
             ;
     auto obj = builder.GetGameObject();
     obj->SetTransform(transform);
-
-    scene->AddObject(obj);
     return obj;
 }
 

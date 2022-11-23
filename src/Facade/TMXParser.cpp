@@ -4,7 +4,7 @@
 #include "Engine/Engine.hpp"
 
 bool platformer_engine::TMXParser::Load(const std::string &id, const std::string &filePath, const std::string &fileName,
-                                   const std::map<int, std::function<std::shared_ptr<spic::GameObject>()>> &config) {
+                                        const std::map<int, std::function<std::shared_ptr<spic::GameObject>()>> &config) {
     bool result = ParseLevel(id, filePath, fileName, config);
 
     if (!result) {
@@ -45,7 +45,7 @@ bool platformer_engine::TMXParser::ParseLevel(const std::string &id, const std::
     // Parse Layers
     for (TiXmlElement *e = root->FirstChildElement(); e != nullptr; e = e->NextSiblingElement()) {
         if (e->Value() == std::string("layer")) {
-
+            ParseTileLayer(*e, filePath, tileSets, tileSize, rowCount, colCount, config);
 //            std::unique_ptr<TileLayer> tileLayer = ParseTileLayer(*e, filePath, tileSets, tileSize, rowCount, colCount, config);
 //            gameLevel->_mapLayers.push_back(std::move(tileLayer));
         }
@@ -53,10 +53,6 @@ bool platformer_engine::TMXParser::ParseLevel(const std::string &id, const std::
 //    gameLevel->BaseTileSize = tileSize;
 //    gameLevel->RowCount = rowCount;
 //    gameLevel->ColCount = colCount;
-//
-//    platformer_engine::Engine& engine = platformer_engine::Engine::GetInstance();
-//    std::unique_ptr<Scene>& scene = engine.GetActiveScene();
-//    scene->AddObject(obj);
 
 //    _levels[id] = std::move(gameLevel);
 
@@ -82,9 +78,9 @@ platformer_engine::TMXParser::TileSet platformer_engine::TMXParser::ParseTileSet
 }
 
 void platformer_engine::TMXParser::ParseTileLayer(TiXmlElement &xmlLayer, const std::string &filePath,
-                                             const platformer_engine::TMXParser::TileSetsList &tileSets,
-                                             int tileSize, int rowCount, int colCount,
-                                             const std::map<int, std::function<std::shared_ptr<spic::GameObject>()>> &config) {
+                                                  const platformer_engine::TMXParser::TileSetsList &tileSets,
+                                                  int tileSize, int rowCount, int colCount,
+                                                  const std::map<int, std::function<std::shared_ptr<spic::GameObject>()>> &config) {
 //std::unique_ptr<platformer_engine::TileLayer>
 //platformer_engine::TMXParser::ParseTileLayer(TiXmlElement &xmlLayer, const std::string &filePath,
 //                                             const platformer_engine::TileSetsList &tileSets,
@@ -92,6 +88,7 @@ void platformer_engine::TMXParser::ParseTileLayer(TiXmlElement &xmlLayer, const 
 //                                             const std::map<int, std::function<std::shared_ptr<spic::GameObject>()>> &config) {
     TiXmlElement *data;
     for (TiXmlElement *e = xmlLayer.FirstChildElement(); e != nullptr; e = e->NextSiblingElement()) {
+        std::cout << "parse \n";
         if (e->Value() == std::string("data")) {
             data = e;
             break;
@@ -110,6 +107,14 @@ void platformer_engine::TMXParser::ParseTileLayer(TiXmlElement &xmlLayer, const 
             getline(iss, id, ',');
             std::stringstream convertor(id);
             convertor >> tileMap[row][col];
+
+            // if tile key exists in config, do the method
+            if (config.find(tileMap[row][col]) != config.end()) {
+                auto obj = config.at(tileMap[row][col])();
+                platformer_engine::Engine& engine = platformer_engine::Engine::GetInstance();
+                std::unique_ptr<Scene>& scene = engine.GetActiveScene();
+                scene->AddObject(obj);
+            }
 
             if (!iss.good())
                 break;

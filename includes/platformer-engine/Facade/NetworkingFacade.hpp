@@ -6,6 +6,16 @@
 #include "Networking/INetworkManager.hpp"
 constexpr int DEFAULT_PORT = 7777;
 constexpr int DEFAULT_PLAYER_LIMIT = 5;
+constexpr int CONNECTION_TIMEOUT = 5000;
+constexpr int EVENT_FETCH_TIMEOUT = 0; //Keep at 0 otherwise this becomes blocking
+constexpr int DEFAULT_CHANNEL_COUNT = 1;
+constexpr int CLIENT_OUTGOING_CONNECTION = 1;
+
+constexpr int MAX_PORT = 65535;
+constexpr int MIN_PORT = 1;
+constexpr int MIN_PLAYER_SLOTS = 1;
+constexpr int MAX_PLAYER_SLOTS = 1000;
+
 
 namespace platformer_engine{
     /**
@@ -32,7 +42,7 @@ namespace platformer_engine{
          * @param host_ip IP to connect to
          * @param port Port to connect to
          */
-        void ConnectClient(std::string host_ip, int port);
+        void ConnectClient(const std::string& host_ip, int port);
         /**
          * @brief Stop hosting/being a client
          */

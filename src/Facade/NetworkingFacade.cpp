@@ -25,11 +25,11 @@ void platformer_engine::NetworkingFacade::DestroyHost(){
 }
 
 void platformer_engine::NetworkingFacade::StartServer(int port, int playerLimit) {
-    if(playerLimit < 1 || playerLimit > 1000){
-        throw spic::InvalidPlayerSlotsException(playerLimit);
+    if(playerLimit < MIN_PLAYER_SLOTS || playerLimit > MAX_PLAYER_SLOTS){
+        throw spic::InvalidPlayerSlotsException(playerLimit, MIN_PLAYER_SLOTS, MAX_PLAYER_SLOTS);
     }
-    if(port < 1 || port > 65535){
-        throw spic::InvalidPortException(port);
+    if(port < MIN_PORT || port > MAX_PORT){
+        throw spic::InvalidPortException(port, MIN_PORT, MAX_PORT);
     }
     if(_server != nullptr){
         throw spic::FailedToStartServerException(port);
@@ -38,18 +38,18 @@ void platformer_engine::NetworkingFacade::StartServer(int port, int playerLimit)
 
     address.host = ENET_HOST_ANY;
     address.port = port;
-    _server = std::unique_ptr<ENetHost>(enet_host_create(&address, playerLimit, 1, 0, 0));
+    _server = std::unique_ptr<ENetHost>(enet_host_create(&address, playerLimit, DEFAULT_CHANNEL_COUNT, 0, 0));
     if(_server == nullptr){
         throw spic::FailedToStartServerException(port);
     }
     spic::Debug::Log("Server is now running at: " + std::to_string(address.host) + ":" + std::to_string(port) + ", with " + std::to_string(playerLimit) + " slots!");
 }
 
-void platformer_engine::NetworkingFacade::ConnectClient(std::string host_ip, int port) {
-    if(port < 1 || port > 65535){
-        throw spic::InvalidPortException(port);
+void platformer_engine::NetworkingFacade::ConnectClient(const std::string& host_ip, int port) {
+    if(port < MIN_PORT || port > MAX_PORT){
+        throw spic::InvalidPortException(port, MIN_PORT, MAX_PORT);
     }
-    _client = std::unique_ptr<ENetHost>(enet_host_create(NULL, 1, 1, 0, 0));
+    _client = std::unique_ptr<ENetHost>(enet_host_create(nullptr, CLIENT_OUTGOING_CONNECTION, DEFAULT_CHANNEL_COUNT, 0, 0));
     if(_client == nullptr) {
         throw spic::CouldNotConnectToServerException();
     }
@@ -67,7 +67,7 @@ void platformer_engine::NetworkingFacade::ConnectClient(std::string host_ip, int
     }
 
     ENetEvent event;
-    if(enet_host_service(_client.get(), &event, 5000) > 0 && event.type == ENET_EVENT_TYPE_CONNECT) {
+    if(enet_host_service(_client.get(), &event, CONNECTION_TIMEOUT) > 0 && event.type == ENET_EVENT_TYPE_CONNECT) {
         spic::Debug::Log("Connection succeeded on host: " + host_ip + " with port: " + std::to_string(port));
     } else {
         enet_peer_reset(peer.get());
@@ -77,7 +77,7 @@ void platformer_engine::NetworkingFacade::ConnectClient(std::string host_ip, int
 
 void platformer_engine::NetworkingFacade::HandleEvents(NetworkManager& manager){
     //check if manager is CLientNetworkManager or ServerNetworkManager
-    ENetHost* host;
+    ENetHost* host = nullptr;
     if(typeid(manager) == typeid(ClientNetworkManager)) {
         host = _client.get();
     } else {
@@ -85,7 +85,7 @@ void platformer_engine::NetworkingFacade::HandleEvents(NetworkManager& manager){
     }
 
     ENetEvent event;
-    while (enet_host_service(host, &event, 0) > 0) {
+    while (enet_host_service(host, &event, EVENT_FETCH_TIMEOUT) > 0) {
         switch (event.type) {
             case ENET_EVENT_TYPE_CONNECT:
                 spic::Debug::Log("A new client connected from: " + std::to_string(event.peer->address.host) + ":" +  std::to_string(event.peer->address.port) + ", with ID: " +  std::to_string(event.peer->connectID));

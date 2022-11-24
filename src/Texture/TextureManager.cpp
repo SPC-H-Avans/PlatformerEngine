@@ -8,8 +8,9 @@ auto platformer_engine::TextureManager::LoadTexture(const std::string &id, const
 
 void
 platformer_engine::TextureManager::DrawTexture(const std::string &id, int x, int y, int width, int height,
-                                               const SPIC_RendererFlip &flip, double scale) {
-    _graphicsFacade->DrawTexture(id, x, y, width, height, flip, scale);
+                                               const SPIC_RendererFlip &flip, double scale,
+                                               int spriteSheetX, int spriteSheetY) {
+    _graphicsFacade->DrawTexture(id, x, y, width, height, flip, scale, spriteSheetX, spriteSheetY);
 }
 
 void platformer_engine::TextureManager::DrawTile(const std::string &tileSetID, int tileSize, int x, int y, int row, int frame,

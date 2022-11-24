@@ -33,8 +33,8 @@ namespace spic {
         platformer_engine::SPIC_RendererFlip _flip;
         int _sortingLayer;
         int _orderInLayer;
-        int _spriteSheetRow;
-        int _spriteSheetCol;
+        int _spriteSheetX;
+        int _spriteSheetY;
 
     protected:
         std::string _spriteId; // NOLINT(cppcoreguidelines-non-private-member-variables-in-classes)

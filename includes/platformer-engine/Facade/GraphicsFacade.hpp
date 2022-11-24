@@ -78,7 +78,8 @@ namespace platformer_engine {
          * @param flip
          */
         void DrawTexture(const std::string &id, int x, int y, int width, int height,
-                         const SPIC_RendererFlip &flip = FLIP_NONE, double scale = 1.0);
+                         const SPIC_RendererFlip &flip = FLIP_NONE, double scale = 1.0,
+                         int spriteSheetX = 0, int spriteSheetY = 0);
 
         /**
          * @brief Draw a tile on the screen

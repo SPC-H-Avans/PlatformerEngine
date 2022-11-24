@@ -9,6 +9,7 @@
 #include "Scene.hpp"
 #include "Texture/RenderSystem.hpp"
 #include "Networking/ServerNetworkManager.hpp"
+#include "Networking/ClientNetworkManager.hpp"
 
 
 namespace platformer_engine {
@@ -93,6 +94,8 @@ namespace platformer_engine {
 
         void HostServer(const std::string& mapId, int playerLimit, int port);
 
+        void JoinServer(const std::string& ip, int port);
+
     private:
         Engine() = default;
         ~Engine() = default;
@@ -102,6 +105,7 @@ namespace platformer_engine {
         std::unique_ptr<PhysicsSystem> _physicsSystem = nullptr;
         std::unique_ptr<RenderSystem> _renderSystem = nullptr;
         std::unique_ptr<ServerNetworkManager> _serverNetworkManager = nullptr;
+        std::unique_ptr<ClientNetworkManager> _clientNetworkManager = nullptr;
     };
 }//namespace platformer_engine
 

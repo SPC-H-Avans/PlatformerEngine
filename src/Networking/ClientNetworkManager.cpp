@@ -2,8 +2,10 @@
 #include "Exceptions/NotImplementedException.hpp"
 #include "Debug.hpp"
 
+platformer_engine::ClientNetworkManager::ClientNetworkManager() {}
+
 void platformer_engine::ClientNetworkManager::ConnectToServer(const std::string& ip, int port) {
-    throw spic::NotImplementedException();
+    _networkingFacade.ConnectClient(ip, port);
 }
 
 void platformer_engine::ClientNetworkManager::DisconnectFromServer() {

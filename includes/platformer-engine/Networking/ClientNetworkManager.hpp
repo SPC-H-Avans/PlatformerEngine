@@ -4,12 +4,17 @@
 #include "Networking/ConnectionStatus.hpp"
 #include "ProtocolPackages.hpp"
 #include "Networking/INetworkManager.hpp"
+#include "Facade/NetworkingFacade.hpp"
 namespace platformer_engine {
     /**
      * @brief The ClientNetworkManager class, handles the client side of the network.
      */
     class ClientNetworkManager: public NetworkManager{
     public:
+        /**
+         * @brief Client Network Manager constructor
+         */
+        ClientNetworkManager();
         /**
          * @brief List of game objects from client side.
          */
@@ -75,6 +80,7 @@ namespace platformer_engine {
         int _localPlayerId;
         bool _isPartyleader;
         ConnectionStatus _connectionStatus = ConnectionStatus::Disconnected;
+        NetworkingFacade _networkingFacade;
     };
 }
 #endif //PLATFORMER_ENGINE_CLIENTNETWORKMANAGER_HPP

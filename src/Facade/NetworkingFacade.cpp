@@ -26,7 +26,6 @@ void platformer_engine::NetworkingFacade::StartServer(int port, int playerLimit)
     if(_server != nullptr){
         throw spic::FailedToStartServerException();
     }
-
     ENetAddress address;
 
     address.host = ENET_HOST_ANY;
@@ -35,7 +34,7 @@ void platformer_engine::NetworkingFacade::StartServer(int port, int playerLimit)
     if(_server == nullptr){
         throw spic::FailedToStartServerException();
     }
-    spic::Debug::Log("Server is now running at port: " + std::to_string(port) + ", with " + std::to_string(playerLimit) + " slots!");
+    spic::Debug::Log("Server is now running at: " + std::to_string(address.host) + ":" + std::to_string(port) + ", with " + std::to_string(playerLimit) + " slots!");
 }
 
 void platformer_engine::NetworkingFacade::ConnectClient(std::string host_ip, int port) {

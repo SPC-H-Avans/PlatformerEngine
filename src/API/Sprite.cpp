@@ -2,7 +2,7 @@
 
 #include <utility>
 
-spic::Sprite::Sprite(std::string  spriteId, int sortingLayer, int orderInLayer, int spriteWidth, int spriteHeight,
+spic::Sprite::Sprite(std::string spriteId, int sortingLayer, int orderInLayer, int spriteWidth, int spriteHeight,
                      platformer_engine::SPIC_RendererFlip flip, spic::Color color,
                      double spriteScale, int spriteSheetX, int spriteSheetY) :
         _spriteId(std::move(spriteId)), _sortingLayer(sortingLayer), _orderInLayer(orderInLayer), _spriteWidth(spriteWidth), _spriteHeight(spriteHeight),

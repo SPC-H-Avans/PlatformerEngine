@@ -91,7 +91,7 @@ namespace platformer_engine {
 
         auto GetServerNetworkManager() -> ServerNetworkManager&;
 
-        void HostServer(const std::string& mapId, int port);
+        void HostServer(const std::string& mapId, int playerLimit, int port);
 
     private:
         Engine() = default;

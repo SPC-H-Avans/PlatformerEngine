@@ -13,7 +13,7 @@ namespace platformer_engine {
      */
     class ServerNetworkManager: public NetworkManager{
     public:
-        ServerNetworkManager(const std::string& sceneId, int port);
+        ServerNetworkManager(const std::string& sceneId, int playerLimit, int port);
         /**
          * @brief List of connected clients
          */

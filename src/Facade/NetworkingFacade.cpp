@@ -3,6 +3,7 @@
 #include "Exceptions/FailedToStartServerException.hpp"
 #include "Exceptions/CouldNotConnectToServerException.hpp"
 #include "Networking/Client.hpp"
+#include "Networking/ClientNetworkManager.hpp"
 
 platformer_engine::NetworkingFacade::NetworkingFacade() {
     if(enet_initialize() != 0){
@@ -65,8 +66,16 @@ void platformer_engine::NetworkingFacade::ConnectClient(std::string host_ip, int
 }
 
 void platformer_engine::NetworkingFacade::HandleEvents(NetworkManager& manager){
+    //check if manager is CLientNetworkManager or ServerNetworkManager
+    ENetHost* host;
+    if(typeid(manager) == typeid(ClientNetworkManager)) {
+        host = _client.get();
+    } else {
+        host = _server.get();
+    }
+
     ENetEvent event;
-    while (enet_host_service(_server.get(), &event, 0) > 0) {
+    while (enet_host_service(host, &event, 0) > 0) {
         switch (event.type) {
             case ENET_EVENT_TYPE_CONNECT:
                 spic::Debug::Log("A new client connected from: " + std::to_string(event.peer->address.host) + ":" +  std::to_string(event.peer->address.port) + ", with ID: " +  std::to_string(event.peer->connectID));

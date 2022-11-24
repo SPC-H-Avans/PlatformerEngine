@@ -1,5 +1,7 @@
 #include "Engine/Engine.hpp"
 #include "Exceptions/NoWindowException.hpp"
+#include "Exceptions/NoServerNetworkManagerActiveException.hpp"
+#include "Exceptions/ServerAlreadyActiveException.hpp"
 #include <thread>
 
 const int TARGET_FPS = 60;
@@ -80,4 +82,14 @@ auto platformer_engine::Engine::GetActiveScene() -> std::unique_ptr<spic::Scene>
         throw spic::NoWindowException();
     }
     return _window->GetActiveScene();
+}
+
+auto platformer_engine::Engine::GetServerNetworkManager() -> platformer_engine::ServerNetworkManager & {
+    if(_serverNetworkManager == nullptr) throw spic::NoServerNetworkManagerActiveException();
+    return _serverNetworkManager.operator*();
+}
+
+void platformer_engine::Engine::HostServer(const std::string& mapId) {
+    if(_serverNetworkManager != nullptr) throw spic::ServerAlreadyActiveException();
+    _serverNetworkManager = std::make_unique<ServerNetworkManager>()
 }

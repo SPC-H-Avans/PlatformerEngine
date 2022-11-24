@@ -5,6 +5,7 @@
 #include "Networking/Client.hpp"
 #include "GameObject.hpp"
 #include "ProtocolPackages.hpp"
+#include "Facade/NetworkingFacade.hpp"
 
 namespace platformer_engine {
     /**
@@ -12,6 +13,7 @@ namespace platformer_engine {
      */
     class ServerNetworkManager{
     public:
+        ServerNetworkManager(const std::string& sceneId, int port);
         /**
          * @brief List of connected clients
          */
@@ -48,6 +50,7 @@ namespace platformer_engine {
         void ChooseNewPartyLeader();
     private:
         std::string _levelName;
+        NetworkingFacade _networkingFacade;
     };
 }  // namespace platformer_engine
 #endif //PLATFORMER_ENGINE_SERVERNETWORKMANAGER_HPP

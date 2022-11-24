@@ -12,3 +12,7 @@ void platformer_engine::ServerNetworkManager::InitializeClient(const Client& cli
 void platformer_engine::ServerNetworkManager::ChooseNewPartyLeader() {
     throw spic::NotImplementedException();
 }
+
+platformer_engine::ServerNetworkManager::ServerNetworkManager(const std::string& sceneId,  int port) {
+
+}

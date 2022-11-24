@@ -89,7 +89,7 @@ auto platformer_engine::Engine::GetServerNetworkManager() -> platformer_engine::
     return _serverNetworkManager.operator*();
 }
 
-void platformer_engine::Engine::HostServer(const std::string& mapId) {
+void platformer_engine::Engine::HostServer(const std::string& mapId, int port) {
     if(_serverNetworkManager != nullptr) throw spic::ServerAlreadyActiveException();
-    _serverNetworkManager = std::make_unique<ServerNetworkManager>()
+    _serverNetworkManager = std::make_unique<ServerNetworkManager>(mapId, port);
 }

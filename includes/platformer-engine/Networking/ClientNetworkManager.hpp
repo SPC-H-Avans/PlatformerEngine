@@ -3,11 +3,12 @@
 #include "GameObject.hpp"
 #include "Networking/ConnectionStatus.hpp"
 #include "ProtocolPackages.hpp"
+#include "Networking/INetworkManager.hpp"
 namespace platformer_engine {
     /**
      * @brief The ClientNetworkManager class, handles the client side of the network.
      */
-    class ClientNetworkManager{
+    class ClientNetworkManager: public NetworkManager{
     public:
         /**
          * @brief List of game objects from client side.
@@ -50,6 +51,11 @@ namespace platformer_engine {
          * @param reliable If a reliable package should be send
          */
         void SendNetworkPackage(const void* data, size_t dataLength, bool reliable = false);
+
+        // NetworkManager methods
+        void OnConnect(int clientId);
+        void OnReceive(int clientId, const uint8_t * data, size_t dataLength);
+        void OnDisconnect(int clientId);
 
     private:
         int _localPlayerId;

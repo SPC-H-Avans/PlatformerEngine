@@ -11,7 +11,7 @@ namespace platformer_engine {
     /**
      * @brief The ServerNetworkManager class, handles all the networking for the server.
      */
-    class ServerNetworkManager{
+    class ServerNetworkManager: public NetworkManager{
     public:
         ServerNetworkManager(const std::string& sceneId, int port);
         /**
@@ -48,6 +48,11 @@ namespace platformer_engine {
          * @brief Randomly choose new party leader
          */
         void ChooseNewPartyLeader();
+
+        // NetworkManager methods
+        void OnConnect(int clientId);
+        void OnReceive(int clientId, const uint8_t * data, size_t dataLength);
+        void OnDisconnect(int clientId);
     private:
         std::string _levelName;
         NetworkingFacade _networkingFacade;

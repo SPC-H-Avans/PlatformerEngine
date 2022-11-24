@@ -45,3 +45,7 @@ void platformer_engine::ServerNetworkManager::OnReceive(int clientId, const uint
 void platformer_engine::ServerNetworkManager::OnDisconnect(int clientId) {
     throw spic::NotImplementedException();
 }
+
+void platformer_engine::ServerNetworkManager::Events() {
+    _networkingFacade.HandleEvents(*this);
+}

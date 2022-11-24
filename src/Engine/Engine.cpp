@@ -49,6 +49,9 @@ void platformer_engine::Engine::Update() {
 }
 
 void platformer_engine::Engine::Events() {
+    if(_serverNetworkManager != nullptr){
+        _serverNetworkManager->Events();
+    }
    auto events = _window->ListenForEvents();
     for (const auto &item: events){
         if(item == EventsEnum::QUIT){

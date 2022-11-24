@@ -49,6 +49,11 @@ namespace platformer_engine {
          */
         void ChooseNewPartyLeader();
 
+        /**
+         * @brief Listen to new events;
+         */
+        void Events();
+
         // NetworkManager methods
         /**
          * @brief On connect event

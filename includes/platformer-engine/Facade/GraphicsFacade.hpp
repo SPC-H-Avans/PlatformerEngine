@@ -91,8 +91,8 @@ namespace platformer_engine {
          * @param frame
          * @param flip
          */
-        void DrawTile(const std::string &tileSetID, int tileSize, int x, int y, int row, int frame,
-                      const SPIC_RendererFlip &flip = FLIP_NONE, double scale = 1.0);
+//        void DrawTile(const std::string &tileSetID, int tileSize, int x, int y, int row, int frame,
+//                      const SPIC_RendererFlip &flip = FLIP_NONE, double scale = 1.0);
 
         void DrawFrame(const std::string &id, int x, int y, int width, int height, int row, int frame,
                        const SPIC_RendererFlip &flip = FLIP_NONE, double scale = 1.0);

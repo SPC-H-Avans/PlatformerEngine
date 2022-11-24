@@ -74,8 +74,8 @@ namespace platformer_engine {
          * @param flip Flip the texture according to SPIC_RendererFlip Enum
          * @param scale Scale of the sprite
          */
-        void DrawTile(const std::string &tileSetID, int tileSize, int x, int y, int row, int frame,
-                      const SPIC_RendererFlip &flip = FLIP_NONE, double scale = 1.0);
+//        void DrawTile(const std::string &tileSetID, int tileSize, int x, int y, int row, int frame,
+//                      const SPIC_RendererFlip &flip = FLIP_NONE, double scale = 1.0);
 
         /**
          * @brief Draw a frame of a sprite sheet animation

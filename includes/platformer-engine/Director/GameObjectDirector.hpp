@@ -16,7 +16,12 @@ public:
     static auto CreateTile(
             const std::shared_ptr<Sprite>& sprite,
             Transform transform
-            ) -> std::shared_ptr<GameObject>;
+    ) -> std::shared_ptr<GameObject>;
+
+    static auto CreateBackgroundObject(
+            const std::shared_ptr<Sprite>& sprite,
+            Transform transform
+    ) -> std::shared_ptr<GameObject>;
 //    auto CreatePlayer() -> std::shared_ptr<GameObject>;
 private:
 //    GameObjectBuilder _builder;

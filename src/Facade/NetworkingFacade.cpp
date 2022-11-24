@@ -67,7 +67,7 @@ void platformer_engine::NetworkingFacade::ConnectClient(const std::string& host_
     enet_address_set_host(&address, host_ip.c_str());
     address.port = port;
 
-    peer = std::unique_ptr<ENetPeer>(enet_host_connect(_client.get(), &address, 1, 0));
+    peer = std::unique_ptr<ENetPeer>(enet_host_connect(_client.get(), &address, DEFAULT_CHANNEL_COUNT, 0));
 
     if(peer == nullptr) {
         throw spic::CouldNotConnectToServerException();

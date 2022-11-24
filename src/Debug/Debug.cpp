@@ -10,5 +10,5 @@ void spic::Debug::LogError(const std::string &error) {
 }
 
 void spic::Debug::Log(const std::string &message) {
-    std::cerr << "LOG: " << message << std::endl;
+    std::cout << "LOG: " << message << std::endl;
 }

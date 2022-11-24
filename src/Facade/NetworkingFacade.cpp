@@ -4,6 +4,8 @@
 #include "Exceptions/CouldNotConnectToServerException.hpp"
 #include "Networking/Client.hpp"
 #include "Networking/ClientNetworkManager.hpp"
+#include "Exceptions/InvalidPlayerSlotsException.hpp"
+#include "Exceptions/InvalidPortException.hpp"
 
 platformer_engine::NetworkingFacade::NetworkingFacade() {
     if(enet_initialize() != 0){
@@ -23,8 +25,14 @@ void platformer_engine::NetworkingFacade::DestroyHost(){
 }
 
 void platformer_engine::NetworkingFacade::StartServer(int port, int playerLimit) {
+    if(playerLimit < 1 || playerLimit > 1000){
+        throw spic::InvalidPlayerSlotsException(playerLimit);
+    }
+    if(port < 1 || port > 65535){
+        throw spic::InvalidPortException(port);
+    }
     if(_server != nullptr){
-        throw spic::FailedToStartServerException();
+        throw spic::FailedToStartServerException(port);
     }
     ENetAddress address;
 
@@ -32,12 +40,15 @@ void platformer_engine::NetworkingFacade::StartServer(int port, int playerLimit)
     address.port = port;
     _server = std::unique_ptr<ENetHost>(enet_host_create(&address, playerLimit, 1, 0, 0));
     if(_server == nullptr){
-        throw spic::FailedToStartServerException();
+        throw spic::FailedToStartServerException(port);
     }
     spic::Debug::Log("Server is now running at: " + std::to_string(address.host) + ":" + std::to_string(port) + ", with " + std::to_string(playerLimit) + " slots!");
 }
 
 void platformer_engine::NetworkingFacade::ConnectClient(std::string host_ip, int port) {
+    if(port < 1 || port > 65535){
+        throw spic::InvalidPortException(port);
+    }
     _client = std::unique_ptr<ENetHost>(enet_host_create(NULL, 1, 1, 0, 0));
     if(_client == nullptr) {
         throw spic::CouldNotConnectToServerException();

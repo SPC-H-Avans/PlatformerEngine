@@ -4,7 +4,7 @@
 #include <cstdint>
 #include "ProtocolDefinitions.hpp"
 
-namespace platformer_engine{
+namespace NetPkgs{
     /**
      * @brief The base class for all protocol packages.
      */
@@ -26,5 +26,10 @@ namespace platformer_engine{
     struct ClientDisconnection : MessageHeader {
         ClientDisconnection() : MessageHeader(NET_REQUEST_LEAVE_SERVER) {}
     };
+
+    struct Ping : MessageHeader {
+        Ping() : MessageHeader(NET_REQUEST_PING) {}
+    };
+
 }  // namespace platformer_engine
 #endif //PLATFORMER_ENGINE_PROTOCOLPACKAGES_H

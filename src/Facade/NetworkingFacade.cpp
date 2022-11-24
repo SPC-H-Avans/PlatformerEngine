@@ -16,12 +16,19 @@ platformer_engine::NetworkingFacade::NetworkingFacade() {
 }
 
 platformer_engine::NetworkingFacade::~NetworkingFacade() {
-    DestroyHost();
+   // DestroyHost();
     enet_deinitialize();
 }
 
 void platformer_engine::NetworkingFacade::DestroyHost(){
-    enet_host_destroy(_server.get());
+    if(_server != nullptr) {
+        enet_host_destroy(_server.get());
+        _server = nullptr;
+    }
+    if(_client != nullptr){
+        enet_host_destroy(_client.get());
+        _client = nullptr;
+    }
 }
 
 void platformer_engine::NetworkingFacade::StartServer(int port, int playerLimit) {
@@ -108,4 +115,55 @@ void platformer_engine::NetworkingFacade::HandleEvents(NetworkManager& manager){
                 break;
         }
     }
+}
+
+auto platformer_engine::NetworkingFacade::SendPacketToPeer(int peerId, const void *data, size_t length, bool reliable) -> bool {
+    if (data == nullptr || length <= 0) {
+        return false;
+    }
+
+    ENetHost* host = nullptr;
+    if(_client != nullptr) {
+        host = _client.get();
+    } else {
+        host = _server.get();
+    }
+
+    for(int i = 0; i < host->connectedPeers; i++) {
+        ENetPeer* peers = host->peers;
+        if(peers[i].connectID == peerId) {
+            ENetPacket* packet = enet_packet_create(data, length, reliable ? ENET_PACKET_FLAG_RELIABLE : 0x0);
+            if (packet == nullptr) {
+                return false;
+            }
+
+            if (enet_peer_send(&peers[i], reliable ? RELIABLE_CHANNEL : UNRELIABLE_CHANNEL, packet) < 0) {
+                return false;
+            }
+
+            return true;
+        }
+    }
+    return false;
+}
+
+auto platformer_engine::NetworkingFacade::SendPacketToAllPeers(const void *data, size_t length, bool reliable) -> bool {
+    if (data == nullptr || length <= 0) {
+        return false;
+    }
+
+    ENetHost* host = nullptr;
+    if(_client != nullptr) {
+        host = _client.get();
+    } else {
+        host = _server.get();
+    }
+
+    ENetPacket* packet = enet_packet_create(data, length, reliable ? ENET_PACKET_FLAG_RELIABLE : 0x0);
+    if (packet == nullptr) {
+        return false;
+    }
+
+    enet_host_broadcast(host, reliable ? RELIABLE_CHANNEL : UNRELIABLE_CHANNEL, packet);
+    return true;
 }

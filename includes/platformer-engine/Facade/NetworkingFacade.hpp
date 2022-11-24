@@ -8,13 +8,16 @@ constexpr int DEFAULT_PORT = 7777;
 constexpr int DEFAULT_PLAYER_LIMIT = 5;
 constexpr int CONNECTION_TIMEOUT = 5000;
 constexpr int EVENT_FETCH_TIMEOUT = 0; //Keep at 0 otherwise this becomes blocking
-constexpr int DEFAULT_CHANNEL_COUNT = 1;
+constexpr int DEFAULT_CHANNEL_COUNT = 2;
 constexpr int CLIENT_OUTGOING_CONNECTION = 1;
 
 constexpr int MAX_PORT = 65535;
 constexpr int MIN_PORT = 1;
 constexpr int MIN_PLAYER_SLOTS = 1;
 constexpr int MAX_PLAYER_SLOTS = 1000;
+
+constexpr int UNRELIABLE_CHANNEL = 0;
+constexpr int RELIABLE_CHANNEL = 1;
 
 
 namespace platformer_engine{
@@ -52,6 +55,13 @@ namespace platformer_engine{
          * @param manager Reference to the network manager
          */
         void HandleEvents(NetworkManager& manager);
+
+        /**
+         * @brief Send a packet to another peer
+         */
+        bool SendPacketToPeer(int peerId, const void* data, size_t length, bool reliable = false);
+
+        bool SendPacketToAllPeers(const void* data, size_t length, bool reliable = false);
     private:
         /**
          * @brief Server ENet host

@@ -1,8 +1,8 @@
 
 #include "Networking/ServerNetworkManager.hpp"
 #include "Exceptions/NotImplementedException.hpp"
-void platformer_engine::ServerNetworkManager::SendUpdateToClients(const uint8_t* data, size_t dataLength, bool reliable) {
-    throw spic::NotImplementedException();
+void platformer_engine::ServerNetworkManager::SendUpdateToClients(const void* data, size_t dataLength, bool reliable) {
+    _networkingFacade.SendPacketToAllPeers(data, dataLength, reliable);
 }
 
 void platformer_engine::ServerNetworkManager::InitializeClient(const Client& client) {
@@ -22,7 +22,7 @@ void platformer_engine::ServerNetworkManager::OnConnect(int clientId) {
 }
 
 void platformer_engine::ServerNetworkManager::OnReceive(int clientId, const uint8_t *data, size_t dataLength) {
-    if (!data || dataLength < 3)
+    if (data == nullptr || dataLength < 3)
         return;
     uint8_t versionMajor = data[0];
     uint8_t versionMinor = data[1];

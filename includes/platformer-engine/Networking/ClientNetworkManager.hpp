@@ -53,9 +53,23 @@ namespace platformer_engine {
         void SendNetworkPackage(const void* data, size_t dataLength, bool reliable = false);
 
         // NetworkManager methods
-        void OnConnect(int clientId);
-        void OnReceive(int clientId, const uint8_t * data, size_t dataLength);
-        void OnDisconnect(int clientId);
+        /**
+         * @brief On connect event
+         * @param clientId Client id of the connected client
+         */
+        void OnConnect(int clientId) override;
+        /**
+         * @brief On receive data event
+         * @param clientId clientID of sender
+         * @param data Data with type NetworkPackage
+         * @param dataLength Length of the data
+         */
+        void OnReceive(int clientId, const uint8_t * data, size_t dataLength) override;
+        /**
+         * @brief On disconnect event
+         * @param clientId clientID who disconnected
+         */
+        void OnDisconnect(int clientId) override;
 
     private:
         int _localPlayerId;

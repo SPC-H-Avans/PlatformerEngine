@@ -8,18 +8,49 @@ constexpr int DEFAULT_PORT = 7777;
 constexpr int DEFAULT_PLAYER_LIMIT = 5;
 
 namespace platformer_engine{
+    /**
+     * @brief Facade for the networking system.
+     */
     class NetworkingFacade{
     public:
+        /**
+         * @brief Construct a new Networking Facade object.
+         */
         NetworkingFacade();
+        /**
+         * @brief Destroy the Networking Facade object.
+         */
         ~NetworkingFacade();
+        /**
+         * @brief Start a server
+         * @param port Port to use
+         * @param playerLimit Max amount of players on server
+         */
         void StartServer(int port = DEFAULT_PORT, int playerLimit = DEFAULT_PLAYER_LIMIT);
+        /**
+         * @brief Start a client and connect to a server
+         * @param host_ip IP to connect to
+         * @param port Port to connect to
+         */
         void ConnectClient(std::string host_ip, int port);
+        /**
+         * @brief Stop hosting/being a client
+         */
         void DestroyHost();
+        /**
+         * @brief Handle network events each game tick
+         * @param manager Reference to the network manager
+         */
         void HandleEvents(NetworkManager& manager);
     private:
+        /**
+         * @brief Server ENet host
+         */
         std::unique_ptr<ENetHost> _server = nullptr;
+        /**
+         * @brief Client ENet host
+         */
         std::unique_ptr<ENetHost> _client = nullptr;
-        int _clientId = 0;
     };
 }  // namespace platformer_engine
 #endif //PLATFORMER_ENGINE_NETWORKINGFACADE_HPP

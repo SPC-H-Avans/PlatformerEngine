@@ -50,9 +50,23 @@ namespace platformer_engine {
         void ChooseNewPartyLeader();
 
         // NetworkManager methods
-        void OnConnect(int clientId);
-        void OnReceive(int clientId, const uint8_t * data, size_t dataLength);
-        void OnDisconnect(int clientId);
+        /**
+         * @brief On connect event
+         * @param clientId connected client id
+         */
+        void OnConnect(int clientId) override;
+        /**
+         * @brief On receive event, handles all incoming packages
+         * @param clientId clientID who is the sender
+         * @param data Data sent by client
+         * @param dataLength Length of the data
+         */
+        void OnReceive(int clientId, const uint8_t * data, size_t dataLength) override;
+        /**
+         * @brief On disconnect event
+         * @param clientId Disconnected client id
+         */
+        void OnDisconnect(int clientId) override;
     private:
         std::string _levelName;
         NetworkingFacade _networkingFacade;

@@ -2,6 +2,14 @@
 #include "Networking/ServerNetworkManager.hpp"
 #include "Exceptions/NotImplementedException.hpp"
 
+platformer_engine::ServerNetworkManager::ServerNetworkManager(spic::Scene &scene, int playerLimit, int port) : _scene(
+        scene) {
+    _networkingFacade.StartServer(port, playerLimit);
+    for (auto &item: _scene.GetAllObjects()) {
+        item->SetOwnerId(_networkingFacade.GetMyPeerId());
+    }
+}
+
 void platformer_engine::ServerNetworkManager::SendUpdateToClients(const void *data, size_t dataLength, bool reliable) {
     _networkingFacade.SendPacketToAllPeers(data, dataLength, reliable);
 }
@@ -12,11 +20,6 @@ void platformer_engine::ServerNetworkManager::InitializeClient(const Client &cli
 
 void platformer_engine::ServerNetworkManager::ChooseNewPartyLeader() {
     throw spic::NotImplementedException();
-}
-
-platformer_engine::ServerNetworkManager::ServerNetworkManager(spic::Scene &scene, int playerLimit, int port) : _scene(
-        scene) {
-    _networkingFacade.StartServer(port, playerLimit);
 }
 
 void platformer_engine::ServerNetworkManager::OnConnect(int clientId) {

@@ -90,6 +90,8 @@ namespace platformer_engine {
          */
         auto SendPacketToAllPeers(const void *data, size_t length, bool reliable = false) -> bool;
 
+        [[nodiscard]] inline auto GetMyPeerId() const -> int { return _myPeerId; }
+
     private:
         /**
          * @brief Server ENet host
@@ -101,6 +103,8 @@ namespace platformer_engine {
         std::unique_ptr<ENetHost> _client = nullptr;
 
         ConnectionStatus _connectionStatus = ConnectionStatus::Disconnected;
+
+        int _myPeerId = 0;
     };
 }  // namespace platformer_engine
 #endif //PLATFORMER_ENGINE_NETWORKINGFACADE_HPP

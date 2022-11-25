@@ -81,8 +81,13 @@ void platformer_engine::NetworkingFacade::ConnectClient(const std::string &host_
         _connectionStatus = ConnectionStatus::Connecting;
         ENetEvent event;
         if (enet_host_service(_client.get(), &event, CONNECTION_TIMEOUT) > 0 && event.type == ENET_EVENT_TYPE_CONNECT) {
-            spic::Debug::Log("Connection succeeded on host: " + host_ip + " with port: " + std::to_string(port));
+            spic::Debug::Log(
+                    "Connection succeeded on host: " + host_ip + " with port: " + std::to_string(port) + ", I am " +
+                    std::to_string(peer->connectID));
+
+            _myPeerId = static_cast<int>(peer->connectID);
             _connectionStatus = ConnectionStatus::Connected;
+
             while (_connectionStatus == ConnectionStatus::Connected) {
                 HandleEvents(manager);
                 // std::this_thread::sleep_for(std::chrono::milliseconds((1000 / CLIENT_POLLING_RATE_PER_SECOND)));

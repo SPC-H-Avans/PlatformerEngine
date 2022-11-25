@@ -43,6 +43,9 @@ namespace spic {
          */
         auto GetObjectByName(const std::string &name) -> std::shared_ptr<GameObject>;
 
+        [[nodiscard]] inline auto
+        GetAllObjects() const -> std::vector<std::shared_ptr<GameObject>> { return _contents; };
+
         /**
          * @brief Import a Game Level and add it to this scene
          * @param path Folder path where to find the Game Level

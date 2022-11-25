@@ -5,6 +5,7 @@
 #include "ProtocolPackages.hpp"
 #include "Networking/INetworkManager.hpp"
 #include "Facade/NetworkingFacade.hpp"
+#include <cstring>
 
 namespace platformer_engine {
     /**

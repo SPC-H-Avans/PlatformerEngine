@@ -37,7 +37,7 @@ private:
      */
     void CreateCollision(const std::shared_ptr<GameObject>& initiator, const std::shared_ptr<Collider>& init_collider,
                          const std::shared_ptr<GameObject>& receiver, const std::shared_ptr<Collider>& rec_collider
-                        ,std::tuple<CollisionPoint, CollisionPoint> direction);
+                        ,std::tuple<std::vector<CollisionPoint>, std::vector<CollisionPoint>> direction);
 
     /**
      * @brief Collision is no longer in motion. Collision is now removed from the active collisions list and the OnTriggerExit2D handlers have been invoked.
@@ -50,7 +50,7 @@ private:
      * @brief Collision was already in motion yet. Collision the OnTriggerStay2D handlers have been invoked.
      */
     static void RemainCollision(const std::shared_ptr<GameObject>& initiator, const std::shared_ptr<Collider>& init_collider, const std::shared_ptr<GameObject>& receiver, const std::shared_ptr<Collider>& rec_collider,
-                                std::tuple<CollisionPoint, CollisionPoint> direction, int collisionId);
+                                std::tuple<std::vector<CollisionPoint>, std::vector<CollisionPoint>> direction, int collisionId);
 
     /**
      * @brief Checks for given objects if collision is active, also checks the side on which the collision occurs.
@@ -60,7 +60,7 @@ private:
      * @param bCol Collider of object B
      * @return Tuple of CollisionPoints, first value is the side on which a has been hit, second value is the side on which b has been hit
      */
-    static auto CheckBoxCollision(Point aPos, const BoxCollider& aCol, Point bPos, const BoxCollider& bCol) -> std::unique_ptr<std::tuple<CollisionPoint, CollisionPoint>>;
+    static auto CheckBoxCollision(Point aPos, const BoxCollider& aCol, Point bPos, const BoxCollider& bCol) -> std::unique_ptr<std::tuple<std::vector<CollisionPoint>, std::vector<CollisionPoint>>>;
 
     int _collisionCnt = 0;
 };

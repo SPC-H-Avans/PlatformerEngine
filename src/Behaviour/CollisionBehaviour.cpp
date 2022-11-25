@@ -31,27 +31,30 @@ namespace platformer_engine {
     }
 
     void CollisionBehaviour::OnTriggerStay2D(const Collision collision) {
-        for(auto &col : _activeCollisions) {
-            if(col.GetId() == collision.GetId() && col.Contact() != collision.Contact()) {
-                UpdateMoveRestriction(col, true);
-                UpdateMoveRestriction(collision, false);
-                col.Contact(collision.Contact()); // Update the contact point (for if an object could move through another)
-                break;
-            }
-        }
+        //todo: Make stay for obejcts you can pass through
+//        for(auto &col : _activeCollisions) {
+//            if(col.GetId() == collision.GetId() && col.Contact() != collision.Contact()) {
+//                UpdateMoveRestriction(col, true);
+//                UpdateMoveRestriction(collision, false);
+//                col.Contact(collision.Contact()); // Update the contact point (for if an object could move through another)
+//                break;
+//            }
+//        }
     }
 
     void CollisionBehaviour::UpdateMoveRestriction(const Collision &col, bool allow) {
-        auto point = col.Contact();
+        auto points = col.Contacts();
         auto gameObjWeak = GetGameObject();
         std::shared_ptr<spic::GameObject> gameObj { gameObjWeak.lock() };
         if (gameObj) {
             auto body = std::static_pointer_cast<RigidBody>(gameObj->GetComponent<RigidBody>());
             if(body != nullptr) {
-                if(allow) {
-                    body->AllowMoveTo(point);
-                } else {
-                    body->DenyMoveTo(point);
+                for(auto point : points) {
+                    if(allow) {
+                        body->AllowMoveTo(point);
+                    } else {
+                        body->DenyMoveTo(point);
+                    }
                 }
             }
         } else { // gameObjWeak is already deleted

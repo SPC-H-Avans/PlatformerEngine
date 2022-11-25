@@ -29,7 +29,7 @@ using namespace spic;
          * @param direction axis on which our collider has been hit.
          * @param uid Unique identifier of the Collision
          */
-        Collision(std::shared_ptr<Collider> other, std::vector<CollisionPoint> direction, int uid);
+        Collision(std::shared_ptr<Collider> other, CollisionPoint direction, int uid);
 
         /**
          * @brief constructor for creating a collision
@@ -54,13 +54,13 @@ using namespace spic;
          * @brief Setter for direction on the collision object
          * @param other direction from wich we have been hit
          */
-        void Contacts(const std::vector<CollisionPoint> &point);
+        void Contact(CollisionPoint point);
 
         /**
          * @brief Getter for direction of the collision object
          * @return Direction from which we have been hit
          */
-        [[nodiscard]] auto Contacts() const -> std::vector<CollisionPoint>;
+        [[nodiscard]] auto Contact() const -> CollisionPoint;
 
         /**
          * @brief Getter for unique id
@@ -70,9 +70,8 @@ using namespace spic;
 
     private:
         std::shared_ptr<Collider> _other;
-        std::vector<CollisionPoint> _contacts;
+        CollisionPoint _contact;
         int _id;
-
     };
 
 

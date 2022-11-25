@@ -3,7 +3,7 @@
 #include "Exceptions/NotImplementedException.hpp"
 
 platformer_engine::ServerNetworkManager::ServerNetworkManager(spic::Scene &scene, int playerLimit, int port) : _scene(
-        scene) {
+        scene), _playerLimit(playerLimit) {
     _networkingFacade.StartServer(port, playerLimit);
     for (auto &item: _scene.GetAllObjects()) {
         item->SetOwnerId(_networkingFacade.GetMyPeerId());
@@ -25,6 +25,7 @@ void platformer_engine::ServerNetworkManager::ChooseNewPartyLeader() {
 void platformer_engine::ServerNetworkManager::OnConnect(int clientId) {
     Client client{clientId};
     Clients.push_back(client);
+    spic::Debug::Log("Currently hosting a game for " + std::to_string(Clients.size()) + "/" + std::to_string(_playerLimit) + " clients!");
     //InitializeClient(client); TODO
 }
 
@@ -52,6 +53,7 @@ void platformer_engine::ServerNetworkManager::OnReceive(int clientId, const uint
 void platformer_engine::ServerNetworkManager::OnDisconnect(int clientId) {
     //Remove client from list
     std::erase_if(Clients, [clientId](const Client &client) { return client.GetClientId() == clientId; });
+    spic::Debug::Log("Currently hosting a game for " + std::to_string(Clients.size()) + "/" + std::to_string(_playerLimit) + " clients!");
     NetPkgs::KickClient kickClient(clientId);
     _networkingFacade.SendPacketToAllPeers(&kickClient, sizeof(kickClient));
 }

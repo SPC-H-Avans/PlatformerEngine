@@ -4,6 +4,7 @@
 #include "enet/enet.h"
 #include "Debug.hpp"
 #include <memory>
+#include <map>
 #include "Networking/INetworkManager.hpp"
 #include "Networking/ConnectionStatus.hpp"
 
@@ -107,6 +108,11 @@ namespace platformer_engine {
         ConnectionStatus _connectionStatus = ConnectionStatus::Disconnected;
 
         int _myPeerId = DEFAULT_SERVER_PEER_ID;
+
+        std::map<std::string, int> _addressPeerIdMap;
+
+        int GetPeerIdByAddressAndPort(const std::string &address, int port);
+        void RemovePeerIdFromAddressMap(const std::string &address, int port);
     };
 }  // namespace platformer_engine
 #endif //PLATFORMER_ENGINE_NETWORKINGFACADE_HPP

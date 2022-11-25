@@ -85,6 +85,7 @@ namespace platformer_engine {
     private:
         spic::Scene &_scene;
         NetworkingFacade _networkingFacade;
+        int _playerLimit;
     };
 }  // namespace platformer_engine
 #endif //PLATFORMER_ENGINE_SERVERNETWORKMANAGER_HPP

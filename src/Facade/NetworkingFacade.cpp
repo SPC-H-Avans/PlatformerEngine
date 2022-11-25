@@ -118,7 +118,10 @@ void platformer_engine::NetworkingFacade::HandleEvents(NetworkManager &manager) 
                 spic::Debug::Log("A new client connected from: " + std::to_string(event.peer->address.host) + ":" +
                                  std::to_string(event.peer->address.port) + ", with ID: " +
                                  std::to_string(event.peer->connectID));
-                manager.OnConnect(event.peer->connectID);
+
+                _addressPeerIdMap[std::to_string(event.peer->address.host) + ":" +
+                                  std::to_string(event.peer->address.port)] = (int)event.peer->connectID;
+                manager.OnConnect((int)event.peer->connectID);
                 break;
 
             case ENET_EVENT_TYPE_RECEIVE:
@@ -131,9 +134,11 @@ void platformer_engine::NetworkingFacade::HandleEvents(NetworkManager &manager) 
                 break;
 
             case ENET_EVENT_TYPE_DISCONNECT:
-                spic::Debug::Log(std::to_string(event.peer->connectID) + " disconnected");
-                manager.OnDisconnect(event.peer->connectID);
-                _connectionStatus = ConnectionStatus::Disconnected;
+                spic::Debug::Log(std::to_string(GetPeerIdByAddressAndPort(std::to_string(event.peer->address.host), event.peer->address.port)) + " disconnected");
+
+                manager.OnDisconnect(GetPeerIdByAddressAndPort(std::to_string(event.peer->address.host), event.peer->address.port));
+
+                RemovePeerIdFromAddressMap(std::to_string(event.peer->address.host), event.peer->address.port);
                 break;
 
             case ENET_EVENT_TYPE_NONE:
@@ -221,4 +226,13 @@ void platformer_engine::NetworkingFacade::DisconnectClientFromServer() {
         _connectionStatus = ConnectionStatus::Disconnected;
         _client = nullptr;
     }
+}
+
+auto platformer_engine::NetworkingFacade::GetPeerIdByAddressAndPort(const std::string &address, int port) -> int {
+    return _addressPeerIdMap[address + ":" + std::to_string(port)];
+}
+
+void platformer_engine::NetworkingFacade::RemovePeerIdFromAddressMap(const std::string &address, int port) {
+    auto key = address + ":" + std::to_string(port);
+    _addressPeerIdMap.erase(key);
 }

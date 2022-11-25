@@ -17,7 +17,7 @@ void platformer_engine::ClientNetworkManager::TravelToLevel(const std::string &l
 }
 
 void platformer_engine::ClientNetworkManager::SendNetworkPackage(const void *data, size_t dataLength, bool reliable) {
-    throw spic::NotImplementedException();
+    _networkingFacade.SendPacketToAllPeers(data, dataLength, reliable);
 }
 
 void platformer_engine::ClientNetworkManager::OnConnect(int clientId) {

@@ -123,6 +123,13 @@ void GameObject::SetTransform(const spic::Transform &transform) {
 }
 auto GameObject::GetTransform() -> Transform { return _self.lock()->_transform; }
 
+void GameObject::SetOwnerId(int uid) {
+    _self.lock()->_ownerId = uid;
+}
+
+auto GameObject::GetOwnerId() -> int {
+    return _self.lock()->_ownerId;
+}
 
 
 

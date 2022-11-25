@@ -13,18 +13,21 @@ using std::vector;
 using std::shared_ptr;
 using std::unique_ptr;
 
+PhysicsSystem::PhysicsSystem(int localClientId) : _clientId(localClientId) {}
+
 void PhysicsSystem::Update() {
     CheckCollisions();
 }
 
-auto GetBoxColliders() -> vector<shared_ptr<GameObject>> {
+//Get all objects with BoxColliders owned by the current client.
+auto GetBoxCollidersFromClient(int ownerId) -> vector<shared_ptr<GameObject>> {
     auto gameObjects = vector<shared_ptr<GameObject>>();
     gameObjects = GameObject::FindObjectsOfType<GameObject>();
     auto result = vector<shared_ptr<GameObject>>();
     for(const auto& obj : gameObjects) {
-        if(obj != nullptr) {
+        if(obj != nullptr && obj->GetOwnerId() == ownerId) { //If owned by client
             auto val = obj->GetComponent<BoxCollider>();
-            if(val != nullptr) {
+            if(val != nullptr) { //If has boxcollider
                 result.emplace_back(obj);
             }
         }
@@ -34,7 +37,7 @@ auto GetBoxColliders() -> vector<shared_ptr<GameObject>> {
 
 void PhysicsSystem::CheckCollisions() {
     //Get all gameobjects that have boxcolliders
-    auto collidableObjects = GetBoxColliders();
+    auto collidableObjects = GetBoxCollidersFromClient(_clientId);
 
     for(auto& initiator : collidableObjects) {
         shared_ptr<RigidBody> body = std::static_pointer_cast<RigidBody>(initiator->GetComponent<RigidBody>());
@@ -155,3 +158,5 @@ auto PhysicsSystem::CheckBoxCollision(Point aPos, const BoxCollider& aCol, Point
     }
     return nullptr; //No Collision
 }
+
+

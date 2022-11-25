@@ -322,6 +322,17 @@ namespace spic {
          */
         void SetTransform(const Transform &transform);
 
+        /**
+         * @brief sets the id of the owning client in network
+         */
+        void SetOwnerId(int uid);
+
+        /**
+         * @brief returns the ownerId of this GameObject
+         * @return int that represents the clientId in the network
+         */
+        auto GetOwnerId() -> int;
+
     protected:
         std::string _name; //Unique
         std::string _tag;
@@ -332,6 +343,9 @@ namespace spic {
         std::map<std::string, std::vector<std::shared_ptr<Component>>> _components; //Key is typeid.name
         Transform _transform = Transform{Point{0, 0}, 0, 0};
         std::weak_ptr<GameObject> _self;
+
+        //Networking
+        int _ownerId = 0;
 
         //Multiton Pattern
         static std::map<std::string, std::shared_ptr<GameObject>> _instances;

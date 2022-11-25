@@ -13,12 +13,12 @@ void MarioRigidBody::AddForce(const spic::Point& forceDirection) {
         _horizontal_speed = std::min(_horizontal_speed + _MARIO_ACCELERATION, _MARIO_WALK_SPEED);
     }
 
-//    if(_horizontal_speed < 0 && CanMoveTo(CollisionPoint::Left)) {
-//        _horizontal_speed -= _MARIO_ACCELERATION;
-//    }
-//    else if(_horizontal_speed > 0 && CanMoveTo(CollisionPoint::Right)) {
-//        _horizontal_speed += _MARIO_ACCELERATION;
-//    }
+    if(_horizontal_speed < 0 && forceDirection.x >= 0) { // Slow down mario when gliding to the left
+        _horizontal_speed += _MARIO_ACCELERATION;
+    }
+    else if(_horizontal_speed > 0 && forceDirection.x <= 0) { // Slow down mario when gliding to the right
+        _horizontal_speed -= _MARIO_ACCELERATION;
+    }
 
     if(forceDirection.y > 0
         && CanMoveTo(CollisionPoint::Top)
@@ -37,16 +37,16 @@ void MarioRigidBody::AddForce(const spic::Point& forceDirection) {
     _vertical_speed += _GRAVITY;
     if(_vertical_speed > 0 && !CanMoveTo(CollisionPoint::Bottom)) {
         // Mario is standing on top of an object, so shouldn't fall down
-        _vertical_speed = -0.1;
+        _vertical_speed = 0;
     }
 
     if(_horizontal_speed > 0 && !CanMoveTo(CollisionPoint::Right)) {
-        _horizontal_speed = -0.1;
+        _horizontal_speed = 0;
     }
 
     if(_horizontal_speed < 0 && !CanMoveTo(CollisionPoint::Left)) {
         // Mario is standing on top of an object, so shouldn't fall down
-        _horizontal_speed = 0.1;
+        _horizontal_speed = 0;
     }
 }
 

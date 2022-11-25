@@ -4,8 +4,8 @@
 
 platformer_engine::ClientNetworkManager::ClientNetworkManager() {}
 
-void platformer_engine::ClientNetworkManager::ConnectToServer(const std::string& ip, int port) {
-    _networkingFacade.ConnectClient(ip, port);
+void platformer_engine::ClientNetworkManager::ConnectToServer(const std::string &ip, int port) {
+    _networkingFacade.ConnectClient(ip, port, *this);
 }
 
 void platformer_engine::ClientNetworkManager::DisconnectFromServer() {
@@ -16,7 +16,7 @@ void platformer_engine::ClientNetworkManager::TravelToLevel(const std::string &l
     throw spic::NotImplementedException();
 }
 
-void platformer_engine::ClientNetworkManager::SendNetworkPackage(const void* data, size_t dataLength, bool reliable) {
+void platformer_engine::ClientNetworkManager::SendNetworkPackage(const void *data, size_t dataLength, bool reliable) {
     throw spic::NotImplementedException();
 }
 
@@ -24,7 +24,7 @@ void platformer_engine::ClientNetworkManager::OnConnect(int clientId) {
     throw spic::NotImplementedException();
 }
 
-void platformer_engine::ClientNetworkManager::OnReceive(int clientId, const uint8_t * data, size_t dataLength) {
+void platformer_engine::ClientNetworkManager::OnReceive(int clientId, const uint8_t *data, size_t dataLength) {
     if (!data || dataLength < 3)
         return;
     uint8_t versionMajor = data[0];
@@ -38,11 +38,12 @@ void platformer_engine::ClientNetworkManager::OnReceive(int clientId, const uint
     switch (messageType) {
         case NET_REQUEST_PING:
             spic::Debug::Log("Ping received from server!");
+            break;
         default:
             spic::Debug::LogWarning("Unknown message from server: " + std::to_string(messageType));
             break;
     }
-    throw spic::NotImplementedException();
+    //throw spic::NotImplementedException();
 }
 
 void platformer_engine::ClientNetworkManager::OnDisconnect(int clientId) {

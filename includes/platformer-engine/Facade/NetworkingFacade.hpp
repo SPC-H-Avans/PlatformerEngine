@@ -93,6 +93,10 @@ namespace platformer_engine {
          */
         auto SendPacketToAllPeers(const void *data, size_t length, bool reliable = false) -> bool;
 
+        /**
+         * @brief Get current peer ID (0 if server)
+         * @return int Peer ID
+         */
         [[nodiscard]] inline auto GetMyPeerId() const -> int { return _myPeerId; }
 
     private:
@@ -111,7 +115,19 @@ namespace platformer_engine {
 
         std::map<std::string, int> _addressPeerIdMap;
 
+        /**
+         * @brief Get peer ID from adress:port map
+         * @param address Peer address
+         * @param port Peer port
+         * @return Peer iD
+         */
         int GetPeerIdByAddressAndPort(const std::string &address, int port);
+
+        /**
+         * @brief Remove peer from adress:port map
+         * @param address Address peer
+         * @param port Port of peer
+         */
         void RemovePeerIdFromAddressMap(const std::string &address, int port);
     };
 }  // namespace platformer_engine

@@ -9,7 +9,7 @@ void platformer_engine::ClientNetworkManager::ConnectToServer(const std::string 
 }
 
 void platformer_engine::ClientNetworkManager::DisconnectFromServer() {
-    _networkingFacade.DisconnectClient();
+    _networkingFacade.DisconnectClientFromServer();
 }
 
 void platformer_engine::ClientNetworkManager::TravelToLevel(const std::string &levelName) {

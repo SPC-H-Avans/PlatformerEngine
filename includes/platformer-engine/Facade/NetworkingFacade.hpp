@@ -58,7 +58,7 @@ namespace platformer_engine {
         /**
          * @brief Disconnects a client from its current server
          */
-        void DisconnectClient();
+        void DisconnectClientFromServer();
 
         /**
          * @brief Stop hosting/being a client
@@ -72,11 +72,23 @@ namespace platformer_engine {
         void HandleEvents(NetworkManager &manager);
 
         /**
-         * @brief Send a packet to another peer
+         * @brief Send a packet to a peer
+         * @param peerId Peer ID where to send it to
+         * @param data Packet to send
+         * @param length Length of the packet
+         * @param reliable Reliable or not
+         * @return
          */
-        bool SendPacketToPeer(int peerId, const void *data, size_t length, bool reliable = false);
+        auto SendPacketToPeer(int peerId, const void *data, size_t length, bool reliable = false) -> bool;
 
-        bool SendPacketToAllPeers(const void *data, size_t length, bool reliable = false);
+        /**
+         * @brief Send a packet to all peers
+         * @param data Packet to send
+         * @param length Length of the packet
+         * @param reliable Reliable or not
+         * @return
+         */
+        auto SendPacketToAllPeers(const void *data, size_t length, bool reliable = false) -> bool;
 
     private:
         /**

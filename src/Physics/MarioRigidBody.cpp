@@ -22,8 +22,8 @@ void MarioRigidBody::AddForce(const spic::Point& forceDirection) {
     }
 
     if(forceDirection.y > 0
-        && CanMoveTo(CollisionPoint::Top)
-        && !CanMoveTo(CollisionPoint::Bottom)) { // Jump when on top of an object
+       && CanMoveTo(CollisionPoint::Top)
+       && !CanMoveTo(CollisionPoint::Bottom)) { // Jump when on top of an object
         _vertical_speed = _JUMP_SPEED;
         _jump_timer = _MARIO_JUMP_TIMER;
     }

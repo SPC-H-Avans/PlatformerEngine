@@ -33,14 +33,14 @@ namespace platformer_engine {
     }
 
     void CollisionBehaviour::OnTriggerStay2D(const Collision collision) {
-        for(auto &col : _activeCollisions) {
-            if(col.GetId() == collision.GetId() && col.Contact() != collision.Contact()) {
-                UpdateMoveRestriction(col, true);
-                UpdateMoveRestriction(collision, false);
-                col.Contact(collision.Contact()); // Update the contact point (for if an object could move through another)
-                break;
-            }
-        }
+//        for(auto &col : _activeCollisions) {
+//            if(col.GetId() == collision.GetId() && col.Contact() != collision.Contact()) {
+//                UpdateMoveRestriction(col, true);
+//                UpdateMoveRestriction(collision, false);
+//                col.Contact(collision.Contact()); // Update the contact point (for if an object could move through another)
+//                break;
+//            }
+//        }
     }
 
     void CollisionBehaviour::UpdateMoveRestriction(const Collision &col, bool allow) {
@@ -73,17 +73,18 @@ namespace platformer_engine {
                 auto stat_col = std::dynamic_pointer_cast<BoxCollider>(collision.GetCollider());
 
                 if(collision.Contact() == CollisionPoint::Top) {
-                    dyn_transform.position.y = stat_transform.position.y + stat_col->Height() + 1;
+                    dyn_transform.position.y = stat_transform.position.y + stat_col->Height();
                 }
                 else if(collision.Contact() == CollisionPoint::Bottom) {
-                    dyn_transform.position.y = stat_transform.position.y - dyn_col->Height() - 1;
+                    dyn_transform.position.y = stat_transform.position.y - dyn_col->Height();
                 }
                 else if(collision.Contact() == CollisionPoint::Left) {
-                    dyn_transform.position.x = stat_transform.position.x + stat_col->Width() + 1;
+                    dyn_transform.position.x = stat_transform.position.x + stat_col->Width();
                 }
                 else if(collision.Contact() == CollisionPoint::Right) {
-                    dyn_transform.position.x = stat_transform.position.x - dyn_col->Width() - 1;
+                    dyn_transform.position.x = stat_transform.position.x - dyn_col->Width();
                 }
+                dyn_gob->SetTransform(dyn_transform);
             } else {
                 stat_gob.reset();
             }

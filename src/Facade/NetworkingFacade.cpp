@@ -54,6 +54,8 @@ void platformer_engine::NetworkingFacade::StartServer(int port, int playerLimit)
     spic::Debug::Log(
             "Server is now running at: " + std::to_string(address.host) + ":" + std::to_string(port) + ", with " +
             std::to_string(playerLimit) + " slots!");
+
+    _myPeerId = DEFAULT_SERVER_PEER_ID;
 }
 
 void platformer_engine::NetworkingFacade::ConnectClient(const std::string &host_ip, int port, NetworkManager &manager) {

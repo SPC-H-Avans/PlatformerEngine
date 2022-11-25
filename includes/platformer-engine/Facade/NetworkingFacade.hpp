@@ -24,6 +24,8 @@ constexpr int RELIABLE_CHANNEL = 1;
 
 constexpr int CLIENT_POLLING_RATE_PER_SECOND = 60;
 
+constexpr int DEFAULT_SERVER_PEER_ID = 0;
+
 
 namespace platformer_engine {
     /**
@@ -104,7 +106,7 @@ namespace platformer_engine {
 
         ConnectionStatus _connectionStatus = ConnectionStatus::Disconnected;
 
-        int _myPeerId = 0;
+        int _myPeerId = DEFAULT_SERVER_PEER_ID;
     };
 }  // namespace platformer_engine
 #endif //PLATFORMER_ENGINE_NETWORKINGFACADE_HPP

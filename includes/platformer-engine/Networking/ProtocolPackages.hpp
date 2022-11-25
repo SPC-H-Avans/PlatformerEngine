@@ -4,20 +4,18 @@
 #include <cstdint>
 #include "ProtocolDefinitions.hpp"
 
-namespace NetPkgs{
+namespace NetPkgs {
     /**
      * @brief The base class for all protocol packages.
      */
     struct MessageHeader {
-        uint8_t     protocolMajorVersion;
-        uint8_t     protocolMinorVersion;
-        uint8_t     packageType;
+        uint8_t protocolMajorVersion;
+        uint8_t protocolMinorVersion;
+        uint8_t packageType;
 
         MessageHeader(uint8_t packageType = 0)
-                : protocolMajorVersion(NET_PROTOCOL_VERSION_MAJOR)
-                , protocolMinorVersion(NET_PROTOCOL_VERSION_MINOR)
-                , packageType(packageType)
-        {}
+                : protocolMajorVersion(NET_PROTOCOL_VERSION_MAJOR), protocolMinorVersion(NET_PROTOCOL_VERSION_MINOR),
+                  packageType(packageType) {}
     };
 
     /**
@@ -29,6 +27,12 @@ namespace NetPkgs{
 
     struct Ping : MessageHeader {
         Ping() : MessageHeader(NET_REQUEST_PING) {}
+    };
+
+    struct KickClient : MessageHeader {
+        int clientId;
+
+        KickClient(int clientId) : MessageHeader(NET_KICK_CLIENT), clientId(clientId) {}
     };
 
 }  // namespace platformer_engine

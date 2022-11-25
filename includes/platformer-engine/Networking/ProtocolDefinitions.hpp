@@ -6,5 +6,6 @@ constexpr int NET_PROTOCOL_VERSION_MINOR = 5;
 constexpr int NET_REQUEST_CONNECT = 10;
 constexpr int NET_REQUEST_LEAVE_SERVER = 11;
 constexpr int NET_REQUEST_PING = 12;
+constexpr int NET_KICK_CLIENT = 13;
 
 #endif //PLATFORMER_ENGINE_PROTOCOLDEFINITIONS_HPP

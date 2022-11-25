@@ -75,7 +75,7 @@ namespace platformer_engine {
 
         /**
          * @brief On receive data event
-         * @param clientId clientID of sender
+         * @param clientId clientID of sender (The server in this case)
          * @param data Data with type NetworkPackage
          * @param dataLength Length of the data
          */
@@ -92,6 +92,8 @@ namespace platformer_engine {
         bool _isPartyleader;
         ConnectionStatus _connectionStatus = ConnectionStatus::Disconnected;
         NetworkingFacade _networkingFacade;
+
+        void RemoveLocalClientFromGame(const void *data, size_t dataLength);
     };
 }
 #endif //PLATFORMER_ENGINE_CLIENTNETWORKMANAGER_HPP

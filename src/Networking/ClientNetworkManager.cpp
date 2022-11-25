@@ -41,6 +41,9 @@ void platformer_engine::ClientNetworkManager::OnReceive(int clientId, const uint
         case NET_REQUEST_PING:
             spic::Debug::Log("Ping received from server!");
             break;
+        case NET_KICK_CLIENT:
+            RemoveLocalClientFromGame(data, dataLength);
+            break;
         default:
             spic::Debug::LogWarning("Unknown message from server: " + std::to_string(messageType));
             break;
@@ -52,4 +55,14 @@ void platformer_engine::ClientNetworkManager::OnDisconnect(int clientId) {
     _localPlayerId = 0;
     _isPartyleader = false;
     _connectionStatus = ConnectionStatus::Disconnected;
+}
+
+void platformer_engine::ClientNetworkManager::RemoveLocalClientFromGame(const void *data,
+                                                                        size_t dataLength) {
+    //Check if player exists
+    NetPkgs::KickClient pkg;
+    memcpy(&pkg, data, dataLength);
+    auto playerToRemove = pkg.clientId;
+    //Perform remove logic
+    throw spic::NotImplementedException();
 }

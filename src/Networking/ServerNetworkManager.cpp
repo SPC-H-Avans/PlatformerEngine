@@ -1,11 +1,12 @@
 
 #include "Networking/ServerNetworkManager.hpp"
 #include "Exceptions/NotImplementedException.hpp"
-void platformer_engine::ServerNetworkManager::SendUpdateToClients(const void* data, size_t dataLength, bool reliable) {
+
+void platformer_engine::ServerNetworkManager::SendUpdateToClients(const void *data, size_t dataLength, bool reliable) {
     _networkingFacade.SendPacketToAllPeers(data, dataLength, reliable);
 }
 
-void platformer_engine::ServerNetworkManager::InitializeClient(const Client& client) {
+void platformer_engine::ServerNetworkManager::InitializeClient(const Client &client) {
     throw spic::NotImplementedException();
 }
 
@@ -13,12 +14,14 @@ void platformer_engine::ServerNetworkManager::ChooseNewPartyLeader() {
     throw spic::NotImplementedException();
 }
 
-platformer_engine::ServerNetworkManager::ServerNetworkManager(const std::string& sceneId, int playerLimit, int port) {
+platformer_engine::ServerNetworkManager::ServerNetworkManager(const std::string &sceneId, int playerLimit, int port) {
     _networkingFacade.StartServer(port, playerLimit);
 }
 
 void platformer_engine::ServerNetworkManager::OnConnect(int clientId) {
-    throw spic::NotImplementedException();
+    Client client{clientId};
+    Clients.push_back(client);
+    //InitializeClient(client); TODO
 }
 
 void platformer_engine::ServerNetworkManager::OnReceive(int clientId, const uint8_t *data, size_t dataLength) {
@@ -43,7 +46,10 @@ void platformer_engine::ServerNetworkManager::OnReceive(int clientId, const uint
 }
 
 void platformer_engine::ServerNetworkManager::OnDisconnect(int clientId) {
-    throw spic::NotImplementedException();
+    //Remove client from list
+    std::erase_if(Clients, [clientId](const Client &client) { return client.GetClientId() == clientId; });
+    NetPkgs::KickClient kickClient(clientId);
+    _networkingFacade.SendPacketToAllPeers(&kickClient, sizeof(kickClient));
 }
 
 void platformer_engine::ServerNetworkManager::Events() {

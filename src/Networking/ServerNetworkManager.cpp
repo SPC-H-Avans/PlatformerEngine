@@ -14,7 +14,8 @@ void platformer_engine::ServerNetworkManager::ChooseNewPartyLeader() {
     throw spic::NotImplementedException();
 }
 
-platformer_engine::ServerNetworkManager::ServerNetworkManager(const std::string &sceneId, int playerLimit, int port) {
+platformer_engine::ServerNetworkManager::ServerNetworkManager(spic::Scene &scene, int playerLimit, int port) : _scene(
+        scene) {
     _networkingFacade.StartServer(port, playerLimit);
 }
 

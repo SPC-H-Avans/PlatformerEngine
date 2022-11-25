@@ -102,13 +102,20 @@ auto platformer_engine::Engine::GetServerNetworkManager() -> platformer_engine::
     return _serverNetworkManager.operator*();
 }
 
-void platformer_engine::Engine::HostServer(const std::string &mapId, int playerLimit, int port) {
+void platformer_engine::Engine::HostServer(const std::string &sceneId, int playerLimit, int port) {
+    if (GetActiveScene().GetSceneName() != sceneId) {
+        SetActiveScene(sceneId);
+    }
     if (_serverNetworkManager != nullptr) throw spic::ServerAlreadyActiveException();
-    _serverNetworkManager = std::make_unique<ServerNetworkManager>(mapId, playerLimit, port);
+    _serverNetworkManager = std::make_unique<ServerNetworkManager>(GetActiveScene(), playerLimit, port);
 }
 
 void platformer_engine::Engine::JoinServer(const std::string &ip, int port) {
     if (_clientNetworkManager != nullptr) throw spic::ClientAlreadyActiveException();
     _clientNetworkManager = std::make_unique<ClientNetworkManager>();
     _clientNetworkManager->ConnectToServer(ip, port);
+}
+
+void platformer_engine::Engine::AddScene(const Scene &scene) {
+    _scenes.push_back(scene);
 }

@@ -90,9 +90,11 @@ namespace platformer_engine {
          */
         auto GetActiveScene() -> spic::Scene &;
 
+        void AddScene(const Scene &scene);
+
         auto GetServerNetworkManager() -> ServerNetworkManager &;
 
-        void HostServer(const std::string &mapId, int playerLimit, int port);
+        void HostServer(const std::string &sceneId, int playerLimit, int port);
 
         void JoinServer(const std::string &ip, int port);
 

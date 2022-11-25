@@ -16,6 +16,8 @@ namespace platformer_engine {
         std::vector<Collision> _activeCollisions;
 
         void UpdateMoveRestriction(const Collision &col, bool allow);
+
+        void Unstuck(const Collision &collision);
     };
 
 } // platformer_engine

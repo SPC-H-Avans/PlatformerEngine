@@ -2,6 +2,7 @@
 #include "Point.hpp"
 #include <algorithm>
 #include "Physics/Collision.hpp"
+#include "GameObject.hpp"
 
 void MarioRigidBody::AddForce(const spic::Point& forceDirection) {
     //if(forceDirection.x == 0 && forceDirection.y == 0) return; // No force from any side
@@ -47,6 +48,20 @@ void MarioRigidBody::AddForce(const spic::Point& forceDirection) {
     if(_horizontal_speed < 0 && !CanMoveTo(CollisionPoint::Left)) {
         // Mario is standing on top of an object, so shouldn't fall down
         _horizontal_speed = 0;
+    }
+
+    if(_vertical_speed < 0 && !CanMoveTo(CollisionPoint::Top)) {
+        _vertical_speed = 0;
+    }
+
+    std::shared_ptr<GameObject> gob { GetGameObject().lock() };
+    if (gob) {
+        auto transform = gob->GetTransform();
+        transform.position.x += _horizontal_speed;
+        transform.position.y += _vertical_speed;
+        gob->SetTransform(transform);
+    } else { // oeps: GameObject was al deleted
+        gob.reset();
     }
 }
 

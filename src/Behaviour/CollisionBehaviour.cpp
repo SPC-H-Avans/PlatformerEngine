@@ -2,6 +2,7 @@
 #include "Input.hpp"
 #include "GameObject.hpp"
 #include "RigidBody.hpp"
+#include "BoxCollider.hpp"
 
 namespace platformer_engine {
 
@@ -14,6 +15,7 @@ namespace platformer_engine {
     void CollisionBehaviour::OnTriggerEnter2D(const Collision collision) {
         _activeCollisions.push_back(collision);
         UpdateMoveRestriction(collision, false);
+        Unstuck(collision);
     }
 
     void CollisionBehaviour::OnTriggerExit2D(const Collision collision) {
@@ -56,6 +58,37 @@ namespace platformer_engine {
             }
         } else { // gameObjWeak is already deleted
             gameObjWeak.reset();
+        }
+    }
+
+    void CollisionBehaviour::Unstuck(const Collision &collision) {
+        std::shared_ptr<GameObject> dyn_gob { GetGameObject().lock() };
+        if(dyn_gob) {
+            auto dyn_transform = dyn_gob->GetTransform();
+            auto dyn_col = std::dynamic_pointer_cast<BoxCollider>(dyn_gob->GetComponent<BoxCollider>());
+
+            auto stat_gob = collision.GetCollider()->GetGameObject().lock();
+            if(stat_gob) {
+                auto stat_transform = stat_gob->GetTransform();
+                auto stat_col = std::dynamic_pointer_cast<BoxCollider>(collision.GetCollider());
+
+                if(collision.Contact() == CollisionPoint::Top) {
+                    dyn_transform.position.y = stat_transform.position.y + stat_col->Height() + 1;
+                }
+                else if(collision.Contact() == CollisionPoint::Bottom) {
+                    dyn_transform.position.y = stat_transform.position.y - dyn_col->Height() - 1;
+                }
+                else if(collision.Contact() == CollisionPoint::Left) {
+                    dyn_transform.position.x = stat_transform.position.x + stat_col->Width() + 1;
+                }
+                else if(collision.Contact() == CollisionPoint::Right) {
+                    dyn_transform.position.x = stat_transform.position.x - dyn_col->Width() - 1;
+                }
+            } else {
+                stat_gob.reset();
+            }
+        } else {
+            dyn_gob.reset();
         }
     }
 }  // namespace platformer_engine

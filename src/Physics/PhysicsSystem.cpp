@@ -50,12 +50,6 @@ void PhysicsSystem::MoveObjects() {
             }
 
             mario->AddForce(point);
-
-            // Move mario
-            auto transform = gameObject->GetTransform();
-            transform.position.x += mario->GetHorizontalSpeed();
-            transform.position.y += mario->GetVerticalSpeed();
-            gameObject->SetTransform(transform);
         }
     }
 

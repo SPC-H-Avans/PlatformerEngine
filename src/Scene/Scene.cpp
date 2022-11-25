@@ -8,10 +8,10 @@
 #include "Exceptions/CameraNotInSceneException.hpp"
 #include "Animator.hpp"
 
+spic::Scene::Scene(const std::string &sceneName) : _sceneName(sceneName) {}
+
 void spic::Scene::RenderScene() {
-    if (_currentLevel.empty()) {
-        spic::Debug::LogWarning("No current level set in the scene!");
-    } else {
+    if (!_currentLevel.empty()) {
         std::unique_ptr<platformer_engine::GameLevel> &level = platformer_engine::LevelParser::GetInstance().GetLevel(
                 _currentLevel);
 
@@ -124,3 +124,4 @@ std::shared_ptr<spic::Camera> spic::Scene::GetActiveCamera() {
 spic::Scene::~Scene() {
     platformer_engine::LevelParser::LevelParser::GetInstance().Clean();
 }
+

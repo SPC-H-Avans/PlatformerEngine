@@ -81,24 +81,26 @@ namespace platformer_engine {
          * @param scene Scene to make active
          * @platformerengine
          */
-        void SetActiveScene(std::unique_ptr<spic::Scene> scene);
+        void SetActiveScene(const std::string &sceneName);
 
         /**
          * @brief Get the current active Scene
          * @return std::unique_ptr<spic::Scene>& Current active scene
          * @platformerengine
          */
-        auto GetActiveScene() -> std::unique_ptr<spic::Scene>&;
+        auto GetActiveScene() -> spic::Scene &;
 
-        auto GetServerNetworkManager() -> ServerNetworkManager&;
+        auto GetServerNetworkManager() -> ServerNetworkManager &;
 
-        void HostServer(const std::string& mapId, int playerLimit, int port);
+        void HostServer(const std::string &mapId, int playerLimit, int port);
 
-        void JoinServer(const std::string& ip, int port);
+        void JoinServer(const std::string &ip, int port);
 
     private:
         Engine() = default;
+
         ~Engine() = default;
+
         bool _isRunning = false;
 
         std::unique_ptr<Window> _window = nullptr;
@@ -106,6 +108,8 @@ namespace platformer_engine {
         std::unique_ptr<RenderSystem> _renderSystem = nullptr;
         std::unique_ptr<ServerNetworkManager> _serverNetworkManager = nullptr;
         std::unique_ptr<ClientNetworkManager> _clientNetworkManager = nullptr;
+
+        std::vector<Scene> _scenes;
     };
 }//namespace platformer_engine
 

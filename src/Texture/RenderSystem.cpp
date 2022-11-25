@@ -14,7 +14,5 @@ void RenderSystem::Update() {
 void RenderSystem::Render() {
     //First render the scene, then gameObjects
     auto &scene = platformer_engine::Engine::GetInstance().GetActiveScene();
-    if (scene != nullptr) {
-        scene->RenderScene();
-    }
+    scene.RenderScene();
 }

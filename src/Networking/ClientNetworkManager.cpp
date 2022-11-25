@@ -60,7 +60,7 @@ void platformer_engine::ClientNetworkManager::OnDisconnect(int clientId) {
 void platformer_engine::ClientNetworkManager::RemoveLocalClientFromGame(const void *data,
                                                                         size_t dataLength) {
     //Check if player exists
-    NetPkgs::KickClient pkg;
+    auto pkg = NetPkgs::KickClient(0);
     memcpy(&pkg, data, dataLength);
     auto playerToRemove = pkg.clientId;
     //Perform remove logic

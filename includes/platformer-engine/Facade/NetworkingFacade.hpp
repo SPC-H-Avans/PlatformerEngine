@@ -46,6 +46,12 @@ namespace platformer_engine{
          * @param port Port to connect to
          */
         void ConnectClient(const std::string& host_ip, int port);
+
+        /**
+         * @brief Disconnects a client from its current server
+         */
+        void DisconnectClient();
+
         /**
          * @brief Stop hosting/being a client
          */

@@ -9,7 +9,7 @@ void platformer_engine::ClientNetworkManager::ConnectToServer(const std::string&
 }
 
 void platformer_engine::ClientNetworkManager::DisconnectFromServer() {
-    throw spic::NotImplementedException();
+    _networkingFacade.DisconnectClient();
 }
 
 void platformer_engine::ClientNetworkManager::TravelToLevel(const std::string &levelName) {
@@ -21,7 +21,9 @@ void platformer_engine::ClientNetworkManager::SendNetworkPackage(const void* dat
 }
 
 void platformer_engine::ClientNetworkManager::OnConnect(int clientId) {
-    throw spic::NotImplementedException();
+    _localPlayerId = clientId;
+    bool isPartyLeader = false; //TODO revise?
+    _connectionStatus = ConnectionStatus::Connected;
 }
 
 void platformer_engine::ClientNetworkManager::OnReceive(int clientId, const uint8_t * data, size_t dataLength) {
@@ -46,5 +48,7 @@ void platformer_engine::ClientNetworkManager::OnReceive(int clientId, const uint
 }
 
 void platformer_engine::ClientNetworkManager::OnDisconnect(int clientId) {
-    throw spic::NotImplementedException();
+    _localPlayerId = 0;
+    _isPartyleader = false;
+    _connectionStatus = ConnectionStatus::Disconnected;
 }

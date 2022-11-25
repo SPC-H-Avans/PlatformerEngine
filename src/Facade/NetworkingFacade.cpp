@@ -186,3 +186,32 @@ auto platformer_engine::NetworkingFacade::SendPacketToAllPeers(const void *data,
     enet_host_broadcast(host, reliable ? RELIABLE_CHANNEL : UNRELIABLE_CHANNEL, packet);
     return true;
 }
+
+void platformer_engine::NetworkingFacade::DisconnectClient() {
+    if(_client != nullptr) {
+        for(auto i = 0; i < _client->peerCount; i++) {
+            ENetEvent event;
+            enet_peer_disconnect(_client->peers, 0);
+
+            bool disconnected = false;
+            while(enet_host_service(_client.get(), &event, 3000) > 0 && !disconnected) {
+                switch(event.type) {
+                    case ENET_EVENT_TYPE_RECEIVE:
+                        enet_packet_destroy(event.packet);
+                        break;
+                    case ENET_EVENT_TYPE_DISCONNECT:
+                        spic::Debug::Log("Client disconnected from client.");
+                        disconnected = true;
+                        break;
+                }
+            }
+
+            if(!disconnected)
+                enet_peer_reset(_client->peers);
+
+            _client->peers++;
+        }
+
+        _client = nullptr;
+    }
+}

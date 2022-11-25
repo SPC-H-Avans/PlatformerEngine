@@ -56,6 +56,11 @@ namespace platformer_engine {
         void ConnectClient(const std::string &host_ip, int port, NetworkManager &manager);
 
         /**
+         * @brief Disconnects a client from its current server
+         */
+        void DisconnectClient();
+
+        /**
          * @brief Stop hosting/being a client
          */
         void DestroyHost();

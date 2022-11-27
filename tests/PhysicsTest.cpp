@@ -102,7 +102,7 @@ TEST_F(PhysicsTests, MarioFallsUntilBlock) {
     auto marioFinalY = _mario->GetTransform().position.y;
 
     // 5. Assert that Mario stopped falling on top of the block
-    ASSERT_EQ(marioFinalY, 92.75) << "Mario Physics object should stop falling when it collides on the bottom";
+    ASSERT_EQ(marioFinalY, 91) << "Mario Physics object should stop falling when it collides on the bottom";
 
 }
 

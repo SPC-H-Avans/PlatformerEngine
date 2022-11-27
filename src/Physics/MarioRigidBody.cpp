@@ -5,7 +5,6 @@
 #include "GameObject.hpp"
 
 void MarioRigidBody::AddForce(const spic::Point& forceDirection) {
-    //if(forceDirection.x == 0 && forceDirection.y == 0) return; // No force from any side
 
     if(forceDirection.x < 0 && CanMoveTo(CollisionPoint::Left)) { // Move left
         _horizontal_speed = std::max(_horizontal_speed - _MARIO_ACCELERATION, -_MARIO_WALK_SPEED);
@@ -15,10 +14,10 @@ void MarioRigidBody::AddForce(const spic::Point& forceDirection) {
     }
 
     if(_horizontal_speed < 0 && forceDirection.x >= 0) { // Slow down mario when gliding to the left
-        _horizontal_speed += _MARIO_ACCELERATION;
+        _horizontal_speed += _MARIO_ACCELERATION / 7;
     }
     else if(_horizontal_speed > 0 && forceDirection.x <= 0) { // Slow down mario when gliding to the right
-        _horizontal_speed -= _MARIO_ACCELERATION;
+        _horizontal_speed -= _MARIO_ACCELERATION / 7;
     }
 
     if(forceDirection.y > 0
@@ -37,7 +36,6 @@ void MarioRigidBody::AddForce(const spic::Point& forceDirection) {
 
     _vertical_speed += _GRAVITY;
     if(_vertical_speed > 0 && !CanMoveTo(CollisionPoint::Bottom)) {
-        // Mario is standing on top of an object, so shouldn't fall down
         _vertical_speed = 0;
     }
 
@@ -46,7 +44,6 @@ void MarioRigidBody::AddForce(const spic::Point& forceDirection) {
     }
 
     if(_horizontal_speed < 0 && !CanMoveTo(CollisionPoint::Left)) {
-        // Mario is standing on top of an object, so shouldn't fall down
         _horizontal_speed = 0;
     }
 
@@ -60,7 +57,7 @@ void MarioRigidBody::AddForce(const spic::Point& forceDirection) {
         transform.position.x += _horizontal_speed;
         transform.position.y += _vertical_speed;
         gob->SetTransform(transform);
-    } else { // oeps: GameObject was al deleted
+    } else { // GameObject was already deleted
         gob.reset();
     }
 }

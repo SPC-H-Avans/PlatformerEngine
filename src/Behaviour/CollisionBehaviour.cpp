@@ -1,5 +1,4 @@
 #include "Behaviour/CollisionBehaviour.hpp"
-#include "Input.hpp"
 #include "GameObject.hpp"
 #include "RigidBody.hpp"
 #include "BoxCollider.hpp"
@@ -33,14 +32,6 @@ namespace platformer_engine {
     }
 
     void CollisionBehaviour::OnTriggerStay2D(const Collision collision) {
-//        for(auto &col : _activeCollisions) {
-//            if(col.GetId() == collision.GetId() && col.Contact() != collision.Contact()) {
-//                UpdateMoveRestriction(col, true);
-//                UpdateMoveRestriction(collision, false);
-//                col.Contact(collision.Contact()); // Update the contact point (for if an object could move through another)
-//                break;
-//            }
-//        }
     }
 
     void CollisionBehaviour::UpdateMoveRestriction(const Collision &col, bool allow) {

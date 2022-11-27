@@ -21,8 +21,6 @@ void PhysicsSystem::Update() {
 }
 
 void PhysicsSystem::MoveObjects() {
-    //TODO: Okay right now the Mario character physics are HARDCODED here, which is obviously VERY STUPID
-    //TODO: but I will fix that later, right now I just want any result I can get lol.
 
     //Get all GameObjects
     vector<shared_ptr<GameObject>> gameObjects = GameObject::FindObjectsOfType<GameObject>();
@@ -33,19 +31,16 @@ void PhysicsSystem::MoveObjects() {
 
         if(mario != nullptr) {
             // We found mario!
+            // TODO @JESSE: Move this to a more logical location.
             auto point = Point();
 
-            //todo: Maybe call a mario behaviorscript here and put the physics code in there?
             if (spic::Input::GetKey(spic::Input::KeyCode::LEFT_ARROW)) {
-                //TODO: I know I know hardcoded left arrow hier, wat de fuck?! komt goed
                 point.x--;
             }
             if (spic::Input::GetKey(spic::Input::KeyCode::RIGHT_ARROW)) {
                 point.x++;
             }
-
             if (spic::Input::GetKey(spic::Input::KeyCode::UP_ARROW)) {
-                //TODO: Onlu update vertical speed if mario is standing on an object
                 point.y++;
             }
 

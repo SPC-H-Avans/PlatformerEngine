@@ -62,12 +62,4 @@ void MarioRigidBody::AddForce(const spic::Point& forceDirection) {
     }
 }
 
-float MarioRigidBody::GetHorizontalSpeed() const {
-    return _horizontal_speed;
-}
-
-float MarioRigidBody::GetVerticalSpeed() const {
-    return _vertical_speed;
-}
-
 

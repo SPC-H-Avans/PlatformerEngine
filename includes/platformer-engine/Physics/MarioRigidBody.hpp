@@ -6,8 +6,6 @@
 class MarioRigidBody : public spic::RigidBody {
 public:
     void AddForce(const Point& forceDirection) override;
-    float GetHorizontalSpeed() const;
-    float GetVerticalSpeed() const;
 
 private:
     float _horizontal_speed = 0;

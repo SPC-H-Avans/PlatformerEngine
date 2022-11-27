@@ -21,7 +21,8 @@ None
 Set up the project and add the first version of the code.
 
 ### Changes
-- SPCH-38: Added support for multiple collisions at the same CollisionPoint.
+- SPCH-35: Added MarioRigidBody with specific Mario physics
+- SPCH-35: Updated the collision system and collisionbehavior to prevent mario from getting stuck in other objects
 - SPCH-38: Added Collision Unit tests and fixed bugs where the wrong CollisionPoint was detected.
 - SPCH-42: Added sprites which can be added to a Game Object
 - SPCH-10: Added animated sprites and render system

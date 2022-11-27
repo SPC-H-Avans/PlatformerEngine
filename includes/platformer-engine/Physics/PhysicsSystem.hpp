@@ -17,6 +17,8 @@
  */
 class PhysicsSystem {
 public:
+    PhysicsSystem(int localClientId = 0);
+
     /**
      * @brief Updates the PhysicsSystem
      */
@@ -63,6 +65,7 @@ private:
     static auto CheckBoxCollision(Point aPos, const BoxCollider& aCol, Point bPos, const BoxCollider& bCol) -> std::unique_ptr<std::tuple<CollisionPoint, CollisionPoint>>;
 
     int _collisionCnt = 0;
+    int _clientId = 0;
 };
 
 #endif //PLATFORMER_ENGINE_PHYSICSSYSTEM_HPP

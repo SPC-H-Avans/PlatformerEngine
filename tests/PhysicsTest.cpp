@@ -106,10 +106,6 @@ TEST_F(PhysicsTests, MarioFallsUntilBlock) {
 
 }
 
-// todo: Make test with 3 colliding items; 2 blocks on top of mario. Test that it collides with BOTH and only if
-// todo: both collisions are resolved, it should be allowed to move up
-// todo: This should be made in CollisionTests
-
 
 void PhysicsTests::SetBoxColliders() {
     BoxCollider collider;

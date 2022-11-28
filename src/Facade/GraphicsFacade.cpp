@@ -100,17 +100,6 @@ void platformer_engine::GraphicsFacade::DrawTexture(const std::string &id, int x
                      static_cast<const SDL_RendererFlip>(flip));
 }
 
-//void platformer_engine::GraphicsFacade::DrawTile(const std::string &tileSetID, int tileSize, int x, int y, int row,
-//                                                 int frame, const SPIC_RendererFlip &flip, double scale) {
-//    SDL_Rect srcRect = {tileSize * frame, tileSize * row, tileSize, tileSize};
-////TODO CAMERA
-////    Vector2D cam = Camera::GetInstance()->GetPosition();
-////    SDL_Rect dstRect = {static_cast<int>(x - cam.X), static_cast<int>(y - cam.Y), tileSize, tileSize};
-//    SDL_Rect dstRect = {x, y, (int)(tileSize * scale), (int)(tileSize * scale)};
-//    SDL_RenderCopyEx(_renderer.get(), _textureMap[tileSetID].get(), &srcRect, &dstRect, 0, nullptr,
-//                     static_cast<const SDL_RendererFlip>(flip));
-//}
-
 void
 platformer_engine::GraphicsFacade::DrawFrame(const std::string &id, int x, int y, int width, int height, int row,
                                              int frame, const platformer_engine::SPIC_RendererFlip &flip, double scale) {

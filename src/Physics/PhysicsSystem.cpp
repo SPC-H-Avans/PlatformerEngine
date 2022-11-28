@@ -3,6 +3,8 @@
 #include "RigidBody.hpp"
 #include "Transform.hpp"
 #include "BehaviourScript.hpp"
+#include "Physics/MarioRigidBody.hpp"
+#include "Input.hpp"
 #include <algorithm>
 
 using spic::GameObject;
@@ -16,7 +18,38 @@ using std::unique_ptr;
 PhysicsSystem::PhysicsSystem(int localClientId) : _clientId(localClientId) {}
 
 void PhysicsSystem::Update() {
+    MoveObjects();
     CheckCollisions();
+}
+
+void PhysicsSystem::MoveObjects() {
+
+    //Get all GameObjects
+    vector<shared_ptr<GameObject>> gameObjects = GameObject::FindObjectsOfType<GameObject>();
+
+    //Loop through the GameObjects and find ones with MarioRigidBody
+    for(auto& gameObject : gameObjects) {
+        shared_ptr<MarioRigidBody> mario = std::dynamic_pointer_cast<MarioRigidBody>(gameObject->GetComponent<RigidBody>());
+
+        if(mario != nullptr) {
+            // We found mario!
+            // TODO @JESSE: Move this to a more logical location.
+            auto point = Point();
+
+            if (spic::Input::GetKey(spic::Input::KeyCode::LEFT_ARROW)) {
+                point.x--;
+            }
+            if (spic::Input::GetKey(spic::Input::KeyCode::RIGHT_ARROW)) {
+                point.x++;
+            }
+            if (spic::Input::GetKey(spic::Input::KeyCode::UP_ARROW)) {
+                point.y++;
+            }
+
+            mario->AddForce(point);
+        }
+    }
+
 }
 
 //Get all objects with BoxColliders owned by the current client.
@@ -71,7 +104,7 @@ void PhysicsSystem::CheckCollisions() {
             }
         }
     }
-    }
+}
 
 void PhysicsSystem::CreateCollision(const shared_ptr<GameObject>& initiator, const shared_ptr<Collider>& init_collider,
                                     const shared_ptr<GameObject>& receiver, const shared_ptr<Collider>& rec_collider,
@@ -141,16 +174,16 @@ auto PhysicsSystem::CheckBoxCollision(Point aPos, const BoxCollider& aCol, Point
         //Distance between left a and right b
         double right_col = b_right - aPos.x;
 
-        if (top_col < bottom_col && top_col < left_col && top_col < right_col ){//Bottom collision
+        if (top_col <= bottom_col && top_col <= left_col && top_col <= right_col ){//Bottom collision
             return std::make_unique<std::tuple<CollisionPoint, CollisionPoint>>(std::make_tuple(CollisionPoint::Bottom, CollisionPoint::Top));
         }
-        if (bottom_col < top_col && bottom_col < left_col && bottom_col < right_col){ //Top collision
+        if (bottom_col <= top_col && bottom_col <= left_col && bottom_col <= right_col){ //Top collision
             return std::make_unique<std::tuple<CollisionPoint, CollisionPoint>>(std::make_tuple(CollisionPoint::Top, CollisionPoint::Bottom));
         }
-        if (left_col < right_col && left_col < top_col && left_col < bottom_col) { //Right collision
+        if (left_col <= right_col && left_col <= top_col && left_col <= bottom_col) { //Right collision
             return std::make_unique<std::tuple<CollisionPoint, CollisionPoint>>(std::make_tuple(CollisionPoint::Right, CollisionPoint::Left));
         }
-        if (right_col < left_col && right_col < top_col && right_col < bottom_col ) { //Left collision
+        if (right_col <= left_col && right_col <= top_col && right_col <= bottom_col ) { //Left collision
             return std::make_unique<std::tuple<CollisionPoint, CollisionPoint>>(std::make_tuple(CollisionPoint::Left, CollisionPoint::Right));
         }
 
@@ -158,5 +191,3 @@ auto PhysicsSystem::CheckBoxCollision(Point aPos, const BoxCollider& aCol, Point
     }
     return nullptr; //No Collision
 }
-
-

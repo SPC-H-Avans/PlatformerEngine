@@ -7,7 +7,7 @@ auto GameObjectDirector::CreateTile(const std::shared_ptr<Sprite>& sprite,
                                     Transform transform) -> std::shared_ptr<GameObject> {
     auto& scene = platformer_engine::Engine::GetInstance().GetActiveScene();
     auto builder =
-            GameObjectBuilder("tile" + std::to_string(scene->GetObjectCount()))
+            GameObjectBuilder("tile" + std::to_string(scene.GetObjectCount()))
                     .AddSprite(sprite)
             // TODO add rigidbody, etc
             ;
@@ -20,7 +20,7 @@ auto GameObjectDirector::CreateBackgroundObject(const std::shared_ptr<Sprite> &s
                                                 Transform transform) -> std::shared_ptr<GameObject> {
     auto& scene = platformer_engine::Engine::GetInstance().GetActiveScene();
     auto builder =
-            GameObjectBuilder("tile" + std::to_string(scene->GetObjectCount()))
+            GameObjectBuilder("tile" + std::to_string(scene.GetObjectCount()))
                     .AddSprite(sprite)
     ;
     auto obj = builder.GetGameObject();

@@ -28,7 +28,7 @@ namespace spic {
              *        and magnitude of the force to be applied.
              * @spicapi
              */
-            void AddForce(const Point& forceDirection);
+            virtual void AddForce(const Point& forceDirection);
 
             void BodyType (BodyType bodyType) { this->_bodyType = bodyType; }
             auto BodyType() -> enum BodyType { return _bodyType; }
@@ -37,11 +37,10 @@ namespace spic {
             void AllowMoveTo(CollisionPoint point);
             void DenyMoveTo(CollisionPoint point);
 
-        private:
-            double _mass;
-            double _gravityScale;
+        protected:
+            float _mass;
+            float _gravityScale;
             enum BodyType _bodyType;
-
 
             std::map<CollisionPoint, int> _moveRestrictions;
     };

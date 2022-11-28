@@ -1,12 +1,13 @@
 #include <algorithm>
 #include "Scene.hpp"
 #include "LevelParser/LevelParser.hpp"
-#include "Texture/TextureManager.hpp"
 #include "Debug.hpp"
 #include "Exceptions/NotImplementedException.hpp"
 #include "Exceptions/GameObjectAlreadyInSceneException.hpp"
 #include "Exceptions/CameraNotInSceneException.hpp"
 #include "Animator.hpp"
+
+spic::Scene::Scene(const std::string &sceneName) : _sceneName(sceneName) {}
 
 void spic::Scene::RenderScene() {
 //    if (_currentLevel.empty()) {

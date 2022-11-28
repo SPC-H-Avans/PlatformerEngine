@@ -14,6 +14,7 @@ namespace platformer_engine {
         } else {
             throw spic::LevelCouldNotBeParsedException(filePath + fileName);
         }
+         throw spic::LevelCouldNotBeParsedException(filePath + fileName);
     }
 }
 

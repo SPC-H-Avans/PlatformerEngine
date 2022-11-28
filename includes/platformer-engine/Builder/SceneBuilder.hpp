@@ -12,7 +12,7 @@ namespace platformer_engine {
         /**
          * @brief Constructor of Scene Builder
          */
-        SceneBuilder();
+        SceneBuilder(const std::string &name);
 
         /**
          * @brief Add a new Game Object to the scene
@@ -39,13 +39,13 @@ namespace platformer_engine {
          * @brief Finalize the scene and retrieve it
          * @return Scene Built scene
          */
-        auto GetScene() -> std::unique_ptr<spic::Scene>;
+        auto GetScene() -> spic::Scene;
 
     private:
         /**
          * @brief Current scene object that is being build
          */
-        std::unique_ptr<spic::Scene> _scene;
+        spic::Scene _scene = spic::Scene("New scene");
     };
 }
 

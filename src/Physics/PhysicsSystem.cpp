@@ -23,7 +23,33 @@ void PhysicsSystem::Update() {
 }
 
 void PhysicsSystem::MoveObjects() {
-    // TODO
+
+    //Get all GameObjects
+    vector<shared_ptr<GameObject>> gameObjects = GameObject::FindObjectsOfType<GameObject>();
+
+    //Loop through the GameObjects and find ones with MarioRigidBody
+    for(auto& gameObject : gameObjects) {
+        shared_ptr<MarioRigidBody> mario = std::dynamic_pointer_cast<MarioRigidBody>(gameObject->GetComponent<RigidBody>());
+
+        if(mario != nullptr) {
+            // We found mario!
+            // TODO @JESSE: Move this to a more logical location.
+            auto point = Point();
+
+            if (spic::Input::GetKey(spic::Input::KeyCode::LEFT_ARROW)) {
+                point.x--;
+            }
+            if (spic::Input::GetKey(spic::Input::KeyCode::RIGHT_ARROW)) {
+                point.x++;
+            }
+            if (spic::Input::GetKey(spic::Input::KeyCode::UP_ARROW)) {
+                point.y++;
+            }
+
+            mario->AddForce(point);
+        }
+    }
+
 }
 
 //Get all objects with BoxColliders owned by the current client.

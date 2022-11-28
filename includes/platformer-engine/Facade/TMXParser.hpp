@@ -6,8 +6,6 @@
 #include <memory>
 #include <functional>
 
-//#include "GameLevel/GameLevel.hpp"
-//#include "GameLevel/TileLayer.hpp"
 #include "tinyxml.h"
 #include "LevelParser/AbstractLevelParser.hpp"
 #include "GameObject.hpp"
@@ -25,8 +23,6 @@ namespace platformer_engine {
         using TileSetsList = std::vector<TileSet>;
         using TileMap = std::vector<std::vector<int>>;
 
-//        TMXParser(std::map<std::string, std::unique_ptr<GameLevel>> &levels) : _levels(levels) {};
-
         auto Load(const std::string &id, const std::string &filePath, const std::string &fileName, const std::map<int, std::function<std::shared_ptr<spic::GameObject>(spic::Transform)>> &config) -> bool override;
 
     private:
@@ -38,11 +34,6 @@ namespace platformer_engine {
                             const platformer_engine::TMXParser::TileSetsList &tileSets,
                             int tileSize, int rowCount, int colCount,
                             const std::map<int, std::function<std::shared_ptr<spic::GameObject>(spic::Transform)>> &config);
-//        auto ParseTileLayer(TiXmlElement &xmlLayer, const std::string &filePath, const TileSetsList &tileSets,
-//                       int tileSize, int rowCount, int colCount,
-//                        const std::map<int, std::function<std::shared_ptr<spic::GameObject>()>> &config) -> std::unique_ptr<TileLayer>;
-
-//        std::map<std::string, std::unique_ptr<GameLevel>> &_levels;
     };
 }
 

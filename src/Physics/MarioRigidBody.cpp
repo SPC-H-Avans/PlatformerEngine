@@ -7,59 +7,63 @@
 void MarioRigidBody::AddForce(const spic::Point& forceDirection) {
 
     if(forceDirection.x < 0 && CanMoveTo(CollisionPoint::Left)) { // Move left
-        _horizontal_speed = std::max(_horizontal_speed - _MARIO_ACCELERATION, -_MARIO_WALK_SPEED);
+        _horizontalSpeed = std::max(_horizontalSpeed - MARIO_ACCELERATION, -MARIO_WALK_SPEED);
     }
     else if(forceDirection.x > 0 && CanMoveTo(CollisionPoint::Right)) { // Move right
-        _horizontal_speed = std::min(_horizontal_speed + _MARIO_ACCELERATION, _MARIO_WALK_SPEED);
+        _horizontalSpeed = std::min(_horizontalSpeed + MARIO_ACCELERATION, MARIO_WALK_SPEED);
     }
 
-    if(_horizontal_speed < 0 && forceDirection.x >= 0) { // Slow down mario when gliding to the left
-        _horizontal_speed += _MARIO_ACCELERATION / 7;
+    if(_horizontalSpeed < 0 && forceDirection.x >= 0) { // Slow down mario when gliding to the left
+        _horizontalSpeed += MARIO_ACCELERATION / 7;
     }
-    else if(_horizontal_speed > 0 && forceDirection.x <= 0) { // Slow down mario when gliding to the right
-        _horizontal_speed -= _MARIO_ACCELERATION / 7;
+    else if(_horizontalSpeed > 0 && forceDirection.x <= 0) { // Slow down mario when gliding to the right
+        _horizontalSpeed -= MARIO_ACCELERATION / 7;
     }
 
     if(forceDirection.y > 0
        && CanMoveTo(CollisionPoint::Top)
        && !CanMoveTo(CollisionPoint::Bottom)) { // Jump when on top of an object
-        _vertical_speed = _JUMP_SPEED;
-        _jump_timer = _MARIO_JUMP_TIMER;
+        _verticalSpeed = JUMP_SPEED;
+        _jumpTimer = MARIO_JUMP_TIMER;
     }
-    else if(_jump_timer > 0 && CanMoveTo(CollisionPoint::Top)) { // High jump
-        _vertical_speed = _JUMP_SPEED;
-        _jump_timer -= 1;
+    else if(_jumpTimer > 0 && CanMoveTo(CollisionPoint::Top)) { // High jump
+        _verticalSpeed = JUMP_SPEED;
+        _jumpTimer -= 1;
     }
     else {
-        _vertical_speed = std::min(_GRAVITY + _vertical_speed, _MAX_VERTICAL_SPEED);
+        _verticalSpeed = std::min(_gravityScale + _verticalSpeed, MAX_VERTICAL_SPEED);
     }
 
-    _vertical_speed += _GRAVITY;
-    if(_vertical_speed > 0 && !CanMoveTo(CollisionPoint::Bottom)) {
-        _vertical_speed = 0;
+    _verticalSpeed += _gravityScale;
+    if(_verticalSpeed > 0 && !CanMoveTo(CollisionPoint::Bottom)) {
+        _verticalSpeed = 0;
     }
 
-    if(_horizontal_speed > 0 && !CanMoveTo(CollisionPoint::Right)) {
-        _horizontal_speed = 0;
+    if(_horizontalSpeed > 0 && !CanMoveTo(CollisionPoint::Right)) {
+        _horizontalSpeed = 0;
     }
 
-    if(_horizontal_speed < 0 && !CanMoveTo(CollisionPoint::Left)) {
-        _horizontal_speed = 0;
+    if(_horizontalSpeed < 0 && !CanMoveTo(CollisionPoint::Left)) {
+        _horizontalSpeed = 0;
     }
 
-    if(_vertical_speed < 0 && !CanMoveTo(CollisionPoint::Top)) {
-        _vertical_speed = 0;
+    if(_verticalSpeed < 0 && !CanMoveTo(CollisionPoint::Top)) {
+        _verticalSpeed = 0;
     }
 
-    std::shared_ptr<GameObject> gob { GetGameObject().lock() };
-    if (gob) {
-        auto transform = gob->GetTransform();
-        transform.position.x += _horizontal_speed;
-        transform.position.y += _vertical_speed;
-        gob->SetTransform(transform);
+    std::shared_ptr<GameObject> gameObject { GetGameObject().lock() };
+    if (gameObject) {
+        auto transform = gameObject->GetTransform();
+        transform.position.x += _horizontalSpeed;
+        transform.position.y += _verticalSpeed;
+        gameObject->SetTransform(transform);
     } else { // GameObject was already deleted
-        gob.reset();
+        gameObject.reset();
     }
+}
+
+MarioRigidBody::MarioRigidBody() {
+    _gravityScale = 0.25F;
 }
 
 

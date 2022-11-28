@@ -10,13 +10,13 @@ namespace spic {
     class  BehaviourScript : public Component {
         public:
             /**
-             * @brief TODO
+             * @brief On start of behaviour script
              * @spicapi
              */
             virtual void OnStart() {};
 
             /**
-             * @brief TODO
+             * @brief On update of behaviour script
              * @spicapi
              */
             virtual void OnUpdate() {};

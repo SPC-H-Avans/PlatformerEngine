@@ -37,9 +37,9 @@ namespace spic {
             void AllowMoveTo(CollisionPoint point);
             void DenyMoveTo(CollisionPoint point);
 
-        private:
-            double _mass;
-            double _gravityScale;
+        protected:
+            float _mass;
+            float _gravityScale;
             enum BodyType _bodyType;
 
             std::map<CollisionPoint, int> _moveRestrictions;

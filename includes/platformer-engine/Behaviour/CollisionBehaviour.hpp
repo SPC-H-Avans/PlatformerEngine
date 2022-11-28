@@ -15,11 +15,18 @@ namespace platformer_engine {
     private:
         std::vector<Collision> _activeCollisions;
 
+        /**
+        * @brief Update the moveRestrictions for the GameObject's rigidbody for the current collision
+        */
         void UpdateMoveRestriction(const Collision &col, bool allow);
 
+        /**
+        * @brief When an object has moved more than a single pixel in a tick, it can move through a block.
+         * To prevent this, this unstuck function moves the GameObject to the correct location using the collisionPoint.
+        */
         void Unstuck(const Collision &collision);
     };
 
-} // platformer_engine
+}  // namespace platformer_engine
 
 #endif //PLATFORMER_ENGINE_COLLISIONBEHAVIOUR_HPP

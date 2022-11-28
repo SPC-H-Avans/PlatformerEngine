@@ -1,67 +1,74 @@
-#include "Builder/GameObjectBuilder.hpp"
 #include <stdexcept>
 
-GameObjectBuilder::GameObjectBuilder(const std::string &name) : _gameObject(std::make_shared<GameObject>(name)) {}
+#include "Director/GameObjectDirector.hpp"
+#include "Engine/Engine.hpp"
+#include "Physics/MarioRigidBody.hpp"
+#include "BehaviourScript.hpp"
+#include "Behaviour/CollisionBehaviour.hpp"
 
-//If reset with existing name append number to it
-void GameObjectBuilder::Reset(const std::string &name) {
-    _gameObject = std::make_shared<GameObject>(name);
+auto GameObjectDirector::CreateTile(const std::shared_ptr<Sprite>& sprite,
+                                    Transform transform) -> std::shared_ptr<GameObject> {
+    auto& scene = platformer_engine::Engine::GetInstance().GetActiveScene();
+    auto builder =
+            GameObjectBuilder("tile" + std::to_string(scene.GetObjectCount()))
+                    .AddSprite(sprite)
+    // TODO add rigidbody, etc
+    ;
+    auto obj = builder.GetGameObject();
+    obj->SetTransform(transform);
+
+
+    // Add a BoxCollider
+    auto collider = BoxCollider();
+    collider.Width(14);
+    collider.Height(16);
+    obj->AddComponent<BoxCollider>(std::make_shared<BoxCollider>(collider));
+
+    scene.AddObject(obj);
+    return obj;
 }
 
-auto GameObjectBuilder::GetGameObject() -> std::shared_ptr<GameObject> {
-    auto name = _gameObject->GetName();
-    Reset(name);
-    return GameObject::Find(name);
+auto GameObjectDirector::CreateBackgroundObject(const std::shared_ptr<Sprite> &sprite,
+                                                Transform transform) -> std::shared_ptr<GameObject> {
+    auto& scene = platformer_engine::Engine::GetInstance().GetActiveScene();
+    auto builder =
+            GameObjectBuilder("tile" + std::to_string(scene.GetObjectCount()))
+                    .AddSprite(sprite)
+    ;
+    auto obj = builder.GetGameObject();
+    obj->SetTransform(transform);
+    scene.AddObject(obj);
+    return obj;
 }
 
-//Return *this in every component method to allow chaining
-auto GameObjectBuilder::AddAudioSource() -> GameObjectBuilder & {
-    //TODO Add audiosource to gameobject
-    throw std::logic_error("Function not implemented");
-    return *this;
-}
+auto GameObjectDirector::CreatePlayer(const std::shared_ptr<platformer_engine::AnimatedSprite>& sprite,
+                                      Transform transform) -> std::shared_ptr<GameObject> { // probably add width and height parameters and more to use in GameObjectBuilder functions
+    auto& scene = platformer_engine::Engine::GetInstance().GetActiveScene();
+    auto builder =
+            GameObjectBuilder("player" + std::to_string(scene.GetObjectCount()))
+                    .AddAnimator(sprite)
+//            .AddAudioSource()
+//            .AddBehaviourScript()
+//            .AddCollider()
+//            .AddRigidBody()
+    ;
+    auto obj = builder.GetGameObject();
+    obj->SetTransform(transform);
 
-auto
-GameObjectBuilder::AddAnimator(std::shared_ptr<platformer_engine::AnimatedSprite> animatedSprite) -> GameObjectBuilder & {
-    std::shared_ptr<Animator> animator = std::make_shared<Animator>(animatedSprite);
-    _gameObject->AddComponent<Animator>(animator);
-    return *this;
-}
+    // rigidbody
+    auto marioBody = MarioRigidBody();
+    marioBody.BodyType(spic::BodyType::dynamicBody);
+    obj->AddComponent<RigidBody>(std::make_shared<MarioRigidBody>(marioBody));
 
-auto
-GameObjectBuilder::AddAnimator(
-        std::vector<std::shared_ptr<platformer_engine::AnimatedSprite>> animatedSprite) -> GameObjectBuilder & {
-    if (animatedSprite.empty()) {
-        throw std::invalid_argument("animatedSprite is empty");
-    }
-    std::shared_ptr<Animator> animator = std::make_shared<Animator>(animatedSprite.back());
-    for (const auto &item: animatedSprite) {
-        animator->AddAnimation(item);
-    }
-    _gameObject->AddComponent<Animator>(animator);
-    return *this;
-}
+    // collider
+    auto collider = BoxCollider();
+    collider.Width(24); // TODO: magic num
+    collider.Height(24);
+    obj->AddComponent<BoxCollider>(std::make_shared<BoxCollider>(collider));
 
-auto GameObjectBuilder::AddBehaviourScript() -> GameObjectBuilder & {
-    //TODO add behaviourscript to gameobject
-    throw std::logic_error("Function not implemented");
-    return *this;
-}
+    // Add collision behaviourscript
+    obj->AddComponent<BehaviourScript>(std::make_shared<platformer_engine::CollisionBehaviour>());
 
-auto GameObjectBuilder::AddCollider() -> GameObjectBuilder & {
-    //TODO add collider to gameobject
-    //DO WE NEED SEPERATE FUNCTIONS FOR DIFFERENT COLLIDERS?
-    throw std::logic_error("Function not implemented");
-    return *this;
-}
-
-auto GameObjectBuilder::AddRigidBody() -> GameObjectBuilder & {
-    //TODO add rigidbody to gameobject
-    throw std::logic_error("Function not implemented");
-    return *this;
-}
-
-auto GameObjectBuilder::AddSprite(const std::shared_ptr<spic::Sprite> &sprite) -> GameObjectBuilder & {
-    _gameObject->AddComponent<Sprite>(sprite);
-    return *this;
+    scene.AddObject(obj);
+    return obj;
 }

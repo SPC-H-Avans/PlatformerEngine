@@ -22,7 +22,11 @@ public:
             const std::shared_ptr<Sprite>& sprite,
             Transform transform
     ) -> std::shared_ptr<GameObject>;
-//    auto CreatePlayer() -> std::shared_ptr<GameObject>;
+
+    static auto CreatePlayer(
+            const std::shared_ptr<platformer_engine::AnimatedSprite>& sprite,
+            Transform transform
+    ) -> std::shared_ptr<GameObject>;
 private:
 //    GameObjectBuilder _builder;
 };

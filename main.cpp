@@ -16,7 +16,7 @@ auto main([[maybe_unused]] int argc, [[maybe_unused]] char *argv[]) -> int {
     engine.Init(SCREEN_WIDTH, SCREEN_HEIGHT, "PlatFormer Engine Debug", spic::Color::Cyan());
     platformer_engine::SceneBuilder builder("Test Scene");
     auto scene = builder.GetScene();
-    engine.AddScene(scene);
+    engine.SetActiveScene(scene);
     engine.HostServer(scene.GetSceneName(), 10, 7779);
     engine.JoinServer("127.0.0.1", 7779);
     NetPkgs::Ping ping;

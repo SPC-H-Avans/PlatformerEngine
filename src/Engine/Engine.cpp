@@ -77,17 +77,11 @@ void platformer_engine::Engine::Quit() {
     _isRunning = false;
 }
 
-void platformer_engine::Engine::SetActiveScene(const std::string &sceneName) {
+void platformer_engine::Engine::SetActiveScene(Scene &scene) {
     if (_window == nullptr) {
         throw spic::NoWindowException();
     }
-    for (auto &item: _scenes) {
-        if (item.GetSceneName() == sceneName) {
-            _window->SetActiveScene(item);
-            return;
-        }
-    }
-    throw spic::SceneNotLoadedException();
+    _window->SetActiveScene(scene);
 }
 
 auto platformer_engine::Engine::GetActiveScene() -> spic::Scene & {
@@ -114,8 +108,4 @@ void platformer_engine::Engine::JoinServer(const std::string &ip, int port) {
     if (_clientNetworkManager != nullptr) throw spic::ClientAlreadyActiveException();
     _clientNetworkManager = std::make_unique<ClientNetworkManager>();
     _clientNetworkManager->ConnectToServer(ip, port);
-}
-
-void platformer_engine::Engine::AddScene(const Scene &scene) {
-    _scenes.push_back(scene);
 }

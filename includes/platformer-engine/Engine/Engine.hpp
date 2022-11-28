@@ -81,7 +81,7 @@ namespace platformer_engine {
          * @param scene Scene to make active
          * @platformerengine
          */
-        void SetActiveScene(const std::string &sceneName);
+        void SetActiveScene(Scene &scene);
 
         /**
          * @brief Get the current active Scene
@@ -89,8 +89,6 @@ namespace platformer_engine {
          * @platformerengine
          */
         auto GetActiveScene() -> spic::Scene &;
-
-        void AddScene(const Scene &scene);
 
         auto GetServerNetworkManager() -> ServerNetworkManager &;
 
@@ -110,8 +108,6 @@ namespace platformer_engine {
         std::unique_ptr<RenderSystem> _renderSystem = nullptr;
         std::unique_ptr<ServerNetworkManager> _serverNetworkManager = nullptr;
         std::unique_ptr<ClientNetworkManager> _clientNetworkManager = nullptr;
-
-        std::vector<Scene> _scenes;
     };
 }//namespace platformer_engine
 

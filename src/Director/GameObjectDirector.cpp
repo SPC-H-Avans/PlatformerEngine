@@ -13,6 +13,7 @@ auto GameObjectDirector::CreateTile(const std::shared_ptr<Sprite>& sprite,
             ;
     auto obj = builder.GetGameObject();
     obj->SetTransform(transform);
+    scene.AddObject(obj);
     return obj;
 }
 
@@ -25,6 +26,7 @@ auto GameObjectDirector::CreateBackgroundObject(const std::shared_ptr<Sprite> &s
     ;
     auto obj = builder.GetGameObject();
     obj->SetTransform(transform);
+    scene.AddObject(obj);
     return obj;
 }
 

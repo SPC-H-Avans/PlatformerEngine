@@ -114,9 +114,7 @@ void platformer_engine::TMXParser::ParseTileLayer(TiXmlElement &xmlLayer, const 
                         static_cast<double>(col * tileSize),
                         static_cast<double>(row * tileSize)},
                     0, 1.0 };
-                auto obj = config.at(tileMap[row][col])(transform);
-                auto& scene = platformer_engine::Engine::GetInstance().GetActiveScene();
-                scene.AddObject(obj);
+                config.at(tileMap[row][col])(transform); // create the tile
             }
 
             if (!iss.good())

@@ -1,11 +1,15 @@
 #ifndef PLATFORMER_ENGINE_CLIENTNETWORKMANAGER_HPP
 #define PLATFORMER_ENGINE_CLIENTNETWORKMANAGER_HPP
 
+#pragma once
+
 #include "GameObject.hpp"
 #include "ProtocolPackages.hpp"
 #include "Networking/INetworkManager.hpp"
 #include "Facade/NetworkingFacade.hpp"
 #include <cstring>
+
+class Engine;
 
 namespace platformer_engine {
     /**
@@ -94,7 +98,16 @@ namespace platformer_engine {
         ConnectionStatus _connectionStatus = ConnectionStatus::Disconnected;
         NetworkingFacade _networkingFacade;
 
+#pragma region HandleIncomingPackets
         void RemoveLocalClientFromGame(const void *data, size_t dataLength);
+
+        void CreateGameObject(const void *data, size_t length);
+
+        void DestroyGameObject(const void *data, size_t length);
+
+        void UpdateGameObjectTransform(const void *data, size_t length);
+
+#pragma endregion HandleIncomingPackets
     };
-}
+}  // namespace platformer_engine
 #endif //PLATFORMER_ENGINE_CLIENTNETWORKMANAGER_HPP

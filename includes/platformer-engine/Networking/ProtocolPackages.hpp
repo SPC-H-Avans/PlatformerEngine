@@ -35,5 +35,27 @@ namespace NetPkgs {
         KickClient(int clientId) : MessageHeader(NET_KICK_CLIENT), clientId(clientId) {}
     };
 
-}  // namespace platformer_engine
+#pragma region GameObjects
+
+    struct CreateGameObject : MessageHeader {
+        spic::GameObject _gameObjectToCreate;
+
+        CreateGameObject(spic::GameObject gameObject) : MessageHeader(NET_CREATE_GAMEOBJECT), _gameObjectToCreate(gameObject) {}
+    };
+
+    struct DestroyGameObject: MessageHeader {
+        std::string _gameObjectName;
+
+        DestroyGameObject(const std::string& gameObjectName) : MessageHeader(NET_DESTROY_GAMEOBJECT), _gameObjectName(gameObjectName) {}
+    };
+
+    struct UpdateGameObjectTransform : MessageHeader {
+        spic::Transform _transform;
+        std::string _gameObjectName;
+        UpdateGameObjectTransform(const std::string& gameObjectName, const spic::Transform& transform) : MessageHeader(NET_UPDATE_GAMEOBJECT_TRANSFORM), _gameObjectName(gameObjectName), _transform(transform) {}
+    };
+
+#pragma endregion GameObjects
+
+}  // namespace NetPkgs
 #endif //PLATFORMER_ENGINE_PROTOCOLPACKAGES_H

@@ -1,6 +1,7 @@
 #include "Networking/ClientNetworkManager.hpp"
 #include "Exceptions/NotImplementedException.hpp"
 #include "Debug.hpp"
+#include "Engine/Engine.hpp"
 
 platformer_engine::ClientNetworkManager::ClientNetworkManager() {}
 
@@ -22,7 +23,7 @@ void platformer_engine::ClientNetworkManager::SendNetworkPackage(const void *dat
 
 void platformer_engine::ClientNetworkManager::OnConnect(int clientId) {
     _localPlayerId = clientId;
-    bool isPartyLeader = false; //TODO revise?
+    bool isPartyLeader = false; //TODO revise? b
     _connectionStatus = ConnectionStatus::Connected;
 }
 
@@ -44,6 +45,14 @@ void platformer_engine::ClientNetworkManager::OnReceive(int clientId, const uint
         case NET_KICK_CLIENT:
             RemoveLocalClientFromGame(data, dataLength);
             break;
+        case NET_CREATE_GAMEOBJECT:
+            CreateGameObject(data, dataLength);
+            break;
+        case NET_DESTROY_GAMEOBJECT:
+            DestroyGameObject(data, dataLength);
+            break;
+        case NET_UPDATE_GAMEOBJECT_TRANSFORM:
+            UpdateGameObjectTransform(data, dataLength);
         default:
             spic::Debug::LogWarning("Unknown message from server: " + std::to_string(messageType));
             break;
@@ -65,4 +74,26 @@ void platformer_engine::ClientNetworkManager::RemoveLocalClientFromGame(const vo
     auto playerToRemove = pkg.clientId;
     //Perform remove logic
     throw spic::NotImplementedException();
+}
+
+void platformer_engine::ClientNetworkManager::CreateGameObject(const void *data, size_t length) {
+    auto pkg = NetPkgs::CreateGameObject(spic::GameObject("Null"));
+    memcpy(&pkg, data, length);
+    auto gameObject = std::make_shared<spic::GameObject>(pkg._gameObjectToCreate);
+    Engine::GetInstance().GetActiveScene().AddObject(gameObject);
+}
+
+void platformer_engine::ClientNetworkManager::DestroyGameObject(const void *data, size_t length) {
+    auto pkg = NetPkgs::DestroyGameObject("");
+    memcpy(&pkg, data, length);
+    platformer_engine::Engine::GetInstance().GetActiveScene().RemoveObject(pkg._gameObjectName);
+}
+
+void platformer_engine::ClientNetworkManager::UpdateGameObjectTransform(const void *data, size_t length) {
+    auto pkg = NetPkgs::UpdateGameObjectTransform("", Transform());
+    memcpy(&pkg, data, length);
+    auto gameObject=  platformer_engine::Engine::GetInstance().GetActiveScene().GetObjectByName(pkg._gameObjectName);
+    if(gameObject != nullptr){
+        gameObject->SetTransform(pkg._transform);
+    }
 }

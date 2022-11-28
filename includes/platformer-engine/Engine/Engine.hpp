@@ -11,7 +11,6 @@
 #include "Networking/ServerNetworkManager.hpp"
 #include "Networking/ClientNetworkManager.hpp"
 
-
 namespace platformer_engine {
     /**
     * @brief Engine is a singleton class which is the core of the game

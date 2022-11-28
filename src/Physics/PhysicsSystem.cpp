@@ -4,7 +4,7 @@
 #include "Transform.hpp"
 #include "BehaviourScript.hpp"
 #include "Physics/MarioRigidBody.hpp"
-#include "Input.hpp"
+//#include "Input.hpp"
 #include <algorithm>
 
 using spic::GameObject;
@@ -36,15 +36,15 @@ void PhysicsSystem::MoveObjects() {
             // TODO @JESSE: Move this to a more logical location.
             auto point = Point();
 
-            if (spic::Input::GetKey(spic::Input::KeyCode::LEFT_ARROW)) {
-                point.x--;
-            }
-            if (spic::Input::GetKey(spic::Input::KeyCode::RIGHT_ARROW)) {
-                point.x++;
-            }
-            if (spic::Input::GetKey(spic::Input::KeyCode::UP_ARROW)) {
-                point.y++;
-            }
+//            if (spic::Input::GetKey(KeyCode::LEFT_ARROW)) {
+//                point.x--;
+//            }
+//            if (spic::Input::GetKey(KeyCode::RIGHT_ARROW)) {
+//                point.x++;
+//            }
+//            if (spic::Input::GetKey(KeyCode::UP_ARROW)) {
+//                point.y++;
+//            }
 
             mario->AddForce(point);
         }

@@ -4,6 +4,7 @@
 #include "Engine/Engine.hpp"
 #include "Physics/MarioRigidBody.hpp"
 #include "BehaviourScript.hpp"
+#include "Behaviour/MarioInputBehaviour.hpp"
 #include "Behaviour/CollisionBehaviour.hpp"
 
 auto GameObjectDirector::CreateTile(const std::shared_ptr<Sprite>& sprite,
@@ -45,6 +46,7 @@ auto GameObjectDirector::CreatePlayer(const std::shared_ptr<platformer_engine::A
     auto builder =
             GameObjectBuilder("player" + std::to_string(scene.GetObjectCount()))
                     .AddAnimator(sprite)
+                    .AddBehaviourScript(std::make_shared<platformer_engine::MarioInputBehaviour>());
     ;
     auto obj = builder.GetGameObject();
     obj->SetTransform(transform);

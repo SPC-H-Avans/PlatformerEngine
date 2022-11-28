@@ -4,6 +4,7 @@
 #include "Exceptions/ServerAlreadyActiveException.hpp"
 #include "Exceptions/ClientAlreadyActiveException.hpp"
 #include "Exceptions/SceneNotLoadedException.hpp"
+#include "BehaviourScript.hpp"
 #include <thread>
 
 const int TARGET_FPS = 60;
@@ -48,6 +49,14 @@ void platformer_engine::Engine::Update() {
     timer.Update();
     _physicsSystem->Update();
     _renderSystem->Update();
+
+    // trigger OnUpdate for each gameObject
+    auto gameObjects = GameObject::FindObjectsOfType<GameObject>();
+    for(auto& gameObject : gameObjects) {
+        auto script = std::dynamic_pointer_cast<spic::BehaviourScript>(gameObject->GetComponent<spic::BehaviourScript>());
+        if (script != nullptr) script->OnUpdate();
+    }
+
     //Call systems
 }
 

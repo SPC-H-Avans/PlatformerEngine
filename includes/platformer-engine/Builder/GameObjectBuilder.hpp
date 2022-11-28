@@ -5,6 +5,7 @@
 #include "ObjectBuilder.hpp"
 #include "Animator.hpp"
 #include "Texture/AnimatedSprite.hpp"
+#include "BehaviourScript.hpp"
 
 using namespace spic;
 
@@ -56,7 +57,7 @@ public:
      * @brief Adds a BehaviourScript component to the current GameObject being build.
      * @return reference to ObjectBuilder, allows method chaining.
      */
-    auto AddBehaviourScript() -> GameObjectBuilder & override;
+    auto AddBehaviourScript(const std::shared_ptr<BehaviourScript> &script) -> GameObjectBuilder & override;
 
     /**
      * @brief Adds a Collider component to the current GameObject being build.

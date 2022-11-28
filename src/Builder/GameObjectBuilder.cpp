@@ -42,9 +42,8 @@ GameObjectBuilder::AddAnimator(
     return *this;
 }
 
-auto GameObjectBuilder::AddBehaviourScript() -> GameObjectBuilder & {
-    //TODO add behaviourscript to gameobject
-    throw std::logic_error("Function not implemented");
+auto GameObjectBuilder::AddBehaviourScript(const std::shared_ptr<BehaviourScript> &script) -> GameObjectBuilder & {
+    _gameObject->AddComponent<BehaviourScript>(script);
     return *this;
 }
 

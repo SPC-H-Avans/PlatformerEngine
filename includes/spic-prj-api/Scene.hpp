@@ -11,6 +11,10 @@ namespace spic {
      */
     class Scene {
     public:
+        Scene(const std::string &sceneName);
+
+        Scene() = default;
+
         /**
          * @brief This function is called by a Camera to render the scene on the engine.
          * @spicapi
@@ -38,6 +42,9 @@ namespace spic {
          * @spicapi
          */
         auto GetObjectByName(const std::string &name) -> std::shared_ptr<GameObject>;
+
+        [[nodiscard]] inline auto
+        GetAllObjects() const -> std::vector<std::shared_ptr<GameObject>> { return _contents; };
 
         /**
          * @brief Import a Game Level and add it to this scene
@@ -96,6 +103,12 @@ namespace spic {
          */
         ~Scene();
 
+        /**
+         * @brief Get current scene name
+         * @return std::string Scene name
+         */
+        inline auto GetSceneName() const -> std::string { return _sceneName; };
+
     private:
         /**
          * @brief Render all GameObjects in this scene
@@ -120,6 +133,7 @@ namespace spic {
          */
         std::shared_ptr<Camera> _activeCamera = nullptr;
         std::string _currentLevel;
+        std::string _sceneName{"Null Scene"};
     };
 
 }  // namespace spic

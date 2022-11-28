@@ -28,7 +28,7 @@ void platformer_engine::ClientNetworkManager::OnConnect(int clientId) {
 }
 
 void platformer_engine::ClientNetworkManager::OnReceive(int clientId, const uint8_t *data, size_t dataLength) {
-    if (!data || dataLength < 3)
+    if (data == nullptr || dataLength < 3)
         return;
     uint8_t versionMajor = data[0];
     uint8_t versionMinor = data[1];

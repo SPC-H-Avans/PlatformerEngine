@@ -1,7 +1,6 @@
 #include <algorithm>
 #include "Scene.hpp"
 #include "LevelParser/LevelParser.hpp"
-#include "Texture/TextureManager.hpp"
 #include "Debug.hpp"
 #include "Exceptions/NotImplementedException.hpp"
 #include "Exceptions/GameObjectAlreadyInSceneException.hpp"

@@ -7,21 +7,19 @@
 #include "Behaviour/CollisionBehaviour.hpp"
 
 auto GameObjectDirector::CreateTile(const std::shared_ptr<Sprite>& sprite,
-                                    Transform transform) -> std::shared_ptr<GameObject> {
+                                    Transform transform, int colliderWidth, int colliderHeight) -> std::shared_ptr<GameObject> {
     auto& scene = platformer_engine::Engine::GetInstance().GetActiveScene();
     auto builder =
             GameObjectBuilder("tile" + std::to_string(scene.GetObjectCount()))
                     .AddSprite(sprite)
-    // TODO add rigidbody, etc
     ;
     auto obj = builder.GetGameObject();
     obj->SetTransform(transform);
 
-
-    // Add a BoxCollider
+    // collider
     auto collider = BoxCollider();
-    collider.Width(14);
-    collider.Height(16);
+    collider.Width(colliderWidth);
+    collider.Height(colliderHeight);
     obj->AddComponent<BoxCollider>(std::make_shared<BoxCollider>(collider));
 
     scene.AddObject(obj);
@@ -42,15 +40,11 @@ auto GameObjectDirector::CreateBackgroundObject(const std::shared_ptr<Sprite> &s
 }
 
 auto GameObjectDirector::CreatePlayer(const std::shared_ptr<platformer_engine::AnimatedSprite>& sprite,
-                                      Transform transform) -> std::shared_ptr<GameObject> { // probably add width and height parameters and more to use in GameObjectBuilder functions
+                                      Transform transform, int colliderWidth, int colliderHeight) -> std::shared_ptr<GameObject> { // probably add width and height parameters and more to use in GameObjectBuilder functions
     auto& scene = platformer_engine::Engine::GetInstance().GetActiveScene();
     auto builder =
             GameObjectBuilder("player" + std::to_string(scene.GetObjectCount()))
                     .AddAnimator(sprite)
-//            .AddAudioSource()
-//            .AddBehaviourScript()
-//            .AddCollider()
-//            .AddRigidBody()
     ;
     auto obj = builder.GetGameObject();
     obj->SetTransform(transform);
@@ -62,8 +56,8 @@ auto GameObjectDirector::CreatePlayer(const std::shared_ptr<platformer_engine::A
 
     // collider
     auto collider = BoxCollider();
-    collider.Width(24); // TODO: magic num
-    collider.Height(24);
+    collider.Width(colliderWidth);
+    collider.Height(colliderHeight);
     obj->AddComponent<BoxCollider>(std::make_shared<BoxCollider>(collider));
 
     // Add collision behaviourscript

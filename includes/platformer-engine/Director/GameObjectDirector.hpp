@@ -15,7 +15,9 @@ public:
 
     static auto CreateTile(
             const std::shared_ptr<Sprite>& sprite,
-            Transform transform
+            Transform transform,
+            int colliderWidth,
+            int colliderHeight
     ) -> std::shared_ptr<GameObject>;
 
     static auto CreateBackgroundObject(
@@ -25,7 +27,9 @@ public:
 
     static auto CreatePlayer(
             const std::shared_ptr<platformer_engine::AnimatedSprite>& sprite,
-            Transform transform
+            Transform transform,
+            int colliderWidth,
+            int colliderHeight
     ) -> std::shared_ptr<GameObject>;
 private:
 //    GameObjectBuilder _builder;

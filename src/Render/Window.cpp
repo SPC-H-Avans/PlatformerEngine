@@ -25,6 +25,7 @@ auto platformer_engine::Window::ListenForEvents() -> std::vector<EventsEnum> {
 
 void platformer_engine::Window::SetActiveScene(spic::Scene &scene) {
     _activeScene = scene;
+    _activeScene.ResetScene();
 }
 
 auto platformer_engine::Window::GetActiveScene() -> spic::Scene & {

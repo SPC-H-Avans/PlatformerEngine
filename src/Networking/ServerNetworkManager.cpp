@@ -1,12 +1,16 @@
 
 #include "Networking/ServerNetworkManager.hpp"
 #include "Exceptions/NotImplementedException.hpp"
+#include <boost/archive/binary_oarchive.hpp>
+#include <boost/serialization/serialization.hpp>
+#include <boost/asio.hpp>
 
 platformer_engine::ServerNetworkManager::ServerNetworkManager(spic::Scene &scene, int playerLimit, int port) : _scene(
         scene), _playerLimit(playerLimit) {
     _networkingFacade.StartServer(port, playerLimit);
     for (auto &item: _scene.GetAllObjects()) {
         item->SetOwnerId(_networkingFacade.GetMyPeerId());
+
     }
 }
 
@@ -27,6 +31,21 @@ void platformer_engine::ServerNetworkManager::OnConnect(int clientId) {
     Clients.push_back(client);
     spic::Debug::Log("Currently hosting a game for " + std::to_string(Clients.size()) + "/" + std::to_string(_playerLimit) + " clients!");
     //InitializeClient(client); TODO
+    auto gameobject = spic::GameObject("Hatsa");
+    auto trans = gameobject.GetTransform();
+    trans.position.x = 100;
+    gameobject.SetTransform(trans);
+
+    boost::asio::streambuf buf;
+    std::ostream os(&buf);
+    boost::archive::binary_oarchive out_archive(os);
+    out_archive << gameobject;
+
+    //buffer to char[]
+
+
+//    auto pkg = NetPkgs::CreateGameObject(out_archive);
+  //  SendUpdateToClients(&pkg, sizeof(pkg), true);
 }
 
 void platformer_engine::ServerNetworkManager::OnReceive(int clientId, const uint8_t *data, size_t dataLength) {
@@ -59,5 +78,6 @@ void platformer_engine::ServerNetworkManager::OnDisconnect(int clientId) {
 }
 
 void platformer_engine::ServerNetworkManager::Events() {
+    boost::asio::streambuf buf;
     _networkingFacade.HandleEvents(*this);
 }

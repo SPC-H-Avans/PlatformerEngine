@@ -10,6 +10,7 @@
 #include <vector>
 #include <memory>
 #include <map>
+#include <boost/serialization/access.hpp>
 
 
 namespace spic {
@@ -19,6 +20,14 @@ namespace spic {
      */
     class GameObject {
     public:
+
+        template<typename archive> void serialize(archive& ar, const unsigned /*version*/) {
+            ar & _name;
+            ar & _tag;
+            ar & _active;
+            ar & _transform;
+        }
+
         /**
          * @brief Finds a GameObject by name and returns it.
          * @param name The name of the GameObject you want to find.
@@ -349,6 +358,7 @@ namespace spic {
 
         //Multiton Pattern
         static std::map<std::string, std::shared_ptr<GameObject>> _instances;
+
     };
 
 } // namespace spic

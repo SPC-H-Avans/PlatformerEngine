@@ -31,15 +31,19 @@ void platformer_engine::ServerNetworkManager::OnConnect(int clientId) {
     Clients.push_back(client);
     spic::Debug::Log("Currently hosting a game for " + std::to_string(Clients.size()) + "/" + std::to_string(_playerLimit) + " clients!");
     //InitializeClient(client); TODO
-    auto gameobject = spic::GameObject("Hatsa");
-    auto trans = gameobject.GetTransform();
+    auto gameobject = spic::GameObject("Huts", "Hatsa");
+    spic::Transform trans;
     trans.position.x = 100;
     gameobject.SetTransform(trans);
+    trans = gameobject.GetTransform();
+
+    auto toSend = spic::GameObject::FindWithTag("Hatsa");
 
     boost::asio::streambuf buf;
     std::ostream os(&buf);
     boost::archive::binary_oarchive out_archive(os);
-    out_archive << gameobject;
+    spic::GameObject send = *toSend.get();
+    out_archive <<  send;
 
     //buffer to char[]
     auto charPtr = buffer_cast<const char*>(buf.data());

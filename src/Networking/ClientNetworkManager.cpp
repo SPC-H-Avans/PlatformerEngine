@@ -84,7 +84,7 @@ void platformer_engine::ClientNetworkManager::RemoveLocalClientFromGame(const vo
 void platformer_engine::ClientNetworkManager::CreateGameObject(const void *data, size_t length) {
     auto pkg = NetPkgs::CreateGameObject(nullptr, 0);
     memcpy(&pkg, data, length);
-    spic::GameObject gameObject("Null");
+    spic::GameObject gameObject("Null", "Null");
 
     boost::asio::streambuf sb;
 

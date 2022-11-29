@@ -11,13 +11,14 @@ env:
   RUN_MEMORY_CHECK: ${{ (github.base_ref == 'main') || ((secrets.RUN_MEMORY_CHECK == 'true') }}
 jobs:
   build:
-    name: "Build"
-    runs-on: ubuntu-latest
+    name: Build (${{ matrix.os }})
+    runs-on: ${{ matrix.os }}
     strategy:
       fail-fast: false
       matrix:
         include:
-          - target: x86_64
+          - os: self-hosted-linux-x64
+            triplet: x64-linux
 
     steps:
       - uses: actions/checkout@v2

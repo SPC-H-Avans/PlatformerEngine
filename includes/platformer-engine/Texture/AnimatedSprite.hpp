@@ -27,8 +27,8 @@ namespace platformer_engine{
          * @param flip If the sprite should be flipped and in which direction
          * @param color background color
          */
-        AnimatedSprite(std::string spriteId, int spriteWidth, int spriteHeight, int sortingLayer = 1, int orderInLayer = 1,
-                       int frameCount = 1, int animationSpeed = 100, int spriteRow = 1, platformer_engine::SPIC_RendererFlip flip = platformer_engine::FLIP_NONE, spic::Color color = spic::Color::Transparent(), double spriteScale = 1.0);
+        AnimatedSprite(std::string spriteId, int spriteWidth, int spriteHeight, int frameCount, int sortingLayer = 1, int orderInLayer = 1,
+                       int animationSpeed = 100, int spriteRow = 1, platformer_engine::SPIC_RendererFlip flip = platformer_engine::FLIP_NONE, spic::Color color = spic::Color::Transparent(), double spriteScale = 1.0);
 
         /**
          * @brief Update frame count

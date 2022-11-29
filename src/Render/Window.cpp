@@ -1,9 +1,9 @@
 #include "Render/Window.hpp"
 #include "LevelParser/LevelParser.hpp"
 
-platformer_engine::Window::Window(int width, int height, const std::string &title, const spic::Color &color) {
+platformer_engine::Window::Window(int width, int height, const std::string &title, const spic::Color &color) : _width(width), _height(height) {
     _graphicsFacade = std::make_shared<GraphicsFacade>();
-    _graphicsFacade->Init(width, height, title, color);
+    _graphicsFacade->Init(_width, _height, title, color);
     TextureManager::GetInstance().Init(_graphicsFacade);
 }
 

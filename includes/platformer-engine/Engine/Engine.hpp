@@ -10,6 +10,7 @@
 #include "Texture/RenderSystem.hpp"
 #include "Networking/ServerNetworkManager.hpp"
 #include "Networking/ClientNetworkManager.hpp"
+#include "Exceptions/NoWindowException.hpp"
 
 
 namespace platformer_engine {
@@ -97,6 +98,18 @@ namespace platformer_engine {
         void HostServer(const std::string &sceneId, int playerLimit, int port);
 
         void JoinServer(const std::string &ip, int port);
+
+        /**
+         * @brief Get a reference to the window
+         * @return a reference to the window
+         */
+        auto GetWindow() -> Window &{
+            if(_window == nullptr){
+                throw spic::NoWindowException();
+            }
+
+            return *_window;
+        }
 
     private:
         Engine() = default;

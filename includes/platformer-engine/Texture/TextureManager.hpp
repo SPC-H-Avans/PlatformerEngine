@@ -4,6 +4,7 @@
 #include <string>
 #include <utility>
 #include "Facade/GraphicsFacade.hpp"
+#include "Transform.hpp"
 
 //Singleton class to manage all textures
 namespace platformer_engine {
@@ -95,6 +96,8 @@ namespace platformer_engine {
         TextureManager() = default;
 
         ~TextureManager() = default;
+
+        spic::Transform GetCameraPosition();
 
         std::shared_ptr<GraphicsFacade> _graphicsFacade{nullptr};
     };

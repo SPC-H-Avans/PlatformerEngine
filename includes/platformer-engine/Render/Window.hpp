@@ -64,9 +64,27 @@ namespace platformer_engine {
          */
         auto GetActiveScene() -> spic::Scene &;
 
+        /**
+         * @brief Get the screen width
+         * @return The screen width
+         */
+        auto GetWidth() const -> int {
+            return _width;
+        }
+
+        /**
+         * @brief Get the screen height
+         * @return The screen height
+         */
+        auto GetHeight() const -> int {
+            return _height;
+        }
+
         static inline auto GetTicks() -> Uint64 { return platformer_engine::GraphicsFacade::GetTicks(); };
 
     private:
+        int _width;
+        int _height;
         std::shared_ptr<GraphicsFacade> _graphicsFacade{nullptr};
         spic::Scene _activeScene;
     };

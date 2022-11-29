@@ -1,3 +1,8 @@
+#include <sstream>
+#include <boost/archive/binary_oarchive.hpp>
+#include <boost/archive/binary_iarchive.hpp>
+#include <boost/asio/streambuf.hpp>
+#include <boost/asio/buffers_iterator.hpp>
 #include "Networking/ClientNetworkManager.hpp"
 #include "Exceptions/NotImplementedException.hpp"
 #include "Debug.hpp"
@@ -70,17 +75,34 @@ void platformer_engine::ClientNetworkManager::RemoveLocalClientFromGame(const vo
                                                                         size_t dataLength) {
     //Check if player exists
     auto pkg = NetPkgs::KickClient(0);
-    memcpy(&pkg, data, dataLength);
+    std::memcpy(&pkg, data, dataLength);
     auto playerToRemove = pkg.clientId;
     //Perform remove logic
     throw spic::NotImplementedException();
 }
 
 void platformer_engine::ClientNetworkManager::CreateGameObject(const void *data, size_t length) {
-    auto pkg = NetPkgs::CreateGameObject(spic::GameObject("Null"));
+    auto pkg = NetPkgs::CreateGameObject(nullptr, 0);
     memcpy(&pkg, data, length);
-    auto gameObject = std::make_shared<spic::GameObject>(pkg._gameObjectToCreate);
-    Engine::GetInstance().GetActiveScene().AddObject(gameObject);
+    spic::GameObject gameObject("Null");
+
+    boost::asio::streambuf sb;
+
+    boost::asio::streambuf::mutable_buffers_type bufs = sb.prepare(256);
+    auto it = boost::asio::buffers_begin(bufs);
+
+    it = std::copy_n(pkg._data, sizeof(pkg._data), it);
+
+    sb.commit(sizeof(pkg._data));
+
+    boost::archive::binary_iarchive in_archive(sb);
+    std::istream is(&sb);
+
+    in_archive >> gameObject;
+
+
+
+    //Engine::GetInstance().GetActiveScene().AddObject(gameObject);
 }
 
 void platformer_engine::ClientNetworkManager::DestroyGameObject(const void *data, size_t length) {

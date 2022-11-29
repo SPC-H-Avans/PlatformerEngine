@@ -2,6 +2,7 @@
 #define PLATFORMER_ENGINE_PROTOCOLPACKAGES_H
 
 #include <cstdint>
+#include <boost/asio/basic_streambuf.hpp>
 #include "ProtocolDefinitions.hpp"
 
 namespace NetPkgs {
@@ -38,9 +39,17 @@ namespace NetPkgs {
 #pragma region GameObjects
 
     struct CreateGameObject : MessageHeader {
-        spic::GameObject _gameObjectToCreate;
+        size_t _gameObjectDataLength;
+        char _data[256];
 
-        CreateGameObject(spic::GameObject gameObject) : MessageHeader(NET_CREATE_GAMEOBJECT), _gameObjectToCreate(gameObject) {}
+        CreateGameObject(const char* data, size_t gameObjectDataLength)
+                : MessageHeader(NET_CREATE_GAMEOBJECT), _gameObjectDataLength(gameObjectDataLength) {
+            for(int i =0; i < 256; i++)
+                if(i < gameObjectDataLength)
+                    _data[i] = data[i];
+                else
+                    _data[i] = 0;
+        }
     };
 
     struct DestroyGameObject: MessageHeader {

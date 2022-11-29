@@ -42,10 +42,10 @@ void platformer_engine::ServerNetworkManager::OnConnect(int clientId) {
     out_archive << gameobject;
 
     //buffer to char[]
+    auto charPtr = buffer_cast<const char*>(buf.data());
 
-
-//    auto pkg = NetPkgs::CreateGameObject(out_archive);
-  //  SendUpdateToClients(&pkg, sizeof(pkg), true);
+    auto pkg = NetPkgs::CreateGameObject(charPtr, buf.size());
+    SendUpdateToClients(&pkg, sizeof(pkg), true);
 }
 
 void platformer_engine::ServerNetworkManager::OnReceive(int clientId, const uint8_t *data, size_t dataLength) {

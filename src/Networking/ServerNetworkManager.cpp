@@ -48,6 +48,9 @@ void platformer_engine::ServerNetworkManager::OnConnect(int clientId) {
 
     auto pkg = NetPkgs::CreateGameObject(charPtr, buf.size());
     SendUpdateToClients(&pkg, sizeof(pkg), true);
+
+    auto pkg2 = NetPkgs::DestroyGameObject("Huts");
+    SendUpdateToClients(&pkg2, sizeof(pkg2), true);
 }
 
 void platformer_engine::ServerNetworkManager::OnReceive(int clientId, const uint8_t *data, size_t dataLength) {

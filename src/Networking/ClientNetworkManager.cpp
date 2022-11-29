@@ -89,13 +89,15 @@ void platformer_engine::ClientNetworkManager::CreateGameObject(const void *data,
 
     platformer_engine::NetworkingBuffer::ParseIncomingDataToObject<spic::GameObject>(pkg._data, MAX_CREATE_GAME_OBJECT_SIZE, gameObject);
 
-    //Engine::GetInstance().GetActiveScene().AddObject(gameObject);
+    std::shared_ptr<GameObject> sharedPtr = std::make_shared<GameObject>(gameObject);
+    Engine::GetInstance().GetActiveScene().AddObject(sharedPtr);
 }
 
 void platformer_engine::ClientNetworkManager::DestroyGameObject(const void *data, size_t length) {
     auto pkg = NetPkgs::DestroyGameObject("");
     memcpy(&pkg, data, length);
-    platformer_engine::Engine::GetInstance().GetActiveScene().RemoveObject(pkg._gameObjectName);
+    auto gameObjectName = std::string(pkg._data);
+    platformer_engine::Engine::GetInstance().GetActiveScene().RemoveObject(gameObjectName);
 }
 
 void platformer_engine::ClientNetworkManager::UpdateGameObjectTransform(const void *data, size_t length) {

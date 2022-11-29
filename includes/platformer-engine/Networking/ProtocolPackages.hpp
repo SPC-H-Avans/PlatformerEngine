@@ -55,9 +55,14 @@ namespace NetPkgs {
     };
 
     struct DestroyGameObject: MessageHeader {
-        std::string _gameObjectName;
+        char _data[MAX_CREATE_GAME_OBJECT_SIZE];
 
-        DestroyGameObject(const std::string& gameObjectName) : MessageHeader(NET_DESTROY_GAMEOBJECT), _gameObjectName(gameObjectName) {}
+        DestroyGameObject(const char* gameObjectId) : MessageHeader(NET_DESTROY_GAMEOBJECT) {
+            assert(gameObjectId);
+
+            strncpy(_data, gameObjectId, MAX_CREATE_GAME_OBJECT_SIZE);
+            _data[MAX_CREATE_GAME_OBJECT_SIZE - 1] = '\0';
+        }
     };
 
     struct UpdateGameObjectTransform : MessageHeader {

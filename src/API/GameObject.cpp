@@ -31,7 +31,7 @@ GameObject::GameObject(const std::string &name, const std::string& tag) : _tag(t
 
 bool GameObject::operator==(const spic::GameObject &other) { return _name==other._name; }
 
-bool GameObject::operator!=(const spic::GameObject &other) { return _name!=other._name; }
+auto GameObject::operator!=(const spic::GameObject &other) -> bool { return _name!=other._name; }
 
 GameObject::operator bool() { return true; } //Docs don't know what it is used for
 

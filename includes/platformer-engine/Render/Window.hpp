@@ -67,7 +67,6 @@ namespace platformer_engine {
         static inline auto GetTicks() -> Uint64 { return platformer_engine::GraphicsFacade::GetTicks(); };
 
     private:
-        std::shared_ptr<GraphicsFacade> _graphicsFacade{nullptr};
         spic::Scene _activeScene;
     };
 }//namespace platformer_engine

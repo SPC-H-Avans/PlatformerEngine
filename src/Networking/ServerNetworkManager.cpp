@@ -40,30 +40,9 @@ void platformer_engine::ServerNetworkManager::OnConnect(int clientId) {
 
     auto toSend = spic::GameObject::FindWithTag("Hatsa");
 
-    boost::asio::streambuf buf;
-    platformer_engine::NetworkingBuffer::ObjectToAsioBuffer<spic::GameObject>(*toSend.get(), buf);
-
-    //buffer to char[]
-    auto charPtr = buffer_cast<const char*>(buf.data());
-
-    auto pkg = NetPkgs::CreateGameObject(charPtr, buf.size());
-    SendUpdateToClients(&pkg, sizeof(pkg), true);
-
-
-    boost::asio::streambuf buf2;
-    spic::Transform transform;
-    transform.scale = 100.1;
-    transform.position.y = 40;
-    transform.rotation = 5.5;
-    platformer_engine::NetworkingBuffer::ObjectToAsioBuffer<spic::Transform>(transform, buf2);
-
-    auto charPtr2 = buffer_cast<const char*>(buf2.data());
-
-    auto pkg2 = NetPkgs::UpdateGameObjectTransform("Huts", charPtr2, buf2.size());
-    SendUpdateToClients(&pkg2, sizeof(pkg2), true);
-
-    auto pkg3 = NetPkgs::DestroyGameObject("Huts");
-    SendUpdateToClients(&pkg3, sizeof(pkg3), true);
+    CreateNetworkedGameObject(*toSend.get());
+    UpdateNetworkedGameObjectTransform(trans, "Huts");
+    DestroyNetworkedGameObject("Huts");
 }
 
 void platformer_engine::ServerNetworkManager::OnReceive(int clientId, const uint8_t *data, size_t dataLength) {
@@ -98,4 +77,30 @@ void platformer_engine::ServerNetworkManager::OnDisconnect(int clientId) {
 void platformer_engine::ServerNetworkManager::Events() {
     boost::asio::streambuf buf;
     _networkingFacade.HandleEvents(*this);
+}
+
+void platformer_engine::ServerNetworkManager::CreateNetworkedGameObject(const spic::GameObject &gameObjectToCreate) {
+    boost::asio::streambuf buf;
+    platformer_engine::NetworkingBuffer::ObjectToAsioBuffer<spic::GameObject>(gameObjectToCreate, buf);
+
+    auto charPtr = buffer_cast<const char*>(buf.data());
+
+    auto pkg = NetPkgs::CreateGameObject(charPtr, buf.size());
+    SendUpdateToClients(&pkg, sizeof(pkg), true);
+}
+
+void platformer_engine::ServerNetworkManager::UpdateNetworkedGameObjectTransform(const spic::Transform &transform,
+                                                                        const std::string &gameObjectId) {
+    boost::asio::streambuf buf;
+    platformer_engine::NetworkingBuffer::ObjectToAsioBuffer<spic::Transform>(transform, buf);
+
+    auto charPtr = buffer_cast<const char*>(buf.data());
+
+    auto pkg = NetPkgs::UpdateGameObjectTransform(gameObjectId.c_str(), charPtr, buf.size());
+    SendUpdateToClients(&pkg, sizeof(pkg), true);
+}
+
+void platformer_engine::ServerNetworkManager::DestroyNetworkedGameObject(const std::string& gameObjectId){
+    auto pkg = NetPkgs::DestroyGameObject(gameObjectId.c_str());
+    SendUpdateToClients(&pkg, sizeof(pkg), true);
 }

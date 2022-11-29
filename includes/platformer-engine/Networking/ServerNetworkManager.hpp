@@ -82,6 +82,26 @@ namespace platformer_engine {
          */
         void OnDisconnect(int clientId) override;
 
+
+#pragma region DefaultServerEvents
+        /**
+         * @brief Create a new network Game Object and send it to all clients
+         * @param gameObjectToCreate Game Object to create
+         */
+        void CreateNetworkedGameObject(const spic::GameObject &gameObjectToCreate);
+        /**
+         * @brief Update the transform of a networked Game Object
+         * @param transform New transform
+         * @param gameObjectId Game Object ID to update
+         */
+        void UpdateNetworkedGameObjectTransform(const spic::Transform& transform, const std::string& gameObjectId);
+        /**
+         * @brief Destroy a networked Game Object
+         * @param gameObjectId Game Object ID to destroy
+         */
+        void DestroyNetworkedGameObject(const std::string& gameObjectId);
+#pragma endregion DefaultServerEvents
+
     private:
         spic::Scene &_scene;
         NetworkingFacade _networkingFacade;

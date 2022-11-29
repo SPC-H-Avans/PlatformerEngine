@@ -20,16 +20,17 @@ jobs:
 
     steps:
       - uses: actions/checkout@v2
-      - name: Set up environment
+      - name: 'Set up environment'
         run: |
           sudo apt update
           sudo apt install -y libev-dev
-      - name: Install Valgrind
+
+      - name: 'Install Valgrind'
         if: ${{ env.RUN_MEMORY_CHECK == 'true' }}
         run: |
           sudo apt install valgrind
           echo "Valgrind installed"
-          
+
       - name: 'Install SDL2 dev'
         if: runner.os == 'Linux'
         run: |

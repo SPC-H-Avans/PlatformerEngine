@@ -4,8 +4,7 @@
 
 #define ROTATION_TO_FLIP 180.0f
 
-platformer_engine::AnimatedSprite::AnimatedSprite(std::string spriteId, int sortingLayer,
-                                                  int orderInLayer, int spriteWidth, int spriteHeight,
+platformer_engine::AnimatedSprite::AnimatedSprite(std::string spriteId, int spriteWidth, int spriteHeight, int sortingLayer, int orderInLayer,
                                                   int frameCount, int animationSpeed, int spriteRow, platformer_engine::SPIC_RendererFlip flip, spic::Color color, double spriteScale)
         : _frameCount(frameCount), _animationSpeed(animationSpeed), _currentFrame(0), _spriteRow(spriteRow), Sprite(std::move(spriteId), sortingLayer, orderInLayer, spriteWidth, spriteHeight, flip, color, spriteScale) {
 

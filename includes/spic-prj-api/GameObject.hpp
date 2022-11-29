@@ -352,8 +352,6 @@ namespace spic {
          */
         auto GetOwnerId() -> int;
 
-        GameObject();
-
     protected:
         std::string _name; //Unique
         std::string _tag;

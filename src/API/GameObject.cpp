@@ -5,19 +5,6 @@ using namespace spic;
 //Creates the static instances of GameObjects
 std::map<std::string, std::shared_ptr<GameObject>> GameObject::_instances;
 
-
-GameObject::GameObject() {
-    std::string objName = xg::newGuid();
-    if(_instances.count(objName) > 0)
-        objName += "- Copy";
-
-    this->_name = objName;
-    auto selfptr = std::make_shared<GameObject>(*this);
-    _self = selfptr;
-    selfptr->_self = selfptr;
-    _instances[objName] = selfptr;
-}
-
 GameObject::GameObject(const std::string &name) {
     std::string objName = name;
     if(_instances.count(name) > 0)

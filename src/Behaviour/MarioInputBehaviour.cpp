@@ -19,7 +19,7 @@ namespace platformer_engine {
             if (spic::Input::GetKey(spic::Input::KeyCode::RIGHT_ARROW)) {
                 point.x++;
             }
-            if (spic::Input::GetKey(spic::Input::KeyCode::UP_ARROW)) {
+            if (spic::Input::GetKey(spic::Input::KeyCode::UP_ARROW) || spic::Input::GetKey(spic::Input::KeyCode::SPACE)) {
                 point.y++;
             }
 

@@ -18,7 +18,7 @@ namespace platformer_engine {
         auto marioRigidBody = std::dynamic_pointer_cast<MarioRigidBody>(mario->GetComponent<RigidBody>());
         auto marioAnimator = std::dynamic_pointer_cast<Animator>(mario->GetComponent<Animator>());
         if (marioRigidBody != nullptr && marioAnimator != nullptr) {
-            if (marioRigidBody->YVelocity() > 0.1) {
+            if (marioRigidBody->YVelocity() != 0) {
                 marioAnimator->SetActiveAnimation(_jumpSprite->GetSpriteId());
             } else if (marioRigidBody->XVelocity() > 0.1 || marioRigidBody->XVelocity() < -0.1) {
                 marioAnimator->SetActiveAnimation(_walkSprite->GetSpriteId());

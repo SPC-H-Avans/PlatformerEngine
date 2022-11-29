@@ -102,6 +102,9 @@ namespace platformer_engine {
          * @param gameObjectId Game Object ID to destroy
          */
         void DestroyNetworkedGameObject(const std::string& gameObjectId);
+
+        void HandleGameObjectTransformEventFromClient(int clientId, const void *data, size_t length);
+
 #pragma endregion DefaultServerEvents
 
     private:
@@ -111,7 +114,6 @@ namespace platformer_engine {
         int _playerLimit;
 
 #pragma region HandlePacketsFromClient
-        void HandleGameObjectTransformEventFromClient(int clientId, const void *data, size_t length);
 
 #pragma endregion HandlePacketsFromClient
     };

@@ -48,6 +48,8 @@ protected:
     std::shared_ptr<GameObject> _mario;
     std::shared_ptr<GameObject> _block;
 
+    PhysicsSystem physics = PhysicsSystem();
+
     void SetBoxColliders();
 
     void UpdateBehaviours();
@@ -68,6 +70,7 @@ TEST_F(PhysicsTests, MarioDoesntFallThroughBlock) {
 
     // 3. Update mario's position
     UpdateBehaviours();
+    physics.Update();
 
     // 4. Assert that the Mario object's location has not been updated
     auto marioNextX = _mario->GetTransform().position.x;
@@ -101,6 +104,7 @@ TEST_F(PhysicsTests, MarioFallsUntilBlock) {
     // 4. Update the physics 50 times, Mario should only fall until the block and then stop moving
     for(int i = 0; i < 50; i++) {
         UpdateBehaviours();
+        physics.Update();
     }
 
     auto marioFinalY = _mario->GetTransform().position.y;

@@ -83,6 +83,8 @@ void platformer_engine::ClientNetworkManager::RemoveLocalClientFromGame(const vo
     throw spic::NotImplementedException();
 }
 
+#pragma region HandlePacketsFromServer
+
 void platformer_engine::ClientNetworkManager::CreateGameObject(const void *data, size_t length) {
     auto pkg = NetPkgs::CreateGameObject();
     memcpy(&pkg, data, length);
@@ -115,6 +117,10 @@ void platformer_engine::ClientNetworkManager::UpdateGameObjectTransform(const vo
     }
 }
 
+#pragma endregion HandlePacketsFromClient
+
+#pragma region DefaultServerEvents
+
 void platformer_engine::ClientNetworkManager::UpdateNetworkedGameObjectTransform(const Transform &transform,
                                                                                  const std::string &gameObjectId) {
     auto gameObject = spic::GameObject::Find(gameObjectId);
@@ -129,3 +135,5 @@ void platformer_engine::ClientNetworkManager::UpdateNetworkedGameObjectTransform
     auto pkg = NetPkgs::UpdateGameObjectTransform(gameObjectId.c_str(), charPtr, buf.size());
     SendNetworkPackage(&pkg, sizeof(pkg), false);
 }
+
+#pragma endregion DefaultServerEvents

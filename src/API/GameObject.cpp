@@ -5,6 +5,11 @@ using namespace spic;
 //Creates the static instances of GameObjects
 std::map<std::string, std::shared_ptr<GameObject>> GameObject::_instances;
 
+
+GameObject::GameObject() {
+
+}
+
 GameObject::GameObject(const std::string &name) {
     std::string objName = name;
     if(_instances.count(name) > 0)
@@ -148,6 +153,7 @@ void GameObject::SetOwnerId(int uid) {
 auto GameObject::GetOwnerId() -> int {
     return _self.lock()->_ownerId;
 }
+
 
 
 

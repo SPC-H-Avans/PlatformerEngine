@@ -11,7 +11,9 @@
 #include <memory>
 #include <map>
 #include <boost/serialization/access.hpp>
-
+#include <boost/serialization/map.hpp>
+#include <boost/serialization/vector.hpp>
+#include <boost/serialization/shared_ptr.hpp>
 
 namespace spic {
 
@@ -26,6 +28,10 @@ namespace spic {
             ar & _tag;
             ar & _active;
             ar & _transform;
+            ar & _layer;
+            ar & _components;
+            ar & _children;
+            ar & _ownerId;
         }
 
         /**
@@ -344,6 +350,8 @@ namespace spic {
          * @return int that represents the clientId in the network
          */
         auto GetOwnerId() -> int;
+
+        GameObject();
 
     protected:
         std::string _name; //Unique

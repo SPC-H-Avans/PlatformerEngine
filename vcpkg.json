@@ -2,6 +2,7 @@
   "name": "platformer-engine",
   "version-string": "latest",
   "dependencies": [
+    "crossguid",
     "sdl2",
     "sdl2-image",
     "sdl2-mixer",

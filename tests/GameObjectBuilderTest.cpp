@@ -23,7 +23,7 @@ TEST_F(GameObjectBuilderTest, DoesReturnGameObject) {
 TEST_F(GameObjectBuilderTest, IsAnimatorAdded) {
 
     GameObjectBuilder gameObjectBuilder = GameObjectBuilder("speler");
-    auto animatedSprite = std::make_shared<platformer_engine::AnimatedSprite>("mario_Jump", 1, 1, 24, 24, 3, 100, 1,
+    auto animatedSprite = std::make_shared<platformer_engine::AnimatedSprite>("mario_Jump", 24, 24, 3, 1, 1, 100, 1,
                                                                               platformer_engine::FLIP_NONE,
                                                                               Color::Transparent(), 4.0);
     gameObjectBuilder.AddAnimator(animatedSprite);
@@ -38,10 +38,10 @@ TEST_F(GameObjectBuilderTest, IsAnimatorAdded) {
 TEST_F(GameObjectBuilderTest, AreAnimatorsAdded) {
 
     GameObjectBuilder gameObjectBuilder = GameObjectBuilder("speler");
-    auto animatedSprite = std::make_shared<platformer_engine::AnimatedSprite>("mario_Jump", 1, 1, 24, 24, 3, 100, 1,
+    auto animatedSprite = std::make_shared<platformer_engine::AnimatedSprite>("mario_Jump", 24, 24, 3, 1, 1, 100, 1,
                                                                               platformer_engine::FLIP_NONE,
                                                                               Color::Transparent(), 4.0);
-    auto animatedSprite2 = std::make_shared<platformer_engine::AnimatedSprite>("mario_Jump2", 1, 1, 24, 24, 3, 100, 1,
+    auto animatedSprite2 = std::make_shared<platformer_engine::AnimatedSprite>("mario_Jump2", 24, 24, 3, 1, 1, 100, 1,
                                                                                platformer_engine::FLIP_NONE,
                                                                                Color::Transparent(), 4.0);
 

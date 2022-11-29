@@ -8,7 +8,6 @@ on:
   pull_request:
 
 env:
-  VCPKG_DEFAULT_TRIPLET: ${{ matrix.triplet }}
   RUN_MEMORY_CHECK: true
 
 jobs:
@@ -21,6 +20,9 @@ jobs:
         include:
           - os: self-hosted-linux-x64
             triplet: x64-linux
+
+    env:
+      VCPKG_DEFAULT_TRIPLET: ${{ matrix.triplet }}
 
     steps:
       - name: 'Install SDL2 dev'

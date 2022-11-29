@@ -66,7 +66,7 @@ TEST_F(GameObjectBuilderTest, AreAnimatorsAdded) {
 TEST_F(GameObjectBuilderTest, CanAddSprite) {
     GameObjectBuilder gameObjectBuilder = GameObjectBuilder("speler");
 
-    auto spritePtr = std::make_shared<spic::Sprite>("mario_Jump", 1, 1, 24, 24,
+    auto spritePtr = std::make_shared<spic::Sprite>("mario_Jump", 24, 24, 1, 1,
                                                     platformer_engine::FLIP_NONE,
                                                     Color::Transparent(), 4.0);
     gameObjectBuilder.AddSprite(spritePtr);

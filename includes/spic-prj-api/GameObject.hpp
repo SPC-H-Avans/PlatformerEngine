@@ -20,7 +20,7 @@ namespace spic {
     class GameObject {
     public:
         /**
-         * @brief Finds a GameObject by name and returns it.
+         * @brief Finds an active GameObject by name and returns it.
          * @param name The name of the GameObject you want to find.
          * @return Pointer to GameObject, or nullptr if not found.
          * @spicapi
@@ -114,6 +114,9 @@ namespace spic {
          * @spicapi
          */
         GameObject(const std::string &name, const std::string &tag);
+
+
+        GameObject& operator=(const GameObject& other);
 
         /**
          * @brief Does the object exist? TODO wat wordt hiermee bedoeld?

@@ -44,31 +44,41 @@ namespace NetPkgs {
 
         CreateGameObject(const char* data, size_t gameObjectDataLength)
                 : MessageHeader(NET_CREATE_GAMEOBJECT), _gameObjectDataLength(gameObjectDataLength) {
-            for(int i = 0; i < MAX_CREATE_GAME_OBJECT_SIZE; i++)
-                if(i < gameObjectDataLength) {
+            for(int i = 0; i < MAX_CREATE_GAME_OBJECT_SIZE; i++) {
+                if (i < gameObjectDataLength) {
                     _data[i] = data[i];
-                }
-                else {
+                } else {
                     _data[i] = 0;
                 }
+            }
         }
     };
 
     struct DestroyGameObject: MessageHeader {
-        char _data[MAX_CREATE_GAME_OBJECT_SIZE];
+        char _data[MAX_GAME_OBJECT_NAME_SIZE];
 
         DestroyGameObject(const char* gameObjectId) : MessageHeader(NET_DESTROY_GAMEOBJECT) {
             assert(gameObjectId);
 
-            strncpy(_data, gameObjectId, MAX_CREATE_GAME_OBJECT_SIZE);
-            _data[MAX_CREATE_GAME_OBJECT_SIZE - 1] = '\0';
+            strncpy(_data, gameObjectId, MAX_GAME_OBJECT_NAME_SIZE);
+            _data[MAX_GAME_OBJECT_NAME_SIZE - 1] = '\0';
         }
     };
 
     struct UpdateGameObjectTransform : MessageHeader {
-        spic::Transform _transform;
-        std::string _gameObjectName;
-        UpdateGameObjectTransform(const std::string& gameObjectName, const spic::Transform& transform) : MessageHeader(NET_UPDATE_GAMEOBJECT_TRANSFORM), _gameObjectName(gameObjectName), _transform(transform) {}
+        char _gameObjectId[MAX_GAME_OBJECT_NAME_SIZE];
+        char _data[MAX_UPDATE_TRANSFORM_SIZE];
+        UpdateGameObjectTransform(const char* gameObjectId, const char* data, size_t dataLength) : MessageHeader(NET_UPDATE_GAMEOBJECT_TRANSFORM) {
+            for(int i = 0; i < MAX_UPDATE_TRANSFORM_SIZE; i++) {
+                if (i < dataLength) {
+                    _data[i] = data[i];
+                } else {
+                    _data[i] = 0;
+                }
+            }
+            strncpy(_gameObjectId, gameObjectId, MAX_GAME_OBJECT_NAME_SIZE);
+            _data[MAX_GAME_OBJECT_NAME_SIZE - 1] = '\0';
+        }
     };
 
 #pragma endregion GameObjects

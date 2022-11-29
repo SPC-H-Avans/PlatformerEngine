@@ -49,8 +49,21 @@ void platformer_engine::ServerNetworkManager::OnConnect(int clientId) {
     auto pkg = NetPkgs::CreateGameObject(charPtr, buf.size());
     SendUpdateToClients(&pkg, sizeof(pkg), true);
 
-    auto pkg2 = NetPkgs::DestroyGameObject("Huts");
+
+    boost::asio::streambuf buf2;
+    spic::Transform transform;
+    transform.scale = 100.1;
+    transform.position.y = 40;
+    transform.rotation = 5.5;
+    platformer_engine::NetworkingBuffer::ObjectToAsioBuffer<spic::Transform>(transform, buf2);
+
+    auto charPtr2 = buffer_cast<const char*>(buf2.data());
+
+    auto pkg2 = NetPkgs::UpdateGameObjectTransform("Huts", charPtr2, buf2.size());
     SendUpdateToClients(&pkg2, sizeof(pkg2), true);
+
+    auto pkg3 = NetPkgs::DestroyGameObject("Huts");
+    SendUpdateToClients(&pkg3, sizeof(pkg3), true);
 }
 
 void platformer_engine::ServerNetworkManager::OnReceive(int clientId, const uint8_t *data, size_t dataLength) {

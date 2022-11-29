@@ -12,8 +12,19 @@ platformer_engine::ServerNetworkManager::ServerNetworkManager(spic::Scene &scene
     _networkingFacade.StartServer(port, playerLimit);
     for (auto &item: _scene.GetAllObjects()) {
         item->SetOwnerId(_networkingFacade.GetMyPeerId());
-
     }
+
+    std::function<void(int clientId, const uint8_t *data, size_t dataLength)> receivePing = [this](int clientId, const uint8_t *data, size_t dataLength) {
+        spic::Debug::Log("Ping received from server!");
+    };
+    _eventMap[NET_REQUEST_PING] = receivePing;
+
+
+    std::function<void(int clientId, const uint8_t *data, size_t dataLength)> handleGameObjectTransformEventFromClient = [this](int clientId, const uint8_t *data, size_t dataLength) {
+        HandleGameObjectTransformEventFromClient(clientId, data, dataLength);
+    };
+    _eventMap[NET_UPDATE_GAMEOBJECT_TRANSFORM] = handleGameObjectTransformEventFromClient;
+
 }
 
 void platformer_engine::ServerNetworkManager::SendUpdateToClients(const void *data, size_t dataLength, bool reliable) {
@@ -57,17 +68,12 @@ void platformer_engine::ServerNetworkManager::OnReceive(int clientId, const uint
         //Handle bad networking version
         throw spic::NotImplementedException();
     }
-    switch (messageType) {
-        case NET_REQUEST_PING:
-            spic::Debug::Log("Ping received from client!");
-        case NET_UPDATE_GAMEOBJECT_TRANSFORM:
-            HandleGameObjectTransformEventFromClient(clientId, data, dataLength);
-            break;
-        default:
-            spic::Debug::LogWarning("Unknown message from server: " + std::to_string(messageType));
-            break;
+    if(_eventMap.contains(messageType)){
+        _eventMap[messageType](clientId, data, dataLength);
     }
-    throw spic::NotImplementedException();
+    else{
+        spic::Debug::LogWarning(std::to_string(messageType) + " is not a registered event in the server network manager!");
+    }
 }
 
 void platformer_engine::ServerNetworkManager::OnDisconnect(int clientId) {
@@ -131,6 +137,11 @@ platformer_engine::ServerNetworkManager::HandleGameObjectTransformEventFromClien
     }
     gameObject->SetTransform(transform);
     UpdateNetworkedGameObjectTransform(transform, gameObjectId);
+}
+
+void
+platformer_engine::ServerNetworkManager::RegisterEventHandler(int eventID, std::function<void(int clientId, const uint8_t *data, size_t dataLength)> functionToCall) {
+    _eventMap[eventID] = functionToCall;
 }
 
 #pragma endregion HandlePacketsFromClient

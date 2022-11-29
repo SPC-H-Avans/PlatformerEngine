@@ -82,6 +82,8 @@ namespace platformer_engine {
          */
         void OnDisconnect(int clientId) override;
 
+        void RegisterEventHandler(int eventID, std::function<void(int clientId, const uint8_t *data, size_t dataLength)> functionToCall) override;
+
 
 #pragma region DefaultServerEvents
         /**
@@ -105,6 +107,7 @@ namespace platformer_engine {
     private:
         spic::Scene &_scene;
         NetworkingFacade _networkingFacade;
+        std::map<int, std::function<void(int clientId, const uint8_t *data, size_t dataLength)>> _eventMap;
         int _playerLimit;
 
 #pragma region HandlePacketsFromClient

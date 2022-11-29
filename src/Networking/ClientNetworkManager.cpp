@@ -9,7 +9,37 @@
 #include "Engine/Engine.hpp"
 #include "Utility/NetworkingBuffer.hpp"
 
-platformer_engine::ClientNetworkManager::ClientNetworkManager() {}
+platformer_engine::ClientNetworkManager::ClientNetworkManager() {
+    std::function<void(int clientId, const uint8_t *data, size_t dataLength)> removeLocalClientFromGame = [this](int clientId, const uint8_t *data, size_t dataLength) {
+        RemoveLocalClientFromGame(data, dataLength);
+    };
+    _eventMap[NET_KICK_CLIENT] = removeLocalClientFromGame;
+
+    std::function<void(int clientId, const uint8_t *data, size_t dataLength)> receivePing = [this](int clientId, const uint8_t *data, size_t dataLength) {
+        spic::Debug::Log("Ping received from server!");
+    };
+    _eventMap[NET_REQUEST_PING] = receivePing;
+
+    std::function<void(int clientId, const uint8_t *data, size_t dataLength)> kickClient = [this](int clientId, const uint8_t *data, size_t dataLength) {
+        RemoveLocalClientFromGame(data, dataLength);
+    };
+    _eventMap[NET_KICK_CLIENT] = kickClient;
+
+    std::function<void(int clientId, const uint8_t *data, size_t dataLength)> createGameObject = [this](int clientId, const uint8_t *data, size_t dataLength) {
+        CreateGameObject(data, dataLength);
+    };
+    _eventMap[NET_CREATE_GAMEOBJECT] = createGameObject;
+
+    std::function<void(int clientId, const uint8_t *data, size_t dataLength)> destroyGameObject = [this](int clientId, const uint8_t *data, size_t dataLength) {
+        DestroyGameObject(data, dataLength);
+    };
+    _eventMap[NET_DESTROY_GAMEOBJECT] = destroyGameObject;
+
+    std::function<void(int clientId, const uint8_t *data, size_t dataLength)> updateGameObjectTransform = [this](int clientId, const uint8_t *data, size_t dataLength) {
+        UpdateGameObjectTransform(data, dataLength);
+    };
+    _eventMap[NET_UPDATE_GAMEOBJECT_TRANSFORM] = updateGameObjectTransform;
+}
 
 void platformer_engine::ClientNetworkManager::ConnectToServer(const std::string &ip, int port) {
     _networkingFacade.ConnectClient(ip, port, *this);
@@ -44,27 +74,17 @@ void platformer_engine::ClientNetworkManager::OnReceive(int clientId, const uint
         //Handle bad networking version
         throw spic::NotImplementedException();
     }
-    switch (messageType) {
-        case NET_REQUEST_PING:
-            spic::Debug::Log("Ping received from server!");
-            break;
-        case NET_KICK_CLIENT:
-            RemoveLocalClientFromGame(data, dataLength);
-            break;
-        case NET_CREATE_GAMEOBJECT:
-            CreateGameObject(data, dataLength);
-            break;
-        case NET_DESTROY_GAMEOBJECT:
-            DestroyGameObject(data, dataLength);
-            break;
-        case NET_UPDATE_GAMEOBJECT_TRANSFORM:
-            UpdateGameObjectTransform(data, dataLength);
-            break;
-        default:
-            spic::Debug::LogWarning("Unknown message from server: " + std::to_string(messageType));
-            break;
+    if(_eventMap.contains(messageType)){
+        _eventMap[messageType](clientId, data, dataLength);
     }
-    //throw spic::NotImplementedException();
+    else{
+        spic::Debug::LogWarning(std::to_string(messageType) + " is not a registered event in the client network manager!");
+    }
+}
+
+void
+platformer_engine::ClientNetworkManager::RegisterEventHandler(int eventID, std::function<void(int clientId, const uint8_t *data, size_t dataLength)> functionToCall) {
+    _eventMap[eventID] = functionToCall;
 }
 
 void platformer_engine::ClientNetworkManager::OnDisconnect(int clientId) {

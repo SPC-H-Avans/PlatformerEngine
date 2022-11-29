@@ -93,6 +93,8 @@ namespace platformer_engine {
 
         auto GetServerNetworkManager() -> ServerNetworkManager &;
 
+        auto GetClientNetworkManager() -> ClientNetworkManager &;
+
         void HostServer(const std::string &sceneId, int playerLimit, int port);
 
         void JoinServer(const std::string &ip, int port);

@@ -7,6 +7,7 @@
 #include "ProtocolPackages.hpp"
 #include "Networking/INetworkManager.hpp"
 #include "Facade/NetworkingFacade.hpp"
+#include <map>
 #include <cstring>
 
 class Engine;
@@ -92,6 +93,8 @@ namespace platformer_engine {
          */
         void OnDisconnect(int clientId) override;
 
+        void RegisterEventHandler(int eventID, std::function<void(int clientId, const uint8_t *data, size_t dataLength)> functionToCall) override;
+
 #pragma region DefaultClientEvents
         /**
          * @brief Update the transform of a Game Object (Only if this client owns the object)
@@ -105,6 +108,7 @@ void UpdateNetworkedGameObjectTransform(const spic::Transform &transform,
     private:
         int _localPlayerId;
         bool _isPartyleader;
+        std::map<int, std::function<void(int clientId, const uint8_t *data, size_t dataLength)>> _eventMap;
         ConnectionStatus _connectionStatus = ConnectionStatus::Disconnected;
         NetworkingFacade _networkingFacade;
 

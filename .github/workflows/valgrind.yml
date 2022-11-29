@@ -30,11 +30,12 @@ jobs:
           sudo apt install valgrind
           echo "Valgrind installed"
           
-            - name: 'Install SDL2 dev'
+      - name: 'Install SDL2 dev'
         if: runner.os == 'Linux'
         run: |
           sudo apt-get update
           sudo apt-get install -y libsdl2-dev
+
       - name: 'Checkout'
         uses: actions/checkout@v2
         with:

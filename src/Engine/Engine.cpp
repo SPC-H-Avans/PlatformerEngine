@@ -4,6 +4,7 @@
 #include "Exceptions/ServerAlreadyActiveException.hpp"
 #include "Exceptions/ClientAlreadyActiveException.hpp"
 #include "Exceptions/SceneNotLoadedException.hpp"
+#include "Exceptions/NoClientNetworkManagerActiveException.hpp"
 #include <thread>
 
 const int TARGET_FPS = 60;
@@ -100,6 +101,11 @@ auto platformer_engine::Engine::GetActiveScene() -> spic::Scene & {
 auto platformer_engine::Engine::GetServerNetworkManager() -> platformer_engine::ServerNetworkManager & {
     if (_serverNetworkManager == nullptr) throw spic::NoServerNetworkManagerActiveException();
     return _serverNetworkManager.operator*();
+}
+
+auto platformer_engine::Engine::GetClientNetworkManager() -> platformer_engine::ClientNetworkManager & {
+    if (_clientNetworkManager == nullptr) throw spic::NoClientNetworkManagerActiveException();
+    return _clientNetworkManager.operator*();
 }
 
 void platformer_engine::Engine::HostServer(const std::string &sceneId, int playerLimit, int port) {

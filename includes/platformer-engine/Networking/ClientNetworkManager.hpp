@@ -1,11 +1,16 @@
 #ifndef PLATFORMER_ENGINE_CLIENTNETWORKMANAGER_HPP
 #define PLATFORMER_ENGINE_CLIENTNETWORKMANAGER_HPP
 
+#pragma once
+
 #include "GameObject.hpp"
 #include "ProtocolPackages.hpp"
 #include "Networking/INetworkManager.hpp"
 #include "Facade/NetworkingFacade.hpp"
+#include <map>
 #include <cstring>
+
+class Engine;
 
 namespace platformer_engine {
     /**
@@ -88,13 +93,35 @@ namespace platformer_engine {
          */
         void OnDisconnect(int clientId) override;
 
+        void RegisterEventHandler(int eventID, std::function<void(int clientId, const uint8_t *data, size_t dataLength)> functionToCall) override;
+
+#pragma region DefaultClientEvents
+        /**
+         * @brief Update the transform of a Game Object (Only if this client owns the object)
+         * @param transform New transform
+         * @param gameObjectId Game Object ID of the object to update
+         */
+void UpdateNetworkedGameObjectTransform(const spic::Transform &transform,
+                                        const std::string &gameObjectId);
+#pragma endregion DefaultClientEvents
+
     private:
         int _localPlayerId;
         bool _isPartyleader;
+        std::map<int, std::function<void(int clientId, const uint8_t *data, size_t dataLength)>> _eventMap;
         ConnectionStatus _connectionStatus = ConnectionStatus::Disconnected;
         NetworkingFacade _networkingFacade;
 
+#pragma region HandleIncomingPackets
         void RemoveLocalClientFromGame(const void *data, size_t dataLength);
+
+        void CreateGameObject(const void *data, size_t length);
+
+        void DestroyGameObject(const void *data, size_t length);
+
+        void UpdateGameObjectTransform(const void *data, size_t length);
+
+#pragma endregion HandleIncomingPackets
     };
-}
+}  // namespace platformer_engine
 #endif //PLATFORMER_ENGINE_CLIENTNETWORKMANAGER_HPP

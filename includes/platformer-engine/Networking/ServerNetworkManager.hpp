@@ -82,10 +82,40 @@ namespace platformer_engine {
          */
         void OnDisconnect(int clientId) override;
 
+        void RegisterEventHandler(int eventID, std::function<void(int clientId, const uint8_t *data, size_t dataLength)> functionToCall) override;
+
+
+#pragma region DefaultServerEvents
+        /**
+         * @brief Create a new network Game Object and send it to all clients
+         * @param gameObjectToCreate Game Object to create
+         */
+        void CreateNetworkedGameObject(const spic::GameObject &gameObjectToCreate);
+        /**
+         * @brief Update the transform of a networked Game Object
+         * @param transform New transform
+         * @param gameObjectId Game Object ID to update
+         */
+        void UpdateNetworkedGameObjectTransform(const spic::Transform& transform, const std::string& gameObjectId);
+        /**
+         * @brief Destroy a networked Game Object
+         * @param gameObjectId Game Object ID to destroy
+         */
+        void DestroyNetworkedGameObject(const std::string& gameObjectId);
+
+        void HandleGameObjectTransformEventFromClient(int clientId, const void *data, size_t length);
+
+#pragma endregion DefaultServerEvents
+
     private:
         spic::Scene &_scene;
         NetworkingFacade _networkingFacade;
+        std::map<int, std::function<void(int clientId, const uint8_t *data, size_t dataLength)>> _eventMap;
         int _playerLimit;
+
+#pragma region HandlePacketsFromClient
+
+#pragma endregion HandlePacketsFromClient
     };
 }  // namespace platformer_engine
 #endif //PLATFORMER_ENGINE_SERVERNETWORKMANAGER_HPP

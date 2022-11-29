@@ -21,18 +21,6 @@ jobs:
             triplet: x64-linux
 
     steps:
-      - uses: actions/checkout@v2
-      - name: 'Set up environment'
-        run: |
-          sudo apt update
-          sudo apt install -y libev-dev
-
-      - name: 'Install Valgrind'
-        if: ${{ env.RUN_MEMORY_CHECK == 'true' }}
-        run: |
-          sudo apt install valgrind -y
-          echo "Valgrind installed"
-
       - name: 'Install SDL2 dev'
         if: runner.os == 'Linux'
         run: |
@@ -44,6 +32,12 @@ jobs:
         with:
           token: ${{ secrets.PAT }}
           submodules: recursive
+
+      - uses: actions/checkout@v2
+      - name: 'Set up environment'
+        run: |
+          sudo apt update
+          sudo apt install -y libev-dev
 
       - name: 'Install CMake'
         uses: lukka/get-cmake@latest
@@ -57,6 +51,12 @@ jobs:
           configurePreset: ninja-multi-vcpkg
           buildPreset: ninja-multi-vcpkg
           testPreset: ninja-multi-vcpkg
+
+      - name: 'Install Valgrind'
+        if: ${{ env.RUN_MEMORY_CHECK == 'true' }}
+        run: |
+          sudo apt install valgrind -y
+          echo "Valgrind installed"
 
       - name: 'Run executable'
         run: |

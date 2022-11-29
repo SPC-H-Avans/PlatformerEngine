@@ -83,7 +83,7 @@ void platformer_engine::ClientNetworkManager::RemoveLocalClientFromGame(const vo
 }
 
 void platformer_engine::ClientNetworkManager::CreateGameObject(const void *data, size_t length) {
-    auto pkg = NetPkgs::CreateGameObject(nullptr, 0);
+    auto pkg = NetPkgs::CreateGameObject();
     memcpy(&pkg, data, length);
     spic::GameObject gameObject("Null", "Null");
 
@@ -94,21 +94,21 @@ void platformer_engine::ClientNetworkManager::CreateGameObject(const void *data,
 }
 
 void platformer_engine::ClientNetworkManager::DestroyGameObject(const void *data, size_t length) {
-    auto pkg = NetPkgs::DestroyGameObject("");
+    auto pkg = NetPkgs::DestroyGameObject();
     memcpy(&pkg, data, length);
     auto gameObjectName = std::string(pkg._data);
     platformer_engine::Engine::GetInstance().GetActiveScene().RemoveObject(gameObjectName);
 }
 
 void platformer_engine::ClientNetworkManager::UpdateGameObjectTransform(const void *data, size_t length) {
-    auto pkg = NetPkgs::UpdateGameObjectTransform("", nullptr, 0);
+    auto pkg = NetPkgs::UpdateGameObjectTransform();
     memcpy(&pkg, data, length);
     spic::Transform transform;
 
     platformer_engine::NetworkingBuffer::ParseIncomingDataToObject<spic::Transform>(pkg._data, MAX_UPDATE_TRANSFORM_SIZE, transform);
     std::string gameObjectId = std::string(pkg._gameObjectId);
 
-    auto gameObject=  platformer_engine::Engine::GetInstance().GetActiveScene().GetObjectByName(gameObjectId);
+    auto gameObject =  platformer_engine::Engine::GetInstance().GetActiveScene().GetObjectByName(gameObjectId);
     if(gameObject != nullptr){
         gameObject->SetTransform(transform);
     }

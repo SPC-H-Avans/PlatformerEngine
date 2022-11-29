@@ -42,6 +42,8 @@ namespace NetPkgs {
         size_t _gameObjectDataLength;
         char _data[MAX_CREATE_GAME_OBJECT_SIZE];
 
+        CreateGameObject() : MessageHeader(NET_CREATE_GAMEOBJECT) {}
+
         CreateGameObject(const char* data, size_t gameObjectDataLength)
                 : MessageHeader(NET_CREATE_GAMEOBJECT), _gameObjectDataLength(gameObjectDataLength) {
             for(int i = 0; i < MAX_CREATE_GAME_OBJECT_SIZE; i++) {
@@ -57,6 +59,8 @@ namespace NetPkgs {
     struct DestroyGameObject: MessageHeader {
         char _data[MAX_GAME_OBJECT_NAME_SIZE];
 
+        DestroyGameObject() : MessageHeader(NET_DESTROY_GAMEOBJECT) {}
+
         DestroyGameObject(const char* gameObjectId) : MessageHeader(NET_DESTROY_GAMEOBJECT) {
             assert(gameObjectId);
 
@@ -68,6 +72,9 @@ namespace NetPkgs {
     struct UpdateGameObjectTransform : MessageHeader {
         char _gameObjectId[MAX_GAME_OBJECT_NAME_SIZE];
         char _data[MAX_UPDATE_TRANSFORM_SIZE];
+
+        UpdateGameObjectTransform() : MessageHeader(NET_UPDATE_GAMEOBJECT_TRANSFORM) {}
+
         UpdateGameObjectTransform(const char* gameObjectId, const char* data, size_t dataLength) : MessageHeader(NET_UPDATE_GAMEOBJECT_TRANSFORM) {
             for(int i = 0; i < MAX_UPDATE_TRANSFORM_SIZE; i++) {
                 if (i < dataLength) {
@@ -79,6 +86,7 @@ namespace NetPkgs {
             strncpy(_gameObjectId, gameObjectId, MAX_GAME_OBJECT_NAME_SIZE);
             _data[MAX_GAME_OBJECT_NAME_SIZE - 1] = '\0';
         }
+
     };
 
 #pragma endregion GameObjects

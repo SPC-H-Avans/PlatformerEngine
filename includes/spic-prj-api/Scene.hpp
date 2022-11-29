@@ -26,7 +26,7 @@ namespace spic {
          * @param gameObject Game Object shared pointer
          * @spicapi
          */
-        void AddObject(const std::shared_ptr<GameObject> &gameObject);
+        void AddObject(GameObject &gameObject);
 
         /**
          * @brief Remove a Game Object from this scene by name
@@ -69,7 +69,7 @@ namespace spic {
          * @param camera Camera shared pointer
          * @spicapi
          */
-        void AddCamera(const std::shared_ptr<Camera> &camera);
+        void AddCamera(Camera &camera);
 
         /**
          * @brief Get a camera by name from this scene

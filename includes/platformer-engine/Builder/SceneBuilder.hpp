@@ -19,21 +19,21 @@ namespace platformer_engine {
          * @param gameObject Game Object to add to the scene
          * @return SceneBuilder Modified Scene Builder
          */
-        auto AddGameObject(const std::shared_ptr<spic::GameObject> &gameObject) -> SceneBuilder &;
+        auto AddGameObject(spic::GameObject &gameObject) -> SceneBuilder &;
 
         /**
          * @brief Add a vector of Game Objects to the scene
          * @param gameObjects Vector of Game Objects
          * @return SceneBuilder Modified Scene Builder
          */
-        auto AddGameObjects(const std::vector<std::shared_ptr<spic::GameObject>> &gameObjects) -> SceneBuilder &;
+        auto AddGameObjects(std::vector<spic::GameObject> &gameObjects) -> SceneBuilder &;
 
         /**
          * @brief Add a new Camera to the scene
          * @param camera Camera to add to the scene
          * @return SceneBuilder Modified Scene Builder
          */
-        auto AddCamera(const std::shared_ptr<spic::Camera> &camera) -> SceneBuilder &;
+        auto AddCamera(spic::Camera &camera) -> SceneBuilder &;
 
         /**
          * @brief Finalize the scene and retrieve it

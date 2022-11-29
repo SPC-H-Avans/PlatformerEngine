@@ -45,11 +45,11 @@ void spic::Scene::RenderGameObjects() {
     }
 }
 
-void spic::Scene::AddObject(const std::shared_ptr<GameObject> &gameObject) {
-    if (GetObjectByName(gameObject->GetName()) != nullptr) {
-        throw GameObjectAlreadyInSceneException(gameObject->GetName());
+void spic::Scene::AddObject(GameObject &gameObject) {
+    if (GetObjectByName(gameObject.GetName()) != nullptr) {
+        throw GameObjectAlreadyInSceneException(gameObject.GetName());
     }
-    _contents.push_back(gameObject);
+    _contents.push_back(std::make_shared<GameObject>(gameObject));
 }
 
 void spic::Scene::ImportLevel(const std::string &id, const std::string &filePath, const std::string &fileName) {
@@ -77,15 +77,16 @@ auto spic::Scene::GetObjectByName(const std::string &name) -> std::shared_ptr<sp
     return nullptr;
 }
 
-void spic::Scene::AddCamera(const std::shared_ptr<Camera> &camera) {
-    if (GetCameraByName(camera->GetName()) != nullptr) {
-        throw GameObjectAlreadyInSceneException(camera->GetName());
+void spic::Scene::AddCamera(Camera &camera) {
+    if (GetCameraByName(camera.GetName()) != nullptr) {
+        throw GameObjectAlreadyInSceneException(camera.GetName());
     }
 
-    _cameras.push_back(camera);
+    auto sharedCamera = std::make_shared<Camera>(camera);
+    _cameras.push_back(sharedCamera);
 
     if (_activeCamera == nullptr) {
-        _activeCamera = camera;
+        _activeCamera = sharedCamera;
     }
 }
 

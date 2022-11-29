@@ -8,7 +8,7 @@ on:
   pull_request:
 
 env:
-  RUN_MEMORY_CHECK: ${{ (github.base_ref == 'main') || ((secrets.RUN_MEMORY_CHECK == 'true') }}
+  RUN_MEMORY_CHECK: true
 jobs:
   build:
     name: Build (${{ matrix.os }})

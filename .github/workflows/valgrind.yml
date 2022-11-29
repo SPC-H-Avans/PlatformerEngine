@@ -51,6 +51,8 @@ jobs:
           configurePreset: ninja-multi-vcpkg
           buildPreset: ninja-multi-vcpkg
           testPreset: ninja-multi-vcpkg
+        env:
+          COVERAGE: 1
 
       - name: 'Run executable'
         run: |

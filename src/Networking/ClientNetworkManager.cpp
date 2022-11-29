@@ -7,6 +7,7 @@
 #include "Exceptions/NotImplementedException.hpp"
 #include "Debug.hpp"
 #include "Engine/Engine.hpp"
+#include "Utility/NetworkingBuffer.hpp"
 
 platformer_engine::ClientNetworkManager::ClientNetworkManager() {}
 
@@ -86,21 +87,7 @@ void platformer_engine::ClientNetworkManager::CreateGameObject(const void *data,
     memcpy(&pkg, data, length);
     spic::GameObject gameObject("Null", "Null");
 
-    boost::asio::streambuf sb;
-
-    boost::asio::streambuf::mutable_buffers_type bufs = sb.prepare(256);
-    auto it = boost::asio::buffers_begin(bufs);
-
-    it = std::copy_n(pkg._data, sizeof(pkg._data), it);
-
-    sb.commit(sizeof(pkg._data));
-
-    boost::archive::binary_iarchive in_archive(sb);
-    std::istream is(&sb);
-
-    in_archive >> gameObject;
-
-
+    platformer_engine::NetworkingBuffer::ParseIncomingDataToObject<spic::GameObject>(pkg._data, MAX_CREATE_GAME_OBJECT_SIZE, gameObject);
 
     //Engine::GetInstance().GetActiveScene().AddObject(gameObject);
 }

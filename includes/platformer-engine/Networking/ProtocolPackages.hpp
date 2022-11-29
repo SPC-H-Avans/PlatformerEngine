@@ -40,15 +40,17 @@ namespace NetPkgs {
 
     struct CreateGameObject : MessageHeader {
         size_t _gameObjectDataLength;
-        char _data[256];
+        char _data[MAX_CREATE_GAME_OBJECT_SIZE];
 
         CreateGameObject(const char* data, size_t gameObjectDataLength)
                 : MessageHeader(NET_CREATE_GAMEOBJECT), _gameObjectDataLength(gameObjectDataLength) {
-            for(int i =0; i < 256; i++)
-                if(i < gameObjectDataLength)
+            for(int i = 0; i < MAX_CREATE_GAME_OBJECT_SIZE; i++)
+                if(i < gameObjectDataLength) {
                     _data[i] = data[i];
-                else
+                }
+                else {
                     _data[i] = 0;
+                }
         }
     };
 

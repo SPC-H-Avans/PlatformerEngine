@@ -1,6 +1,7 @@
 
 #include "Networking/ServerNetworkManager.hpp"
 #include "Exceptions/NotImplementedException.hpp"
+#include "Utility/NetworkingBuffer.hpp"
 #include <boost/archive/binary_oarchive.hpp>
 #include <boost/serialization/serialization.hpp>
 #include <boost/asio.hpp>
@@ -40,10 +41,7 @@ void platformer_engine::ServerNetworkManager::OnConnect(int clientId) {
     auto toSend = spic::GameObject::FindWithTag("Hatsa");
 
     boost::asio::streambuf buf;
-    std::ostream os(&buf);
-    boost::archive::binary_oarchive out_archive(os);
-    spic::GameObject send = *toSend.get();
-    out_archive <<  send;
+    platformer_engine::NetworkingBuffer::ObjectToAsioBuffer<spic::GameObject>(*toSend.get(), buf);
 
     //buffer to char[]
     auto charPtr = buffer_cast<const char*>(buf.data());

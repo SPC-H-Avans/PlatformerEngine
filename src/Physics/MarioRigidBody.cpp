@@ -4,23 +4,30 @@
 #include "Physics/Collision.hpp"
 #include "GameObject.hpp"
 
-void MarioRigidBody::AddForce(const spic::Point& forceDirection) {
+void MarioRigidBody::AddForce(const spic::Point& force) {
 
-    if(forceDirection.x < 0 && CanMoveTo(CollisionPoint::Left)) { // Move left
-        _horizontalSpeed = std::max(_horizontalSpeed - MARIO_ACCELERATION, -MARIO_WALK_SPEED);
-    }
-    else if(forceDirection.x > 0 && CanMoveTo(CollisionPoint::Right)) { // Move right
-        _horizontalSpeed = std::min(_horizontalSpeed + MARIO_ACCELERATION, MARIO_WALK_SPEED);
-    }
+    auto x_acceleration = force.x / _mass;
+    _velocity.x += x_acceleration;
 
-    if(_horizontalSpeed < 0 && forceDirection.x >= 0) { // Slow down mario when gliding to the left
-        _horizontalSpeed += MARIO_ACCELERATION / 7;
-    }
-    else if(_horizontalSpeed > 0 && forceDirection.x <= 0) { // Slow down mario when gliding to the right
-        _horizontalSpeed -= MARIO_ACCELERATION / 7;
-    }
+//    if(force.x < 0 && CanMoveTo(CollisionPoint::Left)) { // Move left
+//
+//
+//
+//
+//        _horizontalSpeed = std::max(_horizontalSpeed - MARIO_ACCELERATION, -MARIO_WALK_SPEED);
+//    }
+//    else if(force.x > 0 && CanMoveTo(CollisionPoint::Right)) { // Move right
+//        _horizontalSpeed = std::min(_horizontalSpeed + MARIO_ACCELERATION, MARIO_WALK_SPEED);
+//    }
+//
+//    if(_horizontalSpeed < 0 && force.x >= 0) { // Slow down mario when gliding to the left
+//        _horizontalSpeed += MARIO_ACCELERATION / 7;
+//    }
+//    else if(_horizontalSpeed > 0 && force.x <= 0) { // Slow down mario when gliding to the right
+//        _horizontalSpeed -= MARIO_ACCELERATION / 7;
+//    }
 
-    if(forceDirection.y > 0
+    if(force.y > 0
        && CanMoveTo(CollisionPoint::Top)
        && !CanMoveTo(CollisionPoint::Bottom)) { // Jump when on top of an object
         _verticalSpeed = JUMP_SPEED;
@@ -64,6 +71,7 @@ void MarioRigidBody::AddForce(const spic::Point& forceDirection) {
 
 MarioRigidBody::MarioRigidBody() {
     _gravityScale = 0.25F;
+    _mass = 70;
 }
 
 

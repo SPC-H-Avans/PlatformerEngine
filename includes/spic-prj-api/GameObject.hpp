@@ -14,7 +14,6 @@
 #include <boost/serialization/map.hpp>
 #include <boost/serialization/vector.hpp>
 #include <boost/serialization/shared_ptr.hpp>
-#include "Utility/guid.hpp"
 
 namespace spic {
 
@@ -351,8 +350,6 @@ namespace spic {
          * @return int that represents the clientId in the network
          */
         auto GetOwnerId() -> int;
-
-        GameObject();
 
     protected:
         std::string _name; //Unique

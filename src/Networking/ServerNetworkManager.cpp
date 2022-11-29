@@ -2,6 +2,7 @@
 #include "Networking/ServerNetworkManager.hpp"
 #include "Exceptions/NotImplementedException.hpp"
 #include "Utility/NetworkingBuffer.hpp"
+#include "Engine/Engine.hpp"
 #include <boost/archive/binary_oarchive.hpp>
 #include <boost/serialization/serialization.hpp>
 #include <boost/asio.hpp>
@@ -59,6 +60,9 @@ void platformer_engine::ServerNetworkManager::OnReceive(int clientId, const uint
     switch (messageType) {
         case NET_REQUEST_PING:
             spic::Debug::Log("Ping received from client!");
+        case NET_UPDATE_GAMEOBJECT_TRANSFORM:
+            HandleGameObjectTransformEventFromClient(clientId, data, dataLength);
+            break;
         default:
             spic::Debug::LogWarning("Unknown message from server: " + std::to_string(messageType));
             break;
@@ -78,6 +82,8 @@ void platformer_engine::ServerNetworkManager::Events() {
     boost::asio::streambuf buf;
     _networkingFacade.HandleEvents(*this);
 }
+
+#pragma region DefaultServerEvents
 
 void platformer_engine::ServerNetworkManager::CreateNetworkedGameObject(const spic::GameObject &gameObjectToCreate) {
     boost::asio::streambuf buf;
@@ -104,3 +110,27 @@ void platformer_engine::ServerNetworkManager::DestroyNetworkedGameObject(const s
     auto pkg = NetPkgs::DestroyGameObject(gameObjectId.c_str());
     SendUpdateToClients(&pkg, sizeof(pkg), true);
 }
+
+#pragma endregion DefaultServerEvents
+
+#pragma region HandlePacketsFromClient
+
+void
+platformer_engine::ServerNetworkManager::HandleGameObjectTransformEventFromClient(int clientId, const void *data, size_t length) {
+    auto pkg = NetPkgs::UpdateGameObjectTransform();
+    memcpy(&pkg, data, length);
+    spic::Transform transform;
+
+    platformer_engine::NetworkingBuffer::ParseIncomingDataToObject<spic::Transform>(pkg._data, MAX_UPDATE_TRANSFORM_SIZE, transform);
+    std::string gameObjectId = std::string(pkg._gameObjectId);
+
+    auto gameObject =  platformer_engine::Engine::GetInstance().GetActiveScene().GetObjectByName(gameObjectId);
+    if(gameObject == nullptr || gameObject->GetOwnerId() != clientId) {
+        spic::Debug::LogWarning("Illegal packet received, " + std::to_string(clientId) + " tried to update GameObject " + gameObjectId + ", which is owned by: " + std::to_string(gameObject->GetOwnerId()) + ". Ignoring this packet");
+        return;
+    }
+    gameObject->SetTransform(transform);
+    UpdateNetworkedGameObjectTransform(transform, gameObjectId);
+}
+
+#pragma endregion HandlePacketsFromClient

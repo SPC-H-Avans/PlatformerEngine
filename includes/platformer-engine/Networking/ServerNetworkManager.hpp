@@ -106,6 +106,11 @@ namespace platformer_engine {
         spic::Scene &_scene;
         NetworkingFacade _networkingFacade;
         int _playerLimit;
+
+#pragma region HandlePacketsFromClient
+        void HandleGameObjectTransformEventFromClient(int clientId, const void *data, size_t length);
+
+#pragma endregion HandlePacketsFromClient
     };
 }  // namespace platformer_engine
 #endif //PLATFORMER_ENGINE_SERVERNETWORKMANAGER_HPP

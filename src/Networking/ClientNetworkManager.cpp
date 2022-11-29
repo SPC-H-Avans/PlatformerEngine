@@ -59,6 +59,7 @@ void platformer_engine::ClientNetworkManager::OnReceive(int clientId, const uint
             break;
         case NET_UPDATE_GAMEOBJECT_TRANSFORM:
             UpdateGameObjectTransform(data, dataLength);
+            break;
         default:
             spic::Debug::LogWarning("Unknown message from server: " + std::to_string(messageType));
             break;

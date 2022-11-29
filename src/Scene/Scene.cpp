@@ -45,11 +45,11 @@ void spic::Scene::RenderGameObjects() {
     }
 }
 
-void spic::Scene::AddObject(GameObject &gameObject) {
-    if (GetObjectByName(gameObject.GetName()) != nullptr) {
-        throw GameObjectAlreadyInSceneException(gameObject.GetName());
+void spic::Scene::AddObject(const std::shared_ptr<spic::GameObject> gameObject) {
+    if (GetObjectByName(gameObject->GetName()) != nullptr) {
+        throw GameObjectAlreadyInSceneException(gameObject->GetName());
     }
-    _contents.push_back(std::make_shared<GameObject>(gameObject));
+    _contents.push_back(gameObject);
 }
 
 void spic::Scene::ImportLevel(const std::string &id, const std::string &filePath, const std::string &fileName) {

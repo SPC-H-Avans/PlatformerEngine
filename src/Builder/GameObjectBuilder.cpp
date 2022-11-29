@@ -24,7 +24,7 @@ auto GameObjectBuilder::AddAudioSource() -> ObjectBuilder & {
 auto
 GameObjectBuilder::AddAnimator(platformer_engine::AnimatedSprite &animatedSprite) -> ObjectBuilder & {
     auto sharedSprite = platformer_engine::AnimatedSprite(animatedSprite);
-    std::shared_ptr<Animator> animator = std::make_shared<Animator>(sharedSprite);
+    auto animator = std::make_shared<Animator>(sharedSprite);
     _gameObject->AddComponent<Animator>(animator);
     return *this;
 }

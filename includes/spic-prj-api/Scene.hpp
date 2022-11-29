@@ -26,7 +26,7 @@ namespace spic {
          * @param gameObject Game Object shared pointer
          * @spicapi
          */
-        void AddObject(GameObject &gameObject);
+        void AddObject(const std::shared_ptr<spic::GameObject> gameObject);
 
         /**
          * @brief Remove a Game Object from this scene by name

@@ -45,7 +45,7 @@ void spic::Scene::RenderGameObjects() {
     }
 }
 
-void spic::Scene::AddObject(const std::shared_ptr<spic::GameObject> gameObject) {
+void spic::Scene::AddObject(const std::shared_ptr<spic::GameObject> &gameObject) {
     if (GetObjectByName(gameObject->GetName()) != nullptr) {
         throw GameObjectAlreadyInSceneException(gameObject->GetName());
     }

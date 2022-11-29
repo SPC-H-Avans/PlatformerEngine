@@ -11,6 +11,22 @@ platformer_engine::AnimatedSprite::AnimatedSprite(std::string spriteId, int sort
 
 }
 
+auto platformer_engine::AnimatedSprite::operator=(const platformer_engine::AnimatedSprite &other) -> platformer_engine::AnimatedSprite& {
+    _frameCount = other._frameCount;
+    _animationSpeed = other._animationSpeed;
+    _spriteRow = other._spriteRow;
+    _spriteId = other._spriteId;
+//    _sortingLayer = other._sortingLayer;
+//    _orderInLayer = other._orderInLayer;
+//spriteWidth, spriteHeight, flip, color, spriteScale
+    _spriteWidth = other._spriteWidth;
+    _spriteHeight = other._spriteHeight;
+//    _flip = other._flip;
+//    _color = other._color;
+    _spriteScale = other._spriteScale;
+    return *this;
+}
+
 void platformer_engine::AnimatedSprite::Update() {
     _currentFrame = (static_cast<int>(platformer_engine::Window::GetTicks())/_animationSpeed) % _frameCount;
 }

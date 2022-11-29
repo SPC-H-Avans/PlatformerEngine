@@ -48,7 +48,9 @@ public:
      * @return The created GameObject
      */
     static auto CreatePlayer(
-            const std::shared_ptr<platformer_engine::AnimatedSprite>& sprite,
+            const std::shared_ptr<platformer_engine::AnimatedSprite>& idleSprite,
+            const std::shared_ptr<platformer_engine::AnimatedSprite>& walkSprite,
+            const std::shared_ptr<platformer_engine::AnimatedSprite>& jumpSprite,
             Transform transform,
             int colliderWidth,
             int colliderHeight

@@ -32,6 +32,12 @@ namespace platformer_engine{
                        int frameCount, int animationSpeed, int spriteRow, platformer_engine::SPIC_RendererFlip flip = platformer_engine::FLIP_NONE, spic::Color color = spic::Color::Transparent(), double spriteScale = 1.0);
 
         /**
+         * @brief Copy another AnimatedSprite
+         * @param other the AnimatedSprite to be copied
+         */
+        auto operator=(const AnimatedSprite& other) -> AnimatedSprite&;
+
+        /**
          * @brief Update frame count
          */
         void Update();

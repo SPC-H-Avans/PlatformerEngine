@@ -6,6 +6,7 @@
 #include "BehaviourScript.hpp"
 #include "Behaviour/MarioInputBehaviour.hpp"
 #include "Behaviour/CollisionBehaviour.hpp"
+#include "Behaviour/DynamicAnimationBehaviour.hpp"
 
 auto GameObjectDirector::CreateTile(const std::shared_ptr<Sprite>& sprite,
                                     Transform transform, int colliderWidth, int colliderHeight) -> std::shared_ptr<GameObject> {
@@ -40,12 +41,14 @@ auto GameObjectDirector::CreateBackgroundObject(const std::shared_ptr<Sprite> &s
     return obj;
 }
 
-auto GameObjectDirector::CreatePlayer(const std::shared_ptr<platformer_engine::AnimatedSprite>& sprite,
+auto GameObjectDirector::CreatePlayer(const std::shared_ptr<platformer_engine::AnimatedSprite>& idleSprite,
+                                      const std::shared_ptr<platformer_engine::AnimatedSprite>& walkSprite,
+                                      const std::shared_ptr<platformer_engine::AnimatedSprite>& jumpSprite,
                                       Transform transform, int colliderWidth, int colliderHeight) -> std::shared_ptr<GameObject> { // probably add width and height parameters and more to use in GameObjectBuilder functions
     auto& scene = platformer_engine::Engine::GetInstance().GetActiveScene();
     auto builder =
             GameObjectBuilder("player" + std::to_string(scene.GetObjectCount()))
-                    .AddAnimator(sprite)
+                    .AddAnimator(idleSprite)
                     .AddBehaviourScript(std::make_shared<platformer_engine::MarioInputBehaviour>());
     ;
     auto obj = builder.GetGameObject();
@@ -62,8 +65,9 @@ auto GameObjectDirector::CreatePlayer(const std::shared_ptr<platformer_engine::A
     collider.Height(colliderHeight);
     obj->AddComponent<BoxCollider>(std::make_shared<BoxCollider>(collider));
 
-    // Add collision behaviourscript
+    // Add behaviourscripts
     obj->AddComponent<BehaviourScript>(std::make_shared<platformer_engine::CollisionBehaviour>());
+    obj->AddComponent<BehaviourScript>(std::make_shared<platformer_engine::DynamicAnimationBehaviour>(idleSprite, walkSprite, jumpSprite));
 
     scene.AddObject(obj);
     return obj;

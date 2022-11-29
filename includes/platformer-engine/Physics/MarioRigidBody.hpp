@@ -9,6 +9,10 @@ public:
     MarioRigidBody();
     void AddForce(const Point& forceDirection) override;
 
+    float XVelocity() { return _horizontalSpeed; }
+
+    float YVelocity() { return _verticalSpeed; }
+
 private:
     float _horizontalSpeed{0};
     float _verticalSpeed{0};

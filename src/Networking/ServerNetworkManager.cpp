@@ -44,17 +44,6 @@ void platformer_engine::ServerNetworkManager::OnConnect(int clientId) {
     Clients.push_back(client);
     spic::Debug::Log("Currently hosting a game for " + std::to_string(Clients.size()) + "/" + std::to_string(_playerLimit) + " clients!");
     //InitializeClient(client); TODO
-    auto gameobject = spic::GameObject("Huts", "Hatsa");
-    spic::Transform trans;
-    trans.position.x = 100;
-    gameobject.SetTransform(trans);
-    trans = gameobject.GetTransform();
-
-    auto toSend = spic::GameObject::FindWithTag("Hatsa");
-
-    CreateNetworkedGameObject(*toSend.get());
-    UpdateNetworkedGameObjectTransform(trans, "Huts");
-    DestroyNetworkedGameObject("Huts");
 }
 
 void platformer_engine::ServerNetworkManager::OnReceive(int clientId, const uint8_t *data, size_t dataLength) {

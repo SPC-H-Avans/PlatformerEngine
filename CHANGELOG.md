@@ -8,6 +8,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [0.0.2] - To be released
 
 Added multiplayer support, mario physics and a camera.
+Reading tmx files will now add GameObjects to the scene.
+Engine support for BehaviourScript OnUpdate.
 
 ### Changes
 
@@ -15,6 +17,9 @@ Added multiplayer support, mario physics and a camera.
 - SPCH-44: Ability to create a server
 - SPCH-55: Add multiplayer support to Game Objects
 - SPCH-59: Basic multiplayer setup
+- SPCH-6: Create Player
+- SPCH-32: Control player with keyboard
+- SPCH-54: Tech Debt (Tiles to GameObjects, better Sprite constructor)
 
 ### Bug Fixes
 

@@ -28,6 +28,14 @@ namespace spic {
          */
         void Render(spic::Transform transform);
 
+        void SetFlip(platformer_engine::SPIC_RendererFlip flip) { _flip = flip; }
+
+        void SetColor(Color color) { _color = color; }
+
+        void SetSpriteScale(double spriteScale) { _spriteScale = spriteScale; }
+
+        void SetSpriteSheetPosition(int x, int y) { _spriteSheetX = x, _spriteSheetY = y; }
+
     private:
         Color _color;
         platformer_engine::SPIC_RendererFlip _flip;

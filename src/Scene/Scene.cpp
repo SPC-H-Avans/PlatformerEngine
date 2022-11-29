@@ -40,6 +40,7 @@ void spic::Scene::AddObject(const std::shared_ptr<GameObject> &gameObject) {
         throw GameObjectAlreadyInSceneException(gameObject->GetName());
     }
     _contents.push_back(gameObject);
+    _origins.push_back(*gameObject);
 }
 
 void spic::Scene::ImportLevel(const std::string &id, const std::string &filePath, const std::string &fileName,
@@ -112,3 +113,19 @@ void spic::Scene::SetActiveCameraByName(const std::string &name) {
 std::shared_ptr<spic::Camera> spic::Scene::GetActiveCamera() {
     return _activeCamera;
 }
+
+void spic::Scene::ResetScene() {
+    for(auto& origin : _origins) {
+        auto instance = GameObject::Find(origin.GetName());
+
+        if(instance != nullptr)
+            *instance = origin;
+    }
+}
+
+spic::Scene::~Scene() {
+    platformer_engine::LevelParser::LevelParser::GetInstance().Clean();
+
+    //TODO destroy all in scene
+}
+

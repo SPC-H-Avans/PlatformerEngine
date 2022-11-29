@@ -37,9 +37,6 @@ target_link_libraries(${PROJECT_NAME} PUBLIC unofficial::enet::enet)
 find_package(Boost REQUIRED serialization)
 target_link_libraries(${PROJECT_NAME} PUBLIC Boost::boost Boost::serialization)
 
-find_package(crossguid CONFIG REQUIRED)
-target_link_libraries(${PROJECT_NAME} PUBLIC crossguid)
-
 #-lSDL2
 include_directories(${SDL2_INCLUDE_DIRS})
 

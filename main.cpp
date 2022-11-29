@@ -1,9 +1,6 @@
 #include "Engine/Engine.hpp"
 #include "Builder/SceneBuilder.hpp"
-
 #include <iostream>
-#include "Sprite.hpp"
-#include "Builder/GameObjectBuilder.hpp"
 #include "Networking/ProtocolPackages.hpp"
 
 const int SCREEN_WIDTH = 640;

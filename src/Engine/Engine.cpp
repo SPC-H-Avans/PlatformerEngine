@@ -53,8 +53,11 @@ void platformer_engine::Engine::Update() {
     // trigger OnUpdate for each gameObject
     auto gameObjects = GameObject::FindObjectsOfType<GameObject>();
     for(auto& gameObject : gameObjects) {
-        auto script = std::dynamic_pointer_cast<spic::BehaviourScript>(gameObject->GetComponent<spic::BehaviourScript>());
-        if (script != nullptr) script->OnUpdate();
+        auto scripts = gameObject->GetComponents<BehaviourScript>();
+        for(auto& scriptComponent : scripts) {
+            auto script = std::dynamic_pointer_cast<spic::BehaviourScript>(scriptComponent);
+            if (script != nullptr) script->OnUpdate();
+        }
     }
 
     //Call systems

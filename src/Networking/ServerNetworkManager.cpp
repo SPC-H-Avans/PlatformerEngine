@@ -83,7 +83,7 @@ void platformer_engine::ServerNetworkManager::CreateNetworkedGameObject(const sp
     boost::asio::streambuf buf;
     platformer_engine::NetworkingBuffer::ObjectToAsioBuffer<spic::GameObject>(gameObjectToCreate, buf);
 
-    auto charPtr = buffer_cast<const char*>(buf.data());
+    const auto *charPtr = buffer_cast<const char*>(buf.data());
 
     auto pkg = NetPkgs::CreateGameObject(charPtr, buf.size());
     SendUpdateToClients(&pkg, sizeof(pkg), true);
@@ -94,10 +94,10 @@ void platformer_engine::ServerNetworkManager::UpdateNetworkedGameObjectTransform
     boost::asio::streambuf buf;
     platformer_engine::NetworkingBuffer::ObjectToAsioBuffer<spic::Transform>(transform, buf);
 
-    auto charPtr = buffer_cast<const char*>(buf.data());
+    const auto *charPtr = buffer_cast<const char*>(buf.data());
 
     auto pkg = NetPkgs::UpdateGameObjectTransform(gameObjectId.c_str(), charPtr, buf.size());
-    SendUpdateToClients(&pkg, sizeof(pkg), true);
+    SendUpdateToClients(&pkg, sizeof(pkg), false);
 }
 
 void platformer_engine::ServerNetworkManager::DestroyNetworkedGameObject(const std::string& gameObjectId){

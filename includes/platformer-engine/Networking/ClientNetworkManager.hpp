@@ -92,6 +92,16 @@ namespace platformer_engine {
          */
         void OnDisconnect(int clientId) override;
 
+#pragma region DefaultClientEvents
+        /**
+         * @brief Update the transform of a Game Object (Only if this client owns the object)
+         * @param transform New transform
+         * @param gameObjectId Game Object ID of the object to update
+         */
+void UpdateNetworkedGameObjectTransform(const spic::Transform &transform,
+                                        const std::string &gameObjectId);
+#pragma endregion DefaultClientEvents
+
     private:
         int _localPlayerId;
         bool _isPartyleader;

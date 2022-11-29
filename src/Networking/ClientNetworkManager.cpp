@@ -113,3 +113,18 @@ void platformer_engine::ClientNetworkManager::UpdateGameObjectTransform(const vo
         gameObject->SetTransform(transform);
     }
 }
+
+void platformer_engine::ClientNetworkManager::UpdateNetworkedGameObjectTransform(const Transform &transform,
+                                                                                 const std::string &gameObjectId) {
+    auto gameObject = spic::GameObject::Find(gameObjectId);
+
+    if(gameObject == nullptr || gameObject->GetOwnerId() != GetLocalPlayerId()) return;
+
+    boost::asio::streambuf buf;
+    platformer_engine::NetworkingBuffer::ObjectToAsioBuffer<spic::Transform>(transform, buf);
+
+    const auto *charPtr = buffer_cast<const char*>(buf.data());
+
+    auto pkg = NetPkgs::UpdateGameObjectTransform(gameObjectId.c_str(), charPtr, buf.size());
+    SendNetworkPackage(&pkg, sizeof(pkg), false);
+}

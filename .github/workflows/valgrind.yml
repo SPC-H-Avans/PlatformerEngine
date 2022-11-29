@@ -33,11 +33,11 @@ jobs:
           token: ${{ secrets.PAT }}
           submodules: recursive
 
-      - uses: actions/checkout@v2
-      - name: 'Set up environment'
+      - name: 'Install Valgrind'
+        if: ${{ env.RUN_MEMORY_CHECK == 'true' }}
         run: |
-          sudo apt update
-          sudo apt install -y libev-dev
+          sudo apt install valgrind -y
+          echo "Valgrind installed"
 
       - name: 'Install CMake'
         uses: lukka/get-cmake@latest
@@ -51,12 +51,6 @@ jobs:
           configurePreset: ninja-multi-vcpkg
           buildPreset: ninja-multi-vcpkg
           testPreset: ninja-multi-vcpkg
-
-      - name: 'Install Valgrind'
-        if: ${{ env.RUN_MEMORY_CHECK == 'true' }}
-        run: |
-          sudo apt install valgrind -y
-          echo "Valgrind installed"
 
       - name: 'Run executable'
         run: |

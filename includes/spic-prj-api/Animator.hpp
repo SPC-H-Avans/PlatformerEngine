@@ -6,6 +6,7 @@
 #include "Texture/AnimatedSprite.hpp"
 #include "Point.hpp"
 #include "Transform.hpp"
+#include <boost/serialization/access.hpp>
 
 namespace spic {
 
@@ -14,6 +15,13 @@ namespace spic {
      */
     class Animator : public Component {
     public:
+
+        template<typename archive> void serialize(archive& ar, const unsigned /*version*/) {
+            ar & _animationMap;
+            ar & _currentAnimation;
+            ar & _isPlaying;
+            ar & _isLooping;
+        }
         Animator(const platformer_engine::AnimatedSprite &animatedSprite, bool isPlaying = true,
                  bool isLooping = true);
 

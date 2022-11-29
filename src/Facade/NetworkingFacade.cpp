@@ -19,6 +19,7 @@ platformer_engine::NetworkingFacade::NetworkingFacade() {
 }
 
 platformer_engine::NetworkingFacade::~NetworkingFacade() {
+    _connectionStatus = ConnectionStatus::Disconnected;
     enet_deinitialize();
 }
 

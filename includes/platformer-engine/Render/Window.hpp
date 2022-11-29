@@ -5,8 +5,8 @@
 #include "Color.hpp"
 #include "Facade/GraphicsFacade.hpp"
 #include "Texture/TextureManager.hpp"
-#include "Facade/InputFacade.hpp"
 #include "Scene.hpp"
+#include "Events/EventsEnum.h"
 
 namespace platformer_engine {
     /**

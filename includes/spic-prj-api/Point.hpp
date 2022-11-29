@@ -10,6 +10,11 @@ namespace spic {
     struct Point {
         double x = 0.0;
         double y = 0.0;
+
+        template<typename archive> void serialize(archive& ar, const unsigned /*version*/) {
+            ar & x;
+            ar & y;
+        }
     };
 
 }

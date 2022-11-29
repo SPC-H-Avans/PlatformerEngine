@@ -5,6 +5,7 @@
 #include "Point.hpp"
 #include "Physics/Collision.hpp"
 #include <map>
+#include <boost/serialization/access.hpp>
 
 namespace spic {
 
@@ -22,6 +23,13 @@ namespace spic {
      */
     class RigidBody : public Component {
         public:
+
+        template<typename archive> void serialize(archive& ar, const unsigned /*version*/) {
+            ar & _mass;
+            ar & _gravityScale;
+            ar & _bodyType;
+        }
+
             /**
              * @brief Apply force to this rigid body.
              * @param forceDirection A point, used as a vector to indicate direction

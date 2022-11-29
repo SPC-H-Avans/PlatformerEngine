@@ -2,6 +2,7 @@
 #define PLATFORMER_ENGINE_INETWORKMANAGER_HPP
 
 #include <cstdint>
+#include <functional>
 
 namespace platformer_engine{
     /**
@@ -26,6 +27,13 @@ namespace platformer_engine{
          * @param clientId disconnected client id
          */
         virtual void OnDisconnect(int clientId) = 0;
+
+        /**
+         * @brief Register a new event handler to handle incoming packets yourself
+         * @param eventID ID of the event to bind to
+         * @param functionToCall function to call
+         */
+        virtual void RegisterEventHandler(int eventID, std::function<void(int clientId, const uint8_t *data, size_t dataLength)> functionToCall) = 0;
     };
 } // namespace platformer_engine
 #endif //PLATFORMER_ENGINE_INETWORKMANAGER_HPP

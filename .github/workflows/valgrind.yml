@@ -67,4 +67,5 @@ jobs:
         if: ${{ env.RUN_MEMORY_CHECK == 'true' }}
         run: |
           echo "Checking Valgrind xml ..."
+            sudo chmod +x check-memory.sh
             ./check-memory.sh

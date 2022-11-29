@@ -74,7 +74,6 @@ void platformer_engine::ServerNetworkManager::OnDisconnect(int clientId) {
 }
 
 void platformer_engine::ServerNetworkManager::Events() {
-    boost::asio::streambuf buf;
     _networkingFacade.HandleEvents(*this);
 }
 

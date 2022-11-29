@@ -25,7 +25,15 @@ auto platformer_engine::Window::ListenForEvents() -> std::vector<EventsEnum> {
 }
 
 void platformer_engine::Window::SetActiveScene(spic::Scene &scene) {
+    //Set all gameobjects active flag to false.
+    auto gameObjects = spic::GameObject::FindObjectsOfType<spic::GameObject>();
+    for(auto& gameObject : gameObjects) {
+        gameObject->Active(false);
+    }
+
     _activeScene = scene;
+    //Sets all 'active' objects from this scene as active true
+    _activeScene.ResetScene();
 }
 
 auto platformer_engine::Window::GetActiveScene() -> spic::Scene & {

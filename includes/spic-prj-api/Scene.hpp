@@ -26,7 +26,7 @@ namespace spic {
          * @param gameObject Game Object shared pointer
          * @spicapi
          */
-        void AddObject(const std::shared_ptr<GameObject> &gameObject);
+        void AddObject(const std::shared_ptr<GameObject>& gameObject);
 
         /**
          * @brief Remove a Game Object from this scene by name
@@ -99,6 +99,11 @@ namespace spic {
         void DeleteCameraByName(const std::string &name);
 
         /**
+         * @brief resets all GameObjects connected to this scene to their original state.
+         */
+        void ResetScene();
+
+        /**
          * @brief Remove the levels from memory
          */
         ~Scene();
@@ -120,6 +125,11 @@ namespace spic {
          * @spicapi
          */
         std::vector<std::shared_ptr<GameObject>> _contents;
+
+        /**
+         * @brief Default values of the objects used to reset a scene after its been played.
+         */
+        std::vector<GameObject> _origins {};
 
         /**
          * @brief List of all Cameras in this scene

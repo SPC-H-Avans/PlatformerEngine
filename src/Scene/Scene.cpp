@@ -123,9 +123,9 @@ void spic::Scene::ResetScene() {
     }
 }
 
-spic::Scene::~Scene() {
-    platformer_engine::LevelParser::LevelParser::GetInstance().Clean();
-
-    //TODO destroy all in scene
-}
+//spic::Scene::~Scene() { // TODO: destructor
+//    platformer_engine::LevelParser::LevelParser::GetInstance().Clean();
+//
+//    //TODO destroy all in scene
+//}
 

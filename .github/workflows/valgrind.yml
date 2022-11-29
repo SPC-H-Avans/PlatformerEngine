@@ -2,7 +2,6 @@ name: "Build and run tests with memory check"
 
 on:
   pull_request:
-  push:
     branches:
       - main
       - develop

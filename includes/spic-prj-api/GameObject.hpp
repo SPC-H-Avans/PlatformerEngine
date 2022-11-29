@@ -30,7 +30,6 @@ namespace spic {
             ar & _transform;
             ar & _layer;
             ar & _components;
-            ar & _children;
             ar & _ownerId;
         }
 

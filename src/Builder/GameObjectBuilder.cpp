@@ -21,22 +21,21 @@ auto GameObjectBuilder::AddAudioSource() -> GameObjectBuilder & {
     return *this;
 }
 
-auto
-GameObjectBuilder::AddAnimator(std::shared_ptr<platformer_engine::AnimatedSprite> animatedSprite) -> GameObjectBuilder & {
-    std::shared_ptr<Animator> animator = std::make_shared<Animator>(animatedSprite);
+auto GameObjectBuilder::AddAnimator(platformer_engine::AnimatedSprite &animatedSprite) -> GameObjectBuilder & {
+    auto sharedSprite = platformer_engine::AnimatedSprite(animatedSprite);
+    auto animator = std::make_shared<Animator>(sharedSprite);
     _gameObject->AddComponent<Animator>(animator);
     return *this;
 }
 
-auto
-GameObjectBuilder::AddAnimator(
-        std::vector<std::shared_ptr<platformer_engine::AnimatedSprite>> animatedSprite) -> GameObjectBuilder & {
+auto GameObjectBuilder::AddAnimator(std::vector<platformer_engine::AnimatedSprite> &animatedSprite) -> GameObjectBuilder & {
     if (animatedSprite.empty()) {
         throw std::invalid_argument("animatedSprite is empty");
     }
-    std::shared_ptr<Animator> animator = std::make_shared<Animator>(animatedSprite.back());
+    auto animator = std::make_shared<Animator>(
+            platformer_engine::AnimatedSprite(animatedSprite.back()));
     for (const auto &item: animatedSprite) {
-        animator->AddAnimation(item);
+        animator->AddAnimation(platformer_engine::AnimatedSprite(item));
     }
     _gameObject->AddComponent<Animator>(animator);
     return *this;
@@ -60,7 +59,7 @@ auto GameObjectBuilder::AddRigidBody() -> GameObjectBuilder & {
     return *this;
 }
 
-auto GameObjectBuilder::AddSprite(const std::shared_ptr<spic::Sprite> &sprite) -> GameObjectBuilder & {
-    _gameObject->AddComponent<Sprite>(sprite);
+auto GameObjectBuilder::AddSprite(const spic::Sprite &sprite) -> GameObjectBuilder & {
+    _gameObject->AddComponent<Sprite>(std::make_shared<Sprite>(sprite));
     return *this;
 }

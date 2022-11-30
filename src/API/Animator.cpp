@@ -1,15 +1,15 @@
 #include "Animator.hpp"
 
-spic::Animator::Animator(const std::shared_ptr<platformer_engine::AnimatedSprite> &animatedSprite, bool isPlaying,
-                         bool isLooping) : _isPlaying(isPlaying), _isLooping(isLooping),
-                                           _currentAnimation(animatedSprite) {
+spic::Animator::Animator(const platformer_engine::AnimatedSprite &animatedSprite, bool isPlaying,
+                         bool isLooping) : _isPlaying(isPlaying), _isLooping(isLooping) {
     AddAnimation(animatedSprite);
 }
 
-void spic::Animator::AddAnimation(const std::shared_ptr<platformer_engine::AnimatedSprite> &animatedSprite) {
-    _animationMap[animatedSprite->GetSpriteId()] = animatedSprite;
+void spic::Animator::AddAnimation(const platformer_engine::AnimatedSprite &animatedSprite) {
+    auto sharedSprite = std::make_shared<platformer_engine::AnimatedSprite>(animatedSprite);
+    _animationMap[sharedSprite->GetSpriteId()] = sharedSprite;
     if (_currentAnimation == nullptr) {
-        _currentAnimation = animatedSprite;
+        _currentAnimation = sharedSprite;
     }
 }
 

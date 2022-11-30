@@ -20,7 +20,7 @@ public:
      * @param animatedSprite the AnimatedSprite to be used by the Animator.
      * @return reference to ObjectBuilder, allows method chaining.
      */
-    virtual auto AddAnimator(std::shared_ptr<platformer_engine::AnimatedSprite> animatedSprite) -> ObjectBuilder & = 0;
+    virtual auto AddAnimator(platformer_engine::AnimatedSprite &animatedSprite) -> ObjectBuilder & = 0;
 
     /**
      * @brief Adds an Animator component to the current GameObject being build.
@@ -28,7 +28,7 @@ public:
      * @return reference to ObjectBuilder, allows method chaining.
      */
     virtual auto
-    AddAnimator(std::vector<std::shared_ptr<platformer_engine::AnimatedSprite>> animatedSprite) -> ObjectBuilder & = 0;
+    AddAnimator(std::vector<platformer_engine::AnimatedSprite> &animatedSprite) -> ObjectBuilder & = 0;
 
     /**
      * @brief Adds a BehaviourScript component to the current GameObject being build.
@@ -52,7 +52,7 @@ public:
      * @brief Adds a Sprite component to the current GameObject being build.
      * @return reference to ObjectBuilder, allows method chaining.
      */
-    virtual auto AddSprite(const std::shared_ptr<spic::Sprite> &sprite) -> ObjectBuilder & = 0;
+    virtual auto AddSprite(const spic::Sprite &sprite) -> ObjectBuilder & = 0;
 };
 
 #endif //PLATFORMER_ENGINE_BUILDER_HPP

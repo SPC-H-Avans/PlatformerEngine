@@ -32,6 +32,7 @@ Set up the project and add the first version of the code.
 
 ### Changes
 
+- SPCH-54: Updated pointer use to be more accessible and removed unnecessary shared pointers
 - SPCH-38: Added support for multiple collisions at the same CollisionPoint.
 - SPCH-35: Added MarioRigidBody with specific Mario physics
 - SPCH-35: Updated the collision system and collision behavior to prevent mario from getting stuck in other objects

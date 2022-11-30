@@ -37,21 +37,20 @@ public:
      * @brief Adds an Animator component to the current GameObject being build.
      * @return reference to ObjectBuilder, allows method chaining.
      */
-    auto AddAnimator(std::shared_ptr<platformer_engine::AnimatedSprite> animatedSprite) -> GameObjectBuilder & override;
-
-    /**
-     * @brief Adds an AudioSource component to the current GameObject being build.
-     * @return reference to ObjectBuilder, allows method chaining.
-     */
-    auto AddAudioSource() -> GameObjectBuilder & override;
+    auto AddAnimator(platformer_engine::AnimatedSprite &animatedSprite) -> GameObjectBuilder & override;
 
     /**
      * @brief Adds an Animator component to the current GameObject being build.
      * @param animatedSprite List of AnimatedSprite to be used by the Animator.
      * @return reference to ObjectBuilder, allows method chaining.
      */
-    auto AddAnimator(
-            std::vector<std::shared_ptr<platformer_engine::AnimatedSprite>> animatedSprite) -> GameObjectBuilder & override;
+    auto AddAnimator(std::vector<platformer_engine::AnimatedSprite> &animatedSprite) -> GameObjectBuilder & override;
+
+    /**
+     * @brief Adds an AudioSource component to the current GameObject being build.
+     * @return reference to ObjectBuilder, allows method chaining.
+     */
+    auto AddAudioSource() -> GameObjectBuilder & override;
 
     /**
      * @brief Adds a BehaviourScript component to the current GameObject being build.
@@ -75,7 +74,7 @@ public:
      * @brief Adds a Sprite component to the current GameObject being build.
      * @return reference to ObjectBuilder, allows method chaining.
      */
-    auto AddSprite(const std::shared_ptr<spic::Sprite> &sprite) -> GameObjectBuilder & override;
+    auto AddSprite(const spic::Sprite &sprite) -> GameObjectBuilder & override;
 
 private:
     //Shares ptr with GameObject static instace list

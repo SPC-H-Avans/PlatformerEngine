@@ -22,14 +22,6 @@ namespace platformer_engine {
         void operator=(TextureManager const &) = delete;
 
         /**
-         * @brief initialize the TextureManager with the GraphicsFacade
-         * @param graphicsFacade a shared ptr of the graphics facade
-         */
-        void Init(const std::shared_ptr<GraphicsFacade> &graphicsFacade) {
-            _graphicsFacade = graphicsFacade;
-        }
-
-        /**
          * @brief Load a texture from a file, with an id (id is used to remove textures)
          * @param id Id of the texture
          * @param fileName Path to the texture file
@@ -96,8 +88,6 @@ namespace platformer_engine {
         TextureManager() = default;
 
         ~TextureManager() = default;
-
-        std::shared_ptr<GraphicsFacade> _graphicsFacade{nullptr};
     };
 }
 #endif //PLATFORMER_ENGINE_TEXTUREMANAGER_H

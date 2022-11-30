@@ -168,7 +168,7 @@ namespace spic {
          * @return name of the gameobject
          * @spicapi
          */
-        auto GetName() -> std::string;
+        auto GetName() const -> std::string;
 
 //        /**
 //         * @brief Returns the parent GameObject of this instance.

@@ -22,8 +22,7 @@ namespace spic {
             ar & _isPlaying;
             ar & _isLooping;
         }
-
-        Animator(const std::shared_ptr<platformer_engine::AnimatedSprite> &animatedSprite, bool isPlaying = true,
+        Animator(const platformer_engine::AnimatedSprite &animatedSprite, bool isPlaying = true,
                  bool isLooping = true);
 
         /**
@@ -44,7 +43,7 @@ namespace spic {
          * @brief Add an animation to the Animator
          * @param animatedSprite animatedSprite to add
          */
-        void AddAnimation(const std::shared_ptr<platformer_engine::AnimatedSprite> &animatedSprite);
+        void AddAnimation(const platformer_engine::AnimatedSprite &animatedSprite);
 
         /**
          * @brief Set the current animation

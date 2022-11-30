@@ -97,20 +97,16 @@ TEST(SceneTest, IsCameraAddedToScene) {
     // 1. Create a Camera
     auto cam = Camera(name, "tag1", spic::Color::White(), 1, 1);
 
-    // 2. Retrieve the Camera shared pointer from the GameObject and add it to the scene
-    auto pointer = std::static_pointer_cast<Camera>(GameObject::Find(cam.GetName()));
-
+    // 2. Add the camera to the scene
     auto scene = platformer_engine::SceneBuilder("TestScene")
-            .AddCamera(pointer)
+            .AddCamera(cam)
             .GetScene();
 
     // 3. Get Camera by name
     auto addedCam = scene.GetCameraByName(name);
 
-    // 4. Assert that the Camera pointer in the scene points to the correct value
+    // 4. Assert that the Camera was found by it's name
     ASSERT_TRUE(addedCam != nullptr) << "The added Camera {" + name + "} was not found by it's name.";
-    ASSERT_EQ(addedCam, pointer) << "The returned pointer for {" + name +
-                                    "} was not equal to the added Camera's pointer.";
 }
 
 /**
@@ -122,11 +118,9 @@ TEST(SceneTest, IsCameraActiveInScene) {
     // 1. Create a Camera
     auto cam = Camera(name, "tag1", spic::Color::White(), 1, 1);
 
-    // 2. Retrieve the Camera shared pointer from the GameObject and add it to the scene
-    auto pointer = std::static_pointer_cast<Camera>(GameObject::Find(cam.GetName()));
-
+    // 2. Add the camera to the scene
     auto scene = platformer_engine::SceneBuilder("TestScene")
-            .AddCamera(pointer)
+            .AddCamera(cam)
             .GetScene();
 
     // 3. Get Camera by name

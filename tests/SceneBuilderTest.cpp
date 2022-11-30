@@ -66,8 +66,8 @@ TEST_F(SceneBuilderTest, ShouldAddMultipleObjectsAtOnce) {
  * @brief Test for the Scene Builder, to check if a camera can be added
  */
 TEST_F(SceneBuilderTest, ShouldAddCamera) {
-    auto camera = std::make_shared<Camera>("Camera 1", "Camera", Color::Transparent(), 1, 1);
-    auto camera2 = std::make_shared<Camera>("Camera 2", "Camera", Color::Transparent(), 1, 1);
+    auto camera = Camera("Camera 1", "Camera", Color::Transparent(), 1, 1);
+    auto camera2 = Camera("Camera 2", "Camera", Color::Transparent(), 1, 1);
     auto scene = platformer_engine::SceneBuilder("TestScene").AddCamera(camera).GetScene();
     scene.AddCamera(camera2);
     scene.SetActiveCameraByName("Camera 1");

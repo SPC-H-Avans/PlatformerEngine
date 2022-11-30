@@ -20,19 +20,19 @@ auto main([[maybe_unused]] int argc, [[maybe_unused]] char *argv[]) -> int {
 
     platformer_engine::SceneBuilder builder("Test Scene");
 
-    std::shared_ptr<Camera> camera = std::make_shared<Camera>("camera1", "camera", spic::Color::Cyan(), 100, 100);
+    std::shared_ptr<Camera> camera = std::make_shared<Camera>("camera1", "camera", spic::Color::Cyan(), SCREEN_WIDTH, SCREEN_HEIGHT);
 
     auto scene = builder.GetScene();
 
 
     GameObjectBuilder gameObjectBuilder{"speler"};
 
-    platformer_engine::TextureManager::GetInstance().LoadTexture("mario_Jump", "D:/Avans/Jaar 4/SPC Project/assets/Walk.png");
+//    platformer_engine::TextureManager::GetInstance().LoadTexture("mario_Jump", "D:/Avans/Jaar 4/SPC Project/assets/Walk.png");
     // Add animating sprite
-    auto sprite = std::make_shared<platformer_engine::AnimatedSprite>("mario_Jump", 1, 1, 24, 24, 3, 100, 1,
-                                                                      platformer_engine::FLIP_NONE,
-                                                                      Color::Transparent(), 1.0);
-    gameObjectBuilder.AddAnimator(sprite);
+//    auto sprite = std::make_shared<platformer_engine::AnimatedSprite>("mario_Jump", 1, 1, 24, 24, 3, 100, 1,
+//                                                                      platformer_engine::FLIP_NONE,
+//                                                                      Color::Transparent(), 1.0);
+//    gameObjectBuilder.AddAnimator(sprite);
     auto gameObject = gameObjectBuilder.GetGameObject();
 
     // todo: Make this using the GameObjectBuilder
@@ -71,7 +71,7 @@ auto main([[maybe_unused]] int argc, [[maybe_unused]] char *argv[]) -> int {
     NetPkgs::Ping ping;
     engine.GetServerNetworkManager().SendUpdateToClients(&ping, sizeof(NetPkgs::Ping));
 
-    engine.GetActiveScene().ImportLevel("map1", "D:/Avans/Jaar 4/SPC Project/assets/Mario1/","map1.tmx");
+//    engine.GetActiveScene().ImportLevel("map1", "D:/Avans/Jaar 4/SPC Project/assets/Mario1/","map1.tmx");
 
     engine.Start();
 

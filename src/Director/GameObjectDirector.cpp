@@ -5,7 +5,7 @@
 #include "Physics/PlayerRigidBody.hpp"
 #include "BehaviourScript.hpp"
 
-auto GameObjectDirector::CreateTile(const std::shared_ptr<Sprite>& sprite,
+auto GameObjectDirector::CreateTile(const spic::Sprite& sprite,
                                     Transform transform, int colliderWidth, int colliderHeight) -> std::shared_ptr<GameObject> {
     auto& scene = platformer_engine::Engine::GetInstance().GetActiveScene();
     auto builder =
@@ -25,7 +25,7 @@ auto GameObjectDirector::CreateTile(const std::shared_ptr<Sprite>& sprite,
     return obj;
 }
 
-auto GameObjectDirector::CreateBackgroundObject(const std::shared_ptr<Sprite> &sprite,
+auto GameObjectDirector::CreateBackgroundObject(const spic::Sprite& sprite,
                                                 Transform transform) -> std::shared_ptr<GameObject> {
     auto& scene = platformer_engine::Engine::GetInstance().GetActiveScene();
     auto builder =
@@ -39,14 +39,13 @@ auto GameObjectDirector::CreateBackgroundObject(const std::shared_ptr<Sprite> &s
 }
 
 auto GameObjectDirector::CreatePlayer(Transform transform, int colliderWidth, int colliderHeight,
-                                      std::vector<std::shared_ptr<platformer_engine::AnimatedSprite>> animations,
-                                      std::vector<std::shared_ptr<BehaviourScript>> behaviourScripts) -> std::shared_ptr<GameObject> {
+                                      std::vector<platformer_engine::AnimatedSprite> animations,
+                                      const std::vector<BehaviourScript>& behaviourScripts) -> std::shared_ptr<GameObject> {
     auto& scene = platformer_engine::Engine::GetInstance().GetActiveScene();
 
-    auto builder =
-            GameObjectBuilder("player" + std::to_string(scene.GetObjectCount()))
-                    // animations
-                    .AddAnimator(animations)
+    auto builder = GameObjectBuilder("player" + std::to_string(scene.GetObjectCount()))
+            // animations
+            .AddAnimator(animations)
     ;
     auto obj = builder.GetGameObject();
 
@@ -66,7 +65,7 @@ auto GameObjectDirector::CreatePlayer(Transform transform, int colliderWidth, in
 
     // scripts
     for (const auto &script: behaviourScripts) {
-        obj->AddComponent<BehaviourScript>(script);
+        obj->AddComponent<BehaviourScript>(std::make_shared<BehaviourScript>(script));
     }
 
     scene.AddObject(obj);

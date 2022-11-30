@@ -22,7 +22,7 @@ public:
      * @return The created GameObject
      */
     static auto CreateTile(
-            const std::shared_ptr<Sprite>& sprite,
+            const spic::Sprite& sprite,
             Transform transform,
             int colliderWidth,
             int colliderHeight
@@ -35,7 +35,7 @@ public:
      * @return The created GameObject
      */
     static auto CreateBackgroundObject(
-            const std::shared_ptr<Sprite>& sprite,
+            const spic::Sprite& sprite,
             Transform transform
     ) -> std::shared_ptr<GameObject>;
 
@@ -51,8 +51,8 @@ public:
             Transform transform,
             int colliderWidth,
             int colliderHeight,
-            std::vector<std::shared_ptr<platformer_engine::AnimatedSprite>> animations,
-            std::vector<std::shared_ptr<BehaviourScript>> behaviourScripts
+            std::vector<platformer_engine::AnimatedSprite> animations,
+            const std::vector<BehaviourScript>& behaviourScripts
     ) -> std::shared_ptr<GameObject>;
 };
 

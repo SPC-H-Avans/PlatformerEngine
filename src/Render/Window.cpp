@@ -3,21 +3,19 @@
 #include "Input.hpp"
 
 platformer_engine::Window::Window(int width, int height, const std::string &title, const spic::Color &color) : _width(width), _height(height) {
-    _graphicsFacade = std::make_shared<GraphicsFacade>();
-    _graphicsFacade->Init(_width, _height, title, color);
-    TextureManager::GetInstance().Init(_graphicsFacade);
+    GraphicsFacade::GetInstance().Init(_width, _height, title, color);
 }
 
 void platformer_engine::Window::Clear() {
-    _graphicsFacade->Clear();
+    GraphicsFacade::GetInstance().Clear();
 }
 
 void platformer_engine::Window::Render() {
-    _graphicsFacade->Render();
+    GraphicsFacade::GetInstance().Render();
 }
 
 void platformer_engine::Window::Quit() {
-    _graphicsFacade->Quit();
+    GraphicsFacade::GetInstance().Quit();
 }
 
 auto platformer_engine::Window::ListenForEvents() -> std::vector<EventsEnum> {

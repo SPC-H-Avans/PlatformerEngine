@@ -85,7 +85,6 @@ namespace platformer_engine {
     private:
         int _width;
         int _height;
-        std::shared_ptr<GraphicsFacade> _graphicsFacade{nullptr};
         spic::Scene _activeScene;
     };
 }//namespace platformer_engine

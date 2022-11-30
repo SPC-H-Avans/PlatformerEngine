@@ -1,9 +1,6 @@
 #include "Engine/Engine.hpp"
 #include "Builder/SceneBuilder.hpp"
-
 #include <iostream>
-#include "Sprite.hpp"
-#include "Builder/GameObjectBuilder.hpp"
 #include "Networking/ProtocolPackages.hpp"
 #include "BehaviourScript.hpp"
 #include "Behaviour/CollisionBehaviour.hpp"
@@ -80,3 +77,4 @@ auto main([[maybe_unused]] int argc, [[maybe_unused]] char *argv[]) -> int {
 }
 
 
+x

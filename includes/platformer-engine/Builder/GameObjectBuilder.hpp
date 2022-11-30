@@ -42,7 +42,7 @@ public:
      * @brief Adds an Animator component to the current GameObject being build.
      * @return reference to ObjectBuilder, allows method chaining.
      */
-    auto AddAnimator(std::shared_ptr<platformer_engine::AnimatedSprite> animatedSprite) -> ObjectBuilder & override;
+    auto AddAnimator(platformer_engine::AnimatedSprite &animatedSprite) -> ObjectBuilder & override;
 
     /**
      * @brief Adds an Animator component to the current GameObject being build.
@@ -50,7 +50,7 @@ public:
      * @return reference to ObjectBuilder, allows method chaining.
      */
     auto AddAnimator(
-            std::vector<std::shared_ptr<platformer_engine::AnimatedSprite>> animatedSprite) -> ObjectBuilder & override;
+            std::vector<platformer_engine::AnimatedSprite> &animatedSprite) -> ObjectBuilder & override;
 
     /**
      * @brief Adds a BehaviourScript component to the current GameObject being build.
@@ -74,7 +74,7 @@ public:
      * @brief Adds a Sprite component to the current GameObject being build.
      * @return reference to ObjectBuilder, allows method chaining.
      */
-    auto AddSprite(const std::shared_ptr<spic::Sprite> &sprite) -> ObjectBuilder & override;
+    auto AddSprite(const spic::Sprite &sprite) -> ObjectBuilder & override;
 
 private:
     //Shares ptr with GameObject static instace list

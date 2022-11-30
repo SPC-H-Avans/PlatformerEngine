@@ -56,7 +56,7 @@ GameObject::operator bool() { return true; } //Docs don't know what it is used f
 //    _children.emplace_back(child);
 //}
 
-auto GameObject::GetName() -> std::string { return _name; }
+auto GameObject::GetName() const -> std::string { return _name; }
 
 //auto GameObject::Children() -> std::vector<std::shared_ptr<GameObject>> { return _children; }
 //

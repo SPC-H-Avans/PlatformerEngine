@@ -69,7 +69,7 @@ namespace spic {
          * @param camera Camera shared pointer
          * @spicapi
          */
-        void AddCamera(const std::shared_ptr<Camera> &camera);
+        void AddCamera(Camera &camera);
 
         /**
          * @brief Get a camera by name from this scene

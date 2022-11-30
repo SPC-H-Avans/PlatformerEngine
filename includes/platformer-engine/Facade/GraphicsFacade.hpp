@@ -13,6 +13,7 @@
 #include <vector>
 #include <map>
 
+//Singleton class for interfacing with a Graphics library
 namespace platformer_engine {
     typedef enum {
         FLIP_NONE = SDL_FLIP_NONE,     /**< Do not flip */
@@ -21,11 +22,18 @@ namespace platformer_engine {
     } SPIC_RendererFlip;
 
     /**
-     * @brief Facade class that creates a SDL2 window and renderer
+     * @brief Singleton facade class that creates a SDL2 window and renderer
      */
     class GraphicsFacade {
     public:
-        GraphicsFacade() = default;
+        static auto GetInstance() -> GraphicsFacade & {
+            static GraphicsFacade s_instance;
+            return s_instance;
+        }
+
+        GraphicsFacade(GraphicsFacade const &) = delete;
+
+        void operator=(GraphicsFacade const &) = delete;
 
         ~GraphicsFacade();
 
@@ -104,7 +112,10 @@ namespace platformer_engine {
          */
         static inline auto GetPerformanceFrequency() -> Uint64 { return SDL_GetPerformanceFrequency(); }
 
+
     private:
+        GraphicsFacade() = default;
+
         std::unique_ptr<SDL_Window, std::function<void(SDL_Window *)>> _window{nullptr};
         std::unique_ptr<SDL_Renderer, std::function<void(SDL_Renderer *)>> _renderer{nullptr};
         std::map<std::string, std::unique_ptr<SDL_Texture, std::function<void(

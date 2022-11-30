@@ -1,37 +1,37 @@
-#include "Physics/MarioRigidBody.hpp"
+#include "Physics/PlayerRigidBody.hpp"
 #include "Point.hpp"
 #include <algorithm>
 #include "Physics/Collision.hpp"
 #include "GameObject.hpp"
 
-void MarioRigidBody::AddForce(const spic::Point& forceDirection) {
+void PlayerRigidBody::AddForce(const spic::Point& forceDirection) {
 
     if(forceDirection.x < 0 && CanMoveTo(CollisionPoint::Left)) { // Move left
-        _horizontalSpeed = std::max(_horizontalSpeed - MARIO_ACCELERATION, -MARIO_WALK_SPEED);
+        _horizontalSpeed = std::max(_horizontalSpeed - PLAYER_ACCELERATION, -PLAYER_WALK_SPEED);
     }
     else if(forceDirection.x > 0 && CanMoveTo(CollisionPoint::Right)) { // Move right
-        _horizontalSpeed = std::min(_horizontalSpeed + MARIO_ACCELERATION, MARIO_WALK_SPEED);
+        _horizontalSpeed = std::min(_horizontalSpeed + PLAYER_ACCELERATION, PLAYER_WALK_SPEED);
     }
 
-    if(_horizontalSpeed < 0 && forceDirection.x >= 0) { // Slow down mario when gliding to the left
-        _horizontalSpeed += MARIO_ACCELERATION / 7;
+    if(_horizontalSpeed < 0 && forceDirection.x >= 0) { // Slow down the player when gliding to the left
+        _horizontalSpeed += PLAYER_ACCELERATION / 7;
     }
-    else if(_horizontalSpeed > 0 && forceDirection.x <= 0) { // Slow down mario when gliding to the right
-        _horizontalSpeed -= MARIO_ACCELERATION / 7;
+    else if(_horizontalSpeed > 0 && forceDirection.x <= 0) { // Slow down the player when gliding to the right
+        _horizontalSpeed -= PLAYER_ACCELERATION / 7;
     }
 
     if(forceDirection.y > 0
        && CanMoveTo(CollisionPoint::Top)
        && !CanMoveTo(CollisionPoint::Bottom)) { // Jump when on top of an object
-        _verticalSpeed = JUMP_SPEED;
-        _jumpTimer = MARIO_JUMP_TIMER;
+        _verticalSpeed = PLAYER_JUMP_SPEED;
+        _jumpTimer = PLAYER_JUMP_TIMER;
     }
     else if(_jumpTimer > 0 && CanMoveTo(CollisionPoint::Top)) { // High jump
-        _verticalSpeed = JUMP_SPEED;
+        _verticalSpeed = PLAYER_JUMP_SPEED;
         _jumpTimer -= 1;
     }
     else {
-        _verticalSpeed = std::min(_gravityScale + _verticalSpeed, MAX_VERTICAL_SPEED);
+        _verticalSpeed = std::min(_gravityScale + _verticalSpeed, PLAYER_MAX_VERTICAL_SPEED);
     }
 
     _verticalSpeed += _gravityScale;
@@ -62,7 +62,7 @@ void MarioRigidBody::AddForce(const spic::Point& forceDirection) {
     }
 }
 
-MarioRigidBody::MarioRigidBody() {
+PlayerRigidBody::PlayerRigidBody() {
     _gravityScale = 0.25F;
 }
 

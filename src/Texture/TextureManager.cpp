@@ -7,19 +7,9 @@ auto platformer_engine::TextureManager::LoadTexture(const std::string &id, const
 
 void
 platformer_engine::TextureManager::DrawTexture(const std::string &id, int x, int y, int width, int height,
-                                               const SPIC_RendererFlip &flip, double scale) {
-
-    Transform camera = GetCameraPosition();
-     GraphicsFacade::GetInstance().DrawTexture(id, (x - camera.position.x), (y - camera.position.y), width, height, flip,
-                                 camera.scale);
-}
-
-void platformer_engine::TextureManager::DrawTile(const std::string &tileSetID, int tileSize, int x, int y, int row,
-                                                 int frame, const platformer_engine::SPIC_RendererFlip &flip,
-                                                 double scale) {
-    Transform camera = GetCameraPosition();
-    GraphicsFacade::GetInstance().DrawTile(tileSetID, tileSize, (x - camera.position.x), (y - camera.position.y), row, frame, flip,
-                              camera.scale);
+                                               const SPIC_RendererFlip &flip, double scale,
+                                               int spriteSheetX, int spriteSheetY) {
+    GraphicsFacade::GetInstance().DrawTexture(id, x, y, width, height, flip, scale, spriteSheetX, spriteSheetY);
 }
 
 void

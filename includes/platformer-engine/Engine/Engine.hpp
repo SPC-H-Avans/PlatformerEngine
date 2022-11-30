@@ -4,13 +4,13 @@
 #include "Render/Window.hpp"
 #include "Timer/Timer.hpp"
 #include "Physics/PhysicsSystem.hpp"
-#include "GameLevel/GameLevel.hpp"
 #include <memory>
 #include "Scene.hpp"
 #include "Texture/RenderSystem.hpp"
 #include "Networking/ServerNetworkManager.hpp"
 #include "Networking/ClientNetworkManager.hpp"
 #include "Exceptions/NoWindowException.hpp"
+#include "Behaviour/BehaviourSystem.hpp"
 
 namespace platformer_engine {
     /**
@@ -122,6 +122,7 @@ namespace platformer_engine {
         std::unique_ptr<Window> _window = nullptr;
         std::unique_ptr<PhysicsSystem> _physicsSystem = nullptr;
         std::unique_ptr<RenderSystem> _renderSystem = nullptr;
+        std::unique_ptr<BehaviourSystem> _behaviourSystem = nullptr;
         std::unique_ptr<ServerNetworkManager> _serverNetworkManager = nullptr;
         std::unique_ptr<ClientNetworkManager> _clientNetworkManager = nullptr;
 

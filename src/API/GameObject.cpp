@@ -35,8 +35,8 @@ auto GameObject::operator=(const GameObject& other) -> GameObject& {
         _tag = other._tag;
         _components = other._components;
         _transform = other._transform;
-        _children = other._children;
-        _parent = other._parent;
+//        _children = other._children;
+//        _parent = other._parent;
         _ownerId = other._ownerId;
         _layer = other._layer;
     }
@@ -46,21 +46,21 @@ auto GameObject::operator=(const GameObject& other) -> GameObject& {
 
 bool GameObject::operator==(const spic::GameObject &other) { return _name==other._name; }
 
-bool GameObject::operator!=(const spic::GameObject &other) { return _name!=other._name; }
+auto GameObject::operator!=(const spic::GameObject &other) -> bool { return _name!=other._name; }
 
 GameObject::operator bool() { return true; } //Docs don't know what it is used for
 
 
-void GameObject::AddChild(std::shared_ptr<GameObject> child) {
-    child->_parent = GameObject::Find(this->_name);
-    _children.emplace_back(child);
-}
+//void GameObject::AddChild(std::shared_ptr<GameObject> child) {
+//    child->_parent = GameObject::Find(this->_name);
+//    _children.emplace_back(child);
+//}
 
 auto GameObject::GetName() -> std::string { return _name; }
 
-auto GameObject::Children() -> std::vector<std::shared_ptr<GameObject>> { return _children; }
-
-auto GameObject::Parent() -> std::shared_ptr<GameObject> { return _parent; }
+//auto GameObject::Children() -> std::vector<std::shared_ptr<GameObject>> { return _children; }
+//
+//auto GameObject::Parent() -> std::shared_ptr<GameObject> { return _parent; }
 
 
 auto GameObject::Find(const std::string &name) -> std::shared_ptr<GameObject> {
@@ -110,9 +110,9 @@ void GameObject::Destroy(std::shared_ptr<GameObject> obj) {
     if(obj == nullptr)
         throw std::runtime_error("Given pointer is empty or invalid");
 
-    for(auto& child : obj->_children) {
-        Destroy(child);
-    }
+//    for(auto& child : obj->_children) {
+//        Destroy(child);
+//    }
 
     std::shared_ptr<GameObject> gameObject = Find(obj->_name);
     _instances.erase(gameObject->_name);
@@ -128,10 +128,10 @@ auto GameObject::IsActiveInWorld() const -> bool {
     if(!Active())
         return false;
 
-    auto par = _self.lock()->_parent;
-
-    if(par != nullptr)
-        return par->IsActiveInWorld();
+//    auto par = _self.lock()->_parent;
+//
+//    if(par != nullptr)
+//        return par->IsActiveInWorld();
 
     return true;
 }
@@ -148,6 +148,7 @@ void GameObject::SetOwnerId(int uid) {
 auto GameObject::GetOwnerId() -> int {
     return _self.lock()->_ownerId;
 }
+
 
 
 

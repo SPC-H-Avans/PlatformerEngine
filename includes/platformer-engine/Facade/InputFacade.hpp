@@ -6,7 +6,7 @@
 
 #include "SDL.h"
 #include "Events/EventsEnum.h"
-#include "Input.hpp"
+#include "Utility/InputEnum.hpp"
 
 namespace platformer_engine {
     class InputFacade {
@@ -181,7 +181,7 @@ namespace platformer_engine {
          * @return An eKey as used by the Facade
          * @platformerengine
          */
-        static auto GetFacadeKeyCode(spic::Input::KeyCode key) -> eKey;
+        static auto GetFacadeKeyCode(KeyCode key) -> eKey;
 
         /**
          * @brief Converts an Input::MouseButton to a InputFacade::eMouseButton
@@ -189,7 +189,7 @@ namespace platformer_engine {
          * @return An eMouseButton as used by the Facade
          * @platformerengine
          */
-        static auto GetFacadeMouseButtonCode(spic::Input::MouseButton button) -> eMouseButton;
+        static auto GetFacadeMouseButtonCode(MouseButton button) -> eMouseButton;
 
     private:
         InputFacade();

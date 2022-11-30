@@ -7,6 +7,7 @@
 #include "Facade/GraphicsFacade.hpp"
 #include "Transform.hpp"
 #include "Texture/TextureManager.hpp"
+#include <boost/serialization/access.hpp>
 
 namespace spic {
 
@@ -16,9 +17,17 @@ namespace spic {
      */
     class Sprite : public Component {
     public:
+        template<typename archive> void serialize(archive& ar, const unsigned /*version*/) {
+            ar & _spriteId;
+            ar & _spriteWidth;
+            ar & _spriteHeight;
+            ar & _spriteScale;
+        }
+
         Sprite(std::string spriteId, int spriteWidth, int spriteHeight, int sortingLayer = 1, int orderInLayer = 1,
                platformer_engine::SPIC_RendererFlip flip = platformer_engine::FLIP_NONE, Color color = Color::Transparent(),
                double spriteScale = 1.0, int spriteSheetX = 0, int spriteSheetY = 0);
+
         [[nodiscard]] inline auto GetSpriteId() const -> std::string {return _spriteId;};
         [[nodiscard]] inline auto GetSpriteScale() const -> double {return _spriteScale;};
 

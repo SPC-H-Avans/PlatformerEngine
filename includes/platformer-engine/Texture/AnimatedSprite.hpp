@@ -3,9 +3,11 @@
 #include "Timer/Timer.hpp"
 #include "Render/Window.hpp"
 #include "Transform.hpp"
+#include <boost/serialization/access.hpp>
 
 #ifndef PLATFORMER_ENGINE_ANIMATEDSPRITE_HPP
 #define PLATFORMER_ENGINE_ANIMATEDSPRITE_HPP
+
 
 namespace platformer_engine{
     /**
@@ -14,6 +16,14 @@ namespace platformer_engine{
     class AnimatedSprite: public spic::Sprite {
 
     public:
+
+        template<typename archive> void serialize(archive& ar, const unsigned /*version*/) {
+            ar & _currentFrame;
+            ar & _frameCount;
+            ar & _animationSpeed;
+            ar & _spriteRow;
+        }
+
         /**
          * @brief Animated sprite constructor
          * @param spriteId sprite ID to use

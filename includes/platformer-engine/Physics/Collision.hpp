@@ -5,6 +5,7 @@
 #include <memory>
 #include "Point.hpp"
 #include "Collider.hpp"
+#include <boost/serialization/access.hpp>
 
 
 enum CollisionPoint {

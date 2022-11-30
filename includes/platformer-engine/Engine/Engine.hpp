@@ -11,7 +11,6 @@
 #include "Networking/ServerNetworkManager.hpp"
 #include "Networking/ClientNetworkManager.hpp"
 
-
 namespace platformer_engine {
     /**
     * @brief Engine is a singleton class which is the core of the game
@@ -93,6 +92,8 @@ namespace platformer_engine {
         void AddScene(const Scene &scene);
 
         auto GetServerNetworkManager() -> ServerNetworkManager &;
+
+        auto GetClientNetworkManager() -> ClientNetworkManager &;
 
         void HostServer(const std::string &sceneId, int playerLimit, int port);
 

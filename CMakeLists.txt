@@ -32,6 +32,10 @@ target_link_libraries(${PROJECT_NAME} PUBLIC SDL2::SDL2 SDL2::SDL2main SDL2::SDL
 target_link_libraries(${PROJECT_NAME} PUBLIC $<IF:$<TARGET_EXISTS:SDL2_mixer::SDL2_mixer>,SDL2_mixer::SDL2_mixer,SDL2_mixer::SDL2_mixer-static>)
 target_link_libraries(${PROJECT_NAME} PUBLIC unofficial::enet::enet)
 
+#add asio boost serialisaztion
+
+find_package(Boost REQUIRED serialization)
+target_link_libraries(${PROJECT_NAME} PUBLIC Boost::boost Boost::serialization)
 
 #-lSDL2
 include_directories(${SDL2_INCLUDE_DIRS})
@@ -53,3 +57,8 @@ if (DEFINED ENV{COVERAGE})
     set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -fprofile-arcs -ftest-coverage -fPIC")
 endif ()
 
+# -static-libgcc -static-libstdc++ -static for static linking
+if(WIN32)
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -static-libgcc -static-libstdc++ -static")
+set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -static-libgcc -static-libstdc++ -static")
+endif()

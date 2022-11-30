@@ -2,6 +2,10 @@
 #define COMPONENT_H_
 
 #include <memory>
+#include <boost/serialization/access.hpp>
+#include <boost/serialization/map.hpp>
+#include <boost/serialization/vector.hpp>
+#include <boost/serialization/shared_ptr.hpp>
 
 namespace spic {
     class GameObject;
@@ -11,6 +15,11 @@ namespace spic {
      */
     class Component {
         public:
+
+            template<typename archive> void serialize(archive& ar, const unsigned /*version*/) {
+                ar & _active;
+            }
+
             Component() = default;
             /**
              * @brief Virtual destructor.

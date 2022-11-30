@@ -43,7 +43,7 @@ void PhysicsSystem::MoveObjects() {
 //                point.x++;
 //            }
 //            if (spic::Input::GetKey(KeyCode::UP_ARROW)) {
-//                point.y++;
+//                point.y+= 50;
 //            }
 
             mario->AddForce(point);

@@ -4,9 +4,9 @@
 #include "RigidBody.hpp"
 #include "BoxCollider.hpp"
 #include "Physics/PhysicsSystem.hpp"
-#include "Physics/MarioRigidBody.hpp"
+#include "Physics/PlayerRigidBody.hpp"
 #include "Behaviour/CollisionBehaviour.hpp"
-#include "Behaviour/MarioInputBehaviour.hpp"
+#include "Behaviour/PlayerInputBehaviour.hpp"
 
 class PhysicsTests : public ::testing::Test {
 protected:
@@ -20,9 +20,9 @@ protected:
         block.SetTransform(Transform {Point {0, 0}, 0, 0});
 
         //Set Rigidbody on both objects;
-        MarioRigidBody marioBody;
+        PlayerRigidBody marioBody;
         marioBody.BodyType(spic::BodyType::dynamicBody);
-        mario.AddComponent<RigidBody>(std::make_shared<MarioRigidBody>(marioBody));
+        mario.AddComponent<RigidBody>(std::make_shared<PlayerRigidBody>(marioBody));
 
         RigidBody blockBody;
         blockBody.BodyType(spic::BodyType::staticBody);
@@ -30,7 +30,7 @@ protected:
 
 
         mario.AddComponent<BehaviourScript>(std::make_shared<platformer_engine::CollisionBehaviour>());
-        mario.AddComponent<BehaviourScript>(std::make_shared<platformer_engine::MarioInputBehaviour>());
+        mario.AddComponent<BehaviourScript>(std::make_shared<platformer_engine::PlayerInputBehaviour>());
         block.AddComponent<BehaviourScript>(std::make_shared<BehaviourScript>());
 
         _mario = GameObject::Find("Mario");

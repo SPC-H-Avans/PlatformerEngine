@@ -2,7 +2,7 @@
 #include "GameObject.hpp"
 #include "RigidBody.hpp"
 #include "BoxCollider.hpp"
-#include "Physics/MarioRigidBody.hpp"
+#include "Physics/PlayerRigidBody.hpp"
 #include "Animator.hpp"
 
 namespace platformer_engine {
@@ -14,16 +14,16 @@ namespace platformer_engine {
     { }
 
     void DynamicAnimationBehaviour::OnUpdate() {
-        auto mario = GetGameObject().lock();
-        auto marioRigidBody = std::dynamic_pointer_cast<MarioRigidBody>(mario->GetComponent<RigidBody>());
-        auto marioAnimator = std::dynamic_pointer_cast<Animator>(mario->GetComponent<Animator>());
-        if (marioRigidBody != nullptr && marioAnimator != nullptr) {
-            if (marioRigidBody->YVelocity() != 0) {
-                marioAnimator->SetActiveAnimation(_jumpSprite->GetSpriteId());
-            } else if (marioRigidBody->XVelocity() > 0.1 || marioRigidBody->XVelocity() < -0.1) {
-                marioAnimator->SetActiveAnimation(_walkSprite->GetSpriteId());
+        auto player = GetGameObject().lock();
+        auto playerRigidBody = std::dynamic_pointer_cast<PlayerRigidBody>(player->GetComponent<RigidBody>());
+        auto playerAnimator = std::dynamic_pointer_cast<Animator>(player->GetComponent<Animator>());
+        if (playerRigidBody != nullptr && playerAnimator != nullptr) {
+            if (playerRigidBody->YVelocity() != 0) {
+                playerAnimator->SetActiveAnimation(_jumpSprite->GetSpriteId());
+            } else if (playerRigidBody->XVelocity() > 0.1 || playerRigidBody->XVelocity() < -0.1) {
+                playerAnimator->SetActiveAnimation(_walkSprite->GetSpriteId());
             } else {
-                marioAnimator->SetActiveAnimation(_idleSprite->GetSpriteId());
+                playerAnimator->SetActiveAnimation(_idleSprite->GetSpriteId());
             }
         }
     }

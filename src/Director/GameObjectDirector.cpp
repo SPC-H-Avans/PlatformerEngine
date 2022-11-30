@@ -2,9 +2,9 @@
 
 #include "Director/GameObjectDirector.hpp"
 #include "Engine/Engine.hpp"
-#include "Physics/MarioRigidBody.hpp"
+#include "Physics/PlayerRigidBody.hpp"
 #include "BehaviourScript.hpp"
-#include "Behaviour/MarioInputBehaviour.hpp"
+#include "Behaviour/PlayerInputBehaviour.hpp"
 #include "Behaviour/CollisionBehaviour.hpp"
 #include "Behaviour/DynamicAnimationBehaviour.hpp"
 
@@ -56,7 +56,7 @@ auto GameObjectDirector::CreatePlayer(const std::shared_ptr<platformer_engine::A
     auto builder =
             GameObjectBuilder("player" + std::to_string(scene.GetObjectCount()))
                     .AddAnimator(animations)
-                    .AddBehaviourScript(std::make_shared<platformer_engine::MarioInputBehaviour>())
+                    .AddBehaviourScript(std::make_shared<platformer_engine::PlayerInputBehaviour>())
                     .AddBehaviourScript(std::make_shared<platformer_engine::CollisionBehaviour>())
                     .AddBehaviourScript(std::make_shared<platformer_engine::DynamicAnimationBehaviour>(idleSprite, walkSprite, jumpSprite));
     ;
@@ -64,9 +64,9 @@ auto GameObjectDirector::CreatePlayer(const std::shared_ptr<platformer_engine::A
     obj->SetTransform(transform);
 
     // rigidbody
-    auto marioBody = MarioRigidBody();
-    marioBody.BodyType(spic::BodyType::dynamicBody);
-    obj->AddComponent<RigidBody>(std::make_shared<MarioRigidBody>(marioBody));
+    auto playerBody = PlayerRigidBody();
+    playerBody.BodyType(spic::BodyType::dynamicBody);
+    obj->AddComponent<RigidBody>(std::make_shared<PlayerRigidBody>(playerBody));
 
     // collider
     auto collider = BoxCollider();

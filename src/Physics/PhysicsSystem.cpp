@@ -3,7 +3,7 @@
 #include "RigidBody.hpp"
 #include "Transform.hpp"
 #include "BehaviourScript.hpp"
-#include "Physics/MarioRigidBody.hpp"
+#include "Physics/PlayerRigidBody.hpp"
 //#include "Input.hpp"
 #include <algorithm>
 

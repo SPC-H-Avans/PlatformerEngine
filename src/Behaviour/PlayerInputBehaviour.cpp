@@ -1,16 +1,16 @@
-#include "Behaviour/MarioInputBehaviour.hpp"
+#include "Behaviour/PlayerInputBehaviour.hpp"
 #include "GameObject.hpp"
 #include "RigidBody.hpp"
 #include "BoxCollider.hpp"
-#include "Physics/MarioRigidBody.hpp"
+#include "Physics/PlayerRigidBody.hpp"
 #include "Input.hpp"
 
 namespace platformer_engine {
 
-    void MarioInputBehaviour::OnUpdate() {
-        auto mario = GetGameObject().lock();
-        auto marioRigidBody = std::dynamic_pointer_cast<MarioRigidBody>(mario->GetComponent<RigidBody>());
-        if (marioRigidBody != nullptr) {
+    void PlayerInputBehaviour::OnUpdate() {
+        auto player = GetGameObject().lock();
+        auto playerRigidBody = std::dynamic_pointer_cast<PlayerRigidBody>(player->GetComponent<RigidBody>());
+        if (playerRigidBody != nullptr) {
             auto point = Point();
 
             if (spic::Input::GetKey(KeyCode::LEFT_ARROW)) {
@@ -23,7 +23,7 @@ namespace platformer_engine {
                 point.y++;
             }
 
-            marioRigidBody->AddForce(point);
+            playerRigidBody->AddForce(point);
         }
     }
 }  // namespace platformer_engine

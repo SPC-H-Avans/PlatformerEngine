@@ -34,7 +34,7 @@ public:
      * @brief Adds a BehaviourScript component to the current GameObject being build.
      * @return reference to ObjectBuilder, allows method chaining.
      */
-    virtual auto AddBehaviourScript(const std::shared_ptr<BehaviourScript> &script) -> ObjectBuilder & = 0;
+    virtual auto AddBehaviourScript(const BehaviourScript &script) -> ObjectBuilder & = 0;
 
     /**
      * @brief Adds a Collider component to the current GameObject being build.

@@ -41,8 +41,8 @@ auto GameObjectBuilder::AddAnimator(std::vector<platformer_engine::AnimatedSprit
     return *this;
 }
 
-auto GameObjectBuilder::AddBehaviourScript(const std::shared_ptr<BehaviourScript> &script) -> GameObjectBuilder & {
-    _gameObject->AddComponent<BehaviourScript>(script);
+auto GameObjectBuilder::AddBehaviourScript(const BehaviourScript &script) -> GameObjectBuilder & {
+    _gameObject->AddComponent<BehaviourScript>(std::make_shared<BehaviourScript>(script));
     return *this;
 }
 

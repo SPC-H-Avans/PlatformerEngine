@@ -9,9 +9,15 @@ public:
     PlayerRigidBody();
     void AddForce(const Point& forceDirection) override;
 
-    float XVelocity() { return _horizontalSpeed; }
+    /**
+     * @brief returns the horizontal speed
+     */
+    float GetXVelocity() { return _horizontalSpeed; }
 
-    float YVelocity() { return _verticalSpeed; }
+    /**
+     * @brief returns the vertical speed
+     */
+    float GetYVelocity() { return _verticalSpeed; }
 
 private:
     float _horizontalSpeed{0};

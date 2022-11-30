@@ -37,12 +37,24 @@ namespace spic {
          */
         void Render(spic::Transform transform);
 
+        /**
+         * @brief sets the sprite's flip
+         */
         void SetFlip(platformer_engine::SPIC_RendererFlip flip) { _flip = flip; }
 
+        /**
+         * @brief sets the sprite's color
+         */
         void SetColor(Color color) { _color = color; }
 
+        /**
+         * @brief sets the sprite's scale, where 1.0 is 100%
+         */
         void SetSpriteScale(double spriteScale) { _spriteScale = spriteScale; }
 
+        /**
+         * @brief sets the sprite's x and y position relative to the spritesheet
+         */
         void SetSpriteSheetPosition(int x, int y) { _spriteSheetX = x, _spriteSheetY = y; }
 
     private:

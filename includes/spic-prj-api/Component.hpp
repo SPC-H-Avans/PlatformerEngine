@@ -59,7 +59,7 @@ namespace spic {
              */
             bool _active = true;
             /**
-             * @brief weak pointer to it's GameObject
+             * @brief weak pointer to its GameObject
              */
             std::weak_ptr<GameObject> _gameObject;
     };

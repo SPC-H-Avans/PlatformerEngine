@@ -4,7 +4,7 @@
 #include "RigidBody.hpp"
 #include "BoxCollider.hpp"
 #include "Physics/PhysicsSystem.hpp"
-#include "Physics/MarioRigidBody.hpp"
+#include "Physics/PlayerRigidBody.hpp"
 #include "Behaviour/CollisionBehaviour.hpp"
 
 class PhysicsTests : public ::testing::Test {
@@ -19,9 +19,9 @@ protected:
         block.SetTransform(Transform {Point {0, 0}, 0, 0});
 
         //Set Rigidbody on both objects;
-        MarioRigidBody marioBody;
+        PlayerRigidBody marioBody;
         marioBody.BodyType(spic::BodyType::dynamicBody);
-        mario.AddComponent<RigidBody>(std::make_shared<MarioRigidBody>(marioBody));
+        mario.AddComponent<RigidBody>(std::make_shared<PlayerRigidBody>(marioBody));
 
         RigidBody blockBody;
         blockBody.BodyType(spic::BodyType::staticBody);
@@ -32,6 +32,7 @@ protected:
         block.AddComponent<BehaviourScript>(std::make_shared<BehaviourScript>());
 
         _mario = GameObject::Find("Mario");
+        _marioBody = std::dynamic_pointer_cast<PlayerRigidBody>(_mario->GetComponent<RigidBody>());
         _block = GameObject::Find("Block");
 
         //Set Colliders on objects
@@ -45,9 +46,13 @@ protected:
 
     std::shared_ptr<GameObject> _mario;
     std::shared_ptr<GameObject> _block;
+    std::shared_ptr<PlayerRigidBody> _marioBody;
+
     PhysicsSystem physics = PhysicsSystem();
 
     void SetBoxColliders();
+
+    void UpdateBehaviours();
 };
 
 /**
@@ -62,12 +67,14 @@ TEST_F(PhysicsTests, MarioDoesntFallThroughBlock) {
     // 2. Set the location so that the block and mario overlap
     _mario->SetTransform(Transform {Point {marioStartX, marioStartY}, 0, 0});
     _block->SetTransform(Transform {Point {0, 0}, 0, 0});
+
+    // 3. Update mario's position
+    UpdateBehaviours();
     physics.Update();
 
+    // 4. Assert that the Mario object's location has not been updated
     auto marioNextX = _mario->GetTransform().position.x;
     auto marioNextY = _mario->GetTransform().position.y;
-
-    // 3. Assert that the Mario object's location has not been updated
     ASSERT_TRUE(marioNextX == marioStartX && marioNextY == marioStartY)
         << "The Mario Physics character fell through a block, the y velocity should have been 0, but was " +
         std::to_string(marioNextY);
@@ -86,7 +93,7 @@ TEST_F(PhysicsTests, MarioFallsUntilBlock) {
     // 2. Set the location so that the block and mario don't overlap
     _mario->SetTransform(Transform {Point {marioStartX, marioStartY}, 0, 0});
     _block->SetTransform(Transform {Point {0, 101}, 0, 0});
-    physics.Update();
+    UpdateBehaviours();
 
     auto marioNextY = _mario->GetTransform().position.y;
 
@@ -96,6 +103,7 @@ TEST_F(PhysicsTests, MarioFallsUntilBlock) {
 
     // 4. Update the physics 50 times, Mario should only fall until the block and then stop moving
     for(int i = 0; i < 50; i++) {
+        UpdateBehaviours();
         physics.Update();
     }
 
@@ -115,4 +123,17 @@ void PhysicsTests::SetBoxColliders() {
     collider.Width(10);
     collider.Height(10);
     _block->AddComponent<BoxCollider>(std::make_shared<BoxCollider>(collider));
+}
+
+void PhysicsTests::UpdateBehaviours() {
+    // trigger OnUpdate for each gameObject
+    auto gameObjects = GameObject::FindObjectsOfType<GameObject>();
+    for(auto& gameObject : gameObjects) {
+        auto scripts = gameObject->GetComponents<BehaviourScript>();
+        for(auto& scriptComponent : scripts) {
+            auto script = std::dynamic_pointer_cast<spic::BehaviourScript>(scriptComponent);
+            if (script != nullptr) script->OnUpdate();
+        }
+    }
+    _marioBody->AddForce(Point {0, 0});
 }

@@ -10,17 +10,7 @@
 spic::Scene::Scene(const std::string &sceneName) : _sceneName(sceneName) {}
 
 void spic::Scene::RenderScene() {
-    if (!_currentLevel.empty()) {
-        std::unique_ptr<platformer_engine::GameLevel> &level = platformer_engine::LevelParser::GetInstance().GetLevel(
-                _currentLevel);
 
-        if (level == nullptr) {
-            spic::Debug::LogWarning(
-                    "The level that was provided as current level is not imported / does not exist, and could not be loaded!");
-        }
-
-        level->Render();
-    }
     RenderGameObjects();
 }
 
@@ -53,10 +43,9 @@ void spic::Scene::AddObject(const std::shared_ptr<spic::GameObject> &gameObject)
     _origins.push_back(*gameObject);
 }
 
-void spic::Scene::ImportLevel(const std::string &id, const std::string &filePath, const std::string &fileName) {
-    //Import level and set it to a local variable in this scene object
-    platformer_engine::LevelParser::LevelParser::GetInstance().ParseLevel(id, filePath, fileName);
-    _currentLevel = id;
+void spic::Scene::ImportLevel(const std::string &id, const std::string &filePath, const std::string &fileName,
+                              const std::map<int, std::function<spic::GameObject(Transform)>> &config) {
+    platformer_engine::LevelParser::ParseLevel(id, filePath, fileName, config);
 }
 
 void spic::Scene::RemoveObject(const std::string &name) {
@@ -76,6 +65,10 @@ auto spic::Scene::GetObjectByName(const std::string &name) -> std::shared_ptr<sp
         return foundItemIterator.operator*();
     }
     return nullptr;
+}
+
+auto spic::Scene::GetObjectCount() -> int {
+    return _contents.size();
 }
 
 void spic::Scene::AddCamera(Camera &camera) {
@@ -134,9 +127,9 @@ void spic::Scene::ResetScene() {
     }
 }
 
-spic::Scene::~Scene() {
-    platformer_engine::LevelParser::LevelParser::GetInstance().Clean();
-
-    //TODO destroy all in scene
-}
+//spic::Scene::~Scene() { // TODO: destructor
+//    platformer_engine::LevelParser::LevelParser::GetInstance().Clean();
+//
+//    //TODO destroy all in scene
+//}
 

@@ -1,6 +1,8 @@
 #ifndef SCENE_H_
 #define SCENE_H_
 
+#include <functional>
+
 #include "GameObject.hpp"
 #include "Camera.hpp"
 
@@ -46,23 +48,17 @@ namespace spic {
         [[nodiscard]] inline auto
         GetAllObjects() const -> std::vector<std::shared_ptr<GameObject>> { return _contents; };
 
-        /**
-         * @brief Import a Game Level and add it to this scene
-         * @param path Folder path where to find the Game Level
-         * @param fileName Name of the Game Level file
-         * @param levelName Name of the Game Level (This level name will be used to retrieve the Game Level from the level ist)
-         * @spicapi
-         */
-        void ImportLevel(const std::string &id, const std::string &filePath, const std::string &fileName);
+        auto GetObjectCount() -> int;
 
         /**
-         * @brief Set the current level by level id
-         * @param Id of the level
+         * @brief Import a Game Level and add it to this scene
+         * @param id The id of the level
+         * @param filePath Folder path where to find the Game Level
+         * @param fileName Name of the Game Level file
+         * @param config A map of Tile IDs and their corresponding Game Object constructors
          * @spicapi
          */
-        void SetCurrentLevel(const std::string &id) {
-            _currentLevel = id;
-        }
+        static void ImportLevel(const std::string &id, const std::string &filePath, const std::string &fileName, const std::map<int, std::function<spic::GameObject(Transform)>> &config);
 
         /**
          * @brief Add a camera to this scene
@@ -104,11 +100,6 @@ namespace spic {
         void ResetScene();
 
         /**
-         * @brief Remove the levels from memory
-         */
-        ~Scene();
-
-        /**
          * @brief Get current scene name
          * @return std::string Scene name
          */
@@ -142,7 +133,6 @@ namespace spic {
          * @spicapi
          */
         std::shared_ptr<Camera> _activeCamera = nullptr;
-        std::string _currentLevel;
         std::string _sceneName{"Null Scene"};
     };
 

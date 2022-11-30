@@ -17,7 +17,7 @@ namespace platformer_engine {
          * @param fileName Name of the file with the extension
          * @return True if the level was loaded successfully
          */
-        virtual auto Load(const std::string &id, const std::string &filePath, const std::string &fileName, const std::map<int, std::function<std::shared_ptr<spic::GameObject>(spic::Transform)>> &config) -> bool = 0;
+        virtual auto Load(const std::string &id, const std::string &filePath, const std::string &fileName, const std::map<int, std::function<spic::GameObject(spic::Transform)>> &config) -> bool = 0;
 
         virtual ~AbstractLevelParser() = default;
     };

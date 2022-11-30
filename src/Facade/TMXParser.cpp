@@ -4,7 +4,7 @@
 #include "Engine/Engine.hpp"
 
 auto platformer_engine::TMXParser::Load(const std::string &id, const std::string &filePath, const std::string &fileName,
-                                        const std::map<int, std::function<std::shared_ptr<spic::GameObject>(Transform)>> &config) -> bool {
+                                        const std::map<int, std::function<spic::GameObject(Transform)>> &config) -> bool {
     bool result = ParseLevel(id, filePath, fileName, config);
 
     if (!result) {
@@ -14,7 +14,7 @@ auto platformer_engine::TMXParser::Load(const std::string &id, const std::string
 }
 
 auto platformer_engine::TMXParser::ParseLevel(const std::string &id, const std::string &filePath, const std::string &fileName,
-                                              const std::map<int, std::function<std::shared_ptr<spic::GameObject>(Transform)>> &config) -> bool {
+                                              const std::map<int, std::function<spic::GameObject(Transform)>> &config) -> bool {
     TiXmlDocument xml;
     xml.LoadFile(filePath + fileName);
 
@@ -71,7 +71,7 @@ auto platformer_engine::TMXParser::ParseTileSet(const TiXmlElement &xmlTileSet) 
 void platformer_engine::TMXParser::ParseTileLayer(TiXmlElement &xmlLayer, const std::string &filePath,
                                                   const platformer_engine::TMXParser::TileSetsList &tileSets,
                                                   int tileSize, int rowCount, int colCount,
-                                                  const std::map<int, std::function<std::shared_ptr<spic::GameObject>(Transform)>> &config) {
+                                                  const std::map<int, std::function<spic::GameObject(Transform)>> &config) {
     TiXmlElement *data;
     for (TiXmlElement *e = xmlLayer.FirstChildElement(); e != nullptr; e = e->NextSiblingElement()) {
         if (e->Value() == std::string("data")) {

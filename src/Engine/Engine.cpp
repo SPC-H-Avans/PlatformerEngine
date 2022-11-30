@@ -19,6 +19,7 @@ platformer_engine::Engine::Init(int width, int height, const std::string &title,
     _window = std::make_unique<Window>(width, height, title, color);
     _renderSystem = std::make_unique<RenderSystem>();
     _physicsSystem = std::make_unique<PhysicsSystem>();
+    _behaviourSystem = std::make_unique<BehaviourSystem>();
 
     return true;
 }
@@ -50,16 +51,7 @@ void platformer_engine::Engine::Update() {
     timer.Update();
     _physicsSystem->Update();
     _renderSystem->Update();
-
-    // trigger OnUpdate for each gameObject
-    auto gameObjects = GameObject::FindObjectsOfType<GameObject>();
-    for(auto& gameObject : gameObjects) {
-        auto scripts = gameObject->GetComponents<BehaviourScript>();
-        for(auto& scriptComponent : scripts) {
-            auto script = std::dynamic_pointer_cast<spic::BehaviourScript>(scriptComponent);
-            if (script != nullptr) script->OnUpdate();
-        }
-    }
+    _behaviourSystem->Update();
 
     //Call systems
 }

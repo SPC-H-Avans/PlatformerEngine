@@ -4,9 +4,6 @@
 #include "Engine/Engine.hpp"
 #include "Physics/PlayerRigidBody.hpp"
 #include "BehaviourScript.hpp"
-#include "Behaviour/PlayerInputBehaviour.hpp"
-#include "Behaviour/CollisionBehaviour.hpp"
-#include "Behaviour/DynamicAnimationBehaviour.hpp"
 
 auto GameObjectDirector::CreateTile(const std::shared_ptr<Sprite>& sprite,
                                     Transform transform, int colliderWidth, int colliderHeight) -> std::shared_ptr<GameObject> {

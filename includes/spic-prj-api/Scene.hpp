@@ -99,11 +99,6 @@ namespace spic {
         void ResetScene();
 
         /**
-         * @brief Remove the levels from memory
-         */
-//        ~Scene();
-
-        /**
          * @brief Get current scene name
          * @return std::string Scene name
          */

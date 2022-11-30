@@ -6,7 +6,7 @@
 #include "BehaviourScript.hpp"
 
 auto GameObjectDirector::CreateTile(const spic::Sprite& sprite,
-                                    Transform transform, int colliderWidth, int colliderHeight) -> std::shared_ptr<GameObject> {
+                                    Transform transform, int colliderWidth, int colliderHeight) -> GameObject& {
     auto& scene = platformer_engine::Engine::GetInstance().GetActiveScene();
     auto builder =
             GameObjectBuilder("tile" + std::to_string(scene.GetObjectCount()))
@@ -22,11 +22,11 @@ auto GameObjectDirector::CreateTile(const spic::Sprite& sprite,
     obj->AddComponent<BoxCollider>(std::make_shared<BoxCollider>(collider));
 
     scene.AddObject(obj);
-    return obj;
+    return *obj;
 }
 
 auto GameObjectDirector::CreateBackgroundObject(const spic::Sprite& sprite,
-                                                Transform transform) -> std::shared_ptr<GameObject> {
+                                                Transform transform) -> GameObject& {
     auto& scene = platformer_engine::Engine::GetInstance().GetActiveScene();
     auto builder =
             GameObjectBuilder("tile" + std::to_string(scene.GetObjectCount()))
@@ -35,12 +35,12 @@ auto GameObjectDirector::CreateBackgroundObject(const spic::Sprite& sprite,
     auto obj = builder.GetGameObject();
     obj->SetTransform(transform);
     scene.AddObject(obj);
-    return obj;
+    return *obj;
 }
 
 auto GameObjectDirector::CreatePlayer(Transform transform, int colliderWidth, int colliderHeight,
                                       std::vector<platformer_engine::AnimatedSprite> animations,
-                                      const std::vector<std::shared_ptr<BehaviourScript>> behaviourScripts) -> std::shared_ptr<GameObject> {
+                                      const std::vector<std::shared_ptr<BehaviourScript>> behaviourScripts) -> GameObject& {
     auto& scene = platformer_engine::Engine::GetInstance().GetActiveScene();
 
     auto builder = GameObjectBuilder("player" + std::to_string(scene.GetObjectCount()))
@@ -69,5 +69,5 @@ auto GameObjectDirector::CreatePlayer(Transform transform, int colliderWidth, in
     }
 
     scene.AddObject(obj);
-    return obj;
+    return *obj;
 }

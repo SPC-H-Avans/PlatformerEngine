@@ -26,7 +26,7 @@ public:
             Transform transform,
             int colliderWidth,
             int colliderHeight
-    ) -> std::shared_ptr<GameObject>;
+    ) -> GameObject&;
 
     /**
      * @brief Create a background object (not collidable) and add it to the scene
@@ -37,7 +37,7 @@ public:
     static auto CreateBackgroundObject(
             const spic::Sprite& sprite,
             Transform transform
-    ) -> std::shared_ptr<GameObject>;
+    ) -> GameObject&;
 
     /**
      * @brief Create a background object (not collidable) and add it to the scene
@@ -53,7 +53,7 @@ public:
             int colliderHeight,
             std::vector<platformer_engine::AnimatedSprite> animations,
             const std::vector<std::shared_ptr<BehaviourScript>> behaviourScripts // must use pointers to store derived classes
-    ) -> std::shared_ptr<GameObject>;
+    ) -> GameObject&;
 };
 
 #endif //PLATFORMER_ENGINE_GAMEOBJECTDIRECTOR_HPP

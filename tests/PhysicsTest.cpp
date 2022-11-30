@@ -32,6 +32,7 @@ protected:
         block.AddComponent<BehaviourScript>(std::make_shared<BehaviourScript>());
 
         _mario = GameObject::Find("Mario");
+        _marioBody = std::dynamic_pointer_cast<PlayerRigidBody>(_mario->GetComponent<RigidBody>());
         _block = GameObject::Find("Block");
 
         //Set Colliders on objects
@@ -45,6 +46,7 @@ protected:
 
     std::shared_ptr<GameObject> _mario;
     std::shared_ptr<GameObject> _block;
+    std::shared_ptr<PlayerRigidBody> _marioBody;
 
     PhysicsSystem physics = PhysicsSystem();
 
@@ -133,4 +135,5 @@ void PhysicsTests::UpdateBehaviours() {
             if (script != nullptr) script->OnUpdate();
         }
     }
+    _marioBody->AddForce(Point {0, 0});
 }

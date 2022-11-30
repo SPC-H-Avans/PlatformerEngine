@@ -51,8 +51,8 @@ public:
             Transform transform,
             int colliderWidth,
             int colliderHeight,
-            std::vector<platformer_engine::AnimatedSprite> animations,
-            const std::vector<std::shared_ptr<BehaviourScript>> behaviourScripts // must use pointers to store derived classes
+            std::vector<platformer_engine::AnimatedSprite>& animations,
+            const std::vector<std::shared_ptr<BehaviourScript>>& behaviourScripts // must use pointers to store derived classes
     ) -> GameObject&;
 };
 

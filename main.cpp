@@ -5,6 +5,7 @@
 #include "BehaviourScript.hpp"
 #include "Behaviour/CollisionBehaviour.hpp"
 #include "Physics/MarioRigidBody.hpp"
+#include "Builder/GameObjectBuilder.hpp"
 
 const int SCREEN_WIDTH = 640;
 const int SCREEN_HEIGHT = 480;
@@ -58,7 +59,7 @@ auto main([[maybe_unused]] int argc, [[maybe_unused]] char *argv[]) -> int {
 
     camera->SetTarget(*gameObject);
 
-    scene.AddCamera(camera);
+    scene.AddCamera(*camera);
 
     engine.AddScene(scene);
 
@@ -75,6 +76,3 @@ auto main([[maybe_unused]] int argc, [[maybe_unused]] char *argv[]) -> int {
     std::cout << "Hello, World!" << std::endl;
     return 0;
 }
-
-
-x

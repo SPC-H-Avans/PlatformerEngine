@@ -52,9 +52,10 @@ namespace spic {
 
         /**
          * @brief Import a Game Level and add it to this scene
-         * @param path Folder path where to find the Game Level
+         * @param id The id of the level
+         * @param filePath Folder path where to find the Game Level
          * @param fileName Name of the Game Level file
-         * @param levelName Name of the Game Level (This level name will be used to retrieve the Game Level from the level ist)
+         * @param config A map of Tile IDs and their corresponding Game Object constructors
          * @spicapi
          */
         static void ImportLevel(const std::string &id, const std::string &filePath, const std::string &fileName, const std::map<int, std::function<spic::GameObject(Transform)>> &config);

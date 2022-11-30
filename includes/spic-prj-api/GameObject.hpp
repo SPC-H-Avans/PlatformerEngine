@@ -10,7 +10,10 @@
 #include <vector>
 #include <memory>
 #include <map>
-
+#include <boost/serialization/access.hpp>
+#include <boost/serialization/map.hpp>
+#include <boost/serialization/vector.hpp>
+#include <boost/serialization/shared_ptr.hpp>
 
 namespace spic {
 
@@ -19,6 +22,17 @@ namespace spic {
      */
     class GameObject {
     public:
+
+        template<typename archive> void serialize(archive& ar, const unsigned /*version*/) {
+            ar & _name;
+            ar & _tag;
+            ar & _active;
+            ar & _transform;
+            ar & _layer;
+            ar & _components;
+            ar & _ownerId;
+        }
+
         /**
          * @brief Finds an active GameObject by name and returns it.
          * @param name The name of the GameObject you want to find.
@@ -140,14 +154,14 @@ namespace spic {
          */
         auto operator==(const GameObject &other) -> bool;
 
-        /**
-         * @brief Add given GameObject reference to this object's children list
-         * @details This function places a pointer to the gameobject in a suitable container,
-         * and sets the parent field on the child.
-         * @param other Reference to the GameObject.
-         * @spicapi
-         */
-        void AddChild(std::shared_ptr<GameObject> child);
+//        /**
+//         * @brief Add given GameObject reference to this object's children list
+//         * @details This function places a pointer to the gameobject in a suitable container,
+//         * and sets the parent field on the child.
+//         * @param other Reference to the GameObject.
+//         * @spicapi
+//         */
+//        void AddChild(std::shared_ptr<GameObject> child);
 
         /**
          * @brief Returns the name of the GameObject
@@ -156,19 +170,19 @@ namespace spic {
          */
         auto GetName() -> std::string;
 
-        /**
-         * @brief Returns the parent GameObject of this instance.
-         * @return pointer to the parent GameObject, nullptr if no parent set.
-         * @spicapi
-         */
-        auto Parent() -> std::shared_ptr<GameObject>;
-
-        /**
-        * @brief Returns the children of this instance
-        * @return list of pointers to the child GameObjects, empty list if no children set.
-        * @spicapi
-        */
-        auto Children() -> std::vector<std::shared_ptr<GameObject>>;
+//        /**
+//         * @brief Returns the parent GameObject of this instance.
+//         * @return pointer to the parent GameObject, nullptr if no parent set.
+//         * @spicapi
+//         */
+//        auto Parent() -> std::shared_ptr<GameObject>;
+//
+//        /**
+//        * @brief Returns the children of this instance
+//        * @return list of pointers to the child GameObjects, empty list if no children set.
+//        * @spicapi
+//        */
+//        auto Children() -> std::vector<std::shared_ptr<GameObject>>;
 
             /**
              * @brief Add a Component of the specified type. Must be a valid
@@ -206,34 +220,34 @@ namespace spic {
             return nullptr;
         }
 
-        /**
-         * @brief Get the first component of the specified type from
-         *        contained game objects. Must be
-         *        a valid subclass of Component.
-         * @return Pointer to Component instance.
-         * @spicapi
-         */
-        template<class T>
-        [[nodiscard]] auto GetComponentInChildren() const -> std::shared_ptr<Component> {
-            for (const auto &child: _self.lock()->_children) {
-                auto comp = child->template GetComponent<T>();
-                if (comp != nullptr)
-                    return comp;
-            }
-            return nullptr;
-        }
+//        /**
+//         * @brief Get the first component of the specified type from
+//         *        contained game objects. Must be
+//         *        a valid subclass of Component.
+//         * @return Pointer to Component instance.
+//         * @spicapi
+//         */
+//        template<class T>
+//        [[nodiscard]] auto GetComponentInChildren() const -> std::shared_ptr<Component> {
+//            for (const auto &child: _self.lock()->_children) {
+//                auto comp = child->template GetComponent<T>();
+//                if (comp != nullptr)
+//                    return comp;
+//            }
+//            return nullptr;
+//        }
 
-        /**
-         * @brief Get the first component of the specified type from
-         *        the parent game object. Must be
-         *        a valid subclass of Component.
-         * @return Pointer to Component instance.
-         * @spicapi
-         */
-        template<class T>
-        [[nodiscard]] auto GetComponentInParent() const -> std::shared_ptr<Component> {
-            return _parent->template GetComponent<T>();
-        }
+//        /**
+//         * @brief Get the first component of the specified type from
+//         *        the parent game object. Must be
+//         *        a valid subclass of Component.
+//         * @return Pointer to Component instance.
+//         * @spicapi
+//         */
+//        template<class T>
+//        [[nodiscard]] auto GetComponentInParent() const -> std::shared_ptr<Component> {
+//            return _parent->template GetComponent<T>();
+//        }
 
         /**
          * @brief Get all components of the specified type. Must be
@@ -255,39 +269,39 @@ namespace spic {
             return result;
         }
 
-        /**
-         * @brief Get all components of the specified type from
-         *        contained game objects. Must be
-         *        a valid subclass of Component.
-         * @return Vector with pointers to Component instances.
-         * @spicapi
-         */
-        template<class T>
-        [[nodiscard]] auto GetComponentsInChildren() const -> std::vector<std::shared_ptr<Component>> {
-            std::vector<std::shared_ptr<Component>> result;
-            for (auto &child: _self.lock()->_children) {
+//        /**
+//         * @brief Get all components of the specified type from
+//         *        contained game objects. Must be
+//         *        a valid subclass of Component.
+//         * @return Vector with pointers to Component instances.
+//         * @spicapi
+//         */
+//        template<class T>
+//        [[nodiscard]] auto GetComponentsInChildren() const -> std::vector<std::shared_ptr<Component>> {
+//            std::vector<std::shared_ptr<Component>> result;
+//            for (auto &child: _self.lock()->_children) {
+//
+//                std::vector<std::shared_ptr<Component>> comps = child->template GetComponents<T>();
+//                if (result.empty())
+//                    result = comps;
+//                else {
+//                    result.insert(result.end(), comps.begin(), comps.end());
+//                }
+//            }
+//            return result;
+//        }
 
-                std::vector<std::shared_ptr<Component>> comps = child->template GetComponents<T>();
-                if (result.empty())
-                    result = comps;
-                else {
-                    result.insert(result.end(), comps.begin(), comps.end());
-                }
-            }
-            return result;
-        }
-
-        /**
-         * @brief Get all components op the specified type from
-         *        the parent game object. Must be
-         *        a valid subclass of Component.
-         * @return Vector with pointers to Component instances.
-         * @spicapi
-         */
-        template<class T>
-        [[nodiscard]] auto GetComponentsInParent() const -> std::vector<std::shared_ptr<Component>> {
-            return _parent->template GetComponents<T>();
-        }
+//        /**
+//         * @brief Get all components op the specified type from
+//         *        the parent game object. Must be
+//         *        a valid subclass of Component.
+//         * @return Vector with pointers to Component instances.
+//         * @spicapi
+//         */
+//        template<class T>
+//        [[nodiscard]] auto GetComponentsInParent() const -> std::vector<std::shared_ptr<Component>> {
+//            return _parent->template GetComponents<T>();
+//        }
 
         /**
          * @brief Activates/Deactivates the GameObject, depending on the given true or false value.
@@ -341,8 +355,8 @@ namespace spic {
         std::string _tag;
         bool _active = true;
         int _layer;
-        std::shared_ptr<GameObject> _parent;
-        std::vector<std::shared_ptr<GameObject>> _children;
+//        std::shared_ptr<GameObject> _parent;
+//        std::vector<std::shared_ptr<GameObject>> _children;
         std::map<std::string, std::vector<std::shared_ptr<Component>>> _components; //Key is typeid.name
         Transform _transform = Transform{Point{0, 0}, 0, 0};
         std::weak_ptr<GameObject> _self;
@@ -352,6 +366,7 @@ namespace spic {
 
         //Multiton Pattern
         static std::map<std::string, std::shared_ptr<GameObject>> _instances;
+
     };
 
 } // namespace spic

@@ -13,13 +13,13 @@ namespace platformer_engine {
         if (marioRigidBody != nullptr) {
             auto point = Point();
 
-            if (spic::Input::GetKey(spic::Input::KeyCode::LEFT_ARROW)) {
+            if (spic::Input::GetKey(KeyCode::LEFT_ARROW)) {
                 point.x--;
             }
-            if (spic::Input::GetKey(spic::Input::KeyCode::RIGHT_ARROW)) {
+            if (spic::Input::GetKey(KeyCode::RIGHT_ARROW)) {
                 point.x++;
             }
-            if (spic::Input::GetKey(spic::Input::KeyCode::UP_ARROW) || spic::Input::GetKey(spic::Input::KeyCode::SPACE)) {
+            if (spic::Input::GetKey(KeyCode::UP_ARROW) || spic::Input::GetKey(KeyCode::SPACE)) {
                 point.y++;
             }
 

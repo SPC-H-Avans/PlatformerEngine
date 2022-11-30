@@ -25,9 +25,12 @@ namespace spic {
         public:
 
         template<typename archive> void serialize(archive& ar, const unsigned /*version*/) {
+            ar & _bodyType;
             ar & _mass;
             ar & _gravityScale;
-            ar & _bodyType;
+            ar & _velocity;
+            ar & _friction;
+            ar & _maxHorizontalSpeed;
         }
 
             /**
@@ -46,9 +49,12 @@ namespace spic {
             void DenyMoveTo(CollisionPoint point);
 
         protected:
+            enum BodyType _bodyType;
             float _mass;
             float _gravityScale;
-            enum BodyType _bodyType;
+            Point _velocity;
+            const float _friction = 0.016;
+            const float _maxHorizontalSpeed = 2;
 
             std::map<CollisionPoint, int> _moveRestrictions;
     };

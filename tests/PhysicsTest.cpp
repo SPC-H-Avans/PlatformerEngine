@@ -6,7 +6,6 @@
 #include "Physics/PhysicsSystem.hpp"
 #include "Physics/PlayerRigidBody.hpp"
 #include "Behaviour/CollisionBehaviour.hpp"
-#include "Behaviour/PlayerInputBehaviour.hpp"
 
 class PhysicsTests : public ::testing::Test {
 protected:
@@ -30,7 +29,6 @@ protected:
 
 
         mario.AddComponent<BehaviourScript>(std::make_shared<platformer_engine::CollisionBehaviour>());
-        mario.AddComponent<BehaviourScript>(std::make_shared<platformer_engine::PlayerInputBehaviour>());
         block.AddComponent<BehaviourScript>(std::make_shared<BehaviourScript>());
 
         _mario = GameObject::Find("Mario");

@@ -40,7 +40,7 @@ auto GameObjectDirector::CreateBackgroundObject(const spic::Sprite& sprite,
 
 auto GameObjectDirector::CreatePlayer(Transform transform, int colliderWidth, int colliderHeight,
                                       std::vector<platformer_engine::AnimatedSprite> animations,
-                                      std::vector<std::shared_ptr<BehaviourScript>> behaviourScripts) -> std::shared_ptr<GameObject> {
+                                      const std::vector<std::shared_ptr<BehaviourScript>> behaviourScripts) -> std::shared_ptr<GameObject> {
     auto& scene = platformer_engine::Engine::GetInstance().GetActiveScene();
 
     auto builder = GameObjectBuilder("player" + std::to_string(scene.GetObjectCount()))

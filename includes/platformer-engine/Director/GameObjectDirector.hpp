@@ -52,7 +52,7 @@ public:
             int colliderWidth,
             int colliderHeight,
             std::vector<platformer_engine::AnimatedSprite> animations,
-            std::vector<std::shared_ptr<BehaviourScript>> behaviourScripts // must use pointers to store derived classes
+            const std::vector<std::shared_ptr<BehaviourScript>> behaviourScripts // must use pointers to store derived classes
     ) -> std::shared_ptr<GameObject>;
 };
 

@@ -41,26 +41,19 @@ auto GameObjectDirector::CreateBackgroundObject(const std::shared_ptr<Sprite> &s
     return obj;
 }
 
-auto GameObjectDirector::CreatePlayer(const std::shared_ptr<platformer_engine::AnimatedSprite>& idleSprite,
-                                      const std::shared_ptr<platformer_engine::AnimatedSprite>& walkSprite,
-                                      const std::shared_ptr<platformer_engine::AnimatedSprite>& jumpSprite,
-                                      Transform transform, int colliderWidth, int colliderHeight) -> std::shared_ptr<GameObject> { // probably add width and height parameters and more to use in GameObjectBuilder functions
+auto GameObjectDirector::CreatePlayer(Transform transform, int colliderWidth, int colliderHeight,
+                                      std::vector<std::shared_ptr<platformer_engine::AnimatedSprite>> animations,
+                                      std::vector<std::shared_ptr<BehaviourScript>> behaviourScripts) -> std::shared_ptr<GameObject> {
     auto& scene = platformer_engine::Engine::GetInstance().GetActiveScene();
-
-    // set up animations
-    auto animations = std::vector<std::shared_ptr<platformer_engine::AnimatedSprite>>();
-    animations.push_back(idleSprite);
-    animations.push_back(walkSprite);
-    animations.push_back(jumpSprite);
 
     auto builder =
             GameObjectBuilder("player" + std::to_string(scene.GetObjectCount()))
+                    // animations
                     .AddAnimator(animations)
-                    .AddBehaviourScript(std::make_shared<platformer_engine::PlayerInputBehaviour>())
-                    .AddBehaviourScript(std::make_shared<platformer_engine::CollisionBehaviour>())
-                    .AddBehaviourScript(std::make_shared<platformer_engine::DynamicAnimationBehaviour>(idleSprite, walkSprite, jumpSprite));
     ;
     auto obj = builder.GetGameObject();
+
+    // transform
     obj->SetTransform(transform);
 
     // rigidbody
@@ -73,6 +66,11 @@ auto GameObjectDirector::CreatePlayer(const std::shared_ptr<platformer_engine::A
     collider.Width(colliderWidth);
     collider.Height(colliderHeight);
     obj->AddComponent<BoxCollider>(std::make_shared<BoxCollider>(collider));
+
+    // scripts
+    for (const auto &script: behaviourScripts) {
+        obj->AddComponent<BehaviourScript>(script);
+    }
 
     scene.AddObject(obj);
     return obj;

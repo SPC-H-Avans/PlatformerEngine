@@ -38,7 +38,7 @@
       "displayName": "Build ninja-multi-valgrind",
       "description": "Build ninja-multi-valgrind Configurations",
       "targets": "platformer-engine-exec",
-      "configuration": "Release"
+      "configuration": "Debug"
     }
   ],
   "testPresets": [

@@ -37,7 +37,7 @@
       "configurePreset": "ninja-multi-vcpkg",
       "displayName": "Build ninja-multi-valgrind",
       "description": "Build ninja-multi-valgrind Configurations",
-      "targets": "platformer-engine",
+      "targets": "platformer-engine-exec",
       "configuration": "Release"
     }
   ],

@@ -17,7 +17,7 @@ jobs:
       fail-fast: false
       matrix:
         include:
-          - os: self-hosted-linux-x64
+          - os: self-hosted-macos-m1
             triplet: x64-linux
 
     env:
@@ -53,9 +53,9 @@ jobs:
           sudo apt install valgrind -y
           echo "Valgrind installed"
 
-#      - name: 'Run executable'
-#        run: |
-#          ./builds/ninja-multi-vcpkg/Release/platformer-engine-exec
+      #      - name: 'Run executable'
+      #        run: |
+      #          ./builds/ninja-multi-vcpkg/Release/platformer-engine-exec
 
       - name: Run Tests with Valgrind
         run: |

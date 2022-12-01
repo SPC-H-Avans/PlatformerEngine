@@ -18,7 +18,7 @@ jobs:
       matrix:
         include:
           - os: self-hosted-macos-m1
-            triplet: x64-linux
+            triplet: arm64-osx
 
     env:
       VCPKG_DEFAULT_TRIPLET: ${{ matrix.triplet }}

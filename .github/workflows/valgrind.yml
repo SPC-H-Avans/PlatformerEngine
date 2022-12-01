@@ -22,6 +22,7 @@ jobs:
 
     env:
       VCPKG_DEFAULT_TRIPLET: ${{ matrix.triplet }}
+      XDG_RUNTIME_DIR: "/tmp/swaywm"
 
     steps:
       - name: 'Install SDL2 dev'

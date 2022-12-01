@@ -55,11 +55,11 @@ jobs:
 
       - name: 'Run executable'
         run: |
-          ./builds/ninja-multi-vcpkg/Release/platformer-engine
+          ./builds/ninja-multi-vcpkg/Release/platformer-engine-exec
 
       - name: Run Tests with Valgrind
         run: |
-          valgrind --leak-check=full --xml=yes --xml-file=unit_tests_valgrind.xml ./builds/ninja-multi-vcpkg/Release/platformer-engine
+          valgrind --leak-check=full --xml=yes --xml-file=unit_tests_valgrind.xml ./builds/ninja-multi-vcpkg/Release/platformer-engine-exec
 
       - name: Valgrind Memory check
         if: ${{ env.RUN_MEMORY_CHECK == 'true' }}

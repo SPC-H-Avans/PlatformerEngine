@@ -4,7 +4,6 @@
 #include "Networking/ProtocolPackages.hpp"
 #include "BehaviourScript.hpp"
 #include "Behaviour/CollisionBehaviour.hpp"
-#include "Physics/MarioRigidBody.hpp"
 #include "Builder/GameObjectBuilder.hpp"
 
 const int SCREEN_WIDTH = 640;
@@ -22,22 +21,9 @@ auto main([[maybe_unused]] int argc, [[maybe_unused]] char *argv[]) -> int {
 
     auto scene = builder.GetScene();
 
-
     GameObjectBuilder gameObjectBuilder{"speler"};
 
-//    platformer_engine::TextureManager::GetInstance().LoadTexture("mario_Jump", "D:/Avans/Jaar 4/SPC Project/assets/Walk.png");
-    // Add animating sprite
-//    auto sprite = std::make_shared<platformer_engine::AnimatedSprite>("mario_Jump", 1, 1, 24, 24, 3, 100, 1,
-//                                                                      platformer_engine::FLIP_NONE,
-//                                                                      Color::Transparent(), 1.0);
-//    gameObjectBuilder.AddAnimator(sprite);
     auto gameObject = gameObjectBuilder.GetGameObject();
-
-    // todo: Make this using the GameObjectBuilder
-    // Add the MarioPhysics rigidbody
-    auto marioBody = MarioRigidBody();
-    marioBody.BodyType(spic::BodyType::dynamicBody);
-    gameObject->AddComponent<RigidBody>(std::make_shared<MarioRigidBody>(marioBody));
 
     // Add a BoxCollider
     auto collider = BoxCollider();
@@ -68,8 +54,6 @@ auto main([[maybe_unused]] int argc, [[maybe_unused]] char *argv[]) -> int {
     engine.JoinServer("127.0.0.1", 7779);
     NetPkgs::Ping ping;
     engine.GetServerNetworkManager().SendUpdateToClients(&ping, sizeof(NetPkgs::Ping));
-
-//    engine.GetActiveScene().ImportLevel("map1", "D:/Avans/Jaar 4/SPC Project/assets/Mario1/","map1.tmx");
 
     engine.Start();
 

@@ -3,13 +3,6 @@
 #include <iostream>
 #include "Networking/ProtocolPackages.hpp"
 #include "Sprite.hpp"
-#include "Component.hpp"
-#include <boost\archive\text_iarchive.hpp>
-#include <boost\archive\text_oarchive.hpp>
-#include <boost/serialization/map.hpp>
-#include <boost/serialization/vector.hpp>
-#include <boost/serialization/shared_ptr.hpp>
-#include <boost/serialization/export.hpp>
 
 //BOOST_CLASS_EXPORT(spic::Component);
 

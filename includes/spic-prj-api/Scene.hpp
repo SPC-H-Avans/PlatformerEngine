@@ -1,6 +1,8 @@
 #ifndef SCENE_H_
 #define SCENE_H_
 
+#include <functional>
+
 #include "GameObject.hpp"
 #include "Camera.hpp"
 
@@ -11,12 +13,12 @@ namespace spic {
      */
     class Scene {
     public:
-        template<typename archive> void serialize(archive& ar, const unsigned /*version*/) {
+        template<typename archive>
+        void serialize(archive &ar, const unsigned /*version*/) {
             ar & _sceneName;
             ar & _origins;
             ar & _activeCamera;
             ar & _cameras;
-            ar & _currentLevel;
         }
 
         Scene(const std::string &sceneName);
@@ -34,7 +36,7 @@ namespace spic {
          * @param gameObject Game Object shared pointer
          * @spicapi
          */
-        void AddObject(const std::shared_ptr<GameObject>& gameObject);
+        void AddObject(const std::shared_ptr<GameObject> &gameObject);
 
         /**
          * @brief Remove a Game Object from this scene by name
@@ -54,23 +56,18 @@ namespace spic {
         [[nodiscard]] inline auto
         GetAllObjects() const -> std::vector<std::shared_ptr<GameObject>> { return _contents; };
 
-        /**
-         * @brief Import a Game Level and add it to this scene
-         * @param path Folder path where to find the Game Level
-         * @param fileName Name of the Game Level file
-         * @param levelName Name of the Game Level (This level name will be used to retrieve the Game Level from the level ist)
-         * @spicapi
-         */
-        void ImportLevel(const std::string &id, const std::string &filePath, const std::string &fileName);
+        auto GetObjectCount() -> int;
 
         /**
-         * @brief Set the current level by level id
-         * @param Id of the level
+         * @brief Import a Game Level and add it to this scene
+         * @param id The id of the level
+         * @param filePath Folder path where to find the Game Level
+         * @param fileName Name of the Game Level file
+         * @param config A map of Tile IDs and their corresponding Game Object constructors
          * @spicapi
          */
-        void SetCurrentLevel(const std::string &id) {
-            _currentLevel = id;
-        }
+        static void ImportLevel(const std::string &id, const std::string &filePath, const std::string &fileName,
+                                const std::map<int, std::function<spic::GameObject(Transform)>> &config);
 
         /**
          * @brief Add a camera to this scene
@@ -112,11 +109,6 @@ namespace spic {
         void ResetScene();
 
         /**
-         * @brief Remove the levels from memory
-         */
-        ~Scene();
-
-        /**
          * @brief Get current scene name
          * @return std::string Scene name
          */
@@ -137,7 +129,7 @@ namespace spic {
         /**
          * @brief Default values of the objects used to reset a scene after its been played.
          */
-        std::vector<GameObject> _origins {};
+        std::vector<GameObject> _origins{};
 
         /**
          * @brief List of all Cameras in this scene
@@ -150,7 +142,6 @@ namespace spic {
          * @spicapi
          */
         std::shared_ptr<Camera> _activeCamera = nullptr;
-        std::string _currentLevel;
         std::string _sceneName{"Null Scene"};
     };
 

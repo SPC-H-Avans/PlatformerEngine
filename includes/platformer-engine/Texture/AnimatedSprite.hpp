@@ -27,19 +27,18 @@ namespace platformer_engine{
         /**
          * @brief Animated sprite constructor
          * @param spriteId sprite ID to use
-         * @param sortingLayer sorting layer
-         * @param orderInLayer order in layer
          * @param spriteWidth width of the sprite
          * @param spriteHeight height of the sprite
+         * @param sortingLayer sorting layer
+         * @param orderInLayer order in layer
          * @param frameCount amount of frames in animation
          * @param animationSpeed speed of the animation
          * @param spriteRow row where the animation is located in the sprite
          * @param flip If the sprite should be flipped and in which direction
          * @param color background color
          */
-        AnimatedSprite(std::string spriteId, int sortingLayer,
-                       int orderInLayer, int spriteWidth, int spriteHeight,
-                       int frameCount, int animationSpeed, int spriteRow, platformer_engine::SPIC_RendererFlip flip = platformer_engine::FLIP_NONE, spic::Color color = spic::Color::Transparent(), double spriteScale = 1.0);
+        AnimatedSprite(std::string spriteId, int spriteWidth, int spriteHeight, int frameCount, int sortingLayer = 1, int orderInLayer = 1,
+                       int animationSpeed = 100, int spriteRow = 1, platformer_engine::SPIC_RendererFlip flip = platformer_engine::FLIP_NONE, spic::Color color = spic::Color::Transparent(), double spriteScale = 1.0);
 
         /**
          * @brief Update frame count

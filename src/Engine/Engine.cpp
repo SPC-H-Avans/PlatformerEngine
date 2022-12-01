@@ -4,6 +4,7 @@
 #include "Exceptions/ServerAlreadyActiveException.hpp"
 #include "Exceptions/ClientAlreadyActiveException.hpp"
 #include "Exceptions/SceneNotLoadedException.hpp"
+#include "BehaviourScript.hpp"
 #include "Exceptions/NoClientNetworkManagerActiveException.hpp"
 #include <thread>
 
@@ -18,6 +19,7 @@ platformer_engine::Engine::Init(int width, int height, const std::string &title,
     _window = std::make_unique<Window>(width, height, title, color);
     _renderSystem = std::make_unique<RenderSystem>();
     _physicsSystem = std::make_unique<PhysicsSystem>();
+    _behaviourSystem = std::make_unique<BehaviourSystem>();
 
     return true;
 }
@@ -49,6 +51,8 @@ void platformer_engine::Engine::Update() {
     timer.Update();
     _physicsSystem->Update();
     _renderSystem->Update();
+    _behaviourSystem->Update();
+
     //Call systems
 }
 

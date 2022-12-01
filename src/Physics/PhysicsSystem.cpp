@@ -6,6 +6,9 @@
 #include "Physics/PlayerRigidBody.hpp"
 //#include "Input.hpp"
 #include <algorithm>
+#include <map>
+#include <boost/functional/hash.hpp>
+
 
 using spic::GameObject;
 using spic::RigidBody;
@@ -42,37 +45,118 @@ auto GetBoxCollidersFromClient(int ownerId) -> vector<shared_ptr<GameObject>> {
     return result;
 }
 
+typedef std::unordered_map<std::pair<int, int>, std::vector<shared_ptr<GameObject>>, boost::hash<std::pair<int, int>>> SpatialMap;
+const int mapCellSize = 16; //TODO move??
+
+//Function for adding to map
+void AddToMap(Point point, shared_ptr<GameObject>& obj, SpatialMap& map) {
+    //TODO Make 16 not a magic number?
+    auto key = std::make_pair(floor(point.x / mapCellSize), floor(point.y / mapCellSize));
+    if(map.contains(key)) {
+        map[key].push_back(obj);
+    } else {
+        map[key] = std::vector {obj};
+    }
+}
+
+//Function for checking each corner
+void RegisterInSpatial(shared_ptr<GameObject>& obj, BoxCollider& objCollider, SpatialMap& map) {
+    Point min = obj->GetTransform().position;
+    //Get every corner
+    Point max { min.x + objCollider.Width(), min.y + objCollider.Height() };
+
+    //TopLeft
+    AddToMap(min, obj, map);
+    //TopRight
+    AddToMap({max.x, min.y}, obj, map);
+    //BottomLeft
+    AddToMap({min.x, max.y}, obj, map);
+    //BottomRight
+    AddToMap(max, obj, map);
+}
+
+std::pair<SpatialMap, vector<shared_ptr<GameObject>>> SetupSpatialMap(int ownerId) {
+    vector<shared_ptr<GameObject>> gameObjects = GameObject::FindObjectsOfType<GameObject>();
+    vector<shared_ptr<GameObject>> dynamicBodies;
+    SpatialMap spatialMap;
+
+    for(auto& obj : gameObjects) {
+        if(obj != nullptr && obj->GetOwnerId() == ownerId) { //If owned by client
+            auto boxCollider = std::static_pointer_cast<BoxCollider>(obj->GetComponent<BoxCollider>());
+            if(boxCollider != nullptr) { //If boxcollider
+                RegisterInSpatial(obj, *boxCollider, spatialMap);
+                
+                auto rigidBody = std::static_pointer_cast<RigidBody>(obj->GetComponent<RigidBody>());
+                if(rigidBody != nullptr && rigidBody->BodyType() == BodyType::dynamicBody) {
+                    dynamicBodies.push_back(obj);
+                }
+            }
+        }
+    }
+
+    //TODO is this an intensive copy? probably, ownership? MOVE??
+    return std::make_pair(spatialMap, dynamicBodies);
+}
+
+vector<shared_ptr<GameObject>> GetFromMap(Point point, SpatialMap& map) {
+    auto key = std::make_pair(floor(point.x / mapCellSize), floor(point.y / mapCellSize));
+    if(map.contains(key)) {
+        return map[key];
+        //TODO is this an intensive copy? probably, ownership? MOVE??
+    }
+    return {};
+}
+
+vector<shared_ptr<GameObject>> GetNearbyObjects(GameObject& obj, BoxCollider& objCollider, SpatialMap& map) {
+    vector<shared_ptr<GameObject>> result;
+    //Retrieve from spatial;
+    Point min = obj.GetTransform().position;
+    Point max { min.x + objCollider.Width(), min.y + objCollider.Height() };
+
+    //TopLeft
+    auto tl = GetFromMap(min, map);
+    result.insert(result.end(), tl.begin(), tl.end());
+    //TopRight
+    auto tr = GetFromMap({max.x, min.y}, map);
+    result.insert(result.end(), tr.begin(), tr.end());
+    //BottomLeft
+    auto bl = GetFromMap({min.x, max.y}, map);
+    result.insert(result.end(), bl.begin(), bl.end());
+    //BottomRight
+    auto br = GetFromMap(max, map);
+    result.insert(result.end(), br.begin(), br.end());
+
+    //TODO is this an intensive copy? probably, ownership? MOVE??
+    return result;
+}
+
 void PhysicsSystem::CheckCollisions() {
-    //Get all gameobjects that have boxcolliders
-    auto collidableObjects = GetBoxCollidersFromClient(_clientId);
+    //TODO SPATIAL HASHMAP
+    auto result = SetupSpatialMap(_clientId);
+    auto spatialMap = result.first;
+    auto dynamicObjects = result.second;
 
-    for(auto& initiator : collidableObjects) {
-        shared_ptr<RigidBody> body = std::static_pointer_cast<RigidBody>(initiator->GetComponent<RigidBody>());
-        shared_ptr<BoxCollider> aCol = std::static_pointer_cast<BoxCollider>(initiator->GetComponent<BoxCollider>());
+    for(auto& objA : dynamicObjects) {
+        shared_ptr<BoxCollider> aCol = std::static_pointer_cast<BoxCollider>(objA->GetComponent<BoxCollider>());
+        if(aCol == nullptr) {
+            for(auto& objB : GetNearbyObjects(*objA, *aCol, spatialMap)) {
+                shared_ptr<BoxCollider> bCol = std::static_pointer_cast<BoxCollider>(objB->GetComponent<BoxCollider>());
 
-        if(body != nullptr && aCol != nullptr && body->BodyType() == BodyType::dynamicBody) { //Checks from dynamicBody perspective
-            //Find all collisions
-            for(auto& receiver : collidableObjects) { //Currently only boxCollision
-                if(receiver != initiator) {
-                    shared_ptr<BoxCollider> bCol = std::static_pointer_cast<BoxCollider>(receiver->GetComponent<BoxCollider>());
-                    shared_ptr<RigidBody> recBody = std::static_pointer_cast<RigidBody>(receiver->GetComponent<RigidBody>());
-
-                    unique_ptr<std::tuple<CollisionPoint, CollisionPoint>> collision = CheckBoxCollision(initiator->GetTransform().position, *aCol, receiver->GetTransform().position, *bCol);
-                    auto collisionsWithBCol = aCol->GetCollisionsWith(*bCol);
-                    if(collision != nullptr) { //If collision
-                        if(!aCol->GetCollisions().empty() && !collisionsWithBCol.empty()) {
-                            auto collisionId = collisionsWithBCol.front().GetId();
-                            // Remain Collision
-                            RemainCollision(initiator, aCol, receiver, bCol, *collision, collisionId);
-                        } else {
-                            // Create collision
-                            CreateCollision(initiator, aCol, receiver, bCol, *collision);
-                        }
+                unique_ptr<std::tuple<CollisionPoint, CollisionPoint>> collision = CheckBoxCollision(objA->GetTransform().position, *aCol, objB->GetTransform().position, *bCol);
+                auto collisionsWithBCol = aCol->GetCollisionsWith(*bCol);
+                if(collision != nullptr) { //If collision
+                    if(!aCol->GetCollisions().empty() && !collisionsWithBCol.empty()) {
+                        auto collisionId = collisionsWithBCol.front().GetId();
+                        // Remain Collision
+                        RemainCollision(objA, aCol, objB, bCol, *collision, collisionId);
                     } else {
-                        if(!collisionsWithBCol.empty()) {
-                            auto collisionId = collisionsWithBCol.front().GetId();
-                            EndCollision(initiator, aCol, receiver, bCol, collisionId);
-                        }
+                        // Create collision
+                        CreateCollision(objA, aCol, objB, bCol, *collision);
+                    }
+                } else {
+                    if(!collisionsWithBCol.empty()) {
+                        auto collisionId = collisionsWithBCol.front().GetId();
+                        EndCollision(objA, aCol, objB, bCol, collisionId);
                     }
                 }
             }

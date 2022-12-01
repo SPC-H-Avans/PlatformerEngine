@@ -45,7 +45,7 @@ jobs:
         uses: lukka/run-cmake@v10
         with:
           configurePreset: ninja-multi-vcpkg
-          buildPreset: ninja-multi-vcpkg
+          buildPresetCmdString: 'cmake --build --config Release'
 
       # zip current directory and upload as artifact
       - name: 'Zip'

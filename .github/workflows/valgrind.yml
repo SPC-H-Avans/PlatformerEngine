@@ -50,4 +50,4 @@ jobs:
 
       - name: 'Run doctor memory'
         run: |
-          drmemory -- ./builds/ninja-multi-vcpkg/Debug/platformer-engine-exec
+          ${{secrets.DRMEMORY-DIR-Google-Cloud}}drmemory -- ./builds/ninja-multi-vcpkg/Debug/platformer-engine-exec

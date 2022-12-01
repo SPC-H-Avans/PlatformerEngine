@@ -55,10 +55,18 @@ namespace spic {
          */
         void Active(bool flag) { _active = flag; }
 
+        /**
+         * @brief Set a new parent game object
+         * @param gObj GameObject
+         */
         void SetGameObject(std::weak_ptr<GameObject> gObj) {
             _gameObject = std::move(gObj);
         }
 
+        /**
+         * @brief Get the parent game object
+         * @return GameObject, parent game object
+         */
         std::weak_ptr<GameObject> GetGameObject() {
             return _gameObject;
         }

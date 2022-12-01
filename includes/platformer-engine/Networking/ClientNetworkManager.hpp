@@ -93,16 +93,19 @@ namespace platformer_engine {
          */
         void OnDisconnect(int clientId) override;
 
-        void RegisterEventHandler(int eventID, std::function<void(int clientId, const uint8_t *data, size_t dataLength)> functionToCall) override;
+        void RegisterEventHandler(int eventID, std::function<void(int clientId, const uint8_t *data,
+                                                                  size_t dataLength)> functionToCall) override;
 
 #pragma region DefaultClientEvents
+
         /**
          * @brief Update the transform of a Game Object (Only if this client owns the object)
          * @param transform New transform
          * @param gameObjectId Game Object ID of the object to update
          */
-void UpdateNetworkedGameObjectTransform(const spic::Transform &transform,
-                                        const std::string &gameObjectId);
+        void UpdateNetworkedGameObjectTransform(const spic::Transform &transform,
+                                                const std::string &gameObjectId);
+
 #pragma endregion DefaultClientEvents
 
     private:
@@ -113,17 +116,43 @@ void UpdateNetworkedGameObjectTransform(const spic::Transform &transform,
         NetworkingFacade _networkingFacade;
 
 #pragma region HandleIncomingPackets
+
+        /**
+         * @brief Remove a local client from game and remove his game object
+         * @param data Data
+         * @param dataLength Length of game object
+         */
         void RemoveLocalClientFromGame(const void *data, size_t dataLength);
 
+        /**
+         * @brief Create a new game object
+         * @param data Data
+         * @param length Length of data
+         */
         void CreateGameObject(const void *data, size_t length);
 
+        /**
+         * @brief Destroy a game object
+         * @param data Data
+         * @param length Length of data
+         */
         void DestroyGameObject(const void *data, size_t length);
 
+        /**
+         * @brief Update transform of a game object
+         * @param data Data
+         * @param length Length of data
+         */
         void UpdateGameObjectTransform(const void *data, size_t length);
 
-#pragma endregion HandleIncomingPackets
-
+        /**
+         * @brief Parse the scene sent by the server
+         * @param data Data
+         * @param length length of data
+         */
         void CreateScene(const void *data, size_t length);
+
+#pragma endregion HandleIncomingPackets
     };
 }  // namespace platformer_engine
 #endif //PLATFORMER_ENGINE_CLIENTNETWORKMANAGER_HPP

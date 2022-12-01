@@ -4,29 +4,36 @@
 #include <map>
 #include <string>
 #include <memory>
-#include "GameLevel/GameLevel.hpp"
-#include "GameLevel/TileLayer.hpp"
+#include <functional>
+
 #include "tinyxml.h"
 #include "LevelParser/AbstractLevelParser.hpp"
+#include "GameObject.hpp"
 
 namespace platformer_engine {
 
     class TMXParser : public AbstractLevelParser {
     public:
-        TMXParser(std::map<std::string, std::unique_ptr<GameLevel>> &levels) : _levels(levels) {};
+        struct TileSet {
+            int FirstID, LastID;
+            int RowCount, ColCount;
+            int TileCount, TileSize;
+            std::string Name, Source;
+        };
+        using TileSetsList = std::vector<TileSet>;
+        using TileMap = std::vector<std::vector<int>>;
 
-        auto Load(const std::string &id, const std::string &filePath, const std::string &fileName) -> bool override;
+        auto Load(const std::string &id, const std::string &filePath, const std::string &fileName, const std::map<int, std::function<spic::GameObject(spic::Transform)>> &config) -> bool override;
 
     private:
-        auto ParseLevel(const std::string &id, const std::string &filePath, const std::string &fileName) -> bool;
+        auto ParseLevel(const std::string &id, const std::string &filePath, const std::string &fileName, const std::map<int, std::function<spic::GameObject(spic::Transform)>> &config) -> bool;
 
         auto ParseTileSet(const TiXmlElement &xmlTileSet) -> TileSet;
 
-        auto
-        ParseTileLayer(TiXmlElement &xmlLayer, const std::string &filePath, const TileSetsList &tileSets, int tileSize,
-                       int rowCount, int colCount) -> std::unique_ptr<TileLayer>;
-
-        std::map<std::string, std::unique_ptr<GameLevel>> &_levels;
+        void ParseTileLayer(TiXmlElement &xmlLayer, const std::string &filePath,
+                            const platformer_engine::TMXParser::TileSetsList &tileSets,
+                            int tileSize, int rowCount, int colCount,
+                            const std::map<int, std::function<spic::GameObject(spic::Transform)>> &config);
     };
 }
 

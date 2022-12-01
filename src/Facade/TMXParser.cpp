@@ -1,19 +1,20 @@
 #include "Facade/TMXParser.hpp"
 #include "LevelParser/LevelParser.hpp"
 #include "Debug.hpp"
+#include "Engine/Engine.hpp"
 
-bool
-platformer_engine::TMXParser::Load(const std::string &uid, const std::string &filePath, const std::string &fileName) {
-    bool result = ParseLevel(uid, filePath, fileName);
+auto platformer_engine::TMXParser::Load(const std::string &id, const std::string &filePath, const std::string &fileName,
+                                        const std::map<int, std::function<spic::GameObject(Transform)>> &config) -> bool {
+    bool result = ParseLevel(id, filePath, fileName, config);
 
     if (!result) {
-        spic::Debug::LogWarning( "Failed to parse level: " + uid);
+        spic::Debug::LogWarning( "Failed to parse level: " + id);
     }
     return result;
 }
 
-bool platformer_engine::TMXParser::ParseLevel(const std::string &id, const std::string &filePath,
-                                              const std::string &fileName) {
+auto platformer_engine::TMXParser::ParseLevel(const std::string &id, const std::string &filePath, const std::string &fileName,
+                                              const std::map<int, std::function<spic::GameObject(Transform)>> &config) -> bool {
     TiXmlDocument xml;
     xml.LoadFile(filePath + fileName);
 
@@ -24,12 +25,10 @@ bool platformer_engine::TMXParser::ParseLevel(const std::string &id, const std::
 
     TiXmlElement *root = xml.RootElement();
 
-    int colCount, rowCount, tileSize = 0;
+    int colCount = 0, rowCount = 0, tileSize = 0;
     root->Attribute("width", &colCount);
     root->Attribute("height", &rowCount);
     root->Attribute("tilewidth", &tileSize);
-
-    std::unique_ptr<GameLevel> gameLevel = std::make_unique<GameLevel>();
 
     // Parse Tile sets
     TileSetsList tileSets;
@@ -44,20 +43,14 @@ bool platformer_engine::TMXParser::ParseLevel(const std::string &id, const std::
     // Parse Layers
     for (TiXmlElement *e = root->FirstChildElement(); e != nullptr; e = e->NextSiblingElement()) {
         if (e->Value() == std::string("layer")) {
-            std::unique_ptr<TileLayer> tileLayer = ParseTileLayer(*e, filePath, tileSets, tileSize, rowCount, colCount);
-            gameLevel->_mapLayers.push_back(std::move(tileLayer));
+            ParseTileLayer(*e, filePath, tileSets, tileSize, rowCount, colCount, config);
         }
     }
-    gameLevel->BaseTileSize = tileSize;
-    gameLevel->RowCount = rowCount;
-    gameLevel->ColCount = colCount;
-
-    _levels[id] = std::move(gameLevel);
 
     return true;
 }
 
-platformer_engine::TileSet platformer_engine::TMXParser::ParseTileSet(const TiXmlElement &xmlTileSet) {
+auto platformer_engine::TMXParser::ParseTileSet(const TiXmlElement &xmlTileSet) -> platformer_engine::TMXParser::TileSet {
     TileSet tileSet;
 
     tileSet.Name = xmlTileSet.Attribute("name");
@@ -75,11 +68,10 @@ platformer_engine::TileSet platformer_engine::TMXParser::ParseTileSet(const TiXm
     return tileSet;
 }
 
-std::unique_ptr<platformer_engine::TileLayer>
-platformer_engine::TMXParser::ParseTileLayer(TiXmlElement &xmlLayer, const std::string &filePath,
-                                             const platformer_engine::TileSetsList &tileSets,
-                                             int tileSize, int rowCount,
-                                             int colCount) {
+void platformer_engine::TMXParser::ParseTileLayer(TiXmlElement &xmlLayer, const std::string &filePath,
+                                                  const platformer_engine::TMXParser::TileSetsList &tileSets,
+                                                  int tileSize, int rowCount, int colCount,
+                                                  const std::map<int, std::function<spic::GameObject(Transform)>> &config) {
     TiXmlElement *data;
     for (TiXmlElement *e = xmlLayer.FirstChildElement(); e != nullptr; e = e->NextSiblingElement()) {
         if (e->Value() == std::string("data")) {
@@ -101,10 +93,18 @@ platformer_engine::TMXParser::ParseTileLayer(TiXmlElement &xmlLayer, const std::
             std::stringstream convertor(id);
             convertor >> tileMap[row][col];
 
+            // if tile key exists in config, do the method
+            if (config.find(tileMap[row][col]) != config.end()) {
+                auto transform = Transform {
+                    Point {
+                        static_cast<double>(col * tileSize),
+                        static_cast<double>(row * tileSize)},
+                    0, 1.0 };
+                config.at(tileMap[row][col])(transform); // create the tile
+            }
+
             if (!iss.good())
                 break;
         }
     }
-
-    return std::make_unique<TileLayer>(filePath, tileSize, rowCount, colCount, tileMap, tileSets);
 }

@@ -46,6 +46,15 @@ namespace platformer_engine {
         void SendUpdateToClients(const void *data, size_t dataLength, bool reliable = false);
 
         /**
+         * @brief Send update to a specific client
+         * @param clientId client ID of receiver
+         * @param data Data from type MessageHeader
+         * @param dataLength length of the data
+         * @param reliable If the packet needs to be sent as a reliable packet
+         */
+        void SendUpdateToClient(int clientId, const void *data, size_t dataLength, bool reliable = false);
+
+        /**
          * @brief Perform all actions needed to intialize a new client
          * @param client Reference to client
          */
@@ -82,32 +91,36 @@ namespace platformer_engine {
          */
         void OnDisconnect(int clientId) override;
 
-        void RegisterEventHandler(int eventID, std::function<void(int clientId, const uint8_t *data, size_t dataLength)> functionToCall) override;
+        void RegisterEventHandler(int eventID, std::function<void(int clientId, const uint8_t *data,
+                                                                  size_t dataLength)> functionToCall) override;
 
 
 #pragma region DefaultServerEvents
+
         /**
          * @brief Create a new network Game Object and send it to all clients
          * @param gameObjectToCreate Game Object to create
          */
         void CreateNetworkedGameObject(const spic::GameObject &gameObjectToCreate);
+
         /**
          * @brief Update the transform of a networked Game Object
          * @param transform New transform
          * @param gameObjectId Game Object ID to update
          */
-        void UpdateNetworkedGameObjectTransform(const spic::Transform& transform, const std::string& gameObjectId);
+        void UpdateNetworkedGameObjectTransform(const spic::Transform &transform, const std::string &gameObjectId);
+
         /**
          * @brief Destroy a networked Game Object
          * @param gameObjectId Game Object ID to destroy
          */
-        void DestroyNetworkedGameObject(const std::string& gameObjectId);
+        void DestroyNetworkedGameObject(const std::string &gameObjectId);
 
         /**
          * @brief Create a new network scene and send it to all clients
          * @param scene scene to create
          */
-        void CreateNetworkedScene(const spic::Scene &scene);
+        void CreateNetworkedScene(int clientId, const spic::Scene &scene);
 
         void HandleGameObjectTransformEventFromClient(int clientId, const void *data, size_t length);
 

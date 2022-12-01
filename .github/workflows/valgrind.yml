@@ -60,7 +60,7 @@ jobs:
 
       - name: Run Tests with Valgrind
         run: |
-          valgrind --leak-check=full --xml=yes --xml-file=unit_tests_valgrind.xml ./builds/ninja-multi-vcpkg/Release/platformer-engine-exec
+          valgrind --leak-check=full --xml=yes --xml-file=unit_tests_valgrind.xml ./builds/ninja-multi-vcpkg/Release/platformer-engine-exec --main-stacksize=1000000000
 
       - name: Valgrind Memory check
         if: ${{ env.RUN_MEMORY_CHECK == 'true' }}

@@ -49,6 +49,7 @@ jobs:
           buildPreset: ninja-multi-valgrind
 
       - name: 'Run doctor memory'
+        id: memory
         run: |
           cd ./builds/ninja-multi-vcpkg/Debug
           mkdir logs
@@ -57,10 +58,11 @@ jobs:
           cd ./logs
           cd DrMemory*
           CURRENT_PATH=$(pwd)
+          echo "::set-output name=RESULTS_PATH::$(pwd)"
 
       - name: 'Upload logs'
         uses: actions/upload-artifact@v2
         with:
           name: logs
-          path: ${{CURRENT_PATH}}/results.txt
+          path: ${{steps.memory.outputs.RESULTS_PATH}}/results.txt
 

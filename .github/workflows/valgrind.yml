@@ -53,9 +53,9 @@ jobs:
           sudo apt install valgrind -y
           echo "Valgrind installed"
 
-      - name: 'Run executable'
-        run: |
-          ./builds/ninja-multi-vcpkg/Release/platformer-engine-exec
+#      - name: 'Run executable'
+#        run: |
+#          ./builds/ninja-multi-vcpkg/Release/platformer-engine-exec
 
       - name: Run Tests with Valgrind
         run: |

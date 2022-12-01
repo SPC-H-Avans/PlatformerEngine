@@ -47,24 +47,35 @@ jobs:
           configurePreset: ninja-multi-vcpkg
           buildPreset: ninja-multi-vcpkg
 
-      - name: 'Install Valgrind'
-        if: ${{ env.RUN_MEMORY_CHECK == 'true' }}
+      # zip current directory and upload as artifact
+      - name: 'Zip'
         run: |
-          sudo apt install valgrind -y
-          echo "Valgrind installed"
-
-      - name: 'Run executable'
-        run: |
-          ./builds/ninja-multi-vcpkg/Debug/platformer-engine
-
-      - name: Run Tests with Valgrind
-        run: |
-          valgrind --leak-check=full --xml=yes --xml-file=unit_tests_valgrind.xml ./builds/ninja-multi-vcpkg/Debug/platformer-engine
-      #          valgrind --leak-check=full --suppressions=./path/to/suppresion/my_app.supp --xml=yes --xml-file=unit_tests_valgrind.xml ./unit_tests_binary
-
-      - name: Valgrind Memory check
-        if: ${{ env.RUN_MEMORY_CHECK == 'true' }}
-        run: |
-          echo "Checking Valgrind xml ..."
-            sudo chmod +x check-memory.sh
-            ./check-memory.sh
+          sudo apt-get update
+          sudo apt-get install -y zip
+          zip -r build.zip .
+      - name: 'Upload artifact'
+        uses: actions/upload-artifact@v2
+        with:
+          name: build
+          path: build.zip
+#      - name: 'Install Valgrind'
+#        if: ${{ env.RUN_MEMORY_CHECK == 'true' }}
+#        run: |
+#          sudo apt install valgrind -y
+#          echo "Valgrind installed"
+#
+#      - name: 'Run executable'
+#        run: |
+#          ./builds/ninja-multi-vcpkg/Debug/platformer-engine
+#
+#      - name: Run Tests with Valgrind
+#        run: |
+#          valgrind --leak-check=full --xml=yes --xml-file=unit_tests_valgrind.xml ./builds/ninja-multi-vcpkg/Debug/platformer-engine
+#      #          valgrind --leak-check=full --suppressions=./path/to/suppresion/my_app.supp --xml=yes --xml-file=unit_tests_valgrind.xml ./unit_tests_binary
+#
+#      - name: Valgrind Memory check
+#        if: ${{ env.RUN_MEMORY_CHECK == 'true' }}
+#        run: |
+#          echo "Checking Valgrind xml ..."
+#            sudo chmod +x check-memory.sh
+#            ./check-memory.sh

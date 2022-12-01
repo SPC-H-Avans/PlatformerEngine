@@ -66,11 +66,11 @@ jobs:
 #          name: logs
 #          path: ${{steps.memory.outputs.RESULTS_PATH}}/results.txt
 
-      - name: Create comment
+      - name: Create or update comment
         uses: peter-evans/create-or-update-comment@v2
         with:
+          comment-id: ${{ steps.fc.outputs.comment-id }}
           issue-number: ${{ github.event.pull_request.number }}
-          body: |
-            Build output
-            ${{steps.memory.outputs.RESULTS_PATH}}/results.txt
+          body-file: ${{steps.memory.outputs.RESULTS_PATH}}/results.txt
           reactions: '+1'
+        edit-mode: replace

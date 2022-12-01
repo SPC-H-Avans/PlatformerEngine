@@ -3,6 +3,7 @@
 #include "Exceptions/NotImplementedException.hpp"
 #include "Utility/NetworkingBuffer.hpp"
 #include "Engine/Engine.hpp"
+#include "Builder/GameObjectBuilder.hpp"
 #include <boost/archive/binary_oarchive.hpp>
 #include <boost/serialization/serialization.hpp>
 #include <boost/asio.hpp>
@@ -44,6 +45,16 @@ void platformer_engine::ServerNetworkManager::OnConnect(int clientId) {
     Clients.push_back(client);
     spic::Debug::Log("Currently hosting a game for " + std::to_string(Clients.size()) + "/" + std::to_string(_playerLimit) + " clients!");
     //InitializeClient(client); TODO
+    Sprite sprite = Sprite("test", 1, 1, 1, 1);
+    GameObjectBuilder builder("Mario");
+    builder.AddSprite(sprite);
+    auto gameObject = builder.GetGameObject();
+
+    auto toSend = spic::GameObject::Find("Mario");
+
+    CreateNetworkedGameObject(*toSend.get());
+   // UpdateNetworkedGameObjectTransform(trans, "Mario");
+   // DestroyNetworkedGameObject("Mario");
 }
 
 void platformer_engine::ServerNetworkManager::OnReceive(int clientId, const uint8_t *data, size_t dataLength) {

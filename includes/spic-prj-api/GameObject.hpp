@@ -22,7 +22,6 @@ namespace spic {
      */
     class GameObject {
     public:
-
         template<typename archive> void serialize(archive& ar, const unsigned /*version*/) {
             ar & _name;
             ar & _tag;

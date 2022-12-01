@@ -17,7 +17,7 @@ constexpr int NET_UPDATE_GAMEOBJECT_TRANSFORM = 16;
 
 #pragma region MAX_PACKAGE_SIZES
 
-constexpr int MAX_CREATE_GAME_OBJECT_SIZE = 256;
+constexpr int MAX_CREATE_GAME_OBJECT_SIZE = 512;
 constexpr int MAX_GAME_OBJECT_NAME_SIZE = 256;
 constexpr int MAX_UPDATE_TRANSFORM_SIZE = 128;
 

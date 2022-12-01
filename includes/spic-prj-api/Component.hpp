@@ -6,6 +6,9 @@
 #include <boost/serialization/map.hpp>
 #include <boost/serialization/vector.hpp>
 #include <boost/serialization/shared_ptr.hpp>
+#include <boost/serialization/export.hpp>
+#include <boost/archive/binary_iarchive.hpp>
+#include <boost/archive/binary_oarchive.hpp>
 
 namespace spic {
     class GameObject;
@@ -16,9 +19,9 @@ namespace spic {
     class Component {
         public:
 
-            template<typename archive> void serialize(archive& ar, const unsigned /*version*/) {
-                ar & _active;
-            }
+        template<typename archive> void serialize(archive& ar, const unsigned /*version*/) {
+            ar & _active;
+        }
 
             Component() = default;
             /**
@@ -65,5 +68,8 @@ namespace spic {
     };
 
 } // namespace spic
+
+
+BOOST_SERIALIZATION_ASSUME_ABSTRACT(spic::Component);
 
 #endif // COMPONENT_H_

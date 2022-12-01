@@ -9,6 +9,7 @@
     "tinyxml",
     "enet",
     "boost-asio",
-    "boost-serialization"
+    "boost-serialization",
+    "boost-detail"
   ]
 }

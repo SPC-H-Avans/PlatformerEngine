@@ -54,9 +54,13 @@ jobs:
           mkdir logs
           ${{secrets.DRMEMORY_DIR_Google_Cloud}}/drmemory -logdir ./logs -- platformer-engine-exec & (sleep 60 && kill $(pgrep -f platformer-engine-exec))
           sleep 30
+          cd ./logs
+          cd DrMemory*
+          CURRENT_PATH=$(pwd)
+
       - name: 'Upload logs'
         uses: actions/upload-artifact@v2
         with:
           name: logs
-          path: ./builds/ninja-multi-vcpkg/Debug/logs
-          retention-days: 1
+          path: ${{CURRENT_PATH}}/results.txt
+

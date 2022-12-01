@@ -35,10 +35,10 @@
     {
       "name": "ninja-multi-valgrind",
       "configurePreset": "ninja-multi-vcpkg",
-      "displayName": "Build ninja-multi-vcpkg",
-      "description": "Build ninja-multi-vcpkg Configurations",
+      "displayName": "Build ninja-multi-valgrind",
+      "description": "Build ninja-multi-valgrind Configurations",
       "targets": "platformer-engine",
-      "configuration": "Debug"
+      "configuration": "Release"
     }
   ],
   "testPresets": [

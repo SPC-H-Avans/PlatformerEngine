@@ -47,14 +47,23 @@ jobs:
           configurePreset: ninja-multi-vcpkg
           buildPreset: ninja-multi-valgrind
 
-      # zip current directory and upload as artifact
-      - name: 'Zip'
+      - name: 'Install Valgrind'
+        if: ${{ env.RUN_MEMORY_CHECK == 'true' }}
         run: |
-          sudo apt-get update
-          sudo apt-get install -y zip
-          zip -r build.zip .
-      - name: 'Upload artifact'
-        uses: actions/upload-artifact@v2
-        with:
-          name: build
-          path: build.zip
+          sudo apt install valgrind -y
+          echo "Valgrind installed"
+
+      - name: 'Run executable'
+        run: |
+          ./builds/ninja-multi-vcpkg/Release/platformer-engine
+
+      - name: Run Tests with Valgrind
+        run: |
+          valgrind --leak-check=full --xml=yes --xml-file=unit_tests_valgrind.xml ./builds/ninja-multi-vcpkg/Release/platformer-engine
+
+      - name: Valgrind Memory check
+        if: ${{ env.RUN_MEMORY_CHECK == 'true' }}
+        run: |
+          echo "Checking Valgrind xml ..."
+            sudo chmod +x check-memory.sh
+            ./check-memory.sh

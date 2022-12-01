@@ -122,6 +122,8 @@ void UpdateNetworkedGameObjectTransform(const spic::Transform &transform,
         void UpdateGameObjectTransform(const void *data, size_t length);
 
 #pragma endregion HandleIncomingPackets
+
+        void CreateScene(const void *data, size_t length);
     };
 }  // namespace platformer_engine
 #endif //PLATFORMER_ENGINE_CLIENTNETWORKMANAGER_HPP

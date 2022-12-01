@@ -11,6 +11,14 @@ namespace spic {
      */
     class Scene {
     public:
+        template<typename archive> void serialize(archive& ar, const unsigned /*version*/) {
+            ar & _sceneName;
+            ar & _origins;
+            ar & _activeCamera;
+            ar & _cameras;
+            ar & _currentLevel;
+        }
+
         Scene(const std::string &sceneName);
 
         Scene() = default;
@@ -121,7 +129,7 @@ namespace spic {
         void RenderGameObjects();
 
         /**
-         * @brief List of all Game Objects in this scene
+         * @brief List of all Game Object Unique Identifiers in this scene
          * @spicapi
          */
         std::vector<std::shared_ptr<GameObject>> _contents;

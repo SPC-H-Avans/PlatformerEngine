@@ -6,6 +6,7 @@
 
 #include "Component.hpp"
 #include "Transform.hpp"
+#include "Sprite.hpp"
 #include <string>
 #include <vector>
 #include <memory>
@@ -23,6 +24,8 @@ namespace spic {
     class GameObject {
     public:
         template<typename archive> void serialize(archive& ar, const unsigned /*version*/) {
+            ar.template register_type<Component>();
+
             ar & _name;
             ar & _tag;
             ar & _active;
@@ -38,7 +41,7 @@ namespace spic {
          * @return Pointer to GameObject, or nullptr if not found.
          * @spicapi
          */
-        static auto Find(const std::string &name) -> std::shared_ptr<GameObject>;
+        static auto Find(const std::string &name, bool includeInactive = false) -> std::shared_ptr<GameObject>;
 
         /**
          * @brief Returns a vector of active GameObjects tagged tag. Returns empty
@@ -112,10 +115,11 @@ namespace spic {
          * @details The new GameObject will also be added to a statically
          *          available collection, the administration.  This makes the
          *          Find()-functions possible.
+         *          If name equals Null the object will not be persisted
          * @param name The name for the game object.
          * @spicapi
          */
-        GameObject(const std::string &name);
+        GameObject(const std::string &name = "Null");
 
         /**
          * @brief Constructor.

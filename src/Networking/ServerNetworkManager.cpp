@@ -45,16 +45,14 @@ void platformer_engine::ServerNetworkManager::OnConnect(int clientId) {
     Clients.push_back(client);
     spic::Debug::Log("Currently hosting a game for " + std::to_string(Clients.size()) + "/" + std::to_string(_playerLimit) + " clients!");
     //InitializeClient(client); TODO
-    Sprite sprite = Sprite("test", 1, 1, 1, 1);
-    GameObjectBuilder builder("Mario");
-    builder.AddSprite(sprite);
-    auto gameObject = builder.GetGameObject();
 
-    auto toSend = spic::GameObject::Find("Mario");
+    auto gameobject = spic::GameObject("Huts", "Hatsa");
+    gameobject.AddComponent<spic::Sprite>(std::make_shared<Sprite>(Sprite("test", 1, 1, 1 ,1)));
+    Scene scene;
+    scene.AddObject(GameObject::Find("Huts"));
 
-    CreateNetworkedGameObject(*toSend.get());
-   // UpdateNetworkedGameObjectTransform(trans, "Mario");
-   // DestroyNetworkedGameObject("Mario");
+    //CreateNetworkedGameObject(*GameObject::Find("Huts"));
+    CreateNetworkedScene(scene);
 }
 
 void platformer_engine::ServerNetworkManager::OnReceive(int clientId, const uint8_t *data, size_t dataLength) {
@@ -89,6 +87,16 @@ void platformer_engine::ServerNetworkManager::Events() {
 }
 
 #pragma region DefaultServerEvents
+
+void platformer_engine::ServerNetworkManager::CreateNetworkedScene(const spic::Scene& scene) {
+    boost::asio::streambuf buf;
+    platformer_engine::NetworkingBuffer::ObjectToAsioBuffer<spic::Scene>(scene, buf);
+
+    const auto *charPtr = buffer_cast<const char*>(buf.data());
+
+    auto pkg = NetPkgs::CreateScene(charPtr, buf.size());
+    SendUpdateToClients(&pkg, sizeof(pkg), true);
+}
 
 void platformer_engine::ServerNetworkManager::CreateNetworkedGameObject(const spic::GameObject &gameObjectToCreate) {
     boost::asio::streambuf buf;

@@ -123,14 +123,18 @@ auto spic::Scene::GetActiveCamera() -> std::shared_ptr<spic::Camera> {
 }
 
 void spic::Scene::ResetScene() {
-    for(auto& origin : _origins) {
-        auto instance = *std::find_if(_contents.begin(), _contents.end(),
-                                      [&origin](const std::shared_ptr<GameObject>& gameObject) {
-                                          return gameObject->GetName() == origin.GetName();
-                                      });
+    _contents.clear();
 
-        if(instance != nullptr)
-            *instance = origin;
+    for(auto& origin : _origins) {
+        auto instance = GameObject::Find(origin.GetName(), true);
+
+        if(instance == nullptr) {
+            GameObject g (origin.GetName());
+            instance = GameObject::Find(origin.GetName(), true);
+        }
+
+        _contents.push_back(instance);
+        *instance = origin;
     }
 }
 

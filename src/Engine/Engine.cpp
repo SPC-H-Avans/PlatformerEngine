@@ -122,6 +122,10 @@ void platformer_engine::Engine::JoinServer(const std::string &ip, int port) {
     _clientNetworkManager->ConnectToServer(ip, port);
 }
 
-void platformer_engine::Engine::AddScene(const Scene &scene) {
-    _scenes.push_back(scene);
+void platformer_engine::Engine::AddScene(const Scene &new_scene) {
+    auto iter = std::find_if(_scenes.begin(), _scenes.end(), [&new_scene](const Scene& scene) { return scene.GetSceneName() == new_scene.GetSceneName();});
+    if (iter != _scenes.end())
+        *iter = new_scene;
+    else
+        _scenes.push_back(new_scene);
 }

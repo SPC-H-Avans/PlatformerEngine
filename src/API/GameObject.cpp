@@ -3,7 +3,7 @@
 using namespace spic;
 
 //Creates the static instances of GameObjects
-std::map<std::string, std::shared_ptr<GameObject>> GameObject::_instances;
+std::map<std::string, std::shared_ptr<GameObject>> GameObject::_instances {};
 
 GameObject::GameObject(const std::string &name) {
     std::string objName = name;
@@ -14,7 +14,9 @@ GameObject::GameObject(const std::string &name) {
     auto selfptr = std::make_shared<GameObject>(*this);
     _self = selfptr;
     selfptr->_self = selfptr;
-    _instances[objName] = selfptr;
+
+    if(name != "Null")
+        _instances[objName] = selfptr;
 }
 
 GameObject::GameObject(const std::string &name, const std::string& tag) : _tag(tag) {
@@ -63,10 +65,10 @@ auto GameObject::GetName() const -> std::string { return _name; }
 //auto GameObject::Parent() -> std::shared_ptr<GameObject> { return _parent; }
 
 
-auto GameObject::Find(const std::string &name) -> std::shared_ptr<GameObject> {
+auto GameObject::Find(const std::string &name, bool includeInactive) -> std::shared_ptr<GameObject> {
     if(_instances.count(name) > 0) {
         auto instance = _instances[name];
-        if(instance->Active() == true)
+        if(includeInactive || instance->Active())
             return instance;
     }
 

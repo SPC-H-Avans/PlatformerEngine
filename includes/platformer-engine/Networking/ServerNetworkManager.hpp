@@ -103,6 +103,12 @@ namespace platformer_engine {
          */
         void DestroyNetworkedGameObject(const std::string& gameObjectId);
 
+        /**
+         * @brief Create a new network scene and send it to all clients
+         * @param scene scene to create
+         */
+        void CreateNetworkedScene(const spic::Scene &scene);
+
         void HandleGameObjectTransformEventFromClient(int clientId, const void *data, size_t length);
 
 #pragma endregion DefaultServerEvents

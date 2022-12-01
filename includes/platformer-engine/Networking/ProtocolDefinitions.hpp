@@ -12,12 +12,15 @@ constexpr int NET_KICK_CLIENT = 13;
 constexpr int NET_CREATE_GAMEOBJECT = 14;
 constexpr int NET_DESTROY_GAMEOBJECT = 15;
 constexpr int NET_UPDATE_GAMEOBJECT_TRANSFORM = 16;
+constexpr int NET_CREATE_SCENE = 17;
 
 #pragma endregion NET_PACKET_IDS
 
 #pragma region MAX_PACKAGE_SIZES
 
-constexpr int MAX_CREATE_GAME_OBJECT_SIZE = 512;
+
+constexpr int MAX_CREATE_GAME_OBJECT_SIZE = 256;
+constexpr int MAX_CREATE_SCENE_SIZE = 10240;
 constexpr int MAX_GAME_OBJECT_NAME_SIZE = 256;
 constexpr int MAX_UPDATE_TRANSFORM_SIZE = 128;
 

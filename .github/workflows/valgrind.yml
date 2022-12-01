@@ -60,9 +60,17 @@ jobs:
           CURRENT_PATH=$(pwd)
           echo "::set-output name=RESULTS_PATH::$(pwd)"
 
-      - name: 'Upload logs'
-        uses: actions/upload-artifact@v2
-        with:
-          name: logs
-          path: ${{steps.memory.outputs.RESULTS_PATH}}/results.txt
+#      - name: 'Upload logs'
+#        uses: actions/upload-artifact@v2
+#        with:
+#          name: logs
+#          path: ${{steps.memory.outputs.RESULTS_PATH}}/results.txt
 
+      - name: Create comment
+        uses: peter-evans/create-or-update-comment@v2
+        with:
+          issue-number: ${{ github.event.pull_request.number }}
+          body: |
+            Build output
+            ${{steps.memory.outputs.RESULTS_PATH}}/results.txt
+          reactions: '+1'

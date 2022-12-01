@@ -52,7 +52,7 @@ jobs:
         run: |
           cd ./builds/ninja-multi-vcpkg/Debug
           mkdir logs
-          ${{secrets.DRMEMORY_DIR_Google_Cloud}}/drmemory -logdir ./logs -- platformer-engine-exec & (sleep 60 && kill -9 $(pgrep -f platformer-engine-exec))
+          ${{secrets.DRMEMORY_DIR_Google_Cloud}}/drmemory -logdir ./logs -- platformer-engine-exec & (sleep 60 && kill $(pgrep -f platformer-engine-exec))
           sleep 30
       - name: 'Upload logs'
         uses: actions/upload-artifact@v2

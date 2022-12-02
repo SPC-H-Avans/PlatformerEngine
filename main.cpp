@@ -5,6 +5,9 @@
 #include "BehaviourScript.hpp"
 #include "Behaviour/CollisionBehaviour.hpp"
 #include "Builder/GameObjectBuilder.hpp"
+#include "Sprite.hpp"
+
+//BOOST_CLASS_EXPORT(spic::Component);
 
 const int SCREEN_WIDTH = 640;
 const int SCREEN_HEIGHT = 480;
@@ -59,4 +62,5 @@ auto main([[maybe_unused]] int argc, [[maybe_unused]] char *argv[]) -> int {
 
     std::cout << "Hello, World!" << std::endl;
     return 0;
+
 }

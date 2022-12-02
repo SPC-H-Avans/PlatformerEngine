@@ -13,6 +13,8 @@ namespace spic {
      */
     class Camera : public GameObject {
     public:
+        Camera(const std::string &name = "Null");
+
         Camera(const std::string &name, const std::string &tag, spic::Color backgroundColor,
                double aspectWidth, double aspectHeight);
 

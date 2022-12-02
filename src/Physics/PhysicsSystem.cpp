@@ -46,7 +46,7 @@ auto GetBoxCollidersFromClient(int ownerId) -> vector<shared_ptr<GameObject>> {
 }
 
 typedef std::unordered_map<std::pair<int, int>, std::vector<shared_ptr<GameObject>>, boost::hash<std::pair<int, int>>> SpatialMap;
-const int mapCellSize = 16; //TODO move??
+const int mapCellSize = 16; 
 
 //Function for adding to map
 void AddToMap(Point point, shared_ptr<GameObject>& obj, SpatialMap& map) {
@@ -75,10 +75,8 @@ void RegisterInSpatial(shared_ptr<GameObject>& obj, BoxCollider& objCollider, Sp
     AddToMap(max, obj, map);
 }
 
-std::pair<SpatialMap, vector<shared_ptr<GameObject>>> SetupSpatialMap(int ownerId) {
+void SetupSpatialMap(int ownerId, SpatialMap& spatialMap, vector<shared_ptr<GameObject>>& objectsToCheck) {
     vector<shared_ptr<GameObject>> gameObjects = GameObject::FindObjectsOfType<GameObject>();
-    vector<shared_ptr<GameObject>> dynamicBodies;
-    SpatialMap spatialMap;
 
     for(auto& obj : gameObjects) {
         if(obj != nullptr && obj->GetOwnerId() == ownerId) { //If owned by client
@@ -88,21 +86,17 @@ std::pair<SpatialMap, vector<shared_ptr<GameObject>>> SetupSpatialMap(int ownerI
                 
                 auto rigidBody = std::static_pointer_cast<RigidBody>(obj->GetComponent<RigidBody>());
                 if(rigidBody != nullptr && rigidBody->BodyType() == BodyType::dynamicBody) {
-                    dynamicBodies.push_back(obj);
+                    objectsToCheck.push_back(obj);
                 }
             }
         }
     }
-
-    //TODO is this an intensive copy? probably, ownership? MOVE??
-    return std::make_pair(spatialMap, dynamicBodies);
 }
 
 vector<shared_ptr<GameObject>> GetFromMap(Point point, SpatialMap& map) {
     auto key = std::make_pair(floor(point.x / mapCellSize), floor(point.y / mapCellSize));
     if(map.contains(key)) {
-        return map[key];
-        //TODO is this an intensive copy? probably, ownership? MOVE??
+        return std::move(map[key]);
     }
     return {};
 }
@@ -126,15 +120,13 @@ vector<shared_ptr<GameObject>> GetNearbyObjects(GameObject& obj, BoxCollider& ob
     auto br = GetFromMap(max, map);
     result.insert(result.end(), br.begin(), br.end());
 
-    //TODO is this an intensive copy? probably, ownership? MOVE??
-    return result;
+    return std::move(result);
 }
 
 void PhysicsSystem::CheckCollisions() {
-    //TODO SPATIAL HASHMAP
-    auto result = SetupSpatialMap(_clientId);
-    auto spatialMap = result.first;
-    auto dynamicObjects = result.second;
+    SpatialMap spatialMap;
+    vector<shared_ptr<GameObject>> dynamicObjects;
+    SetupSpatialMap(_clientId, spatialMap, dynamicObjects);
 
     for(auto& objA : dynamicObjects) {
         shared_ptr<BoxCollider> aCol = std::static_pointer_cast<BoxCollider>(objA->GetComponent<BoxCollider>());

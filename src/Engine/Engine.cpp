@@ -36,6 +36,19 @@ void platformer_engine::Engine::Start() {
         Events();
         Render();
 
+/*        std::thread logicThread([this] {
+            Update();
+            Events();
+        });
+
+
+        std::thread renderThread([this] {
+            Render();
+        });
+
+         renderThread.join();
+        logicThread.join();*/
+
         float elapsedMs =
                 (Window::GetPerformanceFrequency() - start) / static_cast<float>(Window::GetPerformanceFrequency()) *
                 1000.0F; // NOLINT(cppcoreguidelines-narrowing-conversions)

@@ -77,12 +77,15 @@ void SetupSpatialMap(int ownerId, SpatialMap& spatialMap, vector<shared_ptr<Game
     }
 }
 
-vector<shared_ptr<GameObject>> GetFromMap(Point point, SpatialMap& map) {
+void GetFromMap(vector<shared_ptr<GameObject>>& out, Point point, SpatialMap& map) {
     auto key = std::make_pair(floor(point.x / mapCellSize), floor(point.y / mapCellSize));
     if(map.contains(key)) {
-        return std::move(map[key]);
+        for(auto& obj : map[key]) {
+            if(std::find_if(out.begin(), out.end(), [obj](const shared_ptr<GameObject>& outObj) {return obj->GetName() == outObj->GetName();}) == out.end()) {
+                out.push_back(obj);
+            }
+        }
     }
-    return {};
 }
 
 vector<shared_ptr<GameObject>> GetNearbyObjects(GameObject& obj, BoxCollider& objCollider, SpatialMap& map) {
@@ -92,19 +95,19 @@ vector<shared_ptr<GameObject>> GetNearbyObjects(GameObject& obj, BoxCollider& ob
     Point max { min.x + objCollider.Width(), min.y + objCollider.Height() };
 
     //TopLeft
-    auto tl = GetFromMap(min, map);
-    result.insert(result.end(), tl.begin(), tl.end());
+    GetFromMap(result, min, map);
     //TopRight
-    auto tr = GetFromMap({max.x, min.y}, map);
-    result.insert(result.end(), tr.begin(), tr.end());
+    GetFromMap(result, {max.x, min.y}, map);
     //BottomLeft
-    auto bl = GetFromMap({min.x, max.y}, map);
-    result.insert(result.end(), bl.begin(), bl.end());
+    GetFromMap(result, {min.x, max.y}, map);
     //BottomRight
-    auto br = GetFromMap(max, map);
-    result.insert(result.end(), br.begin(), br.end());
+    GetFromMap(result, max, map);
 
     return std::move(result);
+}
+
+void PopCollisionFromList(std::vector<Collision>& list, int collisionId) {
+    list.erase(std::remove_if(list.begin(), list.end(), [collisionId](const Collision& collision) { return collision.GetId() == collisionId;}), list.end());
 }
 
 void PhysicsSystem::CheckCollisions() {
@@ -114,7 +117,9 @@ void PhysicsSystem::CheckCollisions() {
 
     for(auto& objA : dynamicObjects) {
         shared_ptr<BoxCollider> aCol = std::static_pointer_cast<BoxCollider>(objA->GetComponent<BoxCollider>());
-        if(aCol == nullptr) {
+        if(aCol != nullptr) {
+            auto aCollisions = aCol->GetCollisions(); //Copy
+
             for(auto& objB : GetNearbyObjects(*objA, *aCol, spatialMap)) {
                 shared_ptr<BoxCollider> bCol = std::static_pointer_cast<BoxCollider>(objB->GetComponent<BoxCollider>());
 
@@ -125,16 +130,18 @@ void PhysicsSystem::CheckCollisions() {
                         auto collisionId = collisionsWithBCol.front().GetId();
                         // Remain Collision
                         RemainCollision(objA, aCol, objB, bCol, *collision, collisionId);
+                        PopCollisionFromList(aCollisions, collisionId);
                     } else {
                         // Create collision
                         CreateCollision(objA, aCol, objB, bCol, *collision);
                     }
-                } else {
-                    if(!collisionsWithBCol.empty()) {
-                        auto collisionId = collisionsWithBCol.front().GetId();
-                        EndCollision(objA, aCol, objB, bCol, collisionId);
-                    }
                 }
+            }
+
+            for(auto& oldCollision : aCollisions) {
+                auto bCol = oldCollision.GetCollider();
+                auto objB = bCol->GetGameObject().lock();
+                EndCollision(objA, aCol, objB, bCol, oldCollision.GetId());
             }
         }
     }

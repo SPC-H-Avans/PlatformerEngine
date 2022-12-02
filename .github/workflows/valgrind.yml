@@ -63,9 +63,9 @@ jobs:
       - name: 'Format results'
         run: |
             cd ${{ steps.memory.outputs.RESULTS_PATH }}
-            echo "```" >> results-formatted.txt
+            echo '```' >> results-formatted.txt
             echo $(cat results.txt) >> results-formatted.txt
-            echo "```" >> results-formatted.txt
+            echo '```' >> results-formatted.txt
 
       - name: 'Upload logs'
         uses: actions/upload-artifact@v2

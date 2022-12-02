@@ -53,7 +53,11 @@ jobs:
         run: |
           cd ./builds/ninja-multi-vcpkg/Debug
           mkdir logs
-          ${{secrets.DRMEMORY_DIR_Google_Cloud}}/drmemory -logdir ./logs -- platformer-engine-exec & (sleep 60 && pkill -15 platformer-engine-exec)
+          ${{secrets.DRMEMORY_DIR_Google_Cloud}}/drmemory -logdir ./logs -- platformer-engine-exec & (sleep 60 && (if kill $(pgrep -f platformer-engine-exec)))
+
+
+          ${{secrets.DRMEMORY_DIR_Google_Cloud}}/drmemory -logdir ./logs -- platformer-engine-exec & (sleep 60 && (if [ $(pgrep -f platformer-engine-exec) ]; then kill $(pgrep -f platformer-engine-exec); fi))
+          
           sleep 30
           cd ./logs
           cd DrMemory*

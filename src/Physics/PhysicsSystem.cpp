@@ -6,7 +6,7 @@
 #include "Physics/PlayerRigidBody.hpp"
 //#include "Input.hpp"
 #include <algorithm>
-#include <map>
+#include <unordered_map>
 #include <boost/functional/hash.hpp>
 
 
@@ -34,7 +34,6 @@ const int MAP_CELL_SIZE = 16;
 
 //Function for adding to map
 void AddToMap(Point point, shared_ptr<GameObject>& obj, SpatialMap& map) {
-    //TODO Make 16 not a magic number?
     auto key = std::make_pair(floor(point.x / MAP_CELL_SIZE), floor(point.y / MAP_CELL_SIZE));
     if(map.contains(key)) {
         map[key].push_back(obj);

@@ -12,6 +12,12 @@ namespace spic {
     class Button : public UIObject {
         public:
             /**
+             * @brief Button constructor
+             * @spicapi
+             */
+            Button(const std::string &name, const std::string &tag, double width, double height);
+
+            /**
              * @brief This function is called when the button is clicked, which
              *        will trigger a call to the registered onClick member.
              * @spicapi

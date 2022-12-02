@@ -132,6 +132,12 @@ namespace spic {
         std::vector<GameObject> _origins{};
 
         /**
+         * @brief List of all UIObjects in this scene
+         * @spicapi
+         */
+        std::vector<std::shared_ptr<Camera>> _uiObjects;
+
+        /**
          * @brief List of all Cameras in this scene
          * @spicapi
          */

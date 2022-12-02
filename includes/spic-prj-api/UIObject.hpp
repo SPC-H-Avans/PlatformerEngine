@@ -11,11 +11,15 @@ namespace spic {
      */
     class UIObject : public GameObject {
         public:
+            /**
+             * @brief UIObject constructor
+             * @spicapi
+             */
             UIObject(const std::string &name, const std::string &tag, double width, double height);
 
         private:
-            double width;
-            double height;
+            double _width;
+            double _height;
     };
 
 }

@@ -60,8 +60,8 @@ jobs:
           CURRENT_PATH=$(pwd)
           echo "::set-output name=RESULTS_PATH::$(pwd)"
 
-      - name 'Format results':
-          run: |
+      - name: 'Format results'
+        run: |
             cd ${{ steps.memory.outputs.RESULTS_PATH }}
             echo -e "```\n$(cat results.txt)" > results.txt
             echo "```" >> results.txt

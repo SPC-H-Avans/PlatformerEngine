@@ -103,15 +103,16 @@ void platformer_engine::GraphicsFacade::DrawTexture(const std::string &id, int x
 }
 
 void platformer_engine::GraphicsFacade::DrawUIText() {
+//    std::cout << 1;
     TTF_Font* Sans = TTF_OpenFont("Sans.ttf", 24);
-    SDL_Color Black = {0, 0, 0};
+    SDL_Color Orange = {255, 100, 0};
 
-    SDL_Surface* surfaceMessage = TTF_RenderText_Solid(Sans, "put your text here", Black);
+    SDL_Surface* surfaceMessage = TTF_RenderText_Solid(Sans, "put your text here", Orange);
     SDL_Texture* Message = SDL_CreateTextureFromSurface(_renderer.get(), surfaceMessage);
 
     SDL_Rect Message_rect;
-    Message_rect.x = 50;
-    Message_rect.y = 50;
+    Message_rect.x = 300;
+    Message_rect.y = 300;
     Message_rect.w = 100;
     Message_rect.h = 100;
 

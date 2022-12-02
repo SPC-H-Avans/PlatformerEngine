@@ -58,15 +58,15 @@ jobs:
           cd ./logs
           cd DrMemory*
           CURRENT_PATH=$(pwd)
-          echo "::set-output name=RESULTS_PATH::$(pwd)"
           echo -e "```\n$(cat results.txt)" > results.txt
           echo "```" >> results.txt
+          echo "::set-output name=RESULTS_PATH::$(pwd)"
 
-      #      - name: 'Upload logs'
-      #        uses: actions/upload-artifact@v2
-      #        with:
-      #          name: logs
-      #          path: ${{steps.memory.outputs.RESULTS_PATH}}/results.txt
+      - name: 'Upload logs'
+        uses: actions/upload-artifact@v2
+        with:
+          name: logs
+          path: ${{steps.memory.outputs.RESULTS_PATH}}/results.txt
 
       - name: 'Find Comment'
         uses: peter-evans/find-comment@v2

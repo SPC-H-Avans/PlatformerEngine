@@ -36,8 +36,6 @@ void platformer_engine::Engine::Start() {
         Events();
         Render();
 
-        TextureManager::GetInstance().DrawUIText();
-
         float elapsedMs =
                 (Window::GetPerformanceFrequency() - start) / static_cast<float>(Window::GetPerformanceFrequency()) *
                 1000.0F; // NOLINT(cppcoreguidelines-narrowing-conversions)
@@ -76,6 +74,7 @@ void platformer_engine::Engine::Render() {
     }
     _window->Clear();
     _renderSystem->Render();
+    TextureManager::GetInstance().DrawUIText();
     _window->Render();
 }
 

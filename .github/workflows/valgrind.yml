@@ -59,8 +59,8 @@ jobs:
           cd DrMemory*
           CURRENT_PATH=$(pwd)
           echo "::set-output name=RESULTS_PATH::$(pwd)"
-          echo -e "```\n$(cat ./results.txt)" > ./results.txt
-          echo "```" >> ./results.txt
+          echo -e "```\n$(cat results.txt)" > results.txt
+          echo "```" >> results.txt
 
       #      - name: 'Upload logs'
       #        uses: actions/upload-artifact@v2

@@ -20,7 +20,7 @@ auto platformer_engine::GraphicsFacade::Init(int width, int height, const std::s
         return false;
     }
     auto window_flags = static_cast<SDL_WindowFlags>(SDL_WINDOW_SHOWN | SDL_WINDOW_RESIZABLE |
-                                                     SDL_WINDOW_ALLOW_HIGHDPI);
+                                                     SDL_WINDOW_ALLOW_HIGHDPI | SDL_WINDOW_FULLSCREEN);
     _window = std::unique_ptr<SDL_Window, std::function<void(SDL_Window *)>>(
             SDL_CreateWindow(title.c_str(), SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, width, height,
                              window_flags), SDL_DestroyWindow);

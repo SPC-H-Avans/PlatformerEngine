@@ -102,7 +102,7 @@ void platformer_engine::GraphicsFacade::DrawTexture(const std::string &id, int x
                      static_cast<const SDL_RendererFlip>(flip));
 }
 
-void platformer_engine::GraphicsFacade::DrawText() {
+void platformer_engine::GraphicsFacade::DrawUIText() {
     TTF_Font* Sans = TTF_OpenFont("Sans.ttf", 24);
     SDL_Color Black = {0, 0, 0};
 

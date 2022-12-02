@@ -55,7 +55,7 @@ namespace platformer_engine {
                          const SPIC_RendererFlip &flip = FLIP_NONE, double scale = 1.0,
                          int spriteSheetX = 0, int spriteSheetY = 0);
 
-        void DrawText();
+        void DrawUIText();
 
         /**
          * @brief Draw a frame of a sprite sheet animation

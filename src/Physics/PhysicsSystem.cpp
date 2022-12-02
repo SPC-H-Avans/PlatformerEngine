@@ -29,24 +29,8 @@ void PhysicsSystem::MoveObjects() {
     // TODO
 }
 
-//Get all objects with BoxColliders owned by the current client.
-auto GetBoxCollidersFromClient(int ownerId) -> vector<shared_ptr<GameObject>> {
-    auto gameObjects = vector<shared_ptr<GameObject>>();
-    gameObjects = GameObject::FindObjectsOfType<GameObject>();
-    auto result = vector<shared_ptr<GameObject>>();
-    for(const auto& obj : gameObjects) {
-        if(obj != nullptr && obj->GetOwnerId() == ownerId) { //If owned by client
-            auto val = obj->GetComponent<BoxCollider>();
-            if(val != nullptr) { //If has boxcollider
-                result.emplace_back(obj);
-            }
-        }
-    }
-    return result;
-}
-
 typedef std::unordered_map<std::pair<int, int>, std::vector<shared_ptr<GameObject>>, boost::hash<std::pair<int, int>>> SpatialMap;
-const int mapCellSize = 16; 
+const int mapCellSize = 16;
 
 //Function for adding to map
 void AddToMap(Point point, shared_ptr<GameObject>& obj, SpatialMap& map) {

@@ -6,12 +6,14 @@
 #include <boost/asio/buffers_iterator.hpp>
 #include <boost/archive/binary_iarchive.hpp>
 #include <boost/archive/binary_oarchive.hpp>
+#include "Networking/boost/portable_binary_iarchive.hpp"
+#include "Networking/boost/portable_binary_oarchive.hpp"
 
-namespace platformer_engine{
+namespace platformer_engine {
     /**
      * @brief Utility class to easily handle packets
      */
-    class NetworkingBuffer{
+    class NetworkingBuffer {
     public:
         /**
          * @brief Parse incoming data back to an object using Asio Boost
@@ -20,7 +22,8 @@ namespace platformer_engine{
          * @param MaxBufLength Max length of the buffer
          * @param objectRef Reference to the object you want to parse to
          */
-        template <typename T> static void ParseIncomingDataToObject(const char* data, size_t MaxBufLength, T &objectRef){
+        template<typename T>
+        static void ParseIncomingDataToObject(const char *data, size_t MaxBufLength, T &objectRef) {
             boost::asio::streambuf sb;
 
             boost::asio::streambuf::mutable_buffers_type buffers = sb.prepare(MaxBufLength);
@@ -30,7 +33,7 @@ namespace platformer_engine{
 
             sb.commit(MaxBufLength);
 
-            boost::archive::binary_iarchive in_archive(sb);
+            portable_binary_iarchive in_archive(sb, 0);
             std::istream stream(&sb);
 
             in_archive >> objectRef;
@@ -42,9 +45,10 @@ namespace platformer_engine{
          * @param object Object to parse
          * @param bufRef Reference to the buffer you want to parse to
          */
-        template <typename T> static void ObjectToAsioBuffer(T object, boost::asio::streambuf &bufRef){
+        template<typename T>
+        static void ObjectToAsioBuffer(T object, boost::asio::streambuf &bufRef) {
             std::ostream os(&bufRef);
-            boost::archive::binary_oarchive out_archive(os);
+            portable_binary_oarchive out_archive(os);
             out_archive << object;
         }
     };

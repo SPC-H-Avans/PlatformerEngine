@@ -7,7 +7,9 @@
 #include "Facade/GraphicsFacade.hpp"
 #include "Transform.hpp"
 #include "Texture/TextureManager.hpp"
+#include "Debug.hpp"
 #include <boost/serialization/access.hpp>
+#include <boost/serialization/export.hpp>
 
 namespace spic {
 
@@ -17,13 +19,22 @@ namespace spic {
      */
     class Sprite : public Component {
     public:
-        template<typename archive> void serialize(archive& ar, const unsigned /*version*/) {
+        template <class Archive>
+         void serialize(Archive& ar, unsigned int version){
+            ar& boost::serialization::base_object<Component, Sprite>(*this);
+            boost::serialization::void_cast_register<Sprite,Component>();
+            ar & _color;
+            ar & _flip;
+            ar & _sortingLayer;
+            ar & _orderInLayer;
             ar & _spriteId;
             ar & _spriteWidth;
             ar & _spriteHeight;
             ar & _spriteScale;
-        }
+         }
 
+        Sprite(): _color(Color::Transparent()){};
+        ~Sprite() = default;
         Sprite(std::string spriteId, int spriteWidth, int spriteHeight, int sortingLayer = 1, int orderInLayer = 1,
                platformer_engine::SPIC_RendererFlip flip = platformer_engine::FLIP_NONE, Color color = Color::Transparent(),
                double spriteScale = 1.0, int spriteSheetX = 0, int spriteSheetY = 0);
@@ -75,3 +86,4 @@ namespace spic {
 }  // namespace spic
 
 #endif // SPRITERENDERER_H_
+

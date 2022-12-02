@@ -13,6 +13,14 @@ namespace spic {
      */
     class Scene {
     public:
+        template<typename archive>
+        void serialize(archive &ar, const unsigned /*version*/) {
+            ar & _sceneName;
+            ar & _origins;
+            ar & _activeCamera;
+            ar & _cameras;
+        }
+
         Scene(const std::string &sceneName);
 
         Scene() = default;
@@ -28,7 +36,7 @@ namespace spic {
          * @param gameObject Game Object shared pointer
          * @spicapi
          */
-        void AddObject(const std::shared_ptr<GameObject>& gameObject);
+        void AddObject(const std::shared_ptr<GameObject> &gameObject);
 
         /**
          * @brief Remove a Game Object from this scene by name
@@ -58,7 +66,8 @@ namespace spic {
          * @param config A map of Tile IDs and their corresponding Game Object constructors
          * @spicapi
          */
-        static void ImportLevel(const std::string &id, const std::string &filePath, const std::string &fileName, const std::map<int, std::function<spic::GameObject(Transform)>> &config);
+        static void ImportLevel(const std::string &id, const std::string &filePath, const std::string &fileName,
+                                const std::map<int, std::function<spic::GameObject(Transform)>> &config);
 
         /**
          * @brief Add a camera to this scene
@@ -112,7 +121,7 @@ namespace spic {
         void RenderGameObjects();
 
         /**
-         * @brief List of all Game Objects in this scene
+         * @brief List of all Game Object Unique Identifiers in this scene
          * @spicapi
          */
         std::vector<std::shared_ptr<GameObject>> _contents;
@@ -120,7 +129,7 @@ namespace spic {
         /**
          * @brief Default values of the objects used to reset a scene after its been played.
          */
-        std::vector<GameObject> _origins {};
+        std::vector<GameObject> _origins{};
 
         /**
          * @brief List of all Cameras in this scene

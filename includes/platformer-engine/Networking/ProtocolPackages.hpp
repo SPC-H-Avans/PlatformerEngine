@@ -91,5 +91,26 @@ namespace NetPkgs {
 
 #pragma endregion GameObjects
 
+#pragma region Scenes
+
+    struct CreateScene : MessageHeader {
+        size_t _sceneDataLength;
+        char _data[MAX_CREATE_SCENE_SIZE];
+
+        CreateScene() : MessageHeader(NET_CREATE_SCENE) {}
+
+        CreateScene(const char* data, size_t sceneDataLength)
+                : MessageHeader(NET_CREATE_SCENE), _sceneDataLength(sceneDataLength) {
+            for(int i = 0; i < MAX_CREATE_SCENE_SIZE; i++) {
+                if (i < sceneDataLength) {
+                    _data[i] = data[i];
+                } else {
+                    _data[i] = 0;
+                }
+            }
+        }
+    };
+#pragma endregion Scenes
+
 }  // namespace NetPkgs
 #endif //PLATFORMER_ENGINE_PROTOCOLPACKAGES_H

@@ -1,6 +1,9 @@
 #ifndef COLOR_H_
 #define COLOR_H_
-
+#include <boost/serialization/access.hpp>
+#include <boost/serialization/export.hpp>
+#include <boost/archive/binary_iarchive.hpp>
+#include <boost/archive/binary_oarchive.hpp>
 namespace spic {
 
     /**
@@ -8,6 +11,13 @@ namespace spic {
      */
     class Color {
     public:
+        template <class Archive>
+        void serialize(Archive& ar, unsigned int version){
+            ar & r;
+            ar & g;
+            ar & b;
+            ar & a;
+        }
         /**
          * @brief Constructor, accepting an rgb value and an alpha (transparency).
          * @param red The red component, 0 ≤ r ≤ 1.
@@ -110,10 +120,10 @@ namespace spic {
         inline auto GetAlphaValue() const -> const double { return a; }
 
     private:
-        double r;
-        double g;
-        double b;
-        double a;
+        double r = 0;
+        double g = 0;
+        double b = 0;
+        double a = 0;
 
         static Color _white;
         static Color _red;

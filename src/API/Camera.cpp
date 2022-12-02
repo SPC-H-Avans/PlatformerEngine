@@ -40,3 +40,5 @@ double spic::Camera::GetAspectHeight() {
     auto cam = std::static_pointer_cast<Camera>(_self.lock());
     return cam->_aspectHeight;
 }
+
+spic::Camera::Camera(const std::string &name) : GameObject(name), _backgroundColor(Color::Black()), _aspectWidth(0), _aspectHeight(0) {}

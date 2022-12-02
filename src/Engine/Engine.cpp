@@ -38,7 +38,7 @@ void platformer_engine::Engine::Start() {
 
         Update();
         Events();
-        
+
         renderThread.join();
 
         float elapsedMs =

@@ -30,12 +30,12 @@ void PhysicsSystem::MoveObjects() {
 }
 
 typedef std::unordered_map<std::pair<int, int>, std::vector<shared_ptr<GameObject>>, boost::hash<std::pair<int, int>>> SpatialMap;
-const int mapCellSize = 16;
+const int MAP_CELL_SIZE = 16;
 
 //Function for adding to map
 void AddToMap(Point point, shared_ptr<GameObject>& obj, SpatialMap& map) {
     //TODO Make 16 not a magic number?
-    auto key = std::make_pair(floor(point.x / mapCellSize), floor(point.y / mapCellSize));
+    auto key = std::make_pair(floor(point.x / MAP_CELL_SIZE), floor(point.y / MAP_CELL_SIZE));
     if(map.contains(key)) {
         map[key].push_back(obj);
     } else {
@@ -78,7 +78,7 @@ void SetupSpatialMap(int ownerId, SpatialMap& spatialMap, vector<shared_ptr<Game
 }
 
 void GetFromMap(vector<shared_ptr<GameObject>>& out, Point point, SpatialMap& map) {
-    auto key = std::make_pair(floor(point.x / mapCellSize), floor(point.y / mapCellSize));
+    auto key = std::make_pair(floor(point.x / MAP_CELL_SIZE), floor(point.y / MAP_CELL_SIZE));
     if(map.contains(key)) {
         for(auto& obj : map[key]) {
             if(std::find_if(out.begin(), out.end(), [obj](const shared_ptr<GameObject>& outObj) {return obj->GetName() == outObj->GetName();}) == out.end()) {
@@ -90,7 +90,6 @@ void GetFromMap(vector<shared_ptr<GameObject>>& out, Point point, SpatialMap& ma
 
 vector<shared_ptr<GameObject>> GetNearbyObjects(GameObject& obj, BoxCollider& objCollider, SpatialMap& map) {
     vector<shared_ptr<GameObject>> result;
-    //Retrieve from spatial;
     Point min = obj.GetTransform().position;
     Point max { min.x + objCollider.Width(), min.y + objCollider.Height() };
 

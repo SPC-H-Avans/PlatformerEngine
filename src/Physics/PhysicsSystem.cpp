@@ -121,19 +121,21 @@ void PhysicsSystem::CheckCollisions() {
             auto aCollisions = aCol->GetCollisions(); //Copy
 
             for(auto& objB : GetNearbyObjects(*objA, *aCol, spatialMap)) {
-                shared_ptr<BoxCollider> bCol = std::static_pointer_cast<BoxCollider>(objB->GetComponent<BoxCollider>());
+                if(objA != objB) {
+                    shared_ptr<BoxCollider> bCol = std::static_pointer_cast<BoxCollider>(objB->GetComponent<BoxCollider>());
 
-                unique_ptr<std::tuple<CollisionPoint, CollisionPoint>> collision = CheckBoxCollision(objA->GetTransform().position, *aCol, objB->GetTransform().position, *bCol);
-                auto collisionsWithBCol = aCol->GetCollisionsWith(*bCol);
-                if(collision != nullptr) { //If collision
-                    if(!aCol->GetCollisions().empty() && !collisionsWithBCol.empty()) {
-                        auto collisionId = collisionsWithBCol.front().GetId();
-                        // Remain Collision
-                        RemainCollision(objA, aCol, objB, bCol, *collision, collisionId);
-                        PopCollisionFromList(aCollisions, collisionId);
-                    } else {
-                        // Create collision
-                        CreateCollision(objA, aCol, objB, bCol, *collision);
+                    unique_ptr<std::tuple<CollisionPoint, CollisionPoint>> collision = CheckBoxCollision(objA->GetTransform().position, *aCol, objB->GetTransform().position, *bCol);
+                    auto collisionsWithBCol = aCol->GetCollisionsWith(*bCol);
+                    if(collision != nullptr) { //If collision
+                        if(!aCol->GetCollisions().empty() && !collisionsWithBCol.empty()) {
+                            auto collisionId = collisionsWithBCol.front().GetId();
+                            // Remain Collision
+                            RemainCollision(objA, aCol, objB, bCol, *collision, collisionId);
+                            PopCollisionFromList(aCollisions, collisionId);
+                        } else {
+                            // Create collision
+                            CreateCollision(objA, aCol, objB, bCol, *collision);
+                        }
                     }
                 }
             }

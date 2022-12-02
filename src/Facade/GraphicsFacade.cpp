@@ -104,39 +104,39 @@ void platformer_engine::GraphicsFacade::DrawTexture(const std::string &id, int x
 }
 
 void platformer_engine::GraphicsFacade::DrawUIText() {
-//    std::cout << 1;
+    std::cout << 1;
     if (TTF_Init()) SDL_Log("%s\n", TTF_GetError());
+//    TTF_Font* font = TTF_OpenFont("D:/Docs/School/Jaar4/.repos/PlatformerEngine/src/Facade/DefaultFont/IBMPlexMono-Regular.ttf", 24);
+//    if (!font) SDL_Log("%s\n", TTF_GetError());
+//    SDL_Color color = {255, 100, 0};
+//
+//    SDL_Surface* surfaceMessage = TTF_RenderText_Solid(font, "put your text here", color);
+//    SDL_Texture* Message = SDL_CreateTextureFromSurface(_renderer.get(), surfaceMessage);
+//
+//    SDL_Rect Message_rect;
+//    Message_rect.x = 50;
+//    Message_rect.y = 50;
+//    Message_rect.w = 100;
+//    Message_rect.h = 100;
+//
+//    SDL_RenderCopy(_renderer.get(), Message, NULL, &Message_rect);
+//    SDL_FreeSurface(surfaceMessage);
+//    SDL_DestroyTexture(Message);
+//    TTF_CloseFont(font);
+
+
+    if (TTF_Init())
+        printf("%s\n", TTF_GetError());
     TTF_Font* font = TTF_OpenFont("D:/Docs/School/Jaar4/.repos/PlatformerEngine/src/Facade/DefaultFont/IBMPlexMono-Regular.ttf", 24);
-    if (!font) SDL_Log("%s\n", TTF_GetError());
-    SDL_Color color = {255, 100, 0};
-
-    SDL_Surface* surfaceMessage = TTF_RenderText_Solid(font, "put your text here", color);
-    SDL_Texture* Message = SDL_CreateTextureFromSurface(_renderer.get(), surfaceMessage);
-
-    SDL_Rect Message_rect;
-    Message_rect.x = 50;
-    Message_rect.y = 50;
-    Message_rect.w = 100;
-    Message_rect.h = 100;
-
-    SDL_RenderCopy(_renderer.get(), Message, NULL, &Message_rect);
-    SDL_FreeSurface(surfaceMessage);
-    SDL_DestroyTexture(Message);
-    TTF_CloseFont(font);
-
-
-//    if (TTF_Init())
-//        printf("%s\n", TTF_GetError());
-//    TTF_Font* font = TTF_OpenFont("Sans.ttf", 24);
-//    if (!font) printf("%s\n", TTF_GetError());
-//    SDL_Color fontColor = { 255, 0, 0, 255 };
-//    uint16_t text[] = { '2', 's', 'x', 'y' };
-//    SDL_Surface *info = TTF_RenderUNICODE_Solid(font, text, fontColor);
-//    SDL_Rect rect = { info->w, info->h, 0, 0 };
-//    SDL_Surface *place = SDL_CreateRGBSurface(0, info->w, info->h, 32, 0, 0, 0, 0);
-//    SDL_BlitSurface(info, 0, place, &rect);
-//    SDL_FreeSurface(info);
-//    SDL_RenderPresent(_renderer.get());
+    if (!font) printf("%s\n", TTF_GetError());
+    SDL_Color fontColor = { 255, 0, 0, 255 };
+    uint16_t text[] = { '2', 's', 'x', 'y' };
+    SDL_Surface *info = TTF_RenderUNICODE_Solid(font, text, fontColor);
+    SDL_Rect rect = { info->w, info->h, 0, 0 };
+    SDL_Surface *place = SDL_CreateRGBSurface(0, info->w, info->h, 32, 0, 0, 0, 0);
+    SDL_BlitSurface(info, 0, place, &rect);
+    SDL_FreeSurface(info);
+    SDL_RenderPresent(_renderer.get());
 }
 
 void

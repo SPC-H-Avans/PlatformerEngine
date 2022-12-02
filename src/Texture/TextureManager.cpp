@@ -22,10 +22,6 @@ platformer_engine::TextureManager::DrawFrame(const std::string &id, int x, int y
                                camera.scale);
 }
 
-
-void platformer_engine::TextureManager::Remove(const std::string &id) {
-}
-
 void platformer_engine::TextureManager::ClearTextures() {
     GraphicsFacade::GetInstance().ClearTextures();
 }

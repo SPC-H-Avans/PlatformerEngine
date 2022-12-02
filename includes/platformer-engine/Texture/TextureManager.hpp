@@ -31,12 +31,6 @@ namespace platformer_engine {
         auto LoadTexture(const std::string &id, const std::string &fileName) -> bool;
 
         /**
-         * @brief Remove a texture from the texture manager and memory
-         * @param id
-         */
-        void Remove(const std::string &id);
-
-        /**
          * @brief Clear all textures from memory
          * @return
          */

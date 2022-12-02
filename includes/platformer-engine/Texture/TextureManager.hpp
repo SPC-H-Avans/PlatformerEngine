@@ -55,19 +55,7 @@ namespace platformer_engine {
                          const SPIC_RendererFlip &flip = FLIP_NONE, double scale = 1.0,
                          int spriteSheetX = 0, int spriteSheetY = 0);
 
-        /**
-         * @brief Render a Game Map tile on the screen
-         * @param tileSetID ID of the texture
-         * @param tileSize size of the tile to render
-         * @param x X location on the screen
-         * @param y Y location on the screen
-         * @param row Row where the sprite can be found
-         * @param frame Frame where to sprite can be found
-         * @param flip Flip the texture according to SPIC_RendererFlip Enum
-         * @param scale Scale of the sprite
-         */
-//        void DrawTile(const std::string &tileSetID, int tileSize, int x, int y, int row, int frame,
-//                      const SPIC_RendererFlip &flip = FLIP_NONE, double scale = 1.0);
+        void DrawText();
 
         /**
          * @brief Draw a frame of a sprite sheet animation

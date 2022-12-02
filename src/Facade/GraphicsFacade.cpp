@@ -1,3 +1,5 @@
+#include <SDL2/SDL_ttf.h>
+
 #include "Facade/GraphicsFacade.hpp"
 #include "Debug.hpp"
 #include "Texture/TextureManager.hpp"
@@ -98,6 +100,24 @@ void platformer_engine::GraphicsFacade::DrawTexture(const std::string &id, int x
 
     SDL_RenderCopyEx(_renderer.get(), _textureMap[id].get(), &srcRect, &destRect, 0, nullptr,
                      static_cast<const SDL_RendererFlip>(flip));
+}
+
+void platformer_engine::GraphicsFacade::DrawText() {
+    TTF_Font* Sans = TTF_OpenFont("Sans.ttf", 24);
+    SDL_Color Black = {0, 0, 0};
+
+    SDL_Surface* surfaceMessage = TTF_RenderText_Solid(Sans, "put your text here", Black);
+    SDL_Texture* Message = SDL_CreateTextureFromSurface(_renderer.get(), surfaceMessage);
+
+    SDL_Rect Message_rect;
+    Message_rect.x = 50;
+    Message_rect.y = 50;
+    Message_rect.w = 100;
+    Message_rect.h = 100;
+
+    SDL_RenderCopy(_renderer.get(), Message, NULL, &Message_rect);
+    SDL_FreeSurface(surfaceMessage);
+    SDL_DestroyTexture(Message);
 }
 
 void

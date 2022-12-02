@@ -13,6 +13,10 @@ platformer_engine::TextureManager::DrawTexture(const std::string &id, int x, int
     GraphicsFacade::GetInstance().DrawTexture(id, x, y, width, height, flip, scale, spriteSheetX, spriteSheetY);
 }
 
+void platformer_engine::TextureManager::DrawText() {
+    GraphicsFacade::GetInstance().DrawText();
+}
+
 void
 platformer_engine::TextureManager::DrawFrame(const std::string &id, int x, int y, int width, int height, int row, int frame,
                                              const platformer_engine::SPIC_RendererFlip &flip, double scale) {

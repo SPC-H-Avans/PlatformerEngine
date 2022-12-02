@@ -89,6 +89,8 @@ namespace platformer_engine {
                          const SPIC_RendererFlip &flip = FLIP_NONE, double scale = 1.0,
                          int spriteSheetX = 0, int spriteSheetY = 0);
 
+        void DrawText();
+
         void DrawFrame(const std::string &id, int x, int y, int width, int height, int row, int frame,
                        const SPIC_RendererFlip &flip = FLIP_NONE, double scale = 1.0);
 

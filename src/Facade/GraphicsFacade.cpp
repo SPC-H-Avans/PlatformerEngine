@@ -106,7 +106,7 @@ void platformer_engine::GraphicsFacade::DrawTexture(const std::string &id, int x
 void platformer_engine::GraphicsFacade::DrawUIText() {
 //    std::cout << 1;
     if (TTF_Init()) SDL_Log("%s\n", TTF_GetError());
-    TTF_Font* font = TTF_OpenFont("D:/Docs/School/Jaar4/.repos/PlatformerEngine/src/Facade/DefaultFont/IBMPlexMono-Regular.ttf", 24);
+    TTF_Font* font = TTF_OpenFont("D:\\Docs\\Misc\\Fonts\\OpenSans\\static\\OpenSans\\OpenSans-Regular.ttf", 24);
     if (font == nullptr) SDL_Log("%s\n", TTF_GetError());
     SDL_Color color = {255, 100, 0};
 
@@ -121,7 +121,8 @@ void platformer_engine::GraphicsFacade::DrawUIText() {
     Message_rect.w = 100;
     Message_rect.h = 100;
 
-    SDL_RenderCopy(_renderer.get(), Message, NULL, &Message_rect);
+//    SDL_RenderCopy(_renderer.get(), Message, NULL, &Message_rect);
+    SDL_RenderCopyEx(_renderer.get(), Message, NULL, &Message_rect, 0, NULL, SDL_FLIP_NONE);
     SDL_FreeSurface(surfaceMessage);
     SDL_DestroyTexture(Message);
     TTF_CloseFont(font);

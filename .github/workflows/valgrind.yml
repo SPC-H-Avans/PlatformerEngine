@@ -63,14 +63,15 @@ jobs:
       - name: 'Format results'
         run: |
             cd ${{ steps.memory.outputs.RESULTS_PATH }}
-            echo -e "```\n$(cat results.txt)" > results.txt
-            echo "```" >> results.txt
+            echo "```" >> results-formatted.txt
+            echo $(cat results.txt) >> results-formatted.txt
+            echo "```" >> results-formatted.txt
 
       - name: 'Upload logs'
         uses: actions/upload-artifact@v2
         with:
           name: logs
-          path: ${{steps.memory.outputs.RESULTS_PATH}}/results.txt
+          path: ${{steps.memory.outputs.RESULTS_PATH}}/results-formatted.txt
 
       - name: 'Find Comment'
         uses: peter-evans/find-comment@v2
@@ -85,6 +86,6 @@ jobs:
         with:
           comment-id: ${{ steps.fc.outputs.comment-id }}
           issue-number: ${{ github.event.pull_request.number }}
-          body-file: ${{steps.memory.outputs.RESULTS_PATH}}/results.txt
+          body-file: ${{steps.memory.outputs.RESULTS_PATH}}/results-formatted.txt
           reactions: rocket
           edit-mode: replace

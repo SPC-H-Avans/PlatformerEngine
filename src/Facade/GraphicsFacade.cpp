@@ -102,7 +102,7 @@ auto platformer_engine::GraphicsFacade::LoadUIText(const std::string id, const s
     }
 
     // create the surface
-    SDL_Color sdlColor = {static_cast<Uint8>(color.GetRedValue()), static_cast<Uint8>(color.GetGreenValue()), static_cast<Uint8>(color.GetBlueValue())};
+    SDL_Color sdlColor = {static_cast<Uint8>(color.GetRedValue() * 255), static_cast<Uint8>(color.GetGreenValue() * 255), static_cast<Uint8>(color.GetBlueValue() * 255)};
     SDL_Surface* surface = TTF_RenderText_Blended(font, text.c_str(), sdlColor);
     if (surface == nullptr) {
         spic::Debug::LogWarning(SDL_GetError());

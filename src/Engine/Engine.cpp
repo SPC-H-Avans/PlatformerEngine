@@ -32,9 +32,14 @@ void platformer_engine::Engine::Start() {
     while (_isRunning) {
         uint64_t start = Window::GetPerformanceFrequency();
 
+        std::thread renderThread([this] {
+            Render();
+        });
+
         Update();
         Events();
-        Render();
+
+        renderThread.join();
 
         float elapsedMs =
                 (Window::GetPerformanceFrequency() - start) / static_cast<float>(Window::GetPerformanceFrequency()) *

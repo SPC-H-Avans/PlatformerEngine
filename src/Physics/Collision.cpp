@@ -8,7 +8,7 @@ Collision::Collision(std::shared_ptr<Collider> other, CollisionPoint direction, 
 Collision::Collision(std::shared_ptr<Collider> other, const int uid)
         : _other(std::move(other)), _contact(CollisionPoint::Uncertain), _id(uid) {}
 
-auto Collision::GetCollider() const -> std::shared_ptr<Collider> { return _other; }
+auto Collision::GetCollider() -> std::shared_ptr<Collider> { return _other; }
 
 void Collision::SetCollider(const std::shared_ptr<Collider>& other) { this->_other = other; }
 

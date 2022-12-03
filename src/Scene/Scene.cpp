@@ -12,6 +12,7 @@ spic::Scene::Scene(const std::string &sceneName) : _sceneName(sceneName) {}
 void spic::Scene::RenderScene() {
 
     RenderGameObjects();
+    RenderUIObjects();
 }
 
 void spic::Scene::RenderGameObjects() {

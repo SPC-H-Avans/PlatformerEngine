@@ -59,7 +59,7 @@ public:
 
     static auto CreateText(Transform transform, const std::string id, const std::string text,
                            std::string fontPath, int textWidth, int textHeight,
-                           Color color, int fontSize) -> Text&;
+                           int fontSize, Color color) -> Text&;
 };
 
 #endif //PLATFORMER_ENGINE_GAMEOBJECTDIRECTOR_HPP

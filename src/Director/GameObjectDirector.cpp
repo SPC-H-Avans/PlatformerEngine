@@ -75,7 +75,7 @@ auto GameObjectDirector::CreatePlayer(Transform transform, int colliderWidth, in
 
 auto GameObjectDirector::CreateText(Transform transform, const std::string id, const std::string text,
                                     std::string fontPath, int textWidth, int textHeight,
-                                    Color color, int fontSize) -> Text & {
+                                    int fontSize, Color color) -> Text & {
     auto& scene = platformer_engine::Engine::GetInstance().GetActiveScene();
     auto obj = Text(id, textWidth, textHeight, text, fontPath, fontSize, color);
 

@@ -16,6 +16,5 @@ spic::Text::Text(const std::string &name, double width, double height,
 }
 
 void spic::Text::Render() {
-    // TODO: remove _text and _font and replace with _textId
-    platformer_engine::TextureManager::GetInstance().DrawUIText(_font, _transform.position.x, _transform.position.x, _width, _height);
+    platformer_engine::TextureManager::GetInstance().DrawUIText(_name, _transform.position.x, _transform.position.y, _width, _height);
 }

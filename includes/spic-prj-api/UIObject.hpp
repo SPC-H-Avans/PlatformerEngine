@@ -17,9 +17,7 @@ namespace spic {
              */
             UIObject(const std::string &name, double width, double height);
 
-            virtual void Render() {
-                spic::Debug::LogWarning("virtual UIObject Render() should not be called");
-            }
+            virtual void Render() = 0;
 
     protected:
             double _width;

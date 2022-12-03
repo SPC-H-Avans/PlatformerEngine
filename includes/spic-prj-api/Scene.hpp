@@ -44,7 +44,7 @@ namespace spic {
          * @param uiObject
          * @spicapi
          */
-        void AddUIObject(const UIObject& uiObject);
+        void AddUIObject(const std::shared_ptr<spic::UIObject>& uiObject);
 
         /**
          * @brief Remove a Game Object from this scene by name

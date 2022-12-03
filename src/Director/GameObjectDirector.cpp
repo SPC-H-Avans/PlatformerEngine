@@ -82,7 +82,7 @@ auto GameObjectDirector::CreateText(Transform transform, int textWidth, int text
                     "", "", 24);
 
     obj.SetTransform(transform);
-    scene.AddUIObject(obj); // TODO fix
+    scene.AddUIObject(std::make_shared<Text>(obj));
     auto foo = std::make_shared<Text>(obj);
     return *foo;
 }

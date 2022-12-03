@@ -25,13 +25,12 @@ auto main([[maybe_unused]] int argc, [[maybe_unused]] char *argv[]) -> int {
     position.x = 300;
     position.y = 300;
     transform.position = position;
-    GameObjectBuilder gameobjectBuilder("Player-0");
+    GameObjectBuilder gameobjectBuilder(std::string(NET_PLAYER_PREFIX) + "0");
     Sprite sprite = Sprite("mario", 15, 17);
     gameobjectBuilder.AddSprite(sprite);
     gameobjectBuilder.AddTransform(transform);
     auto gameObject = gameobjectBuilder.GetGameObject();
 
-    //  auto gameObject = GameObject::Find("Player0");
     scene.AddObject(gameObject);
     engine.AddScene(scene);
     engine.HostServer(scene.GetSceneName(), 10, 7779);
@@ -49,13 +48,13 @@ auto main([[maybe_unused]] int argc, [[maybe_unused]] char *argv[]) -> int {
 //        position.x = 300;
 //        position.y = 300;
 //        transform.position = position;
-//        GameObjectBuilder gameobjectBuilder("Player" + std::to_string(clientManager.GetLocalPlayerId()));
+//        GameObjectBuilder gameobjectBuilder(std::string(NET_PLAYER_PREFIX) + std::to_string(clientManager.GetLocalPlayerId()));
 //        Sprite sprite = Sprite("mario", 15, 17);
 //        gameobjectBuilder.AddSprite(sprite);
 //        gameobjectBuilder.AddTransform(transform);
 //        gameobjectBuilder.GetGameObject();
 //
-//        auto gameObject = GameObject::Find("Player" + std::to_string(clientManager.GetLocalPlayerId()));
+//        auto gameObject = GameObject::Find(std::string(NET_PLAYER_PREFIX) + std::to_string(clientManager.GetLocalPlayerId()));
 //        if (gameObject == nullptr) return;
 //        clientManager.InitializeMyClient(*gameObject);
 //    };

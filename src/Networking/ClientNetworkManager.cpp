@@ -125,7 +125,8 @@ void platformer_engine::ClientNetworkManager::RemoveLocalClientFromGame(const vo
     std::memcpy(&pkg, data, dataLength);
     auto playerToRemove = pkg.clientId;
     //Perform remove logic
-    throw spic::NotImplementedException();
+    Engine::GetInstance().GetActiveScene().RemoveObject(
+            std::string(NET_PLAYER_PREFIX) + std::to_string(playerToRemove));
 }
 
 #pragma region HandlePacketsFromServer

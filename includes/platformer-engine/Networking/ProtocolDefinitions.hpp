@@ -33,4 +33,6 @@ constexpr int MAX_UPDATE_TRANSFORM_SIZE = 128;
 
 #pragma endregion MAX_PACKAGE_SIZES
 
+constexpr const char *const NET_PLAYER_PREFIX = "PLAYER-";
+
 #endif //PLATFORMER_ENGINE_PROTOCOLDEFINITIONS_HPP

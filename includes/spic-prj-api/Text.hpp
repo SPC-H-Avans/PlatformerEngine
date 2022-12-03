@@ -31,7 +31,7 @@ namespace spic {
                  const std::string text, const std::string font = "Sans.ttf", int size = 24,
                  Alignment alignment = Alignment::center, Color color = Color::Black());
 
-            void Render();
+            void Render() override;
         private:
             std::string _text;
             std::string _font;

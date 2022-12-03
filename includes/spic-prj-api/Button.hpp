@@ -17,7 +17,7 @@ namespace spic {
              */
             Button(const std::string &name, double width, double height);
 
-            void Render();
+            void Render() override;
 
             /**
              * @brief This function is called when the button is clicked, which

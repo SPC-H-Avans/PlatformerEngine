@@ -93,6 +93,40 @@ auto platformer_engine::GraphicsFacade::LoadTexture(const std::string &id, const
     return true;
 }
 
+auto platformer_engine::GraphicsFacade::LoadUIText(const std::string id, const std::string filePath, const std::string text, const int fontSize, const spic::Color color) -> bool {
+    // create the font
+    TTF_Font* font = TTF_OpenFont(filePath.c_str(), fontSize);
+    if (font == nullptr) {
+        SDL_Log("%s\n", TTF_GetError());
+        return false;
+    }
+
+    // create the surface
+    SDL_Color sdlColor = {static_cast<Uint8>(color.GetRedValue()), static_cast<Uint8>(color.GetGreenValue()), static_cast<Uint8>(color.GetBlueValue())};
+    SDL_Surface* surface = TTF_RenderText_Solid(font, text.c_str(), sdlColor);
+    if (surface == nullptr) {
+        SDL_Log("%s\n", SDL_GetError());
+        return false;
+    }
+
+    // create the texture
+//    SDL_Texture* texture = SDL_CreateTextureFromSurface(_renderer.get(), surface);
+    std::unique_ptr<SDL_Texture, std::function<void(
+            SDL_Texture *)>> texture = std::unique_ptr<SDL_Texture, std::function<void(SDL_Texture *)>>(
+            SDL_CreateTextureFromSurface(_renderer.get(), surface), SDL_DestroyTexture);
+    if (texture == nullptr) {
+        SDL_Log("%s\n", SDL_GetError());
+        return false;
+    }
+
+    // save
+    _textureMap[id] = std::move(texture);
+
+    // TODO: free the font and surface
+
+    return true;
+}
+
 void platformer_engine::GraphicsFacade::DrawTexture(const std::string &id, int x, int y, int width, int height,
                                                     const platformer_engine::SPIC_RendererFlip &flip, double scale,
                                                     int spriteSheetX, int spriteSheetY) {
@@ -103,26 +137,28 @@ void platformer_engine::GraphicsFacade::DrawTexture(const std::string &id, int x
                      static_cast<const SDL_RendererFlip>(flip));
 }
 
-void platformer_engine::GraphicsFacade::DrawUIText() {
-    TTF_Font* font = TTF_OpenFont("D:\\Docs\\Misc\\Fonts\\OpenSans\\static\\OpenSans\\OpenSans-Regular.ttf", 24);
-    if (font == nullptr) SDL_Log("%s\n", TTF_GetError());
-    SDL_Color color = {255, 100, 0};
+void platformer_engine::GraphicsFacade::DrawUIText(const std::string text, const std::string fontId, const int x, const int y, const int width, const int height) {
+//    TTF_Font* font = TTF_OpenFont("D:\\Docs\\Misc\\Fonts\\OpenSans\\static\\OpenSans\\OpenSans-Regular.ttf", 24);
+//    if (font == nullptr) SDL_Log("%s\n", TTF_GetError());
+//    SDL_Color color = {255, 100, 0};
+//
+//    SDL_Surface* surfaceMessage = TTF_RenderText_Solid(font, text.c_str(), color);
+//    if (surfaceMessage == nullptr) SDL_Log("%s\n", SDL_GetError());
+//    SDL_Texture* Message = SDL_CreateTextureFromSurface(_renderer.get(), surfaceMessage);
+//    if (Message == nullptr) SDL_Log("%s\n", SDL_GetError());
 
-    SDL_Surface* surfaceMessage = TTF_RenderText_Solid(font, "put your text here", color);
-    if (surfaceMessage == nullptr) SDL_Log("%s\n", SDL_GetError());
-    SDL_Texture* Message = SDL_CreateTextureFromSurface(_renderer.get(), surfaceMessage);
-    if (Message == nullptr) SDL_Log("%s\n", SDL_GetError());
+    SDL_Texture* texture = _textureMap[fontId].get();
 
     SDL_Rect Message_rect;
-    Message_rect.x = 50;
-    Message_rect.y = 50;
-    Message_rect.w = 100;
-    Message_rect.h = 100;
+    Message_rect.x = x;
+    Message_rect.y = y;
+    Message_rect.w = width;
+    Message_rect.h = height;
 
-    SDL_RenderCopy(_renderer.get(), Message, NULL, &Message_rect);
-    SDL_FreeSurface(surfaceMessage);
-    SDL_DestroyTexture(Message);
-    TTF_CloseFont(font);
+    SDL_RenderCopy(_renderer.get(), texture, NULL, &Message_rect);
+//    SDL_FreeSurface(surface);
+//    SDL_DestroyTexture(texture);
+//    TTF_CloseFont(font);
 }
 
 void

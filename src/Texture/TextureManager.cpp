@@ -13,8 +13,8 @@ platformer_engine::TextureManager::DrawTexture(const std::string &id, int x, int
     GraphicsFacade::GetInstance().DrawTexture(id, x, y, width, height, flip, scale, spriteSheetX, spriteSheetY);
 }
 
-void platformer_engine::TextureManager::DrawUIText() {
-    GraphicsFacade::GetInstance().DrawUIText();
+void platformer_engine::TextureManager::DrawUIText(const std::string text, const std::string fontId, const int x, const int y, const int width, const int height) {
+    GraphicsFacade::GetInstance().DrawUIText(text, fontId, x, y, width, height);
 }
 
 void

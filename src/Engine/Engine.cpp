@@ -74,7 +74,6 @@ void platformer_engine::Engine::Render() {
     }
     _window->Clear();
     _renderSystem->Render();
-    TextureManager::GetInstance().DrawUIText();
     _window->Render();
 }
 

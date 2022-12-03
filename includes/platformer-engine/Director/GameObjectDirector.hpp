@@ -57,7 +57,8 @@ public:
             const std::vector<std::shared_ptr<BehaviourScript>>& behaviourScripts // must use pointers to store derived classes
     ) -> GameObject&;
 
-    static auto CreateText(Transform transform, int textWidth, int textHeight) -> Text&;
+    static auto CreateText(Transform transform, std::string id, std::string text,
+                           std::string fontPath, int textWidth, int textHeight) -> Text&;
 };
 
 #endif //PLATFORMER_ENGINE_GAMEOBJECTDIRECTOR_HPP

@@ -28,8 +28,9 @@ namespace spic {
              * @spicapi
              */
             Text(const std::string &name, double width, double height,
-                 const std::string text, const std::string font = "Sans.ttf", int size = 24,
-                 Alignment alignment = Alignment::center, Color color = Color::Black());
+                 const std::string text, const std::string fontPath,
+                 Color color = Color::Black(),
+                 int fontSize = 1, Alignment alignment = Alignment::center); // these two are currently unused
 
             void Render() override;
         private:

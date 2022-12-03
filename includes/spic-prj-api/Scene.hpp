@@ -5,6 +5,7 @@
 
 #include "GameObject.hpp"
 #include "Camera.hpp"
+#include "UIObject.hpp"
 
 namespace spic {
 
@@ -37,6 +38,13 @@ namespace spic {
          * @spicapi
          */
         void AddObject(const std::shared_ptr<GameObject> &gameObject);
+
+        /**
+         * @brief Add a new UI Object to this scene
+         * @param uiObject
+         * @spicapi
+         */
+        void AddUIObject(const UIObject& uiObject);
 
         /**
          * @brief Remove a Game Object from this scene by name
@@ -121,21 +129,26 @@ namespace spic {
         void RenderGameObjects();
 
         /**
+         * @brief Render all UIObjects in this scene
+         */
+        void RenderUIObjects();
+
+        /**
          * @brief List of all Game Object Unique Identifiers in this scene
          * @spicapi
          */
         std::vector<std::shared_ptr<GameObject>> _contents;
 
         /**
-         * @brief Default values of the objects used to reset a scene after its been played.
-         */
-        std::vector<GameObject> _origins{};
-
-        /**
          * @brief List of all UIObjects in this scene
          * @spicapi
          */
-        std::vector<std::shared_ptr<Camera>> _uiObjects;
+        std::vector<std::shared_ptr<UIObject>> _uiObjects;
+
+        /**
+         * @brief Default values of the objects used to reset a scene after its been played.
+         */
+        std::vector<GameObject> _origins{};
 
         /**
          * @brief List of all Cameras in this scene

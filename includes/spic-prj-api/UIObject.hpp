@@ -15,7 +15,9 @@ namespace spic {
              * @brief UIObject constructor
              * @spicapi
              */
-            UIObject(const std::string &name, const std::string &tag, double width, double height);
+            UIObject(const std::string &name, double width, double height);
+
+            virtual void Render();
 
         private:
             double _width;

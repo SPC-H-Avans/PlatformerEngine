@@ -15,7 +15,7 @@ namespace spic {
              * @brief Button constructor
              * @spicapi
              */
-            Button(const std::string &name, const std::string &tag, double width, double height);
+            Button(const std::string &name, double width, double height);
 
             /**
              * @brief This function is called when the button is clicked, which

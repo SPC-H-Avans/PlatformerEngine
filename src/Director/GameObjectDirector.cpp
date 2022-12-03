@@ -4,6 +4,7 @@
 #include "Engine/Engine.hpp"
 #include "Physics/PlayerRigidBody.hpp"
 #include "BehaviourScript.hpp"
+#include "Text.hpp"
 
 auto GameObjectDirector::CreateTile(const spic::Sprite& sprite,
                                     Transform transform, int colliderWidth, int colliderHeight) -> GameObject& {
@@ -70,4 +71,18 @@ auto GameObjectDirector::CreatePlayer(Transform transform, int colliderWidth, in
 
     scene.AddObject(obj);
     return *obj;
+}
+
+auto GameObjectDirector::CreateText(Transform transform, int textWidth, int textHeight) -> Text & {
+    auto& scene = platformer_engine::Engine::GetInstance().GetActiveScene();
+//    const std::string &name, double width, double height,
+//    const std::string text, const std::string font, int size,
+//    spic::Alignment alignment, spic::Color color) <- optional
+    auto obj = Text("text" + std::to_string(scene.GetObjectCount()), textWidth, textHeight,
+                    "", "", 24);
+
+    obj.SetTransform(transform);
+    scene.AddUIObject(obj); // TODO fix
+    auto foo = std::make_shared<Text>(obj);
+    return *foo;
 }

@@ -27,7 +27,7 @@ namespace spic {
              * @brief Text constructor
              * @spicapi
              */
-            Text(const std::string &name, const std::string &tag, double width, double height,
+            Text(const std::string &name, double width, double height,
                  const std::string text, const std::string font = "Sans.ttf", int size = 24,
                  Alignment alignment = Alignment::center, Color color = Color::Black());
         private:

@@ -35,12 +35,27 @@ void spic::Scene::RenderGameObjects() {
     }
 }
 
+void spic::Scene::RenderUIObjects() {
+    for (const auto &item: _uiObjects) {
+        //
+    }
+}
+
 void spic::Scene::AddObject(const std::shared_ptr<spic::GameObject> &gameObject) {
     if (GetObjectByName(gameObject->GetName()) != nullptr) {
         throw GameObjectAlreadyInSceneException(gameObject->GetName());
     }
     _contents.push_back(gameObject);
     _origins.push_back(*gameObject);
+}
+
+void spic::Scene::AddUIObject(const spic::UIObject& uiObject) {
+    if (GetObjectByName(uiObject.GetName()) != nullptr) {
+        throw spic::GameObjectAlreadyInSceneException(uiObject.GetName());
+    }
+    auto obj = std::make_shared<UIObject>(uiObject);
+    _uiObjects.push_back(obj);
+    _origins.push_back(*obj);
 }
 
 void spic::Scene::ImportLevel(const std::string &id, const std::string &filePath, const std::string &fileName,

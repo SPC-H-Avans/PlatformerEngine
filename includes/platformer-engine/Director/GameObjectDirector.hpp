@@ -2,6 +2,7 @@
 #define PLATFORMER_ENGINE_GAMEOBJECTDIRECTOR_HPP
 
 #include "Builder/GameObjectBuilder.hpp"
+#include "UIObject.hpp"
 
 /**
  * @brief The GameObjectDirector can be used to easily create specialised GameObjects
@@ -54,6 +55,8 @@ public:
             std::vector<platformer_engine::AnimatedSprite>& animations,
             const std::vector<std::shared_ptr<BehaviourScript>>& behaviourScripts // must use pointers to store derived classes
     ) -> GameObject&;
+
+    static auto CreateText(Transform transform, int textWidth, int textHeight) -> Text&;
 };
 
 #endif //PLATFORMER_ENGINE_GAMEOBJECTDIRECTOR_HPP

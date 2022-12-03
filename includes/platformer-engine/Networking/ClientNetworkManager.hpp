@@ -110,6 +110,13 @@ namespace platformer_engine {
 
 #pragma endregion DefaultClientEvents
 
+        /**
+             * @brief Parse the scene sent by the server
+             * @param data Data
+             * @param length length of data
+             */
+        void CreateScene(const void *data, size_t length);
+
     private:
         int _localPlayerId;
         bool _isPartyleader;
@@ -146,13 +153,6 @@ namespace platformer_engine {
          * @param length Length of data
          */
         void UpdateGameObjectTransform(const void *data, size_t length);
-
-        /**
-         * @brief Parse the scene sent by the server
-         * @param data Data
-         * @param length length of data
-         */
-        void CreateScene(const void *data, size_t length);
 
 #pragma endregion HandleIncomingPackets
     };

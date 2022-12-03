@@ -25,7 +25,9 @@ auto main([[maybe_unused]] int argc, [[maybe_unused]] char *argv[]) -> int {
 
     auto &clientManager = engine.GetClientNetworkManager();
 
+
     std::function<void(int clientId, const uint8_t *data, size_t dataLength)> onConnect = [&clientManager](int clientId, const uint8_t *data, size_t dataLength) {
+        clientManager.CreateScene(data, dataLength);
         Transform transform;
         Point position;
         position.x = 100;
@@ -42,7 +44,7 @@ auto main([[maybe_unused]] int argc, [[maybe_unused]] char *argv[]) -> int {
         clientManager.InitializeMyClient(*gameObject);
     };
 
-    clientManager.RegisterEventHandler(NET_ON_CONNECT, onConnect);
+    clientManager.RegisterEventHandler(NET_CREATE_SCENE, onConnect);
 
     NetPkgs::Ping ping;
     engine.GetServerNetworkManager().SendUpdateToClients(&ping, sizeof(NetPkgs::Ping));

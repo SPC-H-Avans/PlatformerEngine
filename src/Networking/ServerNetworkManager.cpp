@@ -103,6 +103,9 @@ void platformer_engine::ServerNetworkManager::OnDisconnect(int clientId) {
             "Currently hosting a game for " + std::to_string(Clients.size()) + "/" + std::to_string(_playerLimit) +
             " clients!");
     NetPkgs::KickClient kickClient(clientId);
+    Engine::GetInstance().GetActiveScene().RemoveObject(
+            std::string(NET_PLAYER_PREFIX) + std::to_string(clientId));
+    
     _networkingFacade.SendPacketToAllPeers(&kickClient, sizeof(kickClient));
     if (_eventMap.contains(NET_ON_DISCONNECT)) {
         _eventMap[NET_ON_DISCONNECT](clientId, nullptr, 0);

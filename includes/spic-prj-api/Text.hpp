@@ -29,8 +29,8 @@ namespace spic {
              */
             Text(const std::string &name, double width, double height,
                  const std::string text, const std::string fontPath,
-                 Color color = Color::Black(),
-                 int fontSize = 1, Alignment alignment = Alignment::center); // these two are currently unused
+                 int fontSize = 24, Color color = Color::Black(),
+                 Alignment alignment = Alignment::center); // alignment is currently unused
 
             void Render() override;
         private:

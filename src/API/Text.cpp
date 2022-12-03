@@ -2,8 +2,8 @@
 
 spic::Text::Text(const std::string &name, double width, double height,
                  const std::string text, const std::string fontPath,
-                 spic::Color color,
-                 int fontSize, spic::Alignment alignment)
+                 int fontSize, spic::Color color,
+                 spic::Alignment alignment)
                  : UIObject(name, width, height), _text(text), _font(fontPath), _size(fontSize),
                  _color(color), _alignment(alignment) {
     auto selfptr = std::make_shared<Text>(*this);

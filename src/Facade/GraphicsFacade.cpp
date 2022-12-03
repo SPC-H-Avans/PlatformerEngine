@@ -97,7 +97,7 @@ auto platformer_engine::GraphicsFacade::LoadUIText(const std::string id, const s
     // create the font
     TTF_Font* font = TTF_OpenFont(filePath.c_str(), fontSize);
     if (font == nullptr) {
-        SDL_Log("%s\n", TTF_GetError());
+        spic::Debug::LogWarning(TTF_GetError());
         return false;
     }
 
@@ -105,7 +105,7 @@ auto platformer_engine::GraphicsFacade::LoadUIText(const std::string id, const s
     SDL_Color sdlColor = {static_cast<Uint8>(color.GetRedValue()), static_cast<Uint8>(color.GetGreenValue()), static_cast<Uint8>(color.GetBlueValue())};
     SDL_Surface* surface = TTF_RenderText_Blended(font, text.c_str(), sdlColor);
     if (surface == nullptr) {
-        SDL_Log("%s\n", SDL_GetError());
+        spic::Debug::LogWarning(SDL_GetError());
         return false;
     }
 
@@ -114,7 +114,7 @@ auto platformer_engine::GraphicsFacade::LoadUIText(const std::string id, const s
             SDL_Texture *)>> texture = std::unique_ptr<SDL_Texture, std::function<void(SDL_Texture *)>>(
             SDL_CreateTextureFromSurface(_renderer.get(), surface), SDL_DestroyTexture);
     if (texture == nullptr) {
-        SDL_Log("%s\n", SDL_GetError());
+        spic::Debug::LogWarning(SDL_GetError());
         return false;
     }
 
@@ -138,7 +138,7 @@ void platformer_engine::GraphicsFacade::DrawTexture(const std::string &id, int x
 
 void platformer_engine::GraphicsFacade::DrawUIText(const std::string textId, const int x, const int y, const int width, const int height) {
     SDL_Texture* texture = _textureMap[textId].get();
-    if (texture == nullptr) SDL_Log("%s\n", SDL_GetError());
+    if (texture == nullptr) spic::Debug::LogWarning(SDL_GetError());
 
     SDL_Rect Message_rect;
     Message_rect.x = x;

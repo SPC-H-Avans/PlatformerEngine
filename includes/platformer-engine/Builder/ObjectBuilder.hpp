@@ -53,6 +53,12 @@ public:
      * @return reference to ObjectBuilder, allows method chaining.
      */
     virtual auto AddSprite(const spic::Sprite &sprite) -> ObjectBuilder & = 0;
+
+    /**
+     * @brief Adds a Transform component to the current GameObject being build.
+     * @return reference to ObjectBuilder, allows method chaining.
+     */
+    virtual auto AddTransform(const spic::Transform &transform) -> ObjectBuilder & = 0;
 };
 
 #endif //PLATFORMER_ENGINE_BUILDER_HPP

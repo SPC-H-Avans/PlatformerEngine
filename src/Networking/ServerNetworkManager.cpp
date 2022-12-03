@@ -211,6 +211,7 @@ void platformer_engine::ServerNetworkManager::HandleCreateCharacterFromClient(in
                 ", which is owned by: " + std::to_string(clientId) + ". But this Game Object is already created! Ignoring this packet");
         return;
     }
+    gameObject.ResetSelf();
     platformer_engine::Engine::GetInstance().GetActiveScene().AddObject(std::make_shared<spic::GameObject>(gameObject));
     CreateNetworkedPlayerCharacter(clientId,gameObject);
 }

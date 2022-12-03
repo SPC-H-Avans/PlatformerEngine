@@ -21,6 +21,17 @@ GameObject::GameObject(const std::string &name) {
         _instances[objName] = selfptr;
 }
 
+void GameObject::ResetSelf(){
+    auto selfptr = std::make_shared<GameObject>(*this);
+    _self = selfptr;
+    selfptr->_self = selfptr;
+
+    if(_name != "Null")
+        _instances[_name] = selfptr;
+}
+
+
+
 GameObject::GameObject(const std::string &name, const std::string& tag) : _tag(tag) {
     std::string objName = name;
     if(_instances.count(name) > 0)

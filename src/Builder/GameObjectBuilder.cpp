@@ -63,3 +63,8 @@ auto GameObjectBuilder::AddSprite(const spic::Sprite &sprite) -> GameObjectBuild
     _gameObject->AddComponent<Sprite>(std::make_shared<Sprite>(sprite));
     return *this;
 }
+
+auto GameObjectBuilder::AddTransform(const spic::Transform &transform) -> GameObjectBuilder & {
+    _gameObject->SetTransform(transform);
+    return *this;
+}

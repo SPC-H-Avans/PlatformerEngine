@@ -15,6 +15,7 @@
 #include <boost/serialization/map.hpp>
 #include <boost/serialization/vector.hpp>
 #include <boost/serialization/shared_ptr.hpp>
+#include <boost/serialization/weak_ptr.hpp>
 
 namespace spic {
 
@@ -33,7 +34,10 @@ namespace spic {
             ar & _layer;
             ar & _components;
             ar & _ownerId;
+            ar & _self;
         }
+
+        void ResetSelf();
 
         /**
          * @brief Finds an active GameObject by name and returns it.

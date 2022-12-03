@@ -135,6 +135,7 @@ void platformer_engine::ClientNetworkManager::CreateGameObject(const void *data,
 
     platformer_engine::NetworkingBuffer::ParseIncomingDataToObject<spic::GameObject>(pkg._data, MAX_CREATE_GAME_OBJECT_SIZE, gameObject);
 
+    gameObject.ResetSelf();
     std::shared_ptr<GameObject> sharedPtr = std::make_shared<GameObject>(gameObject);
     Engine::GetInstance().GetActiveScene().AddObject(sharedPtr);
 }

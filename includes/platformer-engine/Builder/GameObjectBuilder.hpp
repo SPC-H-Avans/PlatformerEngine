@@ -76,6 +76,12 @@ public:
      */
     auto AddSprite(const spic::Sprite &sprite) -> GameObjectBuilder & override;
 
+    /**
+     * @brief Adds a Transform component to the current GameObject being build.
+     * @return reference to ObjectBuilder, allows method chaining.
+     */
+    auto AddTransform(const spic::Transform &transform) -> GameObjectBuilder & override;
+
 private:
     //Shares ptr with GameObject static instace list
     std::shared_ptr<GameObject> _gameObject;

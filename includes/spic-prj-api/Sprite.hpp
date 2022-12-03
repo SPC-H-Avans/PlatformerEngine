@@ -31,6 +31,8 @@ namespace spic {
             ar & _spriteWidth;
             ar & _spriteHeight;
             ar & _spriteScale;
+            ar & _spriteSheetX;
+            ar & _spriteSheetY;
          }
 
         Sprite(): _color(Color::Transparent()){};

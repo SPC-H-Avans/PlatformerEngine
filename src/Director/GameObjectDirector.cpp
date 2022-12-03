@@ -75,11 +75,12 @@ auto GameObjectDirector::CreatePlayer(Transform transform, int colliderWidth, in
 
 auto GameObjectDirector::CreateText(Transform transform, const std::string id, const std::string text,
                                     std::string fontPath, int textWidth, int textHeight,
-                                    int fontSize, Color color) -> Text & {
+                                    int fontSize, Color color) -> Text & { // TODO: color does not change
     auto& scene = platformer_engine::Engine::GetInstance().GetActiveScene();
     auto obj = Text(id, textWidth, textHeight, text, fontPath, fontSize, color);
 
     obj.SetTransform(transform);
+
     scene.AddUIObject(std::make_shared<Text>(obj));
     auto foo = std::make_shared<Text>(obj);
     return *foo;

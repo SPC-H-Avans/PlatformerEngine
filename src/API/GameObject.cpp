@@ -1,5 +1,7 @@
 #include <stdexcept>
 #include "GameObject.hpp"
+#include "Exceptions/GameObjectAlreadyInSceneException.hpp"
+
 using namespace spic;
 
 //Creates the static instances of GameObjects
@@ -30,6 +32,7 @@ GameObject::GameObject(const std::string &name, const std::string& tag) : _tag(t
     selfptr->_self = selfptr;
     _instances[objName] = selfptr;
 }
+
 
 auto GameObject::operator=(const GameObject& other) -> GameObject& {
     if(_name == other._name) {

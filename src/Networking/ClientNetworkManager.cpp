@@ -66,6 +66,9 @@ void platformer_engine::ClientNetworkManager::OnConnect(int clientId) {
     _localPlayerId = clientId;
     bool isPartyLeader = false; //TODO revise? b
     _connectionStatus = ConnectionStatus::Connected;
+    if(_eventMap.contains(NET_ON_CONNECT)){
+        _eventMap[NET_ON_CONNECT](clientId, nullptr, 0);
+    }
 }
 
 void platformer_engine::ClientNetworkManager::OnReceive(int clientId, const uint8_t *data, size_t dataLength) {
@@ -96,6 +99,9 @@ void platformer_engine::ClientNetworkManager::OnDisconnect(int clientId) {
     _localPlayerId = 0;
     _isPartyleader = false;
     _connectionStatus = ConnectionStatus::Disconnected;
+    if(_eventMap.contains(NET_ON_DISCONNECT)){
+        _eventMap[NET_ON_DISCONNECT](clientId, nullptr, 0);
+    }
 }
 
 void platformer_engine::ClientNetworkManager::RemoveLocalClientFromGame(const void *data,
@@ -170,6 +176,18 @@ void platformer_engine::ClientNetworkManager::UpdateNetworkedGameObjectTransform
     const auto *charPtr = buffer_cast<const char*>(buf.data());
 
     auto pkg = NetPkgs::UpdateGameObjectTransform(gameObjectId.c_str(), charPtr, buf.size());
+    SendNetworkPackage(&pkg, sizeof(pkg), false);
+}
+
+void platformer_engine::ClientNetworkManager::InitializeMyClient(spic::GameObject& playerChar) {
+    if(_connectionStatus != ConnectionStatus::Connected) return;
+    playerChar.SetOwnerId(GetLocalPlayerId());
+    boost::asio::streambuf buf;
+    platformer_engine::NetworkingBuffer::ObjectToAsioBuffer<spic::GameObject>(playerChar, buf);
+
+    const auto *charPtr = buffer_cast<const char*>(buf.data());
+
+    auto pkg = NetPkgs::CreatePlayerCharacter(charPtr, buf.size());
     SendNetworkPackage(&pkg, sizeof(pkg), false);
 }
 

@@ -135,6 +135,8 @@ namespace spic {
 
         GameObject& operator=(const GameObject& other);
 
+        void UpdateName(const std::string &name);
+
         /**
          * @brief Does the object exist? TODO wat wordt hiermee bedoeld?
          * @spicapi

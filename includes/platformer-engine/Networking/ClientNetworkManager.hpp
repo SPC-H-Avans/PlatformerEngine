@@ -106,6 +106,8 @@ namespace platformer_engine {
         void UpdateNetworkedGameObjectTransform(const spic::Transform &transform,
                                                 const std::string &gameObjectId);
 
+        void InitializeMyClient(spic::GameObject& playerChar);
+
 #pragma endregion DefaultClientEvents
 
     private:

@@ -91,6 +91,8 @@ void platformer_engine::NetworkingFacade::ConnectClient(const std::string &host_
             _myPeerId = static_cast<int>(peer->connectID);
             _connectionStatus = ConnectionStatus::Connected;
 
+            manager.OnConnect(_myPeerId);
+
             while (_connectionStatus == ConnectionStatus::Connected) {
                 HandleEvents(manager);
                 // std::this_thread::sleep_for(std::chrono::milliseconds((1000 / CLIENT_POLLING_RATE_PER_SECOND)));
@@ -199,6 +201,37 @@ auto platformer_engine::NetworkingFacade::SendPacketToAllPeers(const void *data,
     enet_host_broadcast(host, reliable ? RELIABLE_CHANNEL : UNRELIABLE_CHANNEL, packet);
     return true;
 }
+
+auto platformer_engine::NetworkingFacade::SendPacketToAllPeersExceptOne(int peerId, const void *data, size_t length, bool reliable) -> bool {
+    if (data == nullptr || length <= 0) {
+        return false;
+    }
+
+    ENetHost *host = nullptr;
+    if (_client != nullptr) {
+        host = _client.get();
+    } else {
+        host = _server.get();
+    }
+
+    for (int i = 0; i < host->connectedPeers; i++) {
+        ENetPeer *peers = host->peers;
+        if (peers[i].connectID != peerId) {
+            ENetPacket *packet = enet_packet_create(data, length, reliable ? ENET_PACKET_FLAG_RELIABLE : 0x0);
+            if (packet == nullptr) {
+                return false;
+            }
+
+            if (enet_peer_send(&peers[i], reliable ? RELIABLE_CHANNEL : UNRELIABLE_CHANNEL, packet) < 0) {
+                return false;
+            }
+            spic::Debug::Log("Packet sent");
+            return true;
+        }
+    }
+    return false;
+}
+
 
 void platformer_engine::NetworkingFacade::DisconnectClientFromServer() {
     if (_client != nullptr) {

@@ -112,5 +112,25 @@ namespace NetPkgs {
     };
 #pragma endregion Scenes
 
+#pragma region PlayerJoin
+    struct CreatePlayerCharacter : MessageHeader{
+        size_t _characterLength;
+        char _data[MAX_SEND_CHARACTER_TO_SERVER_SIZE];
+
+        CreatePlayerCharacter() : MessageHeader(NET_CREATE_SCENE) {}
+
+        CreatePlayerCharacter(const char* data, size_t characterLength)
+                : MessageHeader(NET_SEND_CHARACTER_TO_SERVER), _characterLength(characterLength) {
+            for(int i = 0; i < MAX_SEND_CHARACTER_TO_SERVER_SIZE; i++) {
+                if (i < characterLength) {
+                    _data[i] = data[i];
+                } else {
+                    _data[i] = 0;
+                }
+            }
+        }
+    };
+#pragma endregion PlayerJoin
+
 }  // namespace NetPkgs
 #endif //PLATFORMER_ENGINE_PROTOCOLPACKAGES_H

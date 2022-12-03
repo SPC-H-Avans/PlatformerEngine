@@ -45,6 +45,8 @@ namespace platformer_engine {
          */
         void SendUpdateToClients(const void *data, size_t dataLength, bool reliable = false);
 
+        void SendUpdateToClientsExceptOne(int clientId, const void *data, size_t dataLength, bool reliable = false);
+
         /**
          * @brief Send update to a specific client
          * @param clientId client ID of receiver
@@ -122,7 +124,7 @@ namespace platformer_engine {
          */
         void CreateNetworkedScene(int clientId, const spic::Scene &scene);
 
-        void HandleGameObjectTransformEventFromClient(int clientId, const void *data, size_t length);
+        void CreateNetworkedPlayerCharacter(int clientId, const spic::GameObject &gameObjectToCreate);
 
 #pragma endregion DefaultServerEvents
 
@@ -134,6 +136,9 @@ namespace platformer_engine {
 
 #pragma region HandlePacketsFromClient
 
+        void HandleGameObjectTransformEventFromClient(int clientId, const void *data, size_t length);
+
+        void HandleCreateCharacterFromClient(int clientId, const void *data, size_t length);
 #pragma endregion HandlePacketsFromClient
     };
 }  // namespace platformer_engine

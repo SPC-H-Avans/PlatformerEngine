@@ -31,10 +31,23 @@ platformer_engine::ServerNetworkManager::ServerNetworkManager(spic::Scene &scene
     };
     _eventMap[NET_UPDATE_GAMEOBJECT_TRANSFORM] = handleGameObjectTransformEventFromClient;
 
+    std::function<void(int clientId, const uint8_t *data,
+                       size_t dataLength)> handleCreateCharacterFromClient = [this](int clientId,
+                                                                                             const uint8_t *data,
+                                                                                             size_t dataLength) {
+        HandleCreateCharacterFromClient(clientId, data, dataLength);
+    };
+    _eventMap[NET_SEND_CHARACTER_TO_SERVER] = handleCreateCharacterFromClient;
+
 }
 
 void platformer_engine::ServerNetworkManager::SendUpdateToClients(const void *data, size_t dataLength, bool reliable) {
     _networkingFacade.SendPacketToAllPeers(data, dataLength, reliable);
+}
+
+void platformer_engine::ServerNetworkManager::SendUpdateToClientsExceptOne(int clientId, const void *data, size_t dataLength,
+                                                                 bool reliable) {
+    _networkingFacade.SendPacketToAllPeersExceptOne(clientId, data, dataLength, reliable);
 }
 
 void platformer_engine::ServerNetworkManager::SendUpdateToClient(int clientId, const void *data, size_t dataLength,
@@ -57,6 +70,9 @@ void platformer_engine::ServerNetworkManager::OnConnect(int clientId) {
             "Currently hosting a game for " + std::to_string(Clients.size()) + "/" + std::to_string(_playerLimit) +
             " clients!");
     InitializeClient(client);
+    if(_eventMap.contains(NET_ON_CONNECT)){
+        _eventMap[NET_ON_CONNECT](clientId, nullptr, 0);
+    }
 }
 
 void platformer_engine::ServerNetworkManager::OnReceive(int clientId, const uint8_t *data, size_t dataLength) {
@@ -86,6 +102,9 @@ void platformer_engine::ServerNetworkManager::OnDisconnect(int clientId) {
             " clients!");
     NetPkgs::KickClient kickClient(clientId);
     _networkingFacade.SendPacketToAllPeers(&kickClient, sizeof(kickClient));
+    if(_eventMap.contains(NET_ON_DISCONNECT)){
+        _eventMap[NET_ON_DISCONNECT](clientId, nullptr, 0);
+    }
 }
 
 void platformer_engine::ServerNetworkManager::Events() {
@@ -130,6 +149,17 @@ void platformer_engine::ServerNetworkManager::DestroyNetworkedGameObject(const s
     SendUpdateToClients(&pkg, sizeof(pkg), true);
 }
 
+void platformer_engine::ServerNetworkManager::CreateNetworkedPlayerCharacter(int clientId,
+                                                                             const GameObject &gameObjectToCreate) {
+    boost::asio::streambuf buf;
+    platformer_engine::NetworkingBuffer::ObjectToAsioBuffer<spic::GameObject>(gameObjectToCreate, buf);
+
+    const auto *charPtr = buffer_cast<const char *>(buf.data());
+
+    auto pkg = NetPkgs::CreateGameObject(charPtr, buf.size());
+    SendUpdateToClientsExceptOne(clientId, &pkg, sizeof(pkg), true);
+}
+
 #pragma endregion DefaultServerEvents
 
 #pragma region HandlePacketsFromClient
@@ -162,6 +192,27 @@ platformer_engine::ServerNetworkManager::RegisterEventHandler(int eventID,
                                                               std::function<void(int clientId, const uint8_t *data,
                                                                                  size_t dataLength)> functionToCall) {
     _eventMap[eventID] = functionToCall;
+}
+
+void platformer_engine::ServerNetworkManager::HandleCreateCharacterFromClient(int clientId, const void *data,
+                                                                              size_t length) {
+    auto pkg = NetPkgs::CreatePlayerCharacter();
+    memcpy(&pkg, data, length);
+    spic::GameObject gameObject;
+
+    platformer_engine::NetworkingBuffer::ParseIncomingDataToObject<spic::GameObject>(pkg._data,
+                                                                                    MAX_SEND_CHARACTER_TO_SERVER_SIZE,
+                                                                                     gameObject);
+
+    auto gameObjectFromScene = platformer_engine::Engine::GetInstance().GetActiveScene().GetObjectByName(gameObject.GetName());
+    if (gameObjectFromScene != nullptr) {
+        spic::Debug::LogWarning(
+                "Illegal packet received, " + std::to_string(clientId) + " tried to create a new character " + gameObject.GetName() +
+                ", which is owned by: " + std::to_string(clientId) + ". But this Game Object is already created! Ignoring this packet");
+        return;
+    }
+    platformer_engine::Engine::GetInstance().GetActiveScene().AddObject(std::make_shared<spic::GameObject>(gameObject));
+    CreateNetworkedPlayerCharacter(clientId,gameObject);
 }
 
 #pragma endregion HandlePacketsFromClient

@@ -106,7 +106,7 @@ namespace platformer_engine {
         void UpdateNetworkedGameObjectTransform(const spic::Transform &transform,
                                                 const std::string &gameObjectId);
 
-        void InitializeMyClient(spic::GameObject& playerChar);
+        void InitializeMyClient(spic::GameObject &playerChar);
 
 #pragma endregion DefaultClientEvents
 
@@ -118,7 +118,7 @@ namespace platformer_engine {
         void CreateScene(const void *data, size_t length);
 
     private:
-        int _localPlayerId;
+        int _localPlayerId = 0;
         bool _isPartyleader;
         std::map<int, std::function<void(int clientId, const uint8_t *data, size_t dataLength)>> _eventMap;
         ConnectionStatus _connectionStatus = ConnectionStatus::Disconnected;

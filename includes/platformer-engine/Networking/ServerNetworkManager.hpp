@@ -45,7 +45,8 @@ namespace platformer_engine {
          */
         void SendUpdateToClients(const void *data, size_t dataLength, bool reliable = false);
 
-        void SendUpdateToClientsExceptOne(int clientId, const void *data, size_t dataLength, bool reliable = false);
+        void SendUpdateToClientsExcept(std::vector<int> clientIds, const void *data, size_t dataLength,
+                                       bool reliable = false);
 
         /**
          * @brief Send update to a specific client
@@ -139,6 +140,7 @@ namespace platformer_engine {
         void HandleGameObjectTransformEventFromClient(int clientId, const void *data, size_t length);
 
         void HandleCreateCharacterFromClient(int clientId, const void *data, size_t length);
+
 #pragma endregion HandlePacketsFromClient
     };
 }  // namespace platformer_engine

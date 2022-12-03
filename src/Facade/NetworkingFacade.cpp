@@ -123,8 +123,8 @@ void platformer_engine::NetworkingFacade::HandleEvents(NetworkManager &manager) 
                                  std::to_string(event.peer->connectID));
 
                 _addressPeerIdMap[std::to_string(event.peer->address.host) + ":" +
-                                  std::to_string(event.peer->address.port)] = (int)event.peer->connectID;
-                manager.OnConnect((int)event.peer->connectID);
+                                  std::to_string(event.peer->address.port)] = (int) event.peer->connectID;
+                manager.OnConnect((int) event.peer->connectID);
                 break;
 
             case ENET_EVENT_TYPE_RECEIVE:
@@ -137,9 +137,12 @@ void platformer_engine::NetworkingFacade::HandleEvents(NetworkManager &manager) 
                 break;
 
             case ENET_EVENT_TYPE_DISCONNECT:
-                spic::Debug::Log(std::to_string(GetPeerIdByAddressAndPort(std::to_string(event.peer->address.host), event.peer->address.port)) + " disconnected");
+                spic::Debug::Log(std::to_string(
+                        GetPeerIdByAddressAndPort(std::to_string(event.peer->address.host), event.peer->address.port)) +
+                                 " disconnected");
 
-                manager.OnDisconnect(GetPeerIdByAddressAndPort(std::to_string(event.peer->address.host), event.peer->address.port));
+                manager.OnDisconnect(
+                        GetPeerIdByAddressAndPort(std::to_string(event.peer->address.host), event.peer->address.port));
 
                 RemovePeerIdFromAddressMap(std::to_string(event.peer->address.host), event.peer->address.port);
                 break;
@@ -202,7 +205,8 @@ auto platformer_engine::NetworkingFacade::SendPacketToAllPeers(const void *data,
     return true;
 }
 
-auto platformer_engine::NetworkingFacade::SendPacketToAllPeersExceptOne(int peerId, const void *data, size_t length, bool reliable) -> bool {
+auto platformer_engine::NetworkingFacade::SendPacketToAllPeersExcept(std::vector<int> clientIds, const void *data,
+                                                                     size_t length, bool reliable) -> bool {
     if (data == nullptr || length <= 0) {
         return false;
     }
@@ -216,7 +220,7 @@ auto platformer_engine::NetworkingFacade::SendPacketToAllPeersExceptOne(int peer
 
     for (int i = 0; i < host->connectedPeers; i++) {
         ENetPeer *peers = host->peers;
-        if (peers[i].connectID != peerId) {
+        if (std::find(clientIds.begin(), clientIds.end(), peers[i].connectID) != clientIds.end()) {
             ENetPacket *packet = enet_packet_create(data, length, reliable ? ENET_PACKET_FLAG_RELIABLE : 0x0);
             if (packet == nullptr) {
                 return false;

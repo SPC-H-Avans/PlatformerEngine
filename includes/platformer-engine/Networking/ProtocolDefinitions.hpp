@@ -25,7 +25,7 @@ constexpr int NET_ON_DISCONNECT = 2;
 #pragma region MAX_PACKAGE_SIZES
 
 
-constexpr int MAX_CREATE_GAME_OBJECT_SIZE = 256;
+constexpr int MAX_CREATE_GAME_OBJECT_SIZE = 512;
 constexpr int MAX_CREATE_SCENE_SIZE = 10240;
 constexpr int MAX_SEND_CHARACTER_TO_SERVER_SIZE = 1024;
 constexpr int MAX_GAME_OBJECT_NAME_SIZE = 256;

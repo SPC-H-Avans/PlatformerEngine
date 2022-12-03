@@ -93,7 +93,8 @@ namespace platformer_engine {
          */
         auto SendPacketToAllPeers(const void *data, size_t length, bool reliable = false) -> bool;
 
-        auto SendPacketToAllPeersExceptOne(int peerId, const void *data, size_t length, bool reliable = false) -> bool;
+        auto SendPacketToAllPeersExcept(std::vector<int> clientIds, const void *data, size_t length,
+                                        bool reliable = false) -> bool;
 
         /**
          * @brief Get current peer ID (0 if server)

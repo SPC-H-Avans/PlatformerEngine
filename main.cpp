@@ -16,38 +16,54 @@ auto main([[maybe_unused]] int argc, [[maybe_unused]] char *argv[]) -> int {
 
     engine.Init(SCREEN_WIDTH, SCREEN_HEIGHT, "PlatFormer Engine Debug", spic::Color::Cyan());
 
-    platformer_engine::TextureManager::GetInstance().LoadTexture("mario", "C:/Users/jhpar/Documents/GitHub/MarioGame/resources/Sprites/Mario/Idle.png");
+    platformer_engine::TextureManager::GetInstance().LoadTexture("mario",
+                                                                 "/Users/jaap/Documents/GitHub/MarioGame/resources/Sprites/Mario/Idle.png");
     platformer_engine::SceneBuilder builder("Test Scene");
     auto scene = builder.GetScene();
+    Transform transform;
+    Point position;
+    position.x = 300;
+    position.y = 300;
+    transform.position = position;
+    GameObjectBuilder gameobjectBuilder("Player-0");
+    Sprite sprite = Sprite("mario", 15, 17);
+    gameobjectBuilder.AddSprite(sprite);
+    gameobjectBuilder.AddTransform(transform);
+    auto gameObject = gameobjectBuilder.GetGameObject();
+
+    //  auto gameObject = GameObject::Find("Player0");
+    scene.AddObject(gameObject);
     engine.AddScene(scene);
     engine.HostServer(scene.GetSceneName(), 10, 7779);
-    engine.JoinServer("127.0.0.1", 7779);
+    //engine.JoinServer("127.0.0.1", 7779);
 
-    auto &clientManager = engine.GetClientNetworkManager();
+    // auto &clientManager = engine.GetClientNetworkManager();
 
 
-    std::function<void(int clientId, const uint8_t *data, size_t dataLength)> onConnect = [&clientManager](int clientId, const uint8_t *data, size_t dataLength) {
-        clientManager.CreateScene(data, dataLength);
-        Transform transform;
-        Point position;
-        position.x = 100;
-        position.y = 100;
-        transform.position = position;
-        GameObjectBuilder gameobjectBuilder("Player" + std::to_string(clientManager.GetLocalPlayerId()));
-        Sprite sprite = Sprite("mario", 15, 17);
-        gameobjectBuilder.AddSprite(sprite);
-        gameobjectBuilder.AddTransform(transform);
-        gameobjectBuilder.GetGameObject();
+//    std::function<void(int clientId, const uint8_t *data, size_t dataLength)> onConnect = [&clientManager](int clientId,
+//                                                                                                           const uint8_t *data,
+//                                                                                                           size_t dataLength) {
+//        clientManager.CreateScene(data, dataLength);
+//        Transform transform;
+//        Point position;
+//        position.x = 300;
+//        position.y = 300;
+//        transform.position = position;
+//        GameObjectBuilder gameobjectBuilder("Player" + std::to_string(clientManager.GetLocalPlayerId()));
+//        Sprite sprite = Sprite("mario", 15, 17);
+//        gameobjectBuilder.AddSprite(sprite);
+//        gameobjectBuilder.AddTransform(transform);
+//        gameobjectBuilder.GetGameObject();
+//
+//        auto gameObject = GameObject::Find("Player" + std::to_string(clientManager.GetLocalPlayerId()));
+//        if (gameObject == nullptr) return;
+//        clientManager.InitializeMyClient(*gameObject);
+//    };
+//
+//    clientManager.RegisterEventHandler(NET_CREATE_SCENE, onConnect);
 
-        auto gameObject = GameObject::Find("Player" + std::to_string(clientManager.GetLocalPlayerId()));
-        if(gameObject == nullptr) return;
-        clientManager.InitializeMyClient(*gameObject);
-    };
-
-    clientManager.RegisterEventHandler(NET_CREATE_SCENE, onConnect);
-
-    NetPkgs::Ping ping;
-    engine.GetServerNetworkManager().SendUpdateToClients(&ping, sizeof(NetPkgs::Ping));
+    // NetPkgs::Ping ping;
+    // engine.GetServerNetworkManager().SendUpdateToClients(&ping, sizeof(NetPkgs::Ping));
     engine.Start();
 
     std::cout << "Hello, World!" << std::endl;

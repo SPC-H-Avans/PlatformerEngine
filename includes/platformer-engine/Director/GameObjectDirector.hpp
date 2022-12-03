@@ -3,6 +3,7 @@
 
 #include "Builder/GameObjectBuilder.hpp"
 #include "UIObject.hpp"
+#include "Text.hpp"
 
 /**
  * @brief The GameObjectDirector can be used to easily create specialised GameObjects

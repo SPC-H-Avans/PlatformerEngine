@@ -17,9 +17,10 @@ namespace spic {
              */
             UIObject(const std::string &name, double width, double height);
 
-            virtual void Render();
+//            virtual void Render() = 0;
+            void Render() {} // TODO: check if works
 
-        private:
+    protected:
             double _width;
             double _height;
     };

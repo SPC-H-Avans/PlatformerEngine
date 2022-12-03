@@ -97,7 +97,7 @@ namespace platformer_engine {
         /**
          * @brief Draw a text UI element
          */
-        void DrawUIText(const std::string text, const std::string fontId, const int x, const int y, const int width, const int height);
+        void DrawUIText(const std::string textId, const int x, const int y, const int width, const int height);
 
         void DrawFrame(const std::string &id, int x, int y, int width, int height, int row, int frame,
                        const SPIC_RendererFlip &flip = FLIP_NONE, double scale = 1.0);

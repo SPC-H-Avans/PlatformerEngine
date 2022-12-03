@@ -10,3 +10,8 @@ spic::Text::Text(const std::string &name, double width, double height,
     selfptr->_self = selfptr;
     _instances[this->_name] = selfptr;
 }
+
+void spic::Text::Render() {
+    // TODO: remove _text and _font and replace with _textId
+    platformer_engine::TextureManager::GetInstance().DrawUIText(_font, _transform.position.x, _transform.position.x, _width, _height);
+}

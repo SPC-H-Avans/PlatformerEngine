@@ -37,7 +37,7 @@ void spic::Scene::RenderGameObjects() {
 
 void spic::Scene::RenderUIObjects() {
     for (const auto &item: _uiObjects) {
-        //
+        item->Render();
     }
 }
 

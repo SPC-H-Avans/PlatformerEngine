@@ -7,3 +7,6 @@ spic::Button::Button(const std::string &name, double width, double height)
     selfptr->_self = selfptr;
     _instances[this->_name] = selfptr;
 }
+
+void spic::Button::Render() {
+}

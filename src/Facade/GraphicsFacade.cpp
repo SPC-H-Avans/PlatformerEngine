@@ -136,8 +136,8 @@ void platformer_engine::GraphicsFacade::DrawTexture(const std::string &id, int x
                      static_cast<const SDL_RendererFlip>(flip));
 }
 
-void platformer_engine::GraphicsFacade::DrawUIText(const std::string text, const std::string fontId, const int x, const int y, const int width, const int height) {
-    SDL_Texture* texture = _textureMap[fontId].get();
+void platformer_engine::GraphicsFacade::DrawUIText(const std::string textId, const int x, const int y, const int width, const int height) {
+    SDL_Texture* texture = _textureMap[textId].get();
     if (texture == nullptr) SDL_Log("%s\n", SDL_GetError());
 
     SDL_Rect Message_rect;

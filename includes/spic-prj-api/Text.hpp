@@ -30,6 +30,8 @@ namespace spic {
             Text(const std::string &name, double width, double height,
                  const std::string text, const std::string font = "Sans.ttf", int size = 24,
                  Alignment alignment = Alignment::center, Color color = Color::Black());
+
+            void Render();
         private:
             std::string _text;
             std::string _font;

@@ -32,8 +32,6 @@ void platformer_engine::AnimatedSprite::ResetCurrentFrame() {
     _currentFrame = 0;
 }
 
-platformer_engine::AnimatedSprite::AnimatedSprite() {
-
-}
+platformer_engine::AnimatedSprite::AnimatedSprite() {}
 
 BOOST_CLASS_EXPORT(platformer_engine::AnimatedSprite);

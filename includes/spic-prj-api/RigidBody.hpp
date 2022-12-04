@@ -46,22 +46,32 @@ namespace spic {
             void BodyType (BodyType bodyType) { this->_bodyType = bodyType; }
             auto BodyType() -> enum BodyType { return _bodyType; }
 
-            bool CanMoveTo(CollisionPoint point);
+            /**
+            * @brief Checks if the rigidbody can move to a certain point
+            */
+            auto CanMoveTo(CollisionPoint point) -> bool;
+
+            /**
+            * @brief Allows a move to a direction. If the move was denied twice before, it has to be allowed twice to be
+             * fully allowed.
+            */
             void AllowMoveTo(CollisionPoint point);
+
+            /**
+            * @brief Denies a move to a direction. If the move was denied twice, it has to be allowed twice to be
+            * fully allowed again.
+            */
             void DenyMoveTo(CollisionPoint point);
 
+            /**
+            * @brief Get the maximum speed vector from this rigidbody
+            */
             [[nodiscard]] auto GetMaxSpeed() const -> Point;
+
+            /**
+            * @brief Get the velocity vector from this rigidbody
+            */
             [[nodiscard]] auto GetVelocity() const -> Point;
-
-            /**
-            * @brief returns the horizontal speed
-            */
-            float GetXVelocity() { return _velocity.x; }
-
-            /**
-            * @brief returns the vertical speed
-            */
-            float GetYVelocity() { return _velocity.y; }
 
         protected:
             enum BodyType _bodyType;

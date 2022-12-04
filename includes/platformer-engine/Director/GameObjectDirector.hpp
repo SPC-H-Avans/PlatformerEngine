@@ -22,11 +22,11 @@ public:
      * @return The created GameObject
      */
     static auto CreateTile(
-            const spic::Sprite& sprite,
+            const spic::Sprite &sprite,
             Transform transform,
             int colliderWidth,
             int colliderHeight
-    ) -> GameObject&;
+    ) -> GameObject &;
 
     /**
      * @brief Create a background object (not collidable) and add it to the scene
@@ -35,9 +35,9 @@ public:
      * @return The created GameObject
      */
     static auto CreateBackgroundObject(
-            const spic::Sprite& sprite,
+            const spic::Sprite &sprite,
             Transform transform
-    ) -> GameObject&;
+    ) -> GameObject &;
 
     /**
      * @brief Create a background object (not collidable) and add it to the scene
@@ -48,12 +48,13 @@ public:
      * @return The created GameObject
      */
     static auto CreatePlayer(
+            int playerId,
             Transform transform,
             int colliderWidth,
             int colliderHeight,
-            std::vector<platformer_engine::AnimatedSprite>& animations,
-            const std::vector<std::shared_ptr<BehaviourScript>>& behaviourScripts // must use pointers to store derived classes
-    ) -> GameObject&;
+            std::vector<platformer_engine::AnimatedSprite> &animations,
+            const std::vector<std::shared_ptr<BehaviourScript>> &behaviourScripts // must use pointers to store derived classes
+    ) -> GameObject &;
 };
 
 #endif //PLATFORMER_ENGINE_GAMEOBJECTDIRECTOR_HPP

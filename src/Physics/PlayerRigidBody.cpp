@@ -2,11 +2,9 @@
 #include "GameObject.hpp"
 
 
-PlayerRigidBody::PlayerRigidBody() : spic::RigidBody(0.045) {
+PlayerRigidBody::PlayerRigidBody() : spic::RigidBody(0.060) {
     _gravityScale = 0.055;
     _mass = 8;
-    auto maxSpeed = Point();
-    maxSpeed.x = 2;
-    maxSpeed.y = 20;
+    auto maxSpeed = Point {2.0, 20.0};
     _maxSpeed = maxSpeed;
 }

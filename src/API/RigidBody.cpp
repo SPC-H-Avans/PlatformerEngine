@@ -55,3 +55,17 @@ void spic::RigidBody::AllowMoveTo(CollisionPoint point) {
 void spic::RigidBody::DenyMoveTo(CollisionPoint point) {
     _moveRestrictions[point] += 1;
 }
+
+RigidBody::RigidBody(float friction)
+: _bodyType(BodyType::staticBody), _mass(0), _gravityScale(0), _friction(friction) {
+
+
+}
+
+auto RigidBody::GetMaxSpeed() const -> Point {
+    return _maxSpeed;
+}
+
+auto RigidBody::GetVelocity() const -> Point {
+    return _velocity;
+}

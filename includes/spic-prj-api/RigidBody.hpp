@@ -23,6 +23,7 @@ namespace spic {
      */
     class RigidBody : public Component {
         public:
+        RigidBody(float friction);
 
         template<typename archive> void serialize(archive& ar, const unsigned /*version*/) {
             ar & _bodyType;
@@ -30,7 +31,7 @@ namespace spic {
             ar & _gravityScale;
             ar & _velocity;
             ar & _friction;
-            ar & _maxHorizontalSpeed;
+            ar & _maxSpeed;
         }
 
             /**
@@ -48,13 +49,16 @@ namespace spic {
             void AllowMoveTo(CollisionPoint point);
             void DenyMoveTo(CollisionPoint point);
 
+            [[nodiscard]] auto GetMaxSpeed() const -> Point;
+            [[nodiscard]] auto GetVelocity() const -> Point;
+
         protected:
             enum BodyType _bodyType;
             float _mass;
             float _gravityScale;
             Point _velocity;
-            const float _friction = 0.016;
-            const float _maxHorizontalSpeed = 2;
+            Point _maxSpeed;
+            const float _friction;
 
             std::map<CollisionPoint, int> _moveRestrictions;
     };

@@ -84,7 +84,6 @@ namespace spic {
 
 } // namespace spic
 
-
 BOOST_SERIALIZATION_ASSUME_ABSTRACT(spic::Component);
 
 #endif // COMPONENT_H_

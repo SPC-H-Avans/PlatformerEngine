@@ -15,6 +15,7 @@ namespace spic {
     public:
         template<class Archive>
         void serialize(Archive &ar, unsigned int version) {
+            ar.template register_type<BoxCollider>();
             ar & boost::serialization::base_object<Collider, BoxCollider>(*this);
             boost::serialization::void_cast_register<BoxCollider, Collider>();
             ar & _width;
@@ -59,5 +60,6 @@ namespace spic {
     };
 
 }  // namespace spic
+BOOST_SERIALIZATION_ASSUME_ABSTRACT(spic::BoxCollider);
 
 #endif // BOXCOLLIDER_H_

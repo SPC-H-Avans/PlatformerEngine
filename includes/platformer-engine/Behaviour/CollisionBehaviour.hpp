@@ -2,16 +2,29 @@
 #define PLATFORMER_ENGINE_COLLISIONBEHAVIOUR_HPP
 
 #include "BehaviourScript.hpp"
+#include <boost/serialization/access.hpp>
+#include <boost/serialization/export.hpp>
 
 namespace platformer_engine {
 
     class CollisionBehaviour : public spic::BehaviourScript {
     public:
+        template<class Archive>
+        void serialize(Archive &ar, unsigned int version) {
+            ar & boost::serialization::base_object<BehaviourScript, CollisionBehaviour>(*this);
+            boost::serialization::void_cast_register<CollisionBehaviour, BehaviourScript>();
+        }
+
         void OnStart() override;
+
         void OnUpdate() override;
+
         void OnTriggerEnter2D(Collision collision) override;
+
         void OnTriggerExit2D(Collision collision) override;
+
         void OnTriggerStay2D(Collision collision) override;
+
     private:
         std::vector<Collision> _activeCollisions;
 

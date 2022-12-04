@@ -7,14 +7,14 @@ const std::vector<Collision> &spic::Collider::GetCollisions() const {
     return _collisions;
 }
 
-Collision& spic::Collider::GetCollisionById(int uid) {
-    for(auto& col : _collisions) {
-        if(col.GetId() == uid) {
+Collision &spic::Collider::GetCollisionById(int uid) {
+    for (auto &col: _collisions) {
+        if (col.GetId() == uid) {
             return col;
         }
     }
     std::string gameObjectName = "Unknown";
-    auto gob { GetGameObject().lock() };
+    auto gob{GetGameObject().lock()};
     if (gob) {
         gob->GetName();
     }
@@ -28,18 +28,20 @@ void spic::Collider::AddCollision(const Collision col) {
 void spic::Collider::RemoveCollision(int uid) {
     auto col = GetCollisionById(uid);
     auto new_end = std::remove_if(_collisions.begin(), _collisions.end(),
-                                  [uid](const Collision & col) { return col.GetId() == uid; });
+                                  [uid](const Collision &col) { return col.GetId() == uid; });
     _collisions.erase(new_end, _collisions.end());
 }
 
-std::vector<Collision> Collider::GetCollisionsWith(const Collider& col) {
+std::vector<Collision> Collider::GetCollisionsWith(const Collider &col) {
     auto result = std::vector<Collision>();
-    for(const auto& collision1 : _collisions) {
-        for(const auto& collision2 : col.GetCollisions()) {
-            if(collision1.GetId() == collision2.GetId()) {
+    for (const auto &collision1: _collisions) {
+        for (const auto &collision2: col.GetCollisions()) {
+            if (collision1.GetId() == collision2.GetId()) {
                 result.push_back(collision1);
             }
         }
     }
     return result;
 }
+
+BOOST_CLASS_EXPORT(spic::Collider);

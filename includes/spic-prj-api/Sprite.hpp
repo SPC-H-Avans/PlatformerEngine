@@ -19,10 +19,10 @@ namespace spic {
      */
     class Sprite : public Component {
     public:
-        template <class Archive>
-         void serialize(Archive& ar, unsigned int version){
-            ar& boost::serialization::base_object<Component, Sprite>(*this);
-            boost::serialization::void_cast_register<Sprite,Component>();
+        template<class Archive>
+        void serialize(Archive &ar, unsigned int version) {
+            ar & boost::serialization::base_object<Component, Sprite>(*this);
+            boost::serialization::void_cast_register<Sprite, Component>();
             ar & _color;
             ar & _flip;
             ar & _sortingLayer;
@@ -33,16 +33,20 @@ namespace spic {
             ar & _spriteScale;
             ar & _spriteSheetX;
             ar & _spriteSheetY;
-         }
+        }
 
-        Sprite(): _color(Color::Transparent()){};
+        Sprite() : _color(Color::Transparent()) {};
+
         ~Sprite() = default;
+
         Sprite(std::string spriteId, int spriteWidth, int spriteHeight, int sortingLayer = 1, int orderInLayer = 1,
-               platformer_engine::SPIC_RendererFlip flip = platformer_engine::FLIP_NONE, Color color = Color::Transparent(),
+               platformer_engine::SPIC_RendererFlip flip = platformer_engine::FLIP_NONE,
+               Color color = Color::Transparent(),
                double spriteScale = 1.0, int spriteSheetX = 0, int spriteSheetY = 0);
 
-        [[nodiscard]] inline auto GetSpriteId() const -> std::string {return _spriteId;};
-        [[nodiscard]] inline auto GetSpriteScale() const -> double {return _spriteScale;};
+        [[nodiscard]] inline auto GetSpriteId() const -> std::string { return _spriteId; };
+
+        [[nodiscard]] inline auto GetSpriteScale() const -> double { return _spriteScale; };
 
         /**
          * @brief Render the current sprite
@@ -88,4 +92,3 @@ namespace spic {
 }  // namespace spic
 
 #endif // SPRITERENDERER_H_
-

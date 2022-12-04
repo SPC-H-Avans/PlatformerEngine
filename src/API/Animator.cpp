@@ -1,4 +1,5 @@
 #include "Animator.hpp"
+#include <boost/serialization/export.hpp>
 
 spic::Animator::Animator(const platformer_engine::AnimatedSprite &animatedSprite, bool isPlaying,
                          bool isLooping) : _isPlaying(isPlaying), _isLooping(isLooping) {
@@ -40,3 +41,7 @@ void spic::Animator::Play(bool looping) {
 void spic::Animator::Stop() {
     _isPlaying = false;
 }
+
+spic::Animator::Animator() = default;
+
+BOOST_CLASS_EXPORT(spic::Animator);

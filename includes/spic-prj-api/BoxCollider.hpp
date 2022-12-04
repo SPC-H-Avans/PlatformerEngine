@@ -38,7 +38,7 @@ namespace spic {
          * @param newWidth The desired width
          * @spicapi
          */
-        void Width(double newWidth) { _width = newWidth; }
+        void Width(double newWidth);
 
         /**
          * @brief The collider's height
@@ -60,6 +60,6 @@ namespace spic {
     };
 
 }  // namespace spic
-BOOST_SERIALIZATION_ASSUME_ABSTRACT(spic::BoxCollider);
+//BOOST_SERIALIZATION_ASSUME_ABSTRACT(spic::BoxCollider);
 
 #endif // BOXCOLLIDER_H_

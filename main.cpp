@@ -1,9 +1,11 @@
 #include "Engine/Engine.hpp"
 #include "Builder/SceneBuilder.hpp"
 #include <iostream>
+#include <boost/asio/streambuf.hpp>
 #include "Networking/ProtocolPackages.hpp"
 #include "Sprite.hpp"
 #include "Builder/GameObjectBuilder.hpp"
+#include "Utility/NetworkingBuffer.hpp"
 
 //BOOST_CLASS_EXPORT(spic::Component);
 
@@ -30,6 +32,17 @@ auto main([[maybe_unused]] int argc, [[maybe_unused]] char *argv[]) -> int {
     gameobjectBuilder.AddSprite(sprite);
     gameobjectBuilder.AddTransform(transform);
     auto gameObject = gameobjectBuilder.GetGameObject();
+
+    auto boxCollider = BoxCollider();
+    boxCollider.Width(1);
+    boxCollider.Height(1);
+
+    auto collider = Collider();
+    gameObject->AddComponent<BoxCollider>(std::make_shared<BoxCollider>(boxCollider));
+    //gameObject->AddComponent<Collider>(std::make_shared<Collider>(collider));
+
+    boost::asio::streambuf buf;
+    platformer_engine::NetworkingBuffer::ObjectToAsioBuffer<spic::GameObject>(*gameObject, buf);
 
     scene.AddObject(gameObject);
     engine.AddScene(scene);

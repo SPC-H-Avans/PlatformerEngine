@@ -4,54 +4,50 @@
 #include "Physics/Collision.hpp"
 #include "GameObject.hpp"
 
-void PlayerRigidBody::AddForce(const spic::Point& forceDirection) {
+void PlayerRigidBody::AddForce(const spic::Point &forceDirection) {
 
-    if(forceDirection.x < 0 && CanMoveTo(CollisionPoint::Left)) { // Move left
+    if (forceDirection.x < 0 && CanMoveTo(CollisionPoint::Left)) { // Move left
         _horizontalSpeed = std::max(_horizontalSpeed - PLAYER_ACCELERATION, -PLAYER_WALK_SPEED);
-    }
-    else if(forceDirection.x > 0 && CanMoveTo(CollisionPoint::Right)) { // Move right
+    } else if (forceDirection.x > 0 && CanMoveTo(CollisionPoint::Right)) { // Move right
         _horizontalSpeed = std::min(_horizontalSpeed + PLAYER_ACCELERATION, PLAYER_WALK_SPEED);
     }
 
-    if(_horizontalSpeed < 0 && forceDirection.x >= 0) { // Slow down the player when gliding to the left
+    if (_horizontalSpeed < 0 && forceDirection.x >= 0) { // Slow down the player when gliding to the left
         _horizontalSpeed += PLAYER_ACCELERATION / 7;
-    }
-    else if(_horizontalSpeed > 0 && forceDirection.x <= 0) { // Slow down the player when gliding to the right
+    } else if (_horizontalSpeed > 0 && forceDirection.x <= 0) { // Slow down the player when gliding to the right
         _horizontalSpeed -= PLAYER_ACCELERATION / 7;
     }
 
-    if(forceDirection.y > 0
-       && CanMoveTo(CollisionPoint::Top)
-       && !CanMoveTo(CollisionPoint::Bottom)) { // Jump when on top of an object
+    if (forceDirection.y > 0
+        && CanMoveTo(CollisionPoint::Top)
+        && !CanMoveTo(CollisionPoint::Bottom)) { // Jump when on top of an object
         _verticalSpeed = PLAYER_JUMP_SPEED;
         _jumpTimer = PLAYER_JUMP_TIMER;
-    }
-    else if(_jumpTimer > 0 && CanMoveTo(CollisionPoint::Top)) { // High jump
+    } else if (_jumpTimer > 0 && CanMoveTo(CollisionPoint::Top)) { // High jump
         _verticalSpeed = PLAYER_JUMP_SPEED;
         _jumpTimer -= 1;
-    }
-    else {
+    } else {
         _verticalSpeed = std::min(_gravityScale + _verticalSpeed, PLAYER_MAX_VERTICAL_SPEED);
     }
 
     _verticalSpeed += _gravityScale;
-    if(_verticalSpeed > 0 && !CanMoveTo(CollisionPoint::Bottom)) {
+    if (_verticalSpeed > 0 && !CanMoveTo(CollisionPoint::Bottom)) {
         _verticalSpeed = 0;
     }
 
-    if(_horizontalSpeed > 0 && !CanMoveTo(CollisionPoint::Right)) {
+    if (_horizontalSpeed > 0 && !CanMoveTo(CollisionPoint::Right)) {
         _horizontalSpeed = 0;
     }
 
-    if(_horizontalSpeed < 0 && !CanMoveTo(CollisionPoint::Left)) {
+    if (_horizontalSpeed < 0 && !CanMoveTo(CollisionPoint::Left)) {
         _horizontalSpeed = 0;
     }
 
-    if(_verticalSpeed < 0 && !CanMoveTo(CollisionPoint::Top)) {
+    if (_verticalSpeed < 0 && !CanMoveTo(CollisionPoint::Top)) {
         _verticalSpeed = 0;
     }
 
-    std::shared_ptr<GameObject> gameObject { GetGameObject().lock() };
+    std::shared_ptr<GameObject> gameObject{GetGameObject().lock()};
     if (gameObject) {
         auto transform = gameObject->GetTransform();
         transform.position.x += _horizontalSpeed;
@@ -66,4 +62,5 @@ PlayerRigidBody::PlayerRigidBody() {
     _gravityScale = 0.25F;
 }
 
+BOOST_CLASS_EXPORT(PlayerRigidBody);
 

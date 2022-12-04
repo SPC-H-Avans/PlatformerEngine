@@ -6,6 +6,7 @@
 #include <boost/serialization/access.hpp>
 #include <boost/serialization/export.hpp>
 #include <boost/serialization/vector.hpp>
+#include <boost/serialization/weak_ptr.hpp>
 #include <boost/archive/binary_iarchive.hpp>
 #include <boost/archive/binary_oarchive.hpp>
 #include "Networking/boost/portable_binary_iarchive.hpp"
@@ -39,7 +40,7 @@ namespace spic {
         void RemoveCollision(int uid);
 
     private:
-        std::vector<Collision> _collisions;
+        std::vector<std::weak_ptr<Collision>> _collisions;
     };
 
 }  // namespace spic

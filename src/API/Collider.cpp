@@ -3,12 +3,8 @@
 #include "Exceptions/CollisionByIdNotFoundException.hpp"
 #include "GameObject.hpp"
 
-const std::vector<Collision> &spic::Collider::GetCollisions() const {
-    std::vector<Collision> result;
-    for (const auto &item: _collisions) {
-        result.push_back(*item.lock());
-    }
-    return result;
+const std::vector<std::weak_ptr<Collision>> &spic::Collider::GetCollisions() const {
+    return _collisions;
 }
 
 Collision &spic::Collider::GetCollisionById(int uid) {
@@ -40,7 +36,7 @@ std::vector<Collision> Collider::GetCollisionsWith(const Collider &col) {
     auto result = std::vector<Collision>();
     for (const auto &collision1: _collisions) {
         for (const auto &collision2: col.GetCollisions()) {
-            if (collision1.lock()->GetId() == collision2.GetId()) {
+            if (collision1.lock()->GetId() == collision2.lock()->GetId()) {
                 result.push_back(*collision1.lock());
             }
         }

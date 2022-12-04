@@ -29,7 +29,7 @@ namespace spic {
             boost::serialization::void_cast_register<Collider, Component>();
         }
 
-        [[nodiscard]] auto GetCollisions() const -> const std::vector<Collision> &;
+        [[nodiscard]] auto GetCollisions() const -> const std::vector<std::weak_ptr<Collision>> &;
 
         auto GetCollisionsWith(const Collider &col) -> std::vector<Collision>;
 

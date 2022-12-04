@@ -4,6 +4,7 @@
 #include "Collider.hpp"
 #include <boost/serialization/access.hpp>
 #include <boost/serialization/export.hpp>
+#include <boost/serialization/vector.hpp>
 
 namespace spic {
 
@@ -20,12 +21,16 @@ namespace spic {
             ar & _height;
         }
 
+        BoxCollider() = default;
+
+        ~BoxCollider() = default;
+
         /**
          * @brief The collider's width
          * @return The current width
          * @spicapi
          */
-        double Width() const { return _width; }
+        [[nodiscard]] auto Width() const -> double { return _width; }
 
         /**
          * @brief The collider's width
@@ -39,7 +44,7 @@ namespace spic {
          * @return The current height
          * @spicapi
          */
-        double Height() const { return _height; }
+        [[nodiscard]] auto Height() const -> double { return _height; }
 
         /**
          * @brief The collider's height

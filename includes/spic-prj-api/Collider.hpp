@@ -5,8 +5,13 @@
 #include "Component.hpp"
 #include <boost/serialization/access.hpp>
 #include <boost/serialization/export.hpp>
+#include <boost/serialization/vector.hpp>
+#include <boost/archive/binary_iarchive.hpp>
+#include <boost/archive/binary_oarchive.hpp>
+#include "Networking/boost/portable_binary_iarchive.hpp"
+#include "Networking/boost/portable_binary_oarchive.hpp"
 
-// Forward decleration of Collider
+// Forward declaration of Collider
 class Collision;
 
 namespace spic {
@@ -38,5 +43,7 @@ namespace spic {
     };
 
 }  // namespace spic
+
+BOOST_SERIALIZATION_ASSUME_ABSTRACT(spic::Collider);
 
 #endif // COLLIDER2D_H_

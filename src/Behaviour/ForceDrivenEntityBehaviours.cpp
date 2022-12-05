@@ -38,7 +38,6 @@ auto ForceDrivenEntityBehaviours::Flee(Point &targetPos) -> Point {
         auto DesiredVelocity = spic::Point::PointNormalize(transform.position - targetPos)
                                * body->GetMaxSpeed();
         return (DesiredVelocity - body->GetVelocity());
-        return (DesiredVelocity - body->GetVelocity());
     }
     // GameObject was already deleted
     gameObject.reset();

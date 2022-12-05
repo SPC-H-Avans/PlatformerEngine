@@ -6,6 +6,7 @@
 #include "Physics/Collision.hpp"
 #include <map>
 #include <boost/serialization/access.hpp>
+#include "Behaviour/ForceDrivenEntityBehaviours.hpp"
 
 namespace spic {
 
@@ -51,6 +52,9 @@ namespace spic {
 
             [[nodiscard]] auto GetMaxSpeed() const -> Point;
             [[nodiscard]] auto GetVelocity() const -> Point;
+            [[nodiscard]] auto GetHeading() const -> Point;
+
+            void Follow(const std::shared_ptr<GameObject> &gameObject);
 
         protected:
             enum BodyType _bodyType;
@@ -58,7 +62,9 @@ namespace spic {
             float _gravityScale;
             Point _velocity;
             Point _maxSpeed;
+            Point _heading;
             const float _friction;
+            std::unique_ptr<platformer_engine::ForceDrivenEntityBehaviours> _behaviours;
 
             std::map<CollisionPoint, int> _moveRestrictions;
     };

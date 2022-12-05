@@ -10,13 +10,16 @@ namespace platformer_engine {
     using spic::Point;
     using spic::GameObject;
 
+    enum Deceleration{slow = 3, normal = 2, fast = 1};
+
     class ForceDrivenEntityBehaviours {
     private:
-        auto Seek(Point &point) -> Point;
+        auto Seek(Point point) -> Point;
         auto Flee(Point &point) -> Point;
-        auto Arrive(Point &point) -> Point;
+        auto Arrive(Point &point, Deceleration deceleration) -> Point;
         std::weak_ptr<GameObject> _gameObject;
     public:
+        auto Pursuit(const std::shared_ptr<GameObject>& evader) -> Point;
         ForceDrivenEntityBehaviours(std::weak_ptr<GameObject> gameObject);
         auto Calculate() -> Point;
         auto ForwardComponent() -> Point;
@@ -34,6 +37,7 @@ namespace platformer_engine {
         void SeekOff();
         void FleeOff();
         void ArriveOff();
+
 
     };
 }

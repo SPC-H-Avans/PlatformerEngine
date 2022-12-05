@@ -8,10 +8,10 @@ void spic::RigidBody::AddForce(const spic::Point &force) {
 
     if (_velocity.x > 0) {
         _velocity.x -= _friction;
-        _velocity.x = std::min(static_cast<float>(_velocity.x), _maxHorizontalSpeed);
+        _velocity.x = std::min(_velocity.x, _maxSpeed.x);
     } else if (_velocity.x < 0) {
         _velocity.x += _friction;
-        _velocity.x = std::max(static_cast<float>(_velocity.x), -_maxHorizontalSpeed);
+        _velocity.x = std::max(_velocity.x, -_maxSpeed.x);
     }
 
     if (force.y > 0
@@ -68,4 +68,12 @@ auto RigidBody::GetMaxSpeed() const -> Point {
 
 auto RigidBody::GetVelocity() const -> Point {
     return _velocity;
+}
+
+auto RigidBody::GetHeading() const -> Point {
+    return _heading;
+}
+
+void RigidBody::Follow(const std::shared_ptr<GameObject> &gameObject) {
+    _behaviours->Pursuit(gameObject);
 }

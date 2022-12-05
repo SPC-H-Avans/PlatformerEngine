@@ -25,6 +25,13 @@ namespace spic {
             return *this;
         }
 
+        auto operator /(double &Obj) -> Point
+        {
+            x /= Obj;
+            y /= Obj;
+            return *this;
+        }
+
         auto operator /(Point &Obj) -> Point
         {
             x /= Obj.x;
@@ -50,6 +57,13 @@ namespace spic {
         {
             x *= Obj.x;
             y *= Obj.y;
+            return *this;
+        }
+
+        auto operator +(const Point &Obj) -> Point
+        {
+            x += Obj.x;
+            y += Obj.y;
             return *this;
         }
 
@@ -86,13 +100,19 @@ namespace spic {
         * @brief Truncates this vector so that its length does not exceed the maximum value
         * @param max The maximum value that x and y cannot exceed
         */
-        auto Truncate(float max) {
+        auto Truncate(float max)-> Point {
             if (this->Length() > max)
             {
                 this->Normalize();
 
                 *this *= max;
             }
+            return *this;
+        }
+
+        inline double Dot(const Point &v2)const
+        {
+            return x*v2.x + y*v2.y;
         }
 
         static Point PointNormalize(const Point &v) {

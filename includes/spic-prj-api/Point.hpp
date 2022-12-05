@@ -53,6 +53,13 @@ namespace spic {
             return *this;
         }
 
+        auto operator *=(Point &Obj) -> Point
+        {
+            x *= Obj.x;
+            y *= Obj.y;
+            return *this;
+        }
+
         auto operator *(const Point &Obj) -> Point
         {
             x *= Obj.x;

@@ -19,8 +19,8 @@ namespace platformer_engine {
 
         template<typename archive>
         void serialize(archive &ar, const unsigned /*version*/) {
-            ar & boost::serialization::base_object<spic::Sprite, AnimatedSprite>(*this);
-            boost::serialization::void_cast_register<AnimatedSprite, spic::Sprite>();
+            ar & boost::serialization::base_object<spic::Component, AnimatedSprite>(*this);
+            boost::serialization::void_cast_register<AnimatedSprite, spic::Component>();
             ar & _currentFrame;
             ar & _frameCount;
             ar & _animationSpeed;

@@ -4,12 +4,17 @@
 #include "RigidBody.hpp"
 #include "Behaviour/ForceDrivenEntityBehaviours.hpp"
 
-class ForceDrivenEntityBody : RigidBody {
+class ForceDrivenEntityBody : public RigidBody {
 
 public:
     ForceDrivenEntityBody(float friction);
     void Update(double time_elapsed);
     void Follow(const std::shared_ptr<GameObject>& gameObject);
+
+    void SetGameObject(std::weak_ptr<GameObject> gObj) override {
+        Component::SetGameObject(gObj);
+        _behaviours->SetGameObject(gObj);
+    }
 
 private:
     //the steering behavior class

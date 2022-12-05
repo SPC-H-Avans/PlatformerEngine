@@ -14,8 +14,10 @@ void spic::RigidBody::AddForce(const spic::Point &force) {
         _velocity.x = std::max(_velocity.x, -_maxSpeed.x);
     }
 
-    if (force.y > 0
-        && !CanMoveTo(CollisionPoint::Bottom)) { // Jump when on top of an object
+    if (force.y > 0 &&
+        (!CanMoveTo(CollisionPoint::Bottom)
+        || _gravityScale == 0)) { // Jump when on top of an object or if object has no gravity
+
         auto y_acceleration = force.y / _mass;
         _velocity.y -= y_acceleration;
     }

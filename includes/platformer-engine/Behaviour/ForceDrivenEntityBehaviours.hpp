@@ -38,6 +38,10 @@ namespace platformer_engine {
         void FleeOff();
         void ArriveOff();
 
+        void SetGameObject(std::weak_ptr<GameObject> gObj) {
+            _gameObject = std::move(gObj);
+        }
+
 
     };
 }

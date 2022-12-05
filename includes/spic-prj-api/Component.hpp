@@ -45,7 +45,7 @@ namespace spic {
              */
             void Active(bool flag) { _active = flag; }
 
-            void SetGameObject(std::weak_ptr<GameObject> gObj) {
+        virtual void SetGameObject(std::weak_ptr<GameObject> gObj) {
                 _gameObject = std::move(gObj);
             }
 

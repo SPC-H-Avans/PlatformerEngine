@@ -18,11 +18,11 @@ namespace spic {
             ar & y;
         }
 
-        auto operator /(const float &Obj) const -> Point
+        auto operator /(float &Obj) -> Point
         {
-            auto x_copy = x / Obj;
-            auto y_copy = y / Obj;
-            return Point{x_copy, y_copy};
+            x /= Obj;
+            y /= Obj;
+            return *this;
         }
 
         auto operator /(double &Obj) -> Point

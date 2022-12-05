@@ -19,8 +19,8 @@ auto platformer_engine::GraphicsFacade::Init(int width, int height, const std::s
         std::cout << "SDL could not initialize! SDL_Error: " << SDL_GetError() << std::endl;
         return false;
     }
-    auto window_flags = static_cast<SDL_WindowFlags>(SDL_WINDOW_SHOWN | SDL_WINDOW_RESIZABLE |
-                                                     SDL_WINDOW_ALLOW_HIGHDPI | (fullScreen) ?: SDL_WINDOW_FULLSCREEN_DESKTOP);
+    auto window_flags = static_cast<SDL_WindowFlags>(SDL_WINDOW_SHOWN |
+                                                     SDL_WINDOW_ALLOW_HIGHDPI | ((fullScreen) ? SDL_WINDOW_FULLSCREEN_DESKTOP : 0));
     _window = std::unique_ptr<SDL_Window, std::function<void(SDL_Window *)>>(
             SDL_CreateWindow(title.c_str(), SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, width, height,
                              window_flags), SDL_DestroyWindow);

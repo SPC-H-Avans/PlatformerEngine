@@ -75,9 +75,10 @@ auto ForceDrivenEntityBehaviours::Arrive(Point &TargetPos,
     return Point{0, 0};
 }
 
-auto platformer_engine::ForceDrivenEntityBehaviours::Pursuit(const std::shared_ptr<GameObject>& evader) -> Point {
+auto platformer_engine::ForceDrivenEntityBehaviours::Pursuit(const std::weak_ptr<GameObject>& evaderWeakPtr) -> Point {
     std::shared_ptr<GameObject> gameObject{_gameObject.lock()};
-    if (gameObject) {
+    std::shared_ptr<GameObject> evader{evaderWeakPtr.lock()};
+    if (gameObject && evader) {
         auto body = std::dynamic_pointer_cast<RigidBody>(gameObject->GetComponent<RigidBody>());
         auto evaderBody = std::dynamic_pointer_cast<RigidBody>(evader->GetComponent<RigidBody>());
         if(body != nullptr) {
@@ -110,14 +111,16 @@ Point ForceDrivenEntityBehaviours::Calculate() {
 ////    SteeringForce += ObstacleAvoidance() * dObstacleAvoidanceAmount;
 ////    SteeringForce += Separation() * dSeparationAmount;
 //    return SteeringForce.Truncate(20.0);
+
+    return {};
 }
 
 Point ForceDrivenEntityBehaviours::ForwardComponent() {
-    return spic::Point();
+    return {};
 }
 
 Point ForceDrivenEntityBehaviours::SideComponent() {
-    return spic::Point();
+    return {};
 }
 
 void ForceDrivenEntityBehaviours::SetPath() {

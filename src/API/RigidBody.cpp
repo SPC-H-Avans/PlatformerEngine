@@ -73,7 +73,3 @@ auto RigidBody::GetVelocity() const -> Point {
 auto RigidBody::GetHeading() const -> Point {
     return _heading;
 }
-
-void RigidBody::Follow(const std::shared_ptr<GameObject> &gameObject) {
-    _behaviours->Pursuit(gameObject);
-}

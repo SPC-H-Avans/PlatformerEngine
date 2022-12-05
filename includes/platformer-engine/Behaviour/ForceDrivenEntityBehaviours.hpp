@@ -19,7 +19,7 @@ namespace platformer_engine {
         auto Arrive(Point &point, Deceleration deceleration) -> Point;
         std::weak_ptr<GameObject> _gameObject;
     public:
-        auto Pursuit(const std::shared_ptr<GameObject>& evader) -> Point;
+        auto Pursuit(const std::weak_ptr<GameObject>& evader) -> Point;
         ForceDrivenEntityBehaviours(std::weak_ptr<GameObject> gameObject);
         auto Calculate() -> Point;
         auto ForwardComponent() -> Point;

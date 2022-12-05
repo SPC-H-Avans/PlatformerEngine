@@ -7,12 +7,14 @@
 class ForceDrivenEntityBody : RigidBody {
 
 public:
+    ForceDrivenEntityBody(float friction);
     void Update(double time_elapsed);
+    void Follow(const std::shared_ptr<GameObject>& gameObject);
 
 private:
     //the steering behavior class
-    platformer_engine::ForceDrivenEntityBehaviours* _behaviours;
-
+    std::unique_ptr<platformer_engine::ForceDrivenEntityBehaviours> _behaviours;
+    std::weak_ptr<GameObject> _following;
 
 };
 

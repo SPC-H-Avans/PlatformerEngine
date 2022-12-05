@@ -23,7 +23,7 @@ protected:
         marioBody.BodyType(spic::BodyType::dynamicBody);
         mario.AddComponent<RigidBody>(std::make_shared<PlayerRigidBody>(marioBody));
 
-        RigidBody blockBody;
+        RigidBody blockBody(0);
         blockBody.BodyType(spic::BodyType::staticBody);
         block.AddComponent<RigidBody>(std::make_shared<RigidBody>(blockBody));
 

@@ -54,8 +54,6 @@ namespace spic {
             [[nodiscard]] auto GetVelocity() const -> Point;
             [[nodiscard]] auto GetHeading() const -> Point;
 
-            void Follow(const std::shared_ptr<GameObject> &gameObject);
-
         protected:
             enum BodyType _bodyType;
             float _mass;
@@ -64,7 +62,6 @@ namespace spic {
             Point _maxSpeed;
             Point _heading;
             const float _friction;
-            std::unique_ptr<platformer_engine::ForceDrivenEntityBehaviours> _behaviours;
 
             std::map<CollisionPoint, int> _moveRestrictions;
     };

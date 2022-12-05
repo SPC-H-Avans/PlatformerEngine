@@ -23,7 +23,7 @@ namespace platformer_engine {
          * @param color The background color of the window.
          * @platformerengine
          */
-        Window(int width, int height, const std::string &title, const spic::Color &color);
+        Window(int width, int height, const std::string &title, const spic::Color &color, bool fullScreen);
 
         /**
          * @brief Render the game on the screen

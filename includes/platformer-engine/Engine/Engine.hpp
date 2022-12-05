@@ -45,7 +45,7 @@ namespace platformer_engine {
          * @return bool True if the engine is initialized, false if not
          * @platformerengine
          */
-        auto Init(int width, int height, const std::string &title, const spic::Color &color) -> bool;
+        auto Init(int width, int height, const std::string &title, const spic::Color &color, bool fullScreen) -> bool;
 
         /**
          * @brief Start the engine, open window, start timer etc.

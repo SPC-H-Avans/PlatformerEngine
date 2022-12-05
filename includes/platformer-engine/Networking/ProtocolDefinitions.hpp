@@ -26,7 +26,7 @@ constexpr int NET_ON_DISCONNECT = 2;
 
 
 constexpr int MAX_CREATE_GAME_OBJECT_SIZE = 512;
-constexpr int MAX_CREATE_SCENE_SIZE = 1024000;
+constexpr int MAX_CREATE_SCENE_SIZE = 102400;
 constexpr int MAX_SEND_CHARACTER_TO_SERVER_SIZE = 1024;
 constexpr int MAX_GAME_OBJECT_NAME_SIZE = 256;
 constexpr int MAX_UPDATE_TRANSFORM_SIZE = 128;

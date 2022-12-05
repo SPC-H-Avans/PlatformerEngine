@@ -110,6 +110,11 @@ namespace spic {
             return *this;
         }
 
+        inline double LengthSq()const
+        {
+            return (x * x + y * y);
+        }
+
         inline double Dot(const Point &v2)const
         {
             return x*v2.x + y*v2.y;

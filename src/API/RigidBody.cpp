@@ -3,6 +3,9 @@
 #include "GameObject.hpp"
 
 void spic::RigidBody::AddForce(const spic::Point &force) {
+
+    SetHeading(Point::PointNormalize(force));
+
     auto x_acceleration = force.x / _mass;
     _velocity.x += x_acceleration;
 
@@ -62,6 +65,16 @@ RigidBody::RigidBody(float friction)
 : _bodyType(BodyType::staticBody), _mass(0), _gravityScale(0), _friction(friction) {
 
 
+}
+
+void RigidBody::SetHeading(Point new_heading)
+{
+    assert( (new_heading.LengthSq() - 1.0) < 0.00001);
+
+    _heading = new_heading;
+
+    //the side vector must always be perpendicular to the heading
+//    _side = m_vHeading.Perp();
 }
 
 auto RigidBody::GetMaxSpeed() const -> Point {

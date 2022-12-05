@@ -53,6 +53,7 @@ namespace spic {
             [[nodiscard]] auto GetMaxSpeed() const -> Point;
             [[nodiscard]] auto GetVelocity() const -> Point;
             [[nodiscard]] auto GetHeading() const -> Point;
+            void SetHeading(Point new_heading);
 
         protected:
             enum BodyType _bodyType;
@@ -64,6 +65,7 @@ namespace spic {
             const float _friction;
 
             std::map<CollisionPoint, int> _moveRestrictions;
+
     };
 
 } // namespace spic

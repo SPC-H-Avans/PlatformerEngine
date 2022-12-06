@@ -16,16 +16,16 @@ Point ForceDrivenEntityBody::AvoidObjects() {
     std::shared_ptr<GameObject> currentGameObject { GetGameObject().lock() };
     if(currentGameObject) {
 
-        // Get the look ahead collider
-        std::shared_ptr<Collider> lookAheadCollider = nullptr;
-
-        auto colliders = currentGameObject->GetComponents<Collider>();
-        for(auto& colComponent : colliders) {
-            auto col = std::dynamic_pointer_cast<Collider>(colComponent);
-            if(!col->GetPosition().Equals(currentGameObject->GetTransform().position)) {
-                lookAheadCollider = col;
-            }
-        }
+//        // Get the look ahead collider
+//        std::shared_ptr<Collider> lookAheadCollider;
+//
+//        auto colliders = currentGameObject->GetComponents<Collider>();
+//        for(auto& colComponent : colliders) {
+//            auto col = std::dynamic_pointer_cast<Collider>(colComponent);
+//            if(!col->GetPosition().Equals(currentGameObject->GetTransform().position)) {
+//                lookAheadCollider = col;
+//            }
+//        }
 
         // Find the nearest object that we are colliding with or are
         // in danger of colliding with

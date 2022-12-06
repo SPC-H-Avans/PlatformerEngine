@@ -105,7 +105,7 @@ void platformer_engine::ServerNetworkManager::OnDisconnect(int clientId) {
     NetPkgs::KickClient kickClient(clientId);
     Engine::GetInstance().GetActiveScene().RemoveObject(
             std::string(NET_PLAYER_PREFIX) + std::to_string(clientId));
-    
+
     _networkingFacade.SendPacketToAllPeers(&kickClient, sizeof(kickClient));
     if (_eventMap.contains(NET_ON_DISCONNECT)) {
         _eventMap[NET_ON_DISCONNECT](clientId, nullptr, 0);
@@ -187,7 +187,13 @@ platformer_engine::ServerNetworkManager::HandleGameObjectTransformEventFromClien
     std::string gameObjectId = std::string(pkg._gameObjectId);
 
     auto gameObject = platformer_engine::Engine::GetInstance().GetActiveScene().GetObjectByName(gameObjectId);
-    if (gameObject == nullptr || gameObject->GetOwnerId() != clientId) {
+    if (gameObject == nullptr) {
+        spic::Debug::LogWarning(std::to_string(clientId) + " tried to update a Game Object with id: " + gameObjectId +
+                                ", which does not (yet) exists on the server! Ignoring packet");
+        return;
+    }
+    gameObject->ResetSelf();
+    if (gameObject->GetOwnerId() != clientId) {
         spic::Debug::LogWarning(
                 "Illegal packet received, " + std::to_string(clientId) + " tried to update GameObject " + gameObjectId +
                 ", which is owned by: " + std::to_string(gameObject->GetOwnerId()) + ". Ignoring this packet");
@@ -226,6 +232,8 @@ void platformer_engine::ServerNetworkManager::HandleCreateCharacterFromClient(in
     }
     gameObject.ResetSelf();
     platformer_engine::Engine::GetInstance().GetActiveScene().AddObject(std::make_shared<spic::GameObject>(gameObject));
+    spic::Debug::Log("Created a player character for player: " + std::to_string(clientId) + ", with object ID: " +
+                     gameObject.GetName());
     CreateNetworkedPlayerCharacter(clientId, gameObject);
 }
 

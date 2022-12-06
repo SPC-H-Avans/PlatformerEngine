@@ -14,10 +14,8 @@ void ClickSystem::Update() {
     auto uiObjects = platformer_engine::Engine::GetInstance().GetActiveScene().GetAllUIObjects();
     for (const auto& obj : uiObjects) {
         // continue if the object is not a button
-        if (typeid(*obj) != typeid(Button)) // need to dereference obj to get the correct type
-            continue;
-
         auto button = std::dynamic_pointer_cast<Button>(obj);
+        if (button == nullptr) continue;
 
         // top left button position
         auto btnXPos1 = button->GetTransform().position.x;

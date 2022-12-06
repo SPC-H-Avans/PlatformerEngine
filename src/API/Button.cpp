@@ -16,7 +16,7 @@ void spic::Button::Render() {
     platformer_engine::TextureManager::GetInstance().DrawUIButton(
             _name,
             static_cast<int>(GetTransform().position.x), static_cast<int>(GetTransform().position.y),
-            _width, _height);
+            static_cast<int>(GetWidth()), static_cast<int>(GetHeight()));
 }
 
 void spic::Button::Click() {

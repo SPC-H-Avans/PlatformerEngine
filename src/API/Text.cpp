@@ -18,5 +18,5 @@ spic::Text::Text(const std::string &name, double width, double height,
 void spic::Text::Render() {
     platformer_engine::TextureManager::GetInstance().DrawUIText(
             _name, static_cast<int>(GetTransform().position.x), static_cast<int>(GetTransform().position.y),
-            _width, _height);
+            static_cast<int>(GetWidth()), static_cast<int>(GetHeight()));
 }

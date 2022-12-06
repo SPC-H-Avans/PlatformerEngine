@@ -220,7 +220,7 @@ auto platformer_engine::NetworkingFacade::SendPacketToAllPeersExcept(std::vector
 
     for (int i = 0; i < host->connectedPeers; i++) {
         ENetPeer *peers = host->peers;
-        if (std::find(clientIds.begin(), clientIds.end(), peers[i].connectID) != clientIds.end()) {
+        if (std::find(clientIds.begin(), clientIds.end(), peers[i].connectID) == clientIds.end()) {
             ENetPacket *packet = enet_packet_create(data, length, reliable ? ENET_PACKET_FLAG_RELIABLE : 0x0);
             if (packet == nullptr) {
                 return false;

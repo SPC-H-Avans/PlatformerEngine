@@ -139,7 +139,7 @@ void platformer_engine::ClientNetworkManager::CreateScene(const void *data, size
     platformer_engine::NetworkingBuffer::ParseIncomingDataToObject<spic::Scene>(pkg._data, MAX_CREATE_SCENE_SIZE,
                                                                                 scene);
 
-    //scene.ResetScene(); //Loads objects on instances.
+    scene.ResetScene(); //Loads objects on instances.
     Engine::GetInstance().AddScene(scene);
     Engine::GetInstance().SetActiveScene(scene.GetSceneName());
 }

@@ -5,19 +5,19 @@
 
 namespace platformer_engine {
 
-    void CollisionBehaviour::OnStart() {
+    void DodgeObjectsBehaviour::OnStart() {
     }
 
-    void CollisionBehaviour::OnUpdate() {
+    void DodgeObjectsBehaviour::OnUpdate() {
     }
 
-    void CollisionBehaviour::OnTriggerEnter2D(Collision collision) {
+    void DodgeObjectsBehaviour::OnTriggerEnter2D(Collision collision) {
         _activeCollisions.push_back(collision);
         UpdateMoveRestriction(collision, false);
         Unstuck(collision);
     }
 
-    void CollisionBehaviour::OnTriggerExit2D(const Collision collision) {
+    void DodgeObjectsBehaviour::OnTriggerExit2D(const Collision collision) {
 
         // Remove the collision from _activeCollisions
         for(auto &col : _activeCollisions) {
@@ -31,10 +31,10 @@ namespace platformer_engine {
         UpdateMoveRestriction(collision, true);
     }
 
-    void CollisionBehaviour::OnTriggerStay2D(const Collision collision) {
+    void DodgeObjectsBehaviour::OnTriggerStay2D(const Collision collision) {
     }
 
-    void CollisionBehaviour::UpdateMoveRestriction(const Collision &col, bool allow) {
+    void DodgeObjectsBehaviour::UpdateMoveRestriction(const Collision &col, bool allow) {
         auto point = col.Contact();
         auto gameObjWeak = GetGameObject();
         std::shared_ptr<spic::GameObject> gameObj { gameObjWeak.lock() };
@@ -52,16 +52,16 @@ namespace platformer_engine {
         }
     }
 
-    void CollisionBehaviour::Unstuck(Collision &collision) {
+    void DodgeObjectsBehaviour::Unstuck(Collision &collision) {
         std::shared_ptr<GameObject> currentGameObject { GetGameObject().lock() };
         if(currentGameObject) {
             auto currentTransform = currentGameObject->GetTransform();
-            auto currentCollider = std::dynamic_pointer_cast<BoxCollider>(collision.GetSelfCollider());
+            auto currentCollider = std::dynamic_pointer_cast<BoxCollider>(currentGameObject->GetComponent<BoxCollider>());
 
-            auto collidingGameObject = collision.GetOtherCollider()->GetGameObject().lock();
+            auto collidingGameObject = collision.GetCollider()->GetGameObject().lock();
             if(collidingGameObject) {
                 auto collidingTransform = collidingGameObject->GetTransform();
-                auto collidingCollider = std::dynamic_pointer_cast<BoxCollider>(collision.GetOtherCollider());
+                auto collidingCollider = std::dynamic_pointer_cast<BoxCollider>(collision.GetCollider());
 
                 if(collision.Contact() == CollisionPoint::Top) {
                     currentTransform.position.y = collidingTransform.position.y + collidingCollider->Height();

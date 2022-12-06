@@ -3,6 +3,7 @@
 
 #include <vector>
 #include "Component.hpp"
+#include "Point.hpp"
 
 // Forward decleration of Collider
 class Collision;
@@ -20,8 +21,11 @@ namespace spic {
         auto GetCollisionById(int uid) -> Collision&;
         void AddCollision(Collision col);
         void RemoveCollision(int uid);
+        void SetLocation(Point location);
+        [[nodiscard]] auto GetLocation() const -> Point;
     private:
         std::vector<Collision> _collisions;
+        Point _location;
     };
 
 }

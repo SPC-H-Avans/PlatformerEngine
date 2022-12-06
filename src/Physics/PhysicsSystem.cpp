@@ -139,7 +139,7 @@ void PhysicsSystem::CheckCollisions() {
             }
 
             for(auto& oldCollision : aCollisions) {
-                auto bCol = oldCollision.GetCollider();
+                auto bCol = oldCollision.GetOtherCollider();
                 auto objB = bCol->GetGameObject().lock();
                 EndCollision(objA, aCol, objB, bCol, oldCollision.GetId());
             }
@@ -152,8 +152,8 @@ void PhysicsSystem::CreateCollision(const shared_ptr<GameObject>& initiator, con
                                     std::tuple<CollisionPoint, CollisionPoint> direction) {
 
     // Create two Collision objects with the same ID
-    auto collisionInit = Collision(rec_collider, std::get<0>(direction), _collisionCnt);
-    auto collisionRec = Collision(init_collider, std::get<1>(direction), _collisionCnt++);
+    auto collisionInit = Collision(init_collider, rec_collider, std::get<0>(direction), _collisionCnt);
+    auto collisionRec = Collision(rec_collider, init_collider, std::get<1>(direction), _collisionCnt++);
     init_collider->AddCollision(collisionInit);
     rec_collider->AddCollision(collisionRec);
 

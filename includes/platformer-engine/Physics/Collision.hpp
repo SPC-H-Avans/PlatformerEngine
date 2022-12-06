@@ -26,30 +26,46 @@ using namespace spic;
 
         /**
          * @brief constructor for creating a collision
+         * @param self collider is the object's collider in the collision.
          * @param other collider that is colliding with this object's collider.
          * @param direction axis on which our collider has been hit.
          * @param uid Unique identifier of the Collision
          */
-        Collision(std::shared_ptr<Collider> other, CollisionPoint direction, int uid);
+        Collision(std::shared_ptr<Collider> self, std::shared_ptr<Collider> other, CollisionPoint direction, int uid);
 
         /**
          * @brief constructor for creating a collision
+         * @param self collider is the object's collider in the collision.
          * @param other collider that is colliding with this object's collider.
          * @param uid Unique identifer for the Collision
          */
-        explicit Collision(std::shared_ptr<Collider> other, int uid);
+        explicit Collision(std::shared_ptr<Collider> self, std::shared_ptr<Collider> other, int uid);
 
         /**
-         * @brief Setter for adding a collider to the collision object
+         * @brief Setter for adding the other collider to the collision object
          * @param other Collider that we are colliding with.
          */
-        void SetCollider(const std::shared_ptr<Collider>& other);
+        void SetOtherCollider(const std::shared_ptr<Collider>& other);
+
 
         /**
-         * @brief Getter for collider of the collision object
+         * @brief Setter for adding the self collider to the collision object
+         * @param other Collider that we are colliding with.
+         */
+        void SetSelfCollider(const std::shared_ptr<Collider>& self);
+
+        /**
+         * @brief Getter for collider of the other collision object
          * @return Collider that we are colliding with.
          */
-        [[nodiscard]] auto GetCollider() -> std::shared_ptr<Collider>;
+        [[nodiscard]] auto GetOtherCollider() -> std::shared_ptr<Collider>;
+
+
+        /**
+         * @brief Getter for collider of the self collision object
+         * @return Collider that we are colliding with.
+         */
+        [[nodiscard]] auto GetSelfCollider() -> std::shared_ptr<Collider>;
 
         /**
          * @brief Setter for direction on the collision object
@@ -71,6 +87,7 @@ using namespace spic;
 
     private:
         std::shared_ptr<Collider> _other;
+        std::shared_ptr<Collider> _self;
         CollisionPoint _contact;
         int _id;
     };

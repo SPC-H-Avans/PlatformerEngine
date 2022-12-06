@@ -19,7 +19,7 @@ void spic::RigidBody::AddForce(const spic::Point &force) {
         (!CanMoveTo(CollisionPoint::Bottom)
         || _gravityScale == 0)) { // Jump when on top of an object or if object has no gravity
         auto y_acceleration = force.y / _mass;
-        _velocity.y -= y_acceleration;
+        _velocity.y += y_acceleration;
     }
 
     _velocity.y += _gravityScale * _mass;
@@ -32,11 +32,18 @@ void spic::RigidBody::AddForce(const spic::Point &force) {
     std::shared_ptr<GameObject> gameObject{GetGameObject().lock()};
     if (gameObject) {
         auto transform = gameObject->GetTransform();
-        transform.position.x += _velocity.x;
-        transform.position.y += _velocity.y;
+        transform.position += _velocity;
         gameObject->SetTransform(transform);
     } else { // GameObject was already deleted
         gameObject.reset();
+    }
+
+    //update the heading if the vehicle has a non zero velocity
+    if (_velocity.LengthSq() > 0.00000001)
+    {
+        _heading = Point::PointNormalize(_velocity);
+
+        //m_vSide = m_vHeading.Perp();
     }
 }
 

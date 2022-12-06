@@ -10,6 +10,7 @@
 #include "Networking/ServerNetworkManager.hpp"
 #include "Networking/ClientNetworkManager.hpp"
 #include "Behaviour/BehaviourSystem.hpp"
+#include "Networking/NetworkingStatus.hpp"
 
 namespace platformer_engine {
     /**
@@ -98,6 +99,10 @@ namespace platformer_engine {
         void HostServer(const std::string &sceneId, int playerLimit, int port);
 
         void JoinServer(const std::string &ip, int port);
+
+        auto GetLocalClientId() -> const int;
+
+        auto GetNetworkingStatus() -> const NetworkingStatus;
 
     private:
         Engine() = default;

@@ -3,6 +3,7 @@
 #include <algorithm>
 #include "Physics/Collision.hpp"
 #include "GameObject.hpp"
+#include "Engine/Engine.hpp"
 
 void PlayerRigidBody::AddForce(const spic::Point &forceDirection) {
 
@@ -53,6 +54,26 @@ void PlayerRigidBody::AddForce(const spic::Point &forceDirection) {
         transform.position.x += _horizontalSpeed;
         transform.position.y += _verticalSpeed;
         gameObject->SetTransform(transform);
+
+        try {
+            auto &engine = platformer_engine::Engine::GetInstance();
+            auto localClientId = engine.GetLocalClientId();
+            if (localClientId == gameObject->GetOwnerId()) {
+                switch (engine.GetNetworkingStatus()) {
+                    case platformer_engine::MultiplayerClient:
+                        engine.GetClientNetworkManager().UpdateNetworkedGameObjectTransform(
+                                transform, gameObject->GetName());
+                    case platformer_engine::MultiplayerServer:
+                        engine.GetServerNetworkManager().UpdateNetworkedGameObjectTransform(
+                                transform, gameObject->GetName());
+                    case platformer_engine::Singleplayer:
+                        break;
+                }
+            }
+        } catch (std::exception &e) {
+            //Just ignore the exception, we will try resending the transform later
+        }
+
     } else { // GameObject was already deleted
         gameObject.reset();
     }

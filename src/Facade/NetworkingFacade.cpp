@@ -177,7 +177,7 @@ auto platformer_engine::NetworkingFacade::SendPacketToPeer(int peerId, const voi
             if (enet_peer_send(&peers[i], reliable ? RELIABLE_CHANNEL : UNRELIABLE_CHANNEL, packet) < 0) {
                 return false;
             }
-            spic::Debug::Log("Packet sent");
+            spic::Debug::Log("Packet sent, with size: " + std::to_string(length));
             return true;
         }
     }
@@ -229,7 +229,7 @@ auto platformer_engine::NetworkingFacade::SendPacketToAllPeersExcept(std::vector
             if (enet_peer_send(&peers[i], reliable ? RELIABLE_CHANNEL : UNRELIABLE_CHANNEL, packet) < 0) {
                 return false;
             }
-            spic::Debug::Log("Packet sent");
+            spic::Debug::Log("Packet sent, with size: " + std::to_string(length));
             return true;
         }
     }

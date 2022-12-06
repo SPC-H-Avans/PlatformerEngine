@@ -195,7 +195,7 @@ void platformer_engine::ClientNetworkManager::UpdateGameObjectTransform(const vo
 }
 
 void platformer_engine::ClientNetworkManager::LoadedTextures(const void *data, size_t length) {
-    auto pkg = NetPkgs::UpdateGameObjectTransform();
+    auto pkg = NetPkgs::LoadedTextures();
     memcpy(&pkg, data, length);
     PackedLoadedTextureInfo packedLoadedTextures;
 

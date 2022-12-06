@@ -4,6 +4,7 @@
 #include "Builder/GameObjectBuilder.hpp"
 #include "UIObject.hpp"
 #include "Text.hpp"
+#include "Button.hpp"
 
 /**
  * @brief The GameObjectDirector can be used to easily create specialised GameObjects
@@ -60,6 +61,9 @@ public:
     static auto CreateText(Transform transform, const std::string objectId, const std::string text,
                            std::string fontPath, int textWidth, int textHeight,
                            int fontSize, Color textColor) -> Text&;
+
+    static auto CreateButton(Transform transform, const std::string objectId, const spic::Sprite& sprite,
+                             int buttonWidth, int buttonHeight) -> Button&;
 };
 
 #endif //PLATFORMER_ENGINE_GAMEOBJECTDIRECTOR_HPP

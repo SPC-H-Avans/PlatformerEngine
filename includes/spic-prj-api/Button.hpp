@@ -48,12 +48,7 @@ namespace spic {
             /**
              * @brief The sprite to render when the button is clicked.
              */
-            const Sprite& _sprite;
-
-            /**
-             * @brief The transform used by the sprite.
-             */
-            const Transform _transform;
+            Sprite _sprite;
     };
 
 }

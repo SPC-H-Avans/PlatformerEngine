@@ -63,13 +63,16 @@ void SetupSpatialMap(int ownerId, SpatialMap& spatialMap, vector<shared_ptr<Game
 
     for(auto& obj : gameObjects) {
         if(obj != nullptr && obj->GetOwnerId() == ownerId) { //If owned by client
-            auto boxCollider = std::static_pointer_cast<BoxCollider>(obj->GetComponent<BoxCollider>());
-            if(boxCollider != nullptr) { //If boxcollider
-                RegisterInSpatial(obj, *boxCollider, spatialMap);
-                
-                auto rigidBody = std::static_pointer_cast<RigidBody>(obj->GetComponent<RigidBody>());
-                if(rigidBody != nullptr && rigidBody->BodyType() == BodyType::dynamicBody) {
-                    objectsToCheck.push_back(obj);
+            auto boxColliders = obj->GetComponents<BoxCollider>();
+            for(const auto& col : boxColliders) {
+                auto boxCollider = std::static_pointer_cast<BoxCollider>(col);
+                if(boxCollider != nullptr) { //If boxcollider
+                    RegisterInSpatial(obj, *boxCollider, spatialMap);
+
+                    auto rigidBody = std::static_pointer_cast<RigidBody>(obj->GetComponent<RigidBody>());
+                    if(rigidBody != nullptr && rigidBody->BodyType() == BodyType::dynamicBody) {
+                        objectsToCheck.push_back(obj);
+                    }
                 }
             }
         }
@@ -114,34 +117,37 @@ void PhysicsSystem::CheckCollisions() {
     SetupSpatialMap(_clientId, spatialMap, dynamicObjects);
 
     for(auto& objA : dynamicObjects) {
-        shared_ptr<BoxCollider> aCol = std::static_pointer_cast<BoxCollider>(objA->GetComponent<BoxCollider>());
-        if(aCol != nullptr) {
-            auto aCollisions = aCol->GetCollisions(); //Copy
+        auto aCols = objA->GetComponents<BoxCollider>();
+        for(const auto& col : aCols) {
+            auto aCol = std::static_pointer_cast<BoxCollider>(col);
+            if(aCol != nullptr) {
+                auto aCollisions = aCol->GetCollisions(); //Copy
 
-            for(auto& objB : GetNearbyObjects(*objA, *aCol, spatialMap)) {
-                if(objA != objB) {
-                    shared_ptr<BoxCollider> bCol = std::static_pointer_cast<BoxCollider>(objB->GetComponent<BoxCollider>());
+                for(auto& objB : GetNearbyObjects(*objA, *aCol, spatialMap)) {
+                    if(objA != objB) {
+                        shared_ptr<BoxCollider> bCol = std::static_pointer_cast<BoxCollider>(objB->GetComponent<BoxCollider>());
 
-                    unique_ptr<std::tuple<CollisionPoint, CollisionPoint>> collision = CheckBoxCollision(objA->GetTransform().position, *aCol, objB->GetTransform().position, *bCol);
-                    auto collisionsWithBCol = aCol->GetCollisionsWith(*bCol);
-                    if(collision != nullptr) { //If collision
-                        if(!aCol->GetCollisions().empty() && !collisionsWithBCol.empty()) {
-                            auto collisionId = collisionsWithBCol.front().GetId();
-                            // Remain Collision
-                            RemainCollision(objA, aCol, objB, bCol, *collision, collisionId);
-                            PopCollisionFromList(aCollisions, collisionId);
-                        } else {
-                            // Create collision
-                            CreateCollision(objA, aCol, objB, bCol, *collision);
+                        unique_ptr<std::tuple<CollisionPoint, CollisionPoint>> collision = CheckBoxCollision(objA->GetTransform().position, *aCol, objB->GetTransform().position, *bCol);
+                        auto collisionsWithBCol = aCol->GetCollisionsWith(*bCol);
+                        if(collision != nullptr) { //If collision
+                            if(!aCol->GetCollisions().empty() && !collisionsWithBCol.empty()) {
+                                auto collisionId = collisionsWithBCol.front().GetId();
+                                // Remain Collision
+                                RemainCollision(objA, aCol, objB, bCol, *collision, collisionId);
+                                PopCollisionFromList(aCollisions, collisionId);
+                            } else {
+                                // Create collision
+                                CreateCollision(objA, aCol, objB, bCol, *collision);
+                            }
                         }
                     }
                 }
-            }
 
-            for(auto& oldCollision : aCollisions) {
-                auto bCol = oldCollision.GetOtherCollider();
-                auto objB = bCol->GetGameObject().lock();
-                EndCollision(objA, aCol, objB, bCol, oldCollision.GetId());
+                for(auto& oldCollision : aCollisions) {
+                    auto bCol = oldCollision.GetOtherCollider();
+                    auto objB = bCol->GetGameObject().lock();
+                    EndCollision(objA, aCol, objB, bCol, oldCollision.GetId());
+                }
             }
         }
     }

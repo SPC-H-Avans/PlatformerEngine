@@ -108,7 +108,7 @@ auto GameObjectDirector::CreateEnemy(Transform transform, int colliderWidth, int
     lookAhead.Height(colliderHeight);
     lookAhead.SetPosition({0,0});
     lookAhead.SetColliderType(ColliderType::LookAhead);
-    obj->AddComponent<BoxCollider>(std::make_shared<BoxCollider>(collider));
+    obj->AddComponent<BoxCollider>(std::make_shared<BoxCollider>(lookAhead));
 
     // scripts
     for (const auto &script: behaviourScripts) {

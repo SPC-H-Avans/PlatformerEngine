@@ -38,10 +38,13 @@ namespace platformer_engine {
 
         std::shared_ptr<GameObject> currentGameObject { GetGameObject().lock() };
         if(currentGameObject) {
-                auto body = std::dynamic_pointer_cast<ForceDrivenEntityBody>(currentGameObject->GetComponent<ForceDrivenEntityBody>());
+            auto bodies = currentGameObject->GetComponents<RigidBody>();
+            for(const auto &bod : bodies) {
+                auto body = std::dynamic_pointer_cast<ForceDrivenEntityBody>(bod);
                 if(body == nullptr) return;
 
                 body->AddNearbyCollider(*collision.GetOtherCollider());
+            }
 
         } else {
             currentGameObject.reset();

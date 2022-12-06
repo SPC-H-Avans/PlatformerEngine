@@ -4,17 +4,12 @@
 void ForceDrivenEntityBody::Update(double time_elapsed) {
     //calculate the combined force from each steering behavior in the
     //vehicle’s list
-    Point steeringForce = _behaviours->Pursuit(_following);
-    steeringForce = AvoidObjects() + steeringForce;
+    Point pursuitForce = _behaviours->Pursuit(_following);
+    Point avoidForce = AvoidObjects();
 
-    std::shared_ptr<GameObject> currentGameObject { GetGameObject().lock() };
-    if(currentGameObject) {
-        auto prevPos = currentGameObject->GetTransform().position;
-        UpdateLookAhead();
-    } else {
-        currentGameObject.reset();
-    }
+    Point steeringForce = pursuitForce + avoidForce;
 
+    UpdateLookAhead();
 
     AddForce(steeringForce);
 }
@@ -47,13 +42,24 @@ Point ForceDrivenEntityBody::AvoidObjects() {
         // to avoid it
         if (nearest != nullptr)
         {
-            // Calculate the direction to the nearest collision
+//            auto colliders = currentGameObject->GetComponents<BoxCollider>();
+//            for(auto &colObj : colliders) {
+//                auto col = std::dynamic_pointer_cast<BoxCollider>(colObj);
+//                if(col->GetColliderType() == ColliderType::LookAhead) {
+//                    // Calculate the direction to the nearest collision
+//
+//                }
+//            }
+
             Point collisionDirection = Point::PointNormalize(nearest->GetPosition() - currentGameObject->GetTransform().position);
 
-            auto maxNegativeForce = _maxSpeed.x / _mass * -1;
+            auto maxNegativeForce = _maxSpeed.x * _mass * -2.5;
 
             // Calculate the steering force to avoid the collision
             steeringForce = collisionDirection * maxNegativeForce;
+//            break;
+
+
         }
 
     } else {
@@ -89,7 +95,7 @@ void ForceDrivenEntityBody::Follow(const std::shared_ptr<GameObject>& gameObject
     _following = gameObject;
 }
 
-ForceDrivenEntityBody::ForceDrivenEntityBody(float friction) : RigidBody(friction), _lookAhead(10) {
+ForceDrivenEntityBody::ForceDrivenEntityBody(float friction) : RigidBody(friction), _lookAhead(25) {
     _gravityScale = 0;
     _mass = 10;
     _maxSpeed = Point{2, 2};

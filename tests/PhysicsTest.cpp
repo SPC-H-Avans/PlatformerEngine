@@ -119,9 +119,13 @@ void PhysicsTests::SetBoxColliders() {
     BoxCollider collider;
     collider.Width(10);
     collider.Height(10);
+    collider.SetPosition(_mario->GetTransform().position);
+    collider.SetColliderType(ColliderType::Body);
     _mario->AddComponent<BoxCollider>(std::make_shared<BoxCollider>(collider));
     collider.Width(10);
     collider.Height(10);
+    collider.SetPosition(_block->GetTransform().position);
+    collider.SetColliderType(ColliderType::Body);
     _block->AddComponent<BoxCollider>(std::make_shared<BoxCollider>(collider));
 }
 

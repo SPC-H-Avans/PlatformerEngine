@@ -59,6 +59,12 @@ public:
      * @return reference to ObjectBuilder, allows method chaining.
      */
     virtual auto AddTransform(const spic::Transform &transform) -> ObjectBuilder & = 0;
+
+    /**
+     * @brief Sets the owner id of the current GameObject being build.
+     * @return reference to ObjectBuilder, allows method chaining.
+     */
+    virtual auto SetOwnerId(int ownerId) -> ObjectBuilder & = 0;
 };
 
 #endif //PLATFORMER_ENGINE_BUILDER_HPP

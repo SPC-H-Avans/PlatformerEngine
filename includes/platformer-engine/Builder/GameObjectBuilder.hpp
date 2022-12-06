@@ -82,6 +82,12 @@ public:
      */
     auto AddTransform(const spic::Transform &transform) -> GameObjectBuilder & override;
 
+    /**
+     * @brief Sets the owner id of the current GameObject being build.
+     * @return reference to ObjectBuilder, allows method chaining.
+     */
+    auto SetOwnerId(int ownerId) -> GameObjectBuilder & override;
+
 private:
     //Shares ptr with GameObject static instace list
     std::shared_ptr<GameObject> _gameObject;

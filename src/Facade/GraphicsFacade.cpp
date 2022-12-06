@@ -136,24 +136,6 @@ void platformer_engine::GraphicsFacade::DrawTexture(const std::string &id, int x
                      static_cast<const SDL_RendererFlip>(flip));
 }
 
-void platformer_engine::GraphicsFacade::DrawUIButton(const std::string &id, int x, int y, int width, int height,
-                                                           const platformer_engine::SPIC_RendererFlip &flip, double scale,
-                                                           int spriteSheetX, int spriteSheetY) {
-//    SDL_Rect srcRect{spriteSheetX, spriteSheetY, width, height};
-//    SDL_Rect destRect{x, y, static_cast<int>(width * scale), static_cast<int>(height * scale)};
-
-    SDL_Texture* texture = _textureMap[id].get();
-    if (texture == nullptr) spic::Debug::LogWarning(SDL_GetError());
-
-    SDL_Rect button_rect;
-    button_rect.x = x;
-    button_rect.y = y;
-    button_rect.w = static_cast<int>(width * scale);
-    button_rect.h = static_cast<int>(height * scale);
-
-    SDL_RenderCopy(_renderer.get(), texture, NULL, &button_rect);
-}
-
 void platformer_engine::GraphicsFacade::DrawUIText(const std::string textId, const int x, const int y, const int width, const int height) {
     SDL_Texture* texture = _textureMap[textId].get();
     if (texture == nullptr) spic::Debug::LogWarning(SDL_GetError());

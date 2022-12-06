@@ -11,7 +11,7 @@ spic::Button::Button(const std::string &name, const Sprite& sprite, double width
 }
 
 void spic::Button::Render() {
-    _sprite.Render(_transform);
+    _sprite.RenderInPlace(_transform);
 }
 
 void spic::Button::Click() {

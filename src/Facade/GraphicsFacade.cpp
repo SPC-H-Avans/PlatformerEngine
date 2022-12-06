@@ -136,6 +136,15 @@ void platformer_engine::GraphicsFacade::DrawTexture(const std::string &id, int x
                      static_cast<const SDL_RendererFlip>(flip));
 }
 
+void platformer_engine::GraphicsFacade::DrawTextureInPlace(const std::string &id, int x, int y, int width, int height,
+                                                           const platformer_engine::SPIC_RendererFlip &flip, double scale,
+                                                           int spriteSheetX, int spriteSheetY) {
+    SDL_Rect srcRect{spriteSheetX, spriteSheetY, width, height};
+    SDL_Rect destRect{x, y, static_cast<int>(width * scale), static_cast<int>(height * scale)};
+
+    SDL_RenderCopy(_renderer.get(), _textureMap[id].get(), NULL, &destRect);
+}
+
 void platformer_engine::GraphicsFacade::DrawUIText(const std::string textId, const int x, const int y, const int width, const int height) {
     SDL_Texture* texture = _textureMap[textId].get();
     if (texture == nullptr) spic::Debug::LogWarning(SDL_GetError());

@@ -48,6 +48,8 @@ namespace spic {
          */
         void Render(spic::Transform transform);
 
+        void RenderInPlace(spic::Transform transform);
+
         /**
          * @brief sets the sprite's flip
          */

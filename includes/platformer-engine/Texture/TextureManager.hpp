@@ -30,7 +30,7 @@ namespace platformer_engine {
          */
         auto LoadTexture(const std::string &id, const std::string &fileName) -> bool;
 
-        auto CreateOrUpdateUIText(const std::string textId, const std::string filePath, const std::string text, const int fontSize, const spic::Color color) -> bool;
+        auto LoadUIText(const std::string textId, const std::string filePath, const std::string text, const int fontSize, const spic::Color color) -> bool;
 
         /**
          * @brief Clear all textures from memory

@@ -12,7 +12,7 @@ spic::Text::Text(const std::string& name, double width, double height,
     _instances[this->_name] = selfptr;
 
     // Load text into memory
-    platformer_engine::TextureManager::GetInstance().CreateOrUpdateUIText(name, fontPath, text, fontSize, color);
+    platformer_engine::TextureManager::GetInstance().LoadUIText(name, fontPath, text, fontSize, color);
 }
 
 void spic::Text::Render() {

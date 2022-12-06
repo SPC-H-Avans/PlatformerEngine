@@ -5,8 +5,8 @@ auto platformer_engine::TextureManager::LoadTexture(const std::string &id, const
     return GraphicsFacade::GetInstance().LoadTexture(id, fileName);
 }
 
-auto platformer_engine::TextureManager::CreateOrUpdateUIText(const std::string textId, const std::string filePath, const std::string text, const int fontSize, const spic::Color color) -> bool {
-    return GraphicsFacade::GetInstance().CreateOrUpdateUIText(textId, filePath, text, fontSize, color);
+auto platformer_engine::TextureManager::LoadUIText(const std::string textId, const std::string filePath, const std::string text, const int fontSize, const spic::Color color) -> bool {
+    return GraphicsFacade::GetInstance().LoadUIText(textId, filePath, text, fontSize, color);
 }
 
 void

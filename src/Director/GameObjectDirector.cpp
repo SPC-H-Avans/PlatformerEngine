@@ -87,8 +87,9 @@ auto GameObjectDirector::CreateText(Transform transform, const std::string objec
     return *foo;
 }
 
-auto GameObjectDirector::CreateButton(Transform transform, const std::string objectId, const spic::Sprite& sprite, const std::string imgPath,
-                                      int buttonWidth, int buttonHeight, std::function<void()> onClick) -> Button& {
+auto GameObjectDirector::CreateButton(Transform transform, const std::string objectId, const spic::Sprite& sprite,
+                                      const std::string imgPath, int buttonWidth, int buttonHeight,
+                                      std::function<void()> onClick) -> Button& {
     auto& scene = platformer_engine::Engine::GetInstance().GetActiveScene();
     auto obj = Button(objectId, sprite, imgPath, buttonWidth, buttonHeight);
 

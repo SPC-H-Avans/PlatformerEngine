@@ -26,7 +26,7 @@ namespace platformer_engine {
         */
         void Unstuck(Collision &collision);
 
-        auto IsMainCollider(const Collider& col) -> bool;
+        auto IsMainCollider(const std::shared_ptr<Collider> &col) -> bool;
     };
 
 }  // namespace platformer_engine

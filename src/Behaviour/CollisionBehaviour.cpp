@@ -12,7 +12,7 @@ namespace platformer_engine {
     }
 
     void CollisionBehaviour::OnTriggerEnter2D(Collision collision) {
-        if(!IsMainCollider(*collision.GetSelfCollider())) return;
+        //if(!IsMainCollider(collision.GetSelfCollider())) return;
         _activeCollisions.push_back(collision);
         UpdateMoveRestriction(collision, false);
         Unstuck(collision);
@@ -20,7 +20,7 @@ namespace platformer_engine {
 
     void CollisionBehaviour::OnTriggerExit2D(const Collision collision) {
 
-        if(!IsMainCollider(*collision.GetSelfCollider())) return;
+        //if(!IsMainCollider(collision.GetSelfCollider())) return;
         // Remove the collision from _activeCollisions
         for(auto &col : _activeCollisions) {
             int currentId = col.GetId();
@@ -54,10 +54,10 @@ namespace platformer_engine {
         }
     }
 
-    auto CollisionBehaviour::IsMainCollider(const Collider& col) -> bool {
+    auto CollisionBehaviour::IsMainCollider(const std::shared_ptr<Collider>& col) -> bool {
         std::shared_ptr<GameObject> currentGameObject { GetGameObject().lock() };
         if(currentGameObject) {
-            return col.GetPosition().Equals(currentGameObject->GetTransform().position);
+            return col->GetPosition().Equals(currentGameObject->GetTransform().position);
         }
 
         currentGameObject.reset();

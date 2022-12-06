@@ -20,7 +20,7 @@ namespace spic {
         template<typename archive>
         void serialize(archive &ar, const unsigned /*version*/) {
             ar & _sceneName;
-//            ar & _origins;
+            ar & _origins;
             ar & _activeCamera;
             ar & _cameras;
         }

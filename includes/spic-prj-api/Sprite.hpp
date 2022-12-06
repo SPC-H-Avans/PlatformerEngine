@@ -10,6 +10,10 @@
 #include "Debug.hpp"
 #include <boost/serialization/access.hpp>
 #include <boost/serialization/export.hpp>
+#include <boost/archive/binary_iarchive.hpp>
+#include <boost/archive/binary_oarchive.hpp>
+#include "Networking/boost/portable_binary_iarchive.hpp"
+#include "Networking/boost/portable_binary_oarchive.hpp"
 
 namespace spic {
 
@@ -35,7 +39,7 @@ namespace spic {
             ar & _spriteSheetY;
         }
 
-        Sprite() : _color(Color::Transparent()) {};
+        Sprite() {};
 
         ~Sprite() = default;
 
@@ -75,7 +79,7 @@ namespace spic {
         void SetSpriteSheetPosition(int x, int y) { _spriteSheetX = x, _spriteSheetY = y; }
 
     private:
-        Color _color;
+        Color _color{Color::Transparent()};
         platformer_engine::SPIC_RendererFlip _flip;
         int _sortingLayer;
         int _orderInLayer;
@@ -90,5 +94,6 @@ namespace spic {
     };
 
 }  // namespace spic
-
+BOOST_SERIALIZATION_ASSUME_ABSTRACT(Sprite);
+BOOST_CLASS_EXPORT_KEY(spic::Sprite);
 #endif // SPRITERENDERER_H_

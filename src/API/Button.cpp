@@ -1,6 +1,6 @@
 #include "Button.hpp"
 
-spic::Button::Button(const std::string &name, const Sprite& sprite, double width, double height, bool disabled)
+spic::Button::Button(const std::string &name, const Sprite& sprite, const std::string imgPath, double width, double height, bool disabled)
                         : UIObject(name, width, height), _sprite(sprite) {
     auto selfptr = std::make_shared<Button>(*this);
     _self = selfptr;
@@ -8,6 +8,8 @@ spic::Button::Button(const std::string &name, const Sprite& sprite, double width
     _instances[this->_name] = selfptr;
 
     _active = !disabled;
+    // Load text into memory
+    platformer_engine::GraphicsFacade::GetInstance().LoadTexture(name, imgPath);
 }
 
 void spic::Button::Render() {

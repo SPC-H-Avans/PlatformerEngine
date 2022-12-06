@@ -15,7 +15,8 @@ namespace spic {
              * @brief Button constructor
              * @spicapi
              */
-            Button(const std::string &name, const Sprite& sprite, double width, double height, bool disabled = false);
+            Button(const std::string &name, const Sprite& sprite, const std::string imgPath,
+                   double width, double height, bool disabled = false);
 
             void Render() override;
 

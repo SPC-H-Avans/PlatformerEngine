@@ -43,7 +43,7 @@ auto GameObjectDirector::CreatePlayer(int playerId, Transform transform, int col
 
     auto builder = GameObjectBuilder(std::string(NET_PLAYER_PREFIX) + std::to_string(playerId))
             // animations
-            .AddAnimator(animations);
+            .AddAnimator(animations).SetOwnerId(playerId);
     auto obj = builder.GetGameObject();
 
     // transform

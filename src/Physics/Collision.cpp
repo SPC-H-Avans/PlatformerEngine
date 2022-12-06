@@ -26,7 +26,7 @@ void Collision::SetSelfCollider(const std::shared_ptr<Collider> &self) { this->_
 
 auto Collision::GetOtherCollider() -> std::shared_ptr<Collider> { return _other; }
 
-auto Collision::GetSelfCollider() -> std::shared_ptr<Collider> { return _self; }
+auto Collision::GetSelfCollider() const -> std::shared_ptr<Collider> { return _self; }
 
 
 

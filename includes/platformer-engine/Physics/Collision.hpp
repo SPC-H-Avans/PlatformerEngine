@@ -65,7 +65,7 @@ using namespace spic;
          * @brief Getter for collider of the self collision object
          * @return Collider that we are colliding with.
          */
-        [[nodiscard]] auto GetSelfCollider() -> std::shared_ptr<Collider>;
+        [[nodiscard]] auto GetSelfCollider() const -> std::shared_ptr<Collider>;
 
         /**
          * @brief Setter for direction on the collision object

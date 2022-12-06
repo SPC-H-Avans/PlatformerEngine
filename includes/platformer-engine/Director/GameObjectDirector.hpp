@@ -58,10 +58,33 @@ public:
             const std::vector<std::shared_ptr<BehaviourScript>>& behaviourScripts // must use pointers to store derived classes
     ) -> GameObject&;
 
+    /**
+     * @brief Create a background object (not collidable) and add it to the scene
+     * @param transform the transform to use
+     * @param objectId the identifier of the Button and key of the loaded UIText
+     * @param text the shown text
+     * @param fontPath the path to the font
+     * @param textWidth the width of the text
+     * @param textHeight the height of the text
+     * @param fontSize the size of the font
+     * @param textColor the color of the text
+     * @return The created Text
+     */
     static auto CreateText(Transform transform, const std::string objectId, const std::string& text,
                            const std::string& fontPath, int textWidth, int textHeight,
                            int fontSize, Color textColor) -> Text&;
 
+    /**
+     * @brief Create a background object (not collidable) and add it to the scene
+     * @param transform the transform to use
+     * @param objectId the identifier of the Button and key of the loaded Sprite
+     * @param sprite the sprite to use
+     * @param imgPath the path to the sprite image
+     * @param buttonWidth the width of the text
+     * @param buttonHeight the height of the text
+     * @param onClick the function to call when the button is clicked
+     * @return The created Button
+     */
     static auto CreateButton(Transform transform, const std::string objectId, const spic::Sprite& sprite,
                              const std::string& imgPath, int buttonWidth, int buttonHeight,
                              std::function<void()> onClick) -> Button&;

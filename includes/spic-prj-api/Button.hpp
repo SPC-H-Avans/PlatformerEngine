@@ -18,6 +18,10 @@ namespace spic {
             Button(const std::string &name, const Sprite& sprite, const std::string imgPath,
                    double width, double height, bool disabled = false);
 
+            /**
+             * @brief Render the button
+             * @spicapi
+             */
             void Render() override;
 
             /**

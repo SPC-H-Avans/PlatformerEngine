@@ -81,6 +81,9 @@ namespace platformer_engine {
          */
         auto LoadUIText(const std::string textId, const std::string filePath, const std::string text, const int fontSize, const spic::Color color) -> bool;
 
+        /**
+         * @brief Create a Text element, or update it if the textId already exists
+         */
         auto CreateOrUpdateUIText(const std::string textId, const std::string filePath, const std::string text, const int fontSize, const spic::Color color) -> bool;
 
         /**

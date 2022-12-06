@@ -142,10 +142,6 @@ auto platformer_engine::GraphicsFacade::CreateOrUpdateUIText(const std::string t
     return true;
 }
 
-//void platformer_engine::GraphicsFacade::UpdateUIText(const std::string textId, const std::string filePath, const std::string text, const int fontSize, const spic::Color color) {
-//
-//}
-
 void platformer_engine::GraphicsFacade::DrawTexture(const std::string &id, int x, int y, int width, int height,
                                                     const platformer_engine::SPIC_RendererFlip &flip, double scale,
                                                     int spriteSheetX, int spriteSheetY) {

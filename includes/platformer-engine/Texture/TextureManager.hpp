@@ -30,6 +30,14 @@ namespace platformer_engine {
          */
         auto LoadTexture(const std::string &id, const std::string &fileName) -> bool;
 
+        /**
+         * @brief Create a Text element, or update it if the textId already exists
+         * @param textId Id of the text element
+         * @param filePath Path to the font file
+         * @param text Text to display
+         * @param fontSize Size of the font
+         * @param color Color of the font
+         */
         auto CreateOrUpdateUIText(const std::string textId, const std::string filePath, const std::string text, const int fontSize, const spic::Color color) -> bool;
 
         /**
@@ -54,6 +62,15 @@ namespace platformer_engine {
 
         /**
          * @brief Draw a button UI element
+         * @param id ID of the UIButton
+         * @param x X position on the window
+         * @param y Y position on the window
+         * @param width width of the button
+         * @param height height of the button
+         * @param flip flip of the button
+         * @param scale scale of the button, where 1.0 = 100%
+         * @param spriteSheetX the sprite's x position on the spriteSheet
+         * @param spriteSheetY the sprite's y position on the spriteSheet
          */
         void DrawUIButton(const std::string &id, int x, int y, int width, int height,
                                 const SPIC_RendererFlip &flip = FLIP_NONE, double scale = 1.0,
@@ -61,6 +78,11 @@ namespace platformer_engine {
 
         /**
          * @brief Draw a text UI element
+         * @param textId ID of the UIButton
+         * @param x X position on the window
+         * @param y Y position on the window
+         * @param width width of the text
+         * @param height height of the text
          */
         void DrawUIText(const std::string textId, const int x, const int y, const int width, const int height);
 

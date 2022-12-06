@@ -32,6 +32,10 @@ namespace spic {
                  int fontSize = 24, Color color = Color::Black(),
                  Alignment alignment = Alignment::center); // alignment is currently unused
 
+            /**
+            * @brief Render the Text
+            * @spicapi
+            */
             void Render() override;
         private:
             std::string _text;

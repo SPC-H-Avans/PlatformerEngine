@@ -1,0 +1,91 @@
+name: "Build and run tests with memory check"
+
+on:
+  push:
+    branches:
+      - main
+      - develop
+  pull_request:
+
+env:
+  RUN_MEMORY_CHECK: true
+jobs:
+  build:
+    name: Build (${{ matrix.os }})
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - os: valgrind-os
+            triplet: x64-linux
+
+    env:
+      VCPKG_DEFAULT_TRIPLET: ${{ matrix.triplet }}
+      XDG_RUNTIME_DIR: "/tmp/swaywm"
+
+    steps:
+      - name: 'Install SDL2 dev'
+        if: runner.os == 'Linux'
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y libsdl2-dev
+      - name: 'Checkout'
+        uses: actions/checkout@v2
+        with:
+          token: ${{ secrets.PAT }}
+          submodules: recursive
+
+      - name: 'Install CMake'
+        uses: lukka/get-cmake@latest
+
+      - name: 'Setup vcpkg'
+        uses: lukka/run-vcpkg@v10
+
+      - name: 'Run CMake'
+        uses: lukka/run-cmake@v10
+        with:
+          configurePreset: ninja-multi-vcpkg
+          buildPreset: ninja-multi-valgrind
+
+      - name: 'Run doctor memory'
+        id: memory
+        run: |
+          cd ./builds/ninja-multi-vcpkg/Debug
+          mkdir logs
+          ${{secrets.DRMEMORY_DIR_Google_Cloud}}/drmemory -logdir ./logs -- platformer-engine-exec & (sleep 60 && (if [ $(pgrep -f platformer-engine-exec) ]; then kill $(pgrep -f platformer-engine-exec); fi))
+          sleep 30
+          cd ./logs
+          cd DrMemory*
+          CURRENT_PATH=$(pwd)
+          echo "::set-output name=RESULTS_PATH::$(pwd)"
+
+      - name: 'Format results'
+        run: |
+            cd ${{ steps.memory.outputs.RESULTS_PATH }}
+            echo '```' >> results-formatted.txt
+            echo "$(cat results.txt)" >> results-formatted.txt
+            echo '```' >> results-formatted.txt
+
+      - name: 'Upload logs'
+        uses: actions/upload-artifact@v2
+        with:
+          name: logs
+          path: ${{steps.memory.outputs.RESULTS_PATH}}/results-formatted.txt
+
+      - name: 'Find Comment'
+        uses: peter-evans/find-comment@v2
+        id: fc
+        with:
+          issue-number: ${{ github.event.pull_request.number }}
+          comment-author: 'github-actions[bot]'
+          body-includes: Dr. Memory
+
+      - name: Create or update comment
+        uses: peter-evans/create-or-update-comment@v2
+        with:
+          comment-id: ${{ steps.fc.outputs.comment-id }}
+          issue-number: ${{ github.event.pull_request.number }}
+          body-file: ${{steps.memory.outputs.RESULTS_PATH}}/results-formatted.txt
+          reactions: rocket
+          edit-mode: replace

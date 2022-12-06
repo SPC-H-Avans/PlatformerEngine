@@ -86,14 +86,21 @@ auto platformer_engine::GraphicsFacade::LoadTexture(const std::string &id, const
 
     if (texture == nullptr) {
         spic::Debug::LogWarning("Failed to create texture from surface: " + std::string(SDL_GetError()));
+        SDL_FreeSurface(surface.get());
         return false;
     }
 
     _textureMap[id] = std::move(texture);
+
+    SDL_FreeSurface(surface.get());
     return true;
 }
 
-auto platformer_engine::GraphicsFacade::LoadUIText(const std::string textId, const std::string filePath, const std::string text, const int fontSize, const spic::Color color) -> bool {
+auto platformer_engine::GraphicsFacade::CreateOrUpdateUIText(const std::string textId, const std::string filePath, const std::string text, const int fontSize, const spic::Color color) -> bool {
+    // if texture with this Id already exists, delete it
+    SDL_Texture* existingTexture = _textureMap[textId].get();
+    if (existingTexture != nullptr) SDL_DestroyTexture(existingTexture);
+
     // create the font
     TTF_Font* font = TTF_OpenFont(filePath.c_str(), fontSize);
     if (font == nullptr) {
@@ -106,6 +113,7 @@ auto platformer_engine::GraphicsFacade::LoadUIText(const std::string textId, con
     SDL_Surface* surface = TTF_RenderText_Blended(font, text.c_str(), sdlColor);
     if (surface == nullptr) {
         spic::Debug::LogWarning(SDL_GetError());
+        TTF_CloseFont(font);
         return false;
     }
 
@@ -115,6 +123,8 @@ auto platformer_engine::GraphicsFacade::LoadUIText(const std::string textId, con
             SDL_CreateTextureFromSurface(_renderer.get(), surface), SDL_DestroyTexture);
     if (texture == nullptr) {
         spic::Debug::LogWarning(SDL_GetError());
+        SDL_FreeSurface(surface);
+        TTF_CloseFont(font);
         return false;
     }
 

@@ -86,6 +86,10 @@ namespace spic {
             return sqrt(x * x + y * y);
         }
 
+        auto Equals(Point Obj) const -> bool {
+            return x == Obj.x && y == Obj.y;
+        }
+
         void Normalize(){
             double vector_length = this->Length();
 

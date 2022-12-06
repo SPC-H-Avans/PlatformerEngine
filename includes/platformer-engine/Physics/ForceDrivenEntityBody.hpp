@@ -16,11 +16,18 @@ public:
         _behaviours->SetGameObject(gObj);
     }
 
+    void SetLookAhead(double lookAhead);
+    auto GetLookAhead() -> double;
+
 private:
     //the steering behavior class
     std::unique_ptr<platformer_engine::ForceDrivenEntityBehaviours> _behaviours;
     std::weak_ptr<GameObject> _following;
+    double _lookAhead = 0;
 
+    Point AvoidObjects();
+
+    void UpdateColliders(Point oldPos) override;
 };
 
 

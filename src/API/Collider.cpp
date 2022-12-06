@@ -44,10 +44,10 @@ std::vector<Collision> Collider::GetCollisionsWith(const Collider& col) {
     return result;
 }
 
-void Collider::SetLocation(Point location) {
-    _location = location;
+void Collider::SetPosition(Point position) {
+    _position = position;
 }
 
-auto Collider::GetLocation() const -> Point {
-    return _location;
+auto Collider::GetPosition() const -> Point {
+    return _position;
 }

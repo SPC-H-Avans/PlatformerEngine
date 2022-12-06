@@ -21,11 +21,11 @@ namespace spic {
         auto GetCollisionById(int uid) -> Collision&;
         void AddCollision(Collision col);
         void RemoveCollision(int uid);
-        void SetLocation(Point location);
-        [[nodiscard]] auto GetLocation() const -> Point;
+        void SetPosition(Point position);
+        [[nodiscard]] auto GetPosition() const -> Point;
     private:
         std::vector<Collision> _collisions;
-        Point _location;
+        Point _position;
     };
 
 }

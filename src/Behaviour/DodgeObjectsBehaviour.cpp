@@ -1,9 +1,29 @@
-#include "Behaviour/CollisionBehaviour.hpp"
+#include "Behaviour/DodgeObjectsBehaviour.hpp"
 #include "GameObject.hpp"
 #include "RigidBody.hpp"
 #include "BoxCollider.hpp"
 
 namespace platformer_engine {
+
+
+
+    /*
+     * Idea behind this:
+     * FDE has two colliders, one in itself that has the same location as the object and one that's in front of
+     * the FDE in the direction it's heading.
+     * There should be a lookahead in the FDE body that decides how far away the object is.
+     * The body is responsible for updating the second collider's location.
+     *
+     * When a collision is detected:
+     *  > Check if it was the 'main' or the 'lookahead' collider                            CHECK
+     *  > if it's the lookahead collider, send it to the rigidbody as 'nearby objects'      CHECK
+     *
+     *  The rigidbody then uses these nearby objects to optionally provide force in the opposite direction for the
+     *  most 'threatening' object.
+     *
+     *  Then clear the nearby objects vector
+     */
+
 
     void DodgeObjectsBehaviour::OnStart() {
     }
@@ -12,73 +32,21 @@ namespace platformer_engine {
     }
 
     void DodgeObjectsBehaviour::OnTriggerEnter2D(Collision collision) {
-        _activeCollisions.push_back(collision);
-        UpdateMoveRestriction(collision, false);
-        Unstuck(collision);
-    }
-
-    void DodgeObjectsBehaviour::OnTriggerExit2D(const Collision collision) {
-
-        // Remove the collision from _activeCollisions
-        for(auto &col : _activeCollisions) {
-            int currentId = col.GetId();
-            if(currentId == collision.GetId()) {
-                auto newEnd = std::remove_if(_activeCollisions.begin(), _activeCollisions.end(),
-                                              [currentId](const Collision & col) { return col.GetId() == currentId; });
-                _activeCollisions.erase(newEnd, _activeCollisions.end());
-            }
-        }
-        UpdateMoveRestriction(collision, true);
-    }
-
-    void DodgeObjectsBehaviour::OnTriggerStay2D(const Collision collision) {
-    }
-
-    void DodgeObjectsBehaviour::UpdateMoveRestriction(const Collision &col, bool allow) {
-        auto point = col.Contact();
-        auto gameObjWeak = GetGameObject();
-        std::shared_ptr<spic::GameObject> gameObj { gameObjWeak.lock() };
-        if (gameObj) {
-            auto body = std::static_pointer_cast<RigidBody>(gameObj->GetComponent<RigidBody>());
-            if(body != nullptr) {
-                if(allow) {
-                    body->AllowMoveTo(point);
-                } else {
-                    body->DenyMoveTo(point);
-                }
-            }
-        } else { // gameObjWeak is already deleted
-            gameObjWeak.reset();
-        }
-    }
-
-    void DodgeObjectsBehaviour::Unstuck(Collision &collision) {
         std::shared_ptr<GameObject> currentGameObject { GetGameObject().lock() };
         if(currentGameObject) {
-            auto currentTransform = currentGameObject->GetTransform();
-            auto currentCollider = std::dynamic_pointer_cast<BoxCollider>(currentGameObject->GetComponent<BoxCollider>());
+            auto gameObjectLocation = currentGameObject->GetTransform().position;
+            auto selfCollider = collision.GetSelfCollider();
+            auto selfColliderLocation = selfCollider->GetPosition();
+            if(gameObjectLocation.Equals(selfColliderLocation)) return;
 
-            auto collidingGameObject = collision.GetCollider()->GetGameObject().lock();
-            if(collidingGameObject) {
-                auto collidingTransform = collidingGameObject->GetTransform();
-                auto collidingCollider = std::dynamic_pointer_cast<BoxCollider>(collision.GetCollider());
+            // The gameObject location is different then the collider, this means that this collider
+            // is a look ahead collider.
 
-                if(collision.Contact() == CollisionPoint::Top) {
-                    currentTransform.position.y = collidingTransform.position.y + collidingCollider->Height();
-                }
-                else if(collision.Contact() == CollisionPoint::Bottom) {
-                    currentTransform.position.y = collidingTransform.position.y - currentCollider->Height();
-                }
-                else if(collision.Contact() == CollisionPoint::Left) {
-                    currentTransform.position.x = collidingTransform.position.x + collidingCollider->Width();
-                }
-                else if(collision.Contact() == CollisionPoint::Right) {
-                    currentTransform.position.x = collidingTransform.position.x - currentCollider->Width();
-                }
-                currentGameObject->SetTransform(currentTransform);
-            } else {
-                collidingGameObject.reset();
-            }
+            auto body = std::dynamic_pointer_cast<RigidBody>(currentGameObject->GetComponent<RigidBody>());
+            if(body == nullptr) return;
+
+            body->AddNearbyCollider(*collision.GetOtherCollider());
+
         } else {
             currentGameObject.reset();
         }

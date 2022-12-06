@@ -97,8 +97,8 @@ void platformer_engine::TMXParser::ParseTileLayer(TiXmlElement &xmlLayer, const 
             if (config.find(tileMap[row][col]) != config.end()) {
                 auto transform = Transform {
                     Point {
-                        static_cast<double>(col * tileSize),
-                        static_cast<double>(row * tileSize)},
+                        static_cast<float>(col * tileSize),
+                        static_cast<float>(row * tileSize)},
                     0, 1.0 };
                 config.at(tileMap[row][col])(transform); // create the tile
             }

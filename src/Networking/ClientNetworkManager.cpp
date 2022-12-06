@@ -39,6 +39,11 @@ platformer_engine::ClientNetworkManager::ClientNetworkManager() {
         UpdateGameObjectTransform(data, dataLength);
     };
     _eventMap[NET_UPDATE_GAMEOBJECT_TRANSFORM] = updateGameObjectTransform;
+
+    std::function<void(int clientId, const uint8_t *data, size_t dataLength)> createScene = [this](int clientId, const uint8_t *data, size_t dataLength) {
+        CreateScene(data, dataLength);
+    };
+    _eventMap[NET_CREATE_SCENE] = createScene;
 }
 
 void platformer_engine::ClientNetworkManager::ConnectToServer(const std::string &ip, int port) {
@@ -105,10 +110,22 @@ void platformer_engine::ClientNetworkManager::RemoveLocalClientFromGame(const vo
 
 #pragma region HandlePacketsFromServer
 
+void platformer_engine::ClientNetworkManager::CreateScene(const void* data, size_t length) {
+    auto pkg = NetPkgs::CreateScene();
+    memcpy(&pkg, data, length);
+    spic::Scene scene;
+
+    platformer_engine::NetworkingBuffer::ParseIncomingDataToObject<spic::Scene>(pkg._data, MAX_CREATE_SCENE_SIZE, scene);
+
+    scene.ResetScene(); //Loads objects on instances.
+    Engine::GetInstance().AddScene(scene);
+    Engine::GetInstance().SetActiveScene(scene.GetSceneName());
+}
+
 void platformer_engine::ClientNetworkManager::CreateGameObject(const void *data, size_t length) {
     auto pkg = NetPkgs::CreateGameObject();
     memcpy(&pkg, data, length);
-    spic::GameObject gameObject("Null", "Null");
+    spic::GameObject gameObject;
 
     platformer_engine::NetworkingBuffer::ParseIncomingDataToObject<spic::GameObject>(pkg._data, MAX_CREATE_GAME_OBJECT_SIZE, gameObject);
 

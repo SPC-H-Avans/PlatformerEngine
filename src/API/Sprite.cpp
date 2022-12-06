@@ -1,5 +1,5 @@
 #include "Sprite.hpp"
-
+#include <boost/serialization/export.hpp>
 #include <utility>
 
 spic::Sprite::Sprite(std::string spriteId, int spriteWidth, int spriteHeight, int sortingLayer, int orderInLayer,
@@ -15,3 +15,4 @@ void spic::Sprite::Render(spic::Transform transform) {
     textureManager.DrawTexture(_spriteId, transform.position.x, transform.position.y, _spriteWidth, _spriteHeight,
                                _flip, _spriteScale, _spriteSheetX, _spriteSheetY);
 }
+BOOST_CLASS_EXPORT(spic::Sprite);

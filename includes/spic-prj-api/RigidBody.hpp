@@ -35,6 +35,7 @@ namespace spic {
             ar & _maxSpeed;
         }
 
+
             /**
              * @brief Apply force to this rigid body.
              * @param forceDirection A point, used as a vector to indicate direction
@@ -46,8 +47,21 @@ namespace spic {
             void BodyType (BodyType bodyType) { this->_bodyType = bodyType; }
             auto BodyType() -> enum BodyType { return _bodyType; }
 
-            bool CanMoveTo(CollisionPoint point);
+            /**
+            * @brief Checks if the rigidbody can move to a certain point
+            */
+            auto CanMoveTo(CollisionPoint point) -> bool;
+
+            /**
+            * @brief Allows a move to a direction. If the move was denied twice before, it has to be allowed twice to be
+             * fully allowed.
+            */
             void AllowMoveTo(CollisionPoint point);
+
+            /**
+            * @brief Denies a move to a direction. If the move was denied twice, it has to be allowed twice to be
+            * fully allowed again.
+            */
             void DenyMoveTo(CollisionPoint point);
 
             [[nodiscard]] auto GetMaxSpeed() const -> Point;

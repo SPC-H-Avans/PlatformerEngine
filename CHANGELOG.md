@@ -13,6 +13,8 @@ Engine support for BehaviourScript OnUpdate.
 
 ### Changes
 
+- SPCH-33: Add a camera to the game
+- SPCH-47: Send scene to new players
 - SPCH-56: Added support for custom multiplayer events
 - SPCH-45: Ability to join a server
 - SPCH-44: Ability to create a server

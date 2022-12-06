@@ -4,8 +4,6 @@
 
 void spic::RigidBody::AddForce(const spic::Point &force) {
 
-    SetHeading(Point::PointNormalize(force));
-
     auto x_acceleration = force.x / _mass;
     _velocity.x += x_acceleration;
 
@@ -20,7 +18,6 @@ void spic::RigidBody::AddForce(const spic::Point &force) {
     if (force.y > 0 &&
         (!CanMoveTo(CollisionPoint::Bottom)
         || _gravityScale == 0)) { // Jump when on top of an object or if object has no gravity
-
         auto y_acceleration = force.y / _mass;
         _velocity.y -= y_acceleration;
     }

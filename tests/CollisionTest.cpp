@@ -18,7 +18,7 @@ protected:
         g2.SetTransform(Transform {Point {0, 0}, 0, 0});
 
         //Set Rigidbody on both objects;
-        auto body = RigidBody(0);
+        auto body = RigidBody(0.045);
         body.BodyType(spic::BodyType::dynamicBody);
         g1.AddComponent<RigidBody>(std::make_shared<RigidBody>(body));
         body.BodyType(spic::BodyType::staticBody);

@@ -7,17 +7,6 @@ class PlayerRigidBody : public spic::RigidBody {
 public:
 
     PlayerRigidBody();
-
-    /**
-     * @brief returns the horizontal speed
-     */
-    float GetXVelocity() { return _velocity.x; }
-
-    /**
-     * @brief returns the vertical speed
-     */
-    float GetYVelocity() { return _velocity.y; }
-
 };
 
 

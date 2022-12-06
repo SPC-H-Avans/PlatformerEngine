@@ -12,11 +12,11 @@ const int TARGET_FPS = 60;
 const double TARGET_FRAME_DELAY = 1000.0 / TARGET_FPS;
 
 auto
-platformer_engine::Engine::Init(int width, int height, const std::string &title, const spic::Color &color) -> bool {
+platformer_engine::Engine::Init(int width, int height, const std::string &title, const spic::Color &color, bool fullScreen) -> bool {
     if (_window != nullptr) {
         return false;
     }
-    _window = std::make_unique<Window>(width, height, title, color);
+    _window = std::make_unique<Window>(width, height, title, color, fullScreen);
     _renderSystem = std::make_unique<RenderSystem>();
     _physicsSystem = std::make_unique<PhysicsSystem>();
     _behaviourSystem = std::make_unique<BehaviourSystem>();
@@ -32,9 +32,14 @@ void platformer_engine::Engine::Start() {
     while (_isRunning) {
         uint64_t start = Window::GetPerformanceFrequency();
 
+        std::thread renderThread([this] {
+            Render();
+        });
+
         Update();
         Events();
-        Render();
+
+        renderThread.join();
 
         float elapsedMs =
                 (Window::GetPerformanceFrequency() - start) / static_cast<float>(Window::GetPerformanceFrequency()) *
@@ -126,6 +131,10 @@ void platformer_engine::Engine::JoinServer(const std::string &ip, int port) {
     _clientNetworkManager->ConnectToServer(ip, port);
 }
 
-void platformer_engine::Engine::AddScene(const Scene &scene) {
-    _scenes.push_back(scene);
+void platformer_engine::Engine::AddScene(const Scene &new_scene) {
+    auto iter = std::find_if(_scenes.begin(), _scenes.end(), [&new_scene](const Scene& scene) { return scene.GetSceneName() == new_scene.GetSceneName();});
+    if (iter != _scenes.end())
+        *iter = new_scene;
+    else
+        _scenes.push_back(new_scene);
 }

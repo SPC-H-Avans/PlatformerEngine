@@ -93,7 +93,7 @@ auto platformer_engine::GraphicsFacade::LoadTexture(const std::string &id, const
     return true;
 }
 
-auto platformer_engine::GraphicsFacade::LoadUIText(const std::string id, const std::string filePath, const std::string text, const int fontSize, const spic::Color color) -> bool {
+auto platformer_engine::GraphicsFacade::LoadUIText(const std::string textId, const std::string filePath, const std::string text, const int fontSize, const spic::Color color) -> bool {
     // create the font
     TTF_Font* font = TTF_OpenFont(filePath.c_str(), fontSize);
     if (font == nullptr) {
@@ -119,12 +119,16 @@ auto platformer_engine::GraphicsFacade::LoadUIText(const std::string id, const s
     }
 
     // save
-    _textureMap[id] = std::move(texture);
+    _textureMap[textId] = std::move(texture);
 
     SDL_FreeSurface(surface);
     TTF_CloseFont(font);
     return true;
 }
+
+//void platformer_engine::GraphicsFacade::UpdateUIText(const std::string textId, const std::string filePath, const std::string text, const int fontSize, const spic::Color color) {
+//
+//}
 
 void platformer_engine::GraphicsFacade::DrawTexture(const std::string &id, int x, int y, int width, int height,
                                                     const platformer_engine::SPIC_RendererFlip &flip, double scale,

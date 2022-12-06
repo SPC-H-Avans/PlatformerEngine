@@ -9,7 +9,7 @@ spic::Button::Button(const std::string &name, const Sprite& sprite, const std::s
 
     _active = !disabled;
     // Load text into memory
-    platformer_engine::GraphicsFacade::GetInstance().LoadTexture(name, imgPath);
+    platformer_engine::TextureManager::GetInstance().LoadTexture(name, imgPath);
 }
 
 void spic::Button::Render() {

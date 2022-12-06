@@ -79,7 +79,9 @@ namespace platformer_engine {
         /**
          * @brief Load a text object
          */
-        auto LoadUIText(const std::string id, const std::string filePath, const std::string text, const int fontSize, const spic::Color color) -> bool;
+        auto LoadUIText(const std::string textId, const std::string filePath, const std::string text, const int fontSize, const spic::Color color) -> bool;
+
+        void UpdateUIText(const std::string textId, const std::string filePath, const std::string text, const int fontSize, const spic::Color color);
 
         /**
          * @brief Draw a texture (complete png for example)

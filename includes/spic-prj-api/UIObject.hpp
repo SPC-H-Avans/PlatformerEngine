@@ -19,6 +19,18 @@ namespace spic {
 
             virtual void Render() = 0;
 
+            /**
+             * @brief Get the width
+             * @spicapi
+             */
+            inline auto GetWidth() -> double { return _width; }
+
+            /**
+             * @brief Get the height
+             * @spicapi
+             */
+            inline auto GetHeight() -> double { return _height; }
+
     protected:
             double _width;
             double _height;

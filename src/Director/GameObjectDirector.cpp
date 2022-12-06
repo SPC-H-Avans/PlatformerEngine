@@ -88,11 +88,12 @@ auto GameObjectDirector::CreateText(Transform transform, const std::string objec
 }
 
 auto GameObjectDirector::CreateButton(Transform transform, const std::string objectId, const spic::Sprite& sprite,
-                                      int buttonWidth, int buttonHeight) -> Button& {
+                                      int buttonWidth, int buttonHeight, std::function<void()> onClick) -> Button& {
     auto& scene = platformer_engine::Engine::GetInstance().GetActiveScene();
     auto obj = Button(objectId, sprite, buttonWidth, buttonHeight);
 
     obj.SetTransform(transform);
+    obj.OnClick(onClick);
 
     scene.AddUIObject(std::make_shared<Button>(obj));
     auto foo = std::make_shared<Button>(obj);

@@ -63,7 +63,7 @@ public:
                            int fontSize, Color textColor) -> Text&;
 
     static auto CreateButton(Transform transform, const std::string objectId, const spic::Sprite& sprite,
-                             int buttonWidth, int buttonHeight) -> Button&;
+                             int buttonWidth, int buttonHeight, std::function<void()> onClick) -> Button&;
 };
 
 #endif //PLATFORMER_ENGINE_GAMEOBJECTDIRECTOR_HPP

@@ -34,6 +34,12 @@ namespace spic {
              */
             void OnClick(std::function<void()> callback) { onClick = callback; }
 
+            /**
+             * @brief Get the sprite
+             * @spicapi
+             */
+            inline auto GetSprite() -> Sprite { return _sprite; }
+
         private:
             /**
              * @brief When false, the button will not react to clicks.

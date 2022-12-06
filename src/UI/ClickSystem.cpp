@@ -17,17 +17,19 @@ void ClickSystem::Update() {
         if (typeid(*obj) != typeid(Button)) // need to dereference obj to get the correct type
             continue;
 
+        auto button = std::dynamic_pointer_cast<Button>(obj);
+
         // top left button position
-        auto btnXPos1 = obj->GetTransform().position.x;
-        auto btnYPos1 = obj->GetTransform().position.y;
+        auto btnXPos1 = button->GetTransform().position.x;
+        auto btnYPos1 = button->GetTransform().position.y;
         // bottom right button position
-        auto btnXPos2 = btnXPos1 + obj->GetWidth();
-        auto btnYPos2 = btnYPos1 + obj->GetHeight();
+        auto btnXPos2 = btnXPos1 + button->GetWidth() * button->GetSprite().GetSpriteScale();
+        auto btnYPos2 = btnYPos1 + button->GetHeight() * button->GetSprite().GetSpriteScale();
 
         // check if the mouse position overlaps with the button
         if (mouseXPos >= btnXPos1 && mouseXPos <= btnXPos2 &&
             mouseYPos >= btnYPos1 && mouseYPos <= btnYPos2) {
-            std::dynamic_pointer_cast<Button>(obj)->Click();
+            button->Click();
         }
     }
 }

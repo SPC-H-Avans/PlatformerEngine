@@ -69,9 +69,6 @@ namespace spic {
         [[nodiscard]] auto GetHeading() const -> Point;
         void SetHeading(Point new_heading);
 
-        void AddNearbyCollider(Collider &collider);
-
-
     protected:
         enum BodyType _bodyType;
         float _mass;
@@ -82,7 +79,6 @@ namespace spic {
         const float _friction;
 
         std::map<CollisionPoint, int> _moveRestrictions;
-        std::vector<Collider> _nearbyColliders;
     };
 
 } // namespace spic

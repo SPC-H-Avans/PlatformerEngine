@@ -10,7 +10,7 @@ void ForceDrivenEntityBody::Update(double time_elapsed) {
     std::shared_ptr<GameObject> currentGameObject { GetGameObject().lock() };
     if(currentGameObject) {
         auto prevPos = currentGameObject->GetTransform().position;
-        UpdateLookAhead(prevPos);
+        UpdateLookAhead();
     } else {
         currentGameObject.reset();
     }
@@ -25,17 +25,6 @@ Point ForceDrivenEntityBody::AvoidObjects() {
 
     std::shared_ptr<GameObject> currentGameObject { GetGameObject().lock() };
     if(currentGameObject) {
-
-//        // Get the look ahead collider
-//        std::shared_ptr<Collider> lookAheadCollider;
-//
-//        auto colliders = currentGameObject->GetComponents<Collider>();
-//        for(auto& colComponent : colliders) {
-//            auto col = std::dynamic_pointer_cast<Collider>(colComponent);
-//            if(!col->GetPosition().Equals(currentGameObject->GetTransform().position)) {
-//                lookAheadCollider = col;
-//            }
-//        }
 
         // Find the nearest object that we are colliding with or are
         // in danger of colliding with
@@ -71,20 +60,21 @@ Point ForceDrivenEntityBody::AvoidObjects() {
         currentGameObject.reset();
     }
 
-
+    // Empty nearby collider vector
+    _nearbyColliders.clear();
 
     // Return the steering force
     return steeringForce;
 }
 
-void ForceDrivenEntityBody::UpdateLookAhead(Point oldPos) {
+void ForceDrivenEntityBody::UpdateLookAhead() {
 
     std::shared_ptr<GameObject> gameObject{GetGameObject().lock()};
     if (gameObject) {
         auto colliders = gameObject->GetComponents<BoxCollider>();
         for(auto &colObj : colliders) {
             auto col = std::dynamic_pointer_cast<BoxCollider>(colObj);
-            if(!col->GetPosition().Equals(oldPos)) {
+            if(col->GetColliderType() == ColliderType::LookAhead) {
                 // This collider is a look-ahead collider, it should  be at gameObject location + radius in the heading direction
                 auto newPosition = gameObject->GetTransform().position + (_heading * _lookAhead);
                 col->SetPosition(newPosition);
@@ -99,12 +89,11 @@ void ForceDrivenEntityBody::Follow(const std::shared_ptr<GameObject>& gameObject
     _following = gameObject;
 }
 
-ForceDrivenEntityBody::ForceDrivenEntityBody(float friction) : RigidBody(friction) {
+ForceDrivenEntityBody::ForceDrivenEntityBody(float friction) : RigidBody(friction), _lookAhead(10) {
     _gravityScale = 0;
     _mass = 10;
     _maxSpeed = Point{2, 2};
     _behaviours = std::make_unique<platformer_engine::ForceDrivenEntityBehaviours>(GetGameObject());
-
 }
 
 void ForceDrivenEntityBody::SetLookAhead(double lookAhead) {
@@ -113,4 +102,8 @@ void ForceDrivenEntityBody::SetLookAhead(double lookAhead) {
 
 double ForceDrivenEntityBody::GetLookAhead() {
     return _lookAhead;
+}
+
+void ForceDrivenEntityBody::AddNearbyCollider(Collider &collider) {
+    _nearbyColliders.push_back(collider);
 }

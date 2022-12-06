@@ -2,6 +2,7 @@
 #include "GameObject.hpp"
 #include "RigidBody.hpp"
 #include "BoxCollider.hpp"
+#include "Physics/ForceDrivenEntityBody.hpp"
 
 namespace platformer_engine {
 
@@ -32,20 +33,15 @@ namespace platformer_engine {
     }
 
     void DodgeObjectsBehaviour::OnTriggerEnter2D(Collision collision) {
+        auto selfCollider = collision.GetSelfCollider();
+        if(selfCollider->GetColliderType() != spic::LookAhead) return; // This is a look ahead Collider
+
         std::shared_ptr<GameObject> currentGameObject { GetGameObject().lock() };
         if(currentGameObject) {
-            auto gameObjectLocation = currentGameObject->GetTransform().position;
-            auto selfCollider = collision.GetSelfCollider();
-            auto selfColliderLocation = selfCollider->GetPosition();
-            if(gameObjectLocation.Equals(selfColliderLocation)) return;
+                auto body = std::dynamic_pointer_cast<ForceDrivenEntityBody>(currentGameObject->GetComponent<ForceDrivenEntityBody>());
+                if(body == nullptr) return;
 
-            // The gameObject location is different then the collider, this means that this collider
-            // is a look ahead collider.
-
-            auto body = std::dynamic_pointer_cast<RigidBody>(currentGameObject->GetComponent<RigidBody>());
-            if(body == nullptr) return;
-
-            body->AddNearbyCollider(*collision.GetOtherCollider());
+                body->AddNearbyCollider(*collision.GetOtherCollider());
 
         } else {
             currentGameObject.reset();

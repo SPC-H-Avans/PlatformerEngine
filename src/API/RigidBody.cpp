@@ -94,7 +94,3 @@ auto RigidBody::GetHeading() const -> Point {
     return _heading;
 }
 
-void RigidBody::AddNearbyCollider(Collider &collider) {
-    _nearbyColliders.push_back(collider);
-}
-

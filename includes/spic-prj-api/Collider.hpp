@@ -10,6 +10,11 @@ class Collision;
 
 namespace spic {
 
+    enum ColliderType {
+        Body,
+        LookAhead
+    };
+
     /**
      * @brief The base class for all colliders.
      * @spicapi
@@ -23,9 +28,15 @@ namespace spic {
         void RemoveCollision(int uid);
         void SetPosition(Point position);
         [[nodiscard]] auto GetPosition() const -> Point;
+
+
+        [[nodiscard]] auto GetColliderType() const -> ColliderType;
+        void SetColliderType(ColliderType colliderType);
     private:
         std::vector<Collision> _collisions;
         Point _position;
+        ColliderType _colliderType;
+
     };
 
 }

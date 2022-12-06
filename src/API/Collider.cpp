@@ -51,3 +51,11 @@ void Collider::SetPosition(Point position) {
 auto Collider::GetPosition() const -> Point {
     return _position;
 }
+
+auto Collider::GetColliderType() const -> ColliderType {
+    return _colliderType;
+}
+
+void Collider::SetColliderType(ColliderType colliderType) {
+    _colliderType = colliderType;
+}

@@ -12,15 +12,14 @@ namespace platformer_engine {
     }
 
     void CollisionBehaviour::OnTriggerEnter2D(Collision collision) {
-        if(!IsMainCollider(collision.GetSelfCollider())) return;
+        if(collision.GetSelfCollider()->GetColliderType() != ColliderType::Body) return;
         _activeCollisions.push_back(collision);
         UpdateMoveRestriction(collision, false);
         Unstuck(collision);
     }
 
     void CollisionBehaviour::OnTriggerExit2D(const Collision collision) {
-
-        if(!IsMainCollider(collision.GetSelfCollider())) return;
+        if(collision.GetSelfCollider()->GetColliderType() != ColliderType::Body) return;
         // Remove the collision from _activeCollisions
         for(auto &col : _activeCollisions) {
             int currentId = col.GetId();
@@ -52,17 +51,6 @@ namespace platformer_engine {
         } else { // gameObjWeak is already deleted
             gameObjWeak.reset();
         }
-    }
-
-    auto CollisionBehaviour::IsMainCollider(const std::shared_ptr<Collider>& col) -> bool {
-        std::shared_ptr<GameObject> currentGameObject { GetGameObject().lock() };
-        if(currentGameObject) {
-            return col->GetPosition().Equals(currentGameObject->GetTransform().position);
-        }
-
-        currentGameObject.reset();
-        return false;
-
     }
 
     void CollisionBehaviour::Unstuck(Collision &collision) {

@@ -25,8 +25,6 @@ namespace platformer_engine {
          * To prevent this, this unstuck function moves the GameObject to the correct location using the collisionPoint.
         */
         void Unstuck(Collision &collision);
-
-        auto IsMainCollider(const std::shared_ptr<Collider> &col) -> bool;
     };
 
 }  // namespace platformer_engine

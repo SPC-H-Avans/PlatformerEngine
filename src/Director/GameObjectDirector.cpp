@@ -63,6 +63,7 @@ auto GameObjectDirector::CreatePlayer(Transform transform, int colliderWidth, in
     collider.Width(colliderWidth);
     collider.Height(colliderHeight);
     collider.SetPosition(transform.position);
+    collider.SetColliderType(ColliderType::Body);
     obj->AddComponent<BoxCollider>(std::make_shared<BoxCollider>(collider));
 
     // scripts
@@ -98,6 +99,15 @@ auto GameObjectDirector::CreateEnemy(Transform transform, int colliderWidth, int
     collider.Width(colliderWidth);
     collider.Height(colliderHeight);
     collider.SetPosition(transform.position);
+    collider.SetColliderType(ColliderType::Body);
+    obj->AddComponent<BoxCollider>(std::make_shared<BoxCollider>(collider));
+
+    // Look ahead
+    auto lookAhead = BoxCollider();
+    lookAhead.Width(colliderWidth);
+    lookAhead.Height(colliderHeight);
+    lookAhead.SetPosition({0,0});
+    lookAhead.SetColliderType(ColliderType::LookAhead);
     obj->AddComponent<BoxCollider>(std::make_shared<BoxCollider>(collider));
 
     // scripts

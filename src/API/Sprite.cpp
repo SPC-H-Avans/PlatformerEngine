@@ -16,9 +16,4 @@ void spic::Sprite::Render(spic::Transform transform) {
                                _flip, _spriteScale, _spriteSheetX, _spriteSheetY);
 }
 
-void spic::Sprite::RenderInPlace(spic::Transform transform) {
-    platformer_engine::TextureManager& textureManager = platformer_engine::TextureManager::GetInstance();
-    textureManager.DrawTextureInPlace(_spriteId, transform.position.x, transform.position.y, _spriteWidth, _spriteHeight,
-                               _flip, _spriteScale, _spriteSheetX, _spriteSheetY);
-}
 BOOST_CLASS_EXPORT(spic::Sprite);

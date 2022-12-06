@@ -50,10 +50,16 @@ namespace platformer_engine {
                          const SPIC_RendererFlip &flip = FLIP_NONE, double scale = 1.0,
                          int spriteSheetX = 0, int spriteSheetY = 0);
 
-        void DrawTextureInPlace(const std::string &id, int x, int y, int width, int height,
+        /**
+         * @brief Draw a button UI element
+         */
+        void DrawUIButton(const std::string &id, int x, int y, int width, int height,
                                 const SPIC_RendererFlip &flip = FLIP_NONE, double scale = 1.0,
                                 int spriteSheetX = 0, int spriteSheetY = 0);
 
+        /**
+         * @brief Draw a text UI element
+         */
         void DrawUIText(const std::string textId, const int x, const int y, const int width, const int height);
 
         /**

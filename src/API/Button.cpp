@@ -11,7 +11,7 @@ spic::Button::Button(const std::string &name, const Sprite& sprite, double width
 }
 
 void spic::Button::Render() {
-    _sprite.RenderInPlace(_transform);
+    platformer_engine::TextureManager::GetInstance().DrawUIButton(_name, _transform.position.x, _transform.position.y, _width, _height);
 }
 
 void spic::Button::Click() {

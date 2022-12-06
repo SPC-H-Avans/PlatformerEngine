@@ -15,7 +15,7 @@ namespace spic {
              * @brief Button constructor
              * @spicapi
              */
-            Button(const std::string &name, double width, double height);
+            Button(const std::string &name, const Sprite& sprite, double width, double height, bool disabled = false);
 
             void Render() override;
 
@@ -44,6 +44,16 @@ namespace spic {
              * @brief The registered click handler.
              */
             std::function<void()> onClick;
+
+            /**
+             * @brief The sprite to render when the button is clicked.
+             */
+            const Sprite& _sprite;
+
+            /**
+             * @brief The transform used by the sprite.
+             */
+            const Transform _transform;
     };
 
 }

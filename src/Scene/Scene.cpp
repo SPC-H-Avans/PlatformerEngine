@@ -53,6 +53,12 @@ void spic::Scene::RemoveObject(const std::string &name) {
                               [&name](const std::shared_ptr<GameObject> &obj) { return obj->GetName() == name; });
 
     _contents.erase(itr, _contents.end());
+
+    auto itrOrigins = std::remove_if(_origins.begin(), _origins.end(),
+                                     [&name](const GameObject &obj) { return obj.GetName() == name; });
+
+    _origins.erase(itrOrigins, _origins.end());
+
 }
 
 auto spic::Scene::GetObjectByName(const std::string &name) -> std::shared_ptr<spic::GameObject> {
@@ -118,11 +124,11 @@ auto spic::Scene::GetActiveCamera() -> std::shared_ptr<spic::Camera> {
 void spic::Scene::ResetScene() {
     _contents.clear();
 
-    for(auto& origin : _origins) {
+    for (auto &origin: _origins) {
         auto instance = GameObject::Find(origin.GetName(), true);
 
-        if(instance == nullptr) {
-            GameObject g (origin.GetName());
+        if (instance == nullptr) {
+            GameObject g(origin.GetName());
             instance = GameObject::Find(origin.GetName(), true);
         }
 

@@ -18,8 +18,8 @@ void ClickSystem::Update() {
         if (button == nullptr) continue;
 
         // top left button position
-        auto btnXPos1 = button->GetTransform().position.x;
-        auto btnYPos1 = button->GetTransform().position.y;
+        auto btnXPos1 = button->GetTransform().position.x * button->GetSprite().GetSpriteScale();
+        auto btnYPos1 = button->GetTransform().position.y * button->GetSprite().GetSpriteScale();
         // bottom right button position
         auto btnXPos2 = btnXPos1 + button->GetWidth() * button->GetSprite().GetSpriteScale();
         auto btnYPos2 = btnYPos1 + button->GetHeight() * button->GetSprite().GetSpriteScale();

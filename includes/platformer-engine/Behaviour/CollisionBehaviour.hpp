@@ -24,7 +24,7 @@ namespace platformer_engine {
         * @brief When an object has moved more than a single pixel in a tick, it can move through a block.
          * To prevent this, this unstuck function moves the GameObject to the correct location using the collisionPoint.
         */
-        void Unstuck(const Collision &collision);
+        void Unstuck(Collision &collision);
     };
 
 }  // namespace platformer_engine

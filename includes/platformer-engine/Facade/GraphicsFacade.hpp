@@ -46,7 +46,7 @@ namespace platformer_engine {
          * @return True if the window and renderer were created successfully, false otherwise
          * @platformerengine
          */
-        auto Init(int width, int height, const std::string &title, const spic::Color &color) -> bool;
+        auto Init(int width, int height, const std::string &title, const spic::Color &color, bool fullScreen) -> bool;
 
         /**
          * @brief Quit the SDL2 window and renderer

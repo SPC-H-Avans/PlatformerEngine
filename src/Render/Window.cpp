@@ -2,8 +2,8 @@
 #include "LevelParser/LevelParser.hpp"
 #include "Input.hpp"
 
-platformer_engine::Window::Window(int width, int height, const std::string &title, const spic::Color &color) {
-    GraphicsFacade::GetInstance().Init(width, height, title, color);
+platformer_engine::Window::Window(int width, int height, const std::string &title, const spic::Color &color, bool fullScreen) : _width(width), _height(height) {
+    GraphicsFacade::GetInstance().Init(_width, _height, title, color, fullScreen);
 }
 
 void platformer_engine::Window::Clear() {

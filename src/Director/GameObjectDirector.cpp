@@ -74,8 +74,8 @@ auto GameObjectDirector::CreatePlayer(Transform transform, int colliderWidth, in
     return *obj;
 }
 
-auto GameObjectDirector::CreateText(Transform transform, const std::string objectId, const std::string text,
-                                    std::string fontPath, int textWidth, int textHeight,
+auto GameObjectDirector::CreateText(Transform transform, const std::string objectId, const std::string& text,
+                                    const std::string& fontPath, int textWidth, int textHeight,
                                     int fontSize, Color textColor) -> Text& {
     auto& scene = platformer_engine::Engine::GetInstance().GetActiveScene();
     auto obj = Text(objectId, textWidth, textHeight, text, fontPath, fontSize, textColor);
@@ -88,7 +88,7 @@ auto GameObjectDirector::CreateText(Transform transform, const std::string objec
 }
 
 auto GameObjectDirector::CreateButton(Transform transform, const std::string objectId, const spic::Sprite& sprite,
-                                      const std::string imgPath, int buttonWidth, int buttonHeight,
+                                      const std::string& imgPath, int buttonWidth, int buttonHeight,
                                       std::function<void()> onClick) -> Button& {
     auto& scene = platformer_engine::Engine::GetInstance().GetActiveScene();
     auto obj = Button(objectId, sprite, imgPath, buttonWidth, buttonHeight);

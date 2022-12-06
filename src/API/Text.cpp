@@ -1,7 +1,7 @@
 #include "Text.hpp"
 
-spic::Text::Text(const std::string &name, double width, double height,
-                 const std::string text, const std::string fontPath,
+spic::Text::Text(const std::string& name, double width, double height,
+                 const std::string& text, const std::string& fontPath,
                  int fontSize, spic::Color color,
                  spic::Alignment alignment)
                  : UIObject(name, width, height), _text(text), _font(fontPath), _size(fontSize),

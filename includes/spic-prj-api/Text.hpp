@@ -27,8 +27,8 @@ namespace spic {
              * @brief Text constructor
              * @spicapi
              */
-            Text(const std::string &name, double width, double height,
-                 const std::string text, const std::string fontPath,
+            Text(const std::string& name, double width, double height,
+                 const std::string& text, const std::string& fontPath,
                  int fontSize = 24, Color color = Color::Black(),
                  Alignment alignment = Alignment::center); // alignment is currently unused
 

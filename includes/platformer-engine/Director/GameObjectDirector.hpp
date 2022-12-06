@@ -58,12 +58,12 @@ public:
             const std::vector<std::shared_ptr<BehaviourScript>>& behaviourScripts // must use pointers to store derived classes
     ) -> GameObject&;
 
-    static auto CreateText(Transform transform, const std::string objectId, const std::string text,
-                           std::string fontPath, int textWidth, int textHeight,
+    static auto CreateText(Transform transform, const std::string objectId, const std::string& text,
+                           const std::string& fontPath, int textWidth, int textHeight,
                            int fontSize, Color textColor) -> Text&;
 
     static auto CreateButton(Transform transform, const std::string objectId, const spic::Sprite& sprite,
-                             const std::string imgPath, int buttonWidth, int buttonHeight,
+                             const std::string& imgPath, int buttonWidth, int buttonHeight,
                              std::function<void()> onClick) -> Button&;
 };
 

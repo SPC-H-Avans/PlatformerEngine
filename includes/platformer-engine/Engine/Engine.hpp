@@ -5,12 +5,18 @@
 #include "Timer/Timer.hpp"
 #include "Physics/PhysicsSystem.hpp"
 #include <memory>
+#include <any>
+#include <fstream>
 #include "Scene.hpp"
 #include "Texture/RenderSystem.hpp"
 #include "Networking/ServerNetworkManager.hpp"
 #include "Networking/ClientNetworkManager.hpp"
 #include "Exceptions/NoWindowException.hpp"
 #include "Behaviour/BehaviourSystem.hpp"
+#include "boost/archive/text_iarchive.hpp"
+#include "boost/archive/text_oarchive.hpp"
+#include "boost/serialization/unordered_map.hpp"
+#include "Storage/DataContainer.hpp"
 
 namespace platformer_engine {
     /**
@@ -110,6 +116,30 @@ namespace platformer_engine {
             }
 
             return *_window;
+        }
+
+        template<class T>
+        void SaveData(std::string keyName, T object) {
+            std::unordered_map<std::string, IDataContainer> dataMap;
+            std::ifstream ifstr {"localSave.txt"};
+
+            if(ifstr.is_open()) {
+                boost::archive::text_iarchive ita(ifstr);
+                ita >> dataMap;
+                Debug::Log("Put data in map");
+                ifstr.close();
+            }
+
+            dataMap[keyName] = DataContainer<T> {object};
+            std::ofstream ofstr {"localSave.txt", std::ofstream::out | std::ofstream::trunc};
+            boost::archive::text_oarchive ota(ofstr);
+            ota << dataMap; //Write back to file
+            ofstr.close();
+        }
+
+        template<class T>
+        void LoadData(std::string keyName)  {
+
         }
 
     private:

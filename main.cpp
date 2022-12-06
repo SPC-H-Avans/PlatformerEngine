@@ -53,11 +53,12 @@ auto main([[maybe_unused]] int argc, [[maybe_unused]] char *argv[]) -> int {
     engine.AddScene(scene);
 
 
-    engine.HostServer(scene.GetSceneName(), 10, 7779);
+/*    engine.HostServer(scene.GetSceneName(), 10, 7779);
     engine.JoinServer("127.0.0.1", 7779);
     NetPkgs::Ping ping;
-    engine.GetServerNetworkManager().SendUpdateToClients(&ping, sizeof(NetPkgs::Ping));
+    engine.GetServerNetworkManager().SendUpdateToClients(&ping, sizeof(NetPkgs::Ping));*/
 
+    engine.SaveData<std::string>("KeyName", "Test");
     engine.Start();
 
     std::cout << "Hello, World!" << std::endl;

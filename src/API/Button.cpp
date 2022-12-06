@@ -13,6 +13,7 @@ spic::Button::Button(const std::string &name, const Sprite& sprite, const std::s
 }
 
 void spic::Button::Render() {
+    // TODO: spritesheet support
     platformer_engine::TextureManager::GetInstance().DrawUIButton(
             _name,
             static_cast<int>(GetTransform().position.x), static_cast<int>(GetTransform().position.y),

@@ -1,4 +1,5 @@
 #include "Physics/ForceDrivenEntityBody.hpp"
+#include "BoxCollider.hpp"
 
 void ForceDrivenEntityBody::Update(double time_elapsed) {
     //calculate the combined force from each steering behavior in the
@@ -71,9 +72,9 @@ void ForceDrivenEntityBody::UpdateColliders(Point oldPos) {
 
     std::shared_ptr<GameObject> gameObject{GetGameObject().lock()};
     if (gameObject) {
-        auto colliders = gameObject->GetComponents<Collider>();
+        auto colliders = gameObject->GetComponents<BoxCollider>();
         for(auto &colObj : colliders) {
-            auto col = std::dynamic_pointer_cast<Collider>(colObj);
+            auto col = std::dynamic_pointer_cast<BoxCollider>(colObj);
             if(col->GetPosition().Equals(oldPos)) {
                 // This collider is the main collider, so it should get the same position as the gameObject
                 col->SetPosition(gameObject->GetTransform().position);

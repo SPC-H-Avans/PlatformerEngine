@@ -1,6 +1,7 @@
 #include "RigidBody.hpp"
 #include "Exceptions/IllegalCollisionBehaviourException.hpp"
 #include "GameObject.hpp"
+#include "BoxCollider.hpp"
 
 void spic::RigidBody::AddForce(const spic::Point &force) {
 
@@ -52,9 +53,9 @@ void spic::RigidBody::UpdateColliders(Point oldPos) {
 
     std::shared_ptr<GameObject> gameObject{GetGameObject().lock()};
     if (gameObject) {
-        auto colliders = gameObject->GetComponents<Collider>();
+        auto colliders = gameObject->GetComponents<BoxCollider>();
         for(auto &colObj : colliders) {
-            auto col = std::dynamic_pointer_cast<Collider>(colObj);
+            auto col = std::dynamic_pointer_cast<BoxCollider>(colObj);
             if(col->GetPosition().Equals(oldPos)) {
                 // This collider is the main collider, so it should get the same position as the gameObject
                 col->SetPosition(gameObject->GetTransform().position);

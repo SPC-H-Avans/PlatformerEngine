@@ -35,7 +35,6 @@ void spic::RigidBody::AddForce(const spic::Point &force) {
         auto oldPos = transform.position;
         transform.position += _velocity;
         gameObject->SetTransform(transform);
-        UpdateColliders(oldPos);
     } else { // GameObject was already deleted
         gameObject.reset();
     }
@@ -46,24 +45,6 @@ void spic::RigidBody::AddForce(const spic::Point &force) {
         _heading = Point::PointNormalize(_velocity);
 
         //m_vSide = m_vHeading.Perp();
-    }
-}
-
-void spic::RigidBody::UpdateColliders(Point oldPos) {
-
-    std::shared_ptr<GameObject> gameObject{GetGameObject().lock()};
-    if (gameObject) {
-        auto colliders = gameObject->GetComponents<BoxCollider>();
-        for(auto &colObj : colliders) {
-            auto col = std::dynamic_pointer_cast<BoxCollider>(colObj);
-            if(col->GetPosition().Equals(oldPos)) {
-                // This collider is the main collider, so it should get the same position as the gameObject
-                col->SetPosition(gameObject->GetTransform().position);
-                return; // The Collider has been found!
-            }
-        }
-    } else { // GameObject was already deleted
-        gameObject.reset();
     }
 }
 

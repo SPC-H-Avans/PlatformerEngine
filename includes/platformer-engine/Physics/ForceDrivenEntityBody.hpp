@@ -27,7 +27,7 @@ private:
 
     Point AvoidObjects();
 
-    void UpdateColliders(Point oldPos) override;
+    void UpdateLookAhead(Point oldPos);
 };
 
 

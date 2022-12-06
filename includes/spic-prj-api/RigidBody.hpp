@@ -83,8 +83,6 @@ namespace spic {
 
         std::map<CollisionPoint, int> _moveRestrictions;
         std::vector<Collider> _nearbyColliders;
-
-        virtual void UpdateColliders(Point oldPos);
     };
 
 } // namespace spic

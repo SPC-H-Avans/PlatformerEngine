@@ -62,6 +62,7 @@ auto GameObjectDirector::CreatePlayer(Transform transform, int colliderWidth, in
     auto collider = BoxCollider();
     collider.Width(colliderWidth);
     collider.Height(colliderHeight);
+    collider.SetPosition(transform.position);
     obj->AddComponent<BoxCollider>(std::make_shared<BoxCollider>(collider));
 
     // scripts
@@ -78,7 +79,7 @@ auto GameObjectDirector::CreateEnemy(Transform transform, int colliderWidth, int
                                      const std::vector<std::shared_ptr<BehaviourScript>> &behaviourScripts) -> GameObject & {
     auto& scene = platformer_engine::Engine::GetInstance().GetActiveScene();
 
-    auto builder = GameObjectBuilder("player" + std::to_string(scene.GetObjectCount()))
+    auto builder = GameObjectBuilder("enemy" + std::to_string(scene.GetObjectCount()))
             // animations
             .AddAnimator(animations)
     ;
@@ -96,6 +97,7 @@ auto GameObjectDirector::CreateEnemy(Transform transform, int colliderWidth, int
     auto collider = BoxCollider();
     collider.Width(colliderWidth);
     collider.Height(colliderHeight);
+    collider.SetPosition(transform.position);
     obj->AddComponent<BoxCollider>(std::make_shared<BoxCollider>(collider));
 
     // scripts

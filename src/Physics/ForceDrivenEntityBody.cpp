@@ -7,6 +7,15 @@ void ForceDrivenEntityBody::Update(double time_elapsed) {
     Point steeringForce = _behaviours->Pursuit(_following);
     steeringForce = AvoidObjects() + steeringForce;
 
+    std::shared_ptr<GameObject> currentGameObject { GetGameObject().lock() };
+    if(currentGameObject) {
+        auto prevPos = currentGameObject->GetTransform().position;
+        UpdateLookAhead(prevPos);
+    } else {
+        currentGameObject.reset();
+    }
+
+
     AddForce(steeringForce);
 }
 
@@ -68,17 +77,14 @@ Point ForceDrivenEntityBody::AvoidObjects() {
     return steeringForce;
 }
 
-void ForceDrivenEntityBody::UpdateColliders(Point oldPos) {
+void ForceDrivenEntityBody::UpdateLookAhead(Point oldPos) {
 
     std::shared_ptr<GameObject> gameObject{GetGameObject().lock()};
     if (gameObject) {
         auto colliders = gameObject->GetComponents<BoxCollider>();
         for(auto &colObj : colliders) {
             auto col = std::dynamic_pointer_cast<BoxCollider>(colObj);
-            if(col->GetPosition().Equals(oldPos)) {
-                // This collider is the main collider, so it should get the same position as the gameObject
-                col->SetPosition(gameObject->GetTransform().position);
-            } else {
+            if(!col->GetPosition().Equals(oldPos)) {
                 // This collider is a look-ahead collider, it should  be at gameObject location + radius in the heading direction
                 auto newPosition = gameObject->GetTransform().position + (_heading * _lookAhead);
                 col->SetPosition(newPosition);

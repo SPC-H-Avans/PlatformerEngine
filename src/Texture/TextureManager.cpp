@@ -16,8 +16,7 @@ platformer_engine::TextureManager::DrawTexture(const std::string &id, int x, int
 void platformer_engine::TextureManager::DrawUIButton(const std::string &id, int x, int y, int width, int height,
                                                const SPIC_RendererFlip &flip, double scale,
                                                int spriteSheetX, int spriteSheetY) {
-    Transform camera = GetCameraPosition();
-    GraphicsFacade::GetInstance().DrawUIButton(id, (x - camera.position.x), (y - camera.position.y), width, height, flip, scale, spriteSheetX, spriteSheetY);
+    GraphicsFacade::GetInstance().DrawUIButton(id, x, y, width, height, flip, scale, spriteSheetX, spriteSheetY);
 }
 
 void platformer_engine::TextureManager::DrawUIText(const std::string textId, const int x, const int y, const int width, const int height) {

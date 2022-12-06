@@ -4,6 +4,7 @@
 #include "Utility/NetworkingBuffer.hpp"
 #include "Engine/Engine.hpp"
 #include "Builder/GameObjectBuilder.hpp"
+#include "Networking/PackedObjects/PackedLoadedTextureInfo.hpp"
 #include <boost/archive/binary_oarchive.hpp>
 #include <boost/serialization/serialization.hpp>
 #include <boost/asio.hpp>
@@ -65,8 +66,10 @@ void platformer_engine::ServerNetworkManager::InitializeClient(const Client &cli
 
 void platformer_engine::ServerNetworkManager::SendLoadedTexturesToClient(int clientId) {
     boost::asio::streambuf buf;
-    platformer_engine::NetworkingBuffer::ObjectToAsioBuffer<std::vector<LoadedTextureInfo>>(
-            TextureManager::GetInstance().GetLoadedTextures(), buf);
+    PackedLoadedTextureInfo packedLoadedTextureInfo;
+    packedLoadedTextureInfo.LoadTextures();
+    platformer_engine::NetworkingBuffer::ObjectToAsioBuffer<PackedLoadedTextureInfo>(
+            packedLoadedTextureInfo, buf);
 
     const auto *charPtr = buffer_cast<const char *>(buf.data());
 

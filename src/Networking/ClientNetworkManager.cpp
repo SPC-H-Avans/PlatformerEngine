@@ -8,6 +8,7 @@
 #include "Debug.hpp"
 #include "Engine/Engine.hpp"
 #include "Utility/NetworkingBuffer.hpp"
+#include "Networking/PackedObjects/PackedLoadedTextureInfo.hpp"
 
 platformer_engine::ClientNetworkManager::ClientNetworkManager() {
     std::function<void(int clientId, const uint8_t *data, size_t dataLength)> removeLocalClientFromGame = [this](
@@ -196,13 +197,14 @@ void platformer_engine::ClientNetworkManager::UpdateGameObjectTransform(const vo
 void platformer_engine::ClientNetworkManager::LoadedTextures(const void *data, size_t length) {
     auto pkg = NetPkgs::UpdateGameObjectTransform();
     memcpy(&pkg, data, length);
-    std::vector<LoadedTextureInfo> loadedTextures;
+    PackedLoadedTextureInfo packedLoadedTextures;
 
-    platformer_engine::NetworkingBuffer::ParseIncomingDataToObject<std::vector<LoadedTextureInfo>>(pkg._data,
-                                                                                                   MAX_LOADED_TEXTURES_SIZE,
-                                                                                                   loadedTextures);
-    for (auto &loadedTexture: loadedTextures) {
-        TextureManager::GetInstance().LoadTexture(loadedTexture.GetTextureId(), loadedTexture.GetTexturePath());
+    platformer_engine::NetworkingBuffer::ParseIncomingDataToObject<PackedLoadedTextureInfo>(pkg._data,
+                                                                                            MAX_LOADED_TEXTURES_SIZE,
+                                                                                            packedLoadedTextures);
+    auto loadedTextures = packedLoadedTextures.GetLoadedTextureInfos();
+    for (auto &item: loadedTextures) {
+        TextureManager::GetInstance().LoadTexture(item.GetTextureId(), item.GetTexturePath());
     }
 }
 

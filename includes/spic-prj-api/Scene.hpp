@@ -61,9 +61,24 @@ namespace spic {
          */
         auto GetObjectByName(const std::string &name) -> std::shared_ptr<GameObject>;
 
+        /**
+         * @brief Get the GameObjects in this scene
+         * @spicapi
+         */
         [[nodiscard]] inline auto
         GetAllObjects() const -> std::vector<std::shared_ptr<GameObject>> { return _contents; };
 
+        /**
+         * @brief Get the UIObjects in this scene
+         * @spicapi
+         */
+        [[nodiscard]] inline auto
+        GetAllUIObjects() const -> std::vector<std::shared_ptr<UIObject>> { return _uiObjects; };
+
+        /**
+         * @brief Get the number of GameObjects currently in this scene
+         * @spicapi
+         */
         auto GetObjectCount() -> int;
 
         /**

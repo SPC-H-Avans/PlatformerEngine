@@ -120,8 +120,8 @@ namespace platformer_engine {
         std::unique_ptr<SDL_Renderer, std::function<void(SDL_Renderer *)>> _renderer{nullptr};
         std::map<std::string, std::unique_ptr<SDL_Texture, std::function<void(
                 SDL_Texture *)>>> _textureMap;
-        std::map<std::string, SDL_Texture*> _uiTextMap;
-//        std::map<std::string, std::unique_ptr<SDL_Texture, std::function<void(SDL_Texture *)>>> _fontMap;
+        std::map<std::string, std::unique_ptr<SDL_Texture, std::function<void(
+                SDL_Texture *)>>> _uiTextMap;
 
         /**
          * @brief Converts the color value, which is a double between 0 and 1 to a value between 0 and 255 as int

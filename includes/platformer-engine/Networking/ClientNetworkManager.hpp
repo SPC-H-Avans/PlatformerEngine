@@ -154,6 +154,8 @@ namespace platformer_engine {
          */
         void UpdateGameObjectTransform(const void *data, size_t length);
 
+        void LoadedTextures(const void *data, size_t length);
+
 #pragma endregion HandleIncomingPackets
     };
 }  // namespace platformer_engine

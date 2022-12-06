@@ -44,9 +44,9 @@ namespace NetPkgs {
 
         CreateGameObject() : MessageHeader(NET_CREATE_GAMEOBJECT) {}
 
-        CreateGameObject(const char* data, size_t gameObjectDataLength)
+        CreateGameObject(const char *data, size_t gameObjectDataLength)
                 : MessageHeader(NET_CREATE_GAMEOBJECT), _gameObjectDataLength(gameObjectDataLength) {
-            for(int i = 0; i < MAX_CREATE_GAME_OBJECT_SIZE; i++) {
+            for (int i = 0; i < MAX_CREATE_GAME_OBJECT_SIZE; i++) {
                 if (i < gameObjectDataLength) {
                     _data[i] = data[i];
                 } else {
@@ -56,12 +56,12 @@ namespace NetPkgs {
         }
     };
 
-    struct DestroyGameObject: MessageHeader {
+    struct DestroyGameObject : MessageHeader {
         char _data[MAX_GAME_OBJECT_NAME_SIZE];
 
         DestroyGameObject() : MessageHeader(NET_DESTROY_GAMEOBJECT) {}
 
-        DestroyGameObject(const char* gameObjectId) : MessageHeader(NET_DESTROY_GAMEOBJECT) {
+        DestroyGameObject(const char *gameObjectId) : MessageHeader(NET_DESTROY_GAMEOBJECT) {
             assert(gameObjectId);
 
             strncpy(_data, gameObjectId, MAX_GAME_OBJECT_NAME_SIZE);
@@ -75,8 +75,9 @@ namespace NetPkgs {
 
         UpdateGameObjectTransform() : MessageHeader(NET_UPDATE_GAMEOBJECT_TRANSFORM) {}
 
-        UpdateGameObjectTransform(const char* gameObjectId, const char* data, size_t dataLength) : MessageHeader(NET_UPDATE_GAMEOBJECT_TRANSFORM) {
-            for(int i = 0; i < MAX_UPDATE_TRANSFORM_SIZE; i++) {
+        UpdateGameObjectTransform(const char *gameObjectId, const char *data, size_t dataLength) : MessageHeader(
+                NET_UPDATE_GAMEOBJECT_TRANSFORM) {
+            for (int i = 0; i < MAX_UPDATE_TRANSFORM_SIZE; i++) {
                 if (i < dataLength) {
                     _data[i] = data[i];
                 } else {
@@ -99,9 +100,9 @@ namespace NetPkgs {
 
         CreateScene() : MessageHeader(NET_CREATE_SCENE) {}
 
-        CreateScene(const char* data, size_t sceneDataLength)
+        CreateScene(const char *data, size_t sceneDataLength)
                 : MessageHeader(NET_CREATE_SCENE), _sceneDataLength(sceneDataLength) {
-            for(int i = 0; i < MAX_CREATE_SCENE_SIZE; i++) {
+            for (int i = 0; i < MAX_CREATE_SCENE_SIZE; i++) {
                 if (i < sceneDataLength) {
                     _data[i] = data[i];
                 } else {
@@ -110,18 +111,20 @@ namespace NetPkgs {
             }
         }
     };
+
 #pragma endregion Scenes
 
 #pragma region PlayerJoin
-    struct CreatePlayerCharacter : MessageHeader{
+
+    struct CreatePlayerCharacter : MessageHeader {
         size_t _characterLength;
         char _data[MAX_SEND_CHARACTER_TO_SERVER_SIZE];
 
         CreatePlayerCharacter() : MessageHeader(NET_CREATE_SCENE) {}
 
-        CreatePlayerCharacter(const char* data, size_t characterLength)
+        CreatePlayerCharacter(const char *data, size_t characterLength)
                 : MessageHeader(NET_SEND_CHARACTER_TO_SERVER), _characterLength(characterLength) {
-            for(int i = 0; i < MAX_SEND_CHARACTER_TO_SERVER_SIZE; i++) {
+            for (int i = 0; i < MAX_SEND_CHARACTER_TO_SERVER_SIZE; i++) {
                 if (i < characterLength) {
                     _data[i] = data[i];
                 } else {
@@ -130,7 +133,27 @@ namespace NetPkgs {
             }
         }
     };
+
 #pragma endregion PlayerJoin
+
+    struct LoadedTextures : MessageHeader {
+        size_t _characterLength;
+        char _data[MAX_LOADED_TEXTURES_SIZE];
+
+        LoadedTextures() : MessageHeader(NET_LOADED_TEXTURES) {}
+
+        LoadedTextures(const char *data, size_t characterLength)
+                : MessageHeader(NET_LOADED_TEXTURES), _characterLength(characterLength) {
+            for (int i = 0; i < MAX_LOADED_TEXTURES_SIZE; i++) {
+                if (i < characterLength) {
+                    _data[i] = data[i];
+                } else {
+                    _data[i] = 0;
+                }
+            }
+        }
+    };
+
 
 }  // namespace NetPkgs
 #endif //PLATFORMER_ENGINE_PROTOCOLPACKAGES_H

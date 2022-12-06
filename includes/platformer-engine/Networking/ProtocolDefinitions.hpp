@@ -14,6 +14,7 @@ constexpr int NET_DESTROY_GAMEOBJECT = 15;
 constexpr int NET_UPDATE_GAMEOBJECT_TRANSFORM = 16;
 constexpr int NET_CREATE_SCENE = 17;
 constexpr int NET_SEND_CHARACTER_TO_SERVER = 18;
+constexpr int NET_LOADED_TEXTURES = 19;
 
 #pragma endregion NET_PACKET_IDS
 
@@ -30,6 +31,7 @@ constexpr int MAX_CREATE_SCENE_SIZE = 102400;
 constexpr int MAX_SEND_CHARACTER_TO_SERVER_SIZE = 2048;
 constexpr int MAX_GAME_OBJECT_NAME_SIZE = 256;
 constexpr int MAX_UPDATE_TRANSFORM_SIZE = 128;
+constexpr int MAX_LOADED_TEXTURES_SIZE = 2048;
 
 #pragma endregion MAX_PACKAGE_SIZES
 

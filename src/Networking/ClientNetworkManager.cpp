@@ -56,6 +56,13 @@ platformer_engine::ClientNetworkManager::ClientNetworkManager() {
         CreateScene(data, dataLength);
     };
     _eventMap[NET_CREATE_SCENE] = createScene;
+
+    std::function<void(int clientId, const uint8_t *data, size_t dataLength)> loadedTextures = [this](int clientId,
+                                                                                                      const uint8_t *data,
+                                                                                                      size_t dataLength) {
+        LoadedTextures(data, dataLength);
+    };
+    _eventMap[NET_LOADED_TEXTURES] = loadedTextures;
 }
 
 void platformer_engine::ClientNetworkManager::ConnectToServer(const std::string &ip, int port) {
@@ -183,6 +190,19 @@ void platformer_engine::ClientNetworkManager::UpdateGameObjectTransform(const vo
     auto gameObject = platformer_engine::Engine::GetInstance().GetActiveScene().GetObjectByName(gameObjectId);
     if (gameObject != nullptr) {
         gameObject->SetTransform(transform);
+    }
+}
+
+void platformer_engine::ClientNetworkManager::LoadedTextures(const void *data, size_t length) {
+    auto pkg = NetPkgs::UpdateGameObjectTransform();
+    memcpy(&pkg, data, length);
+    std::vector<LoadedTextureInfo> loadedTextures;
+
+    platformer_engine::NetworkingBuffer::ParseIncomingDataToObject<std::vector<LoadedTextureInfo>>(pkg._data,
+                                                                                                   MAX_LOADED_TEXTURES_SIZE,
+                                                                                                   loadedTextures);
+    for (auto &loadedTexture: loadedTextures) {
+        TextureManager::GetInstance().LoadTexture(loadedTexture.GetTextureId(), loadedTexture.GetTexturePath());
     }
 }
 

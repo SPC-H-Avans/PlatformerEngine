@@ -58,7 +58,20 @@ void platformer_engine::ServerNetworkManager::SendUpdateToClient(int clientId, c
 }
 
 void platformer_engine::ServerNetworkManager::InitializeClient(const Client &client) {
+    SendLoadedTexturesToClient(client.GetClientId());
     CreateNetworkedScene(client.GetClientId(), Engine::GetInstance().GetActiveScene());
+
+}
+
+void platformer_engine::ServerNetworkManager::SendLoadedTexturesToClient(int clientId) {
+    boost::asio::streambuf buf;
+    platformer_engine::NetworkingBuffer::ObjectToAsioBuffer<std::vector<LoadedTextureInfo>>(
+            TextureManager::GetInstance().GetLoadedTextures(), buf);
+
+    const auto *charPtr = buffer_cast<const char *>(buf.data());
+
+    auto pkg = NetPkgs::LoadedTextures(charPtr, buf.size());
+    SendUpdateToClient(clientId, &pkg, sizeof(pkg), true);
 }
 
 void platformer_engine::ServerNetworkManager::ChooseNewPartyLeader() {

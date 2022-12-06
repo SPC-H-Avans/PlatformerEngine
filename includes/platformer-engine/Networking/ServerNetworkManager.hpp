@@ -125,6 +125,8 @@ namespace platformer_engine {
          */
         void CreateNetworkedScene(int clientId, const spic::Scene &scene);
 
+        void SendLoadedTexturesToClient(int clientId);
+
         void CreateNetworkedPlayerCharacter(int clientId, const spic::GameObject &gameObjectToCreate);
 
 #pragma endregion DefaultServerEvents

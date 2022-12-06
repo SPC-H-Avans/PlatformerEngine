@@ -6,7 +6,6 @@
 #include "Point.hpp"
 #include "Collider.hpp"
 #include <boost/serialization/access.hpp>
-#include <boost/serialization/access.hpp>
 #include <boost/serialization/export.hpp>
 #include <boost/serialization/shared_ptr.hpp>
 

@@ -4,6 +4,7 @@
 #include <string>
 #include <utility>
 #include "Facade/GraphicsFacade.hpp"
+#include "Texture/LoadedTextureInfo.hpp"
 
 //Singleton class to manage all textures
 namespace platformer_engine {
@@ -28,6 +29,8 @@ namespace platformer_engine {
          * @return A true or false value, true if the texture is loaded, false if not
          */
         auto LoadTexture(const std::string &id, const std::string &fileName) -> bool;
+
+        inline auto GetLoadedTextures() const -> std::vector<LoadedTextureInfo> { return _loadedTextures; };
 
         /**
          * @brief Remove a texture from the texture manager and memory
@@ -88,6 +91,8 @@ namespace platformer_engine {
         TextureManager() = default;
 
         ~TextureManager() = default;
+
+        std::vector<LoadedTextureInfo> _loadedTextures;
     };
 }
 #endif //PLATFORMER_ENGINE_TEXTUREMANAGER_H

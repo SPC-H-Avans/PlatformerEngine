@@ -58,7 +58,10 @@ auto main([[maybe_unused]] int argc, [[maybe_unused]] char *argv[]) -> int {
     NetPkgs::Ping ping;
     engine.GetServerNetworkManager().SendUpdateToClients(&ping, sizeof(NetPkgs::Ping));*/
 
-    engine.SaveData<std::string>("KeyName", "Test");
+    //Save and Load data to a local file
+    engine.GetDataManager().SaveData<GameObject>("KeyName", GameObject("TEST"));
+    std::optional<GameObject> object = engine.GetDataManager().LoadData<GameObject>("KeyName");
+
     engine.Start();
 
     std::cout << "Hello, World!" << std::endl;

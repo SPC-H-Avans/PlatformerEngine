@@ -19,7 +19,7 @@ void ForceDrivenEntityBody::Update(double time_elapsed) {
 
 Point ForceDrivenEntityBody::AvoidObjects() {
 
-    Point steeringForce = Point{0, 0};
+    auto steeringForce = Point{0, 0};
 
     std::shared_ptr<GameObject> currentGameObject { GetGameObject().lock() };
     if(currentGameObject) {
@@ -55,6 +55,7 @@ Point ForceDrivenEntityBody::AvoidObjects() {
 //            }
 
             Point collisionDirection = Point::PointNormalize(nearest->GetPosition() - currentGameObject->GetTransform().position);
+            _heading += collisionDirection * -0.3;
 
             auto maxNegativeForce = _maxSpeed.x * _mass * -2.5;
 

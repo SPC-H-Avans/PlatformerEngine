@@ -39,7 +39,7 @@ namespace spic {
             return *this;
         }
 
-        auto operator *(double &Obj) -> Point
+        auto operator *(double Obj) -> Point
         {
             x *= Obj;
             y *= Obj;
@@ -67,7 +67,7 @@ namespace spic {
             return *this;
         }
 
-        auto operator +=(Point &Obj) -> Point
+        auto operator +=(Point Obj) -> Point
         {
             x += Obj.x;
             y += Obj.y;

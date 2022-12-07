@@ -13,6 +13,7 @@ Engine support for BehaviourScript OnUpdate.
 
 ### Changes
 
+- SPCH-22: Toggle play music and sound effects
 - SPCH-33: Add a camera to the game
 - SPCH-47: Send scene to new players
 - SPCH-56: Added support for custom multiplayer events

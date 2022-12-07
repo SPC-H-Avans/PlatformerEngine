@@ -26,6 +26,7 @@ namespace platformer_engine {
 
     void platformer_engine::AudioFacade::SetVolume(int volume) {
         _volume = (MIX_MAX_VOLUME * volume) / 100;
+        Mix_VolumeMusic(_volume);
     }
 
     void AudioFacade::LoadMusic(const std::string &musicName, const std::string &fileName) {
@@ -52,14 +53,14 @@ namespace platformer_engine {
         _sounds[soundName] = std::move(sound);
     }
 
-    void AudioFacade::PlayMusic(const std::string &musicName) {
+    void AudioFacade::PlayMusic(const std::string &musicName, bool loopMusic) {
         if (_music[musicName].get() == nullptr) {
             throw spic::AudioNotFoundException(musicName);
         }
 
         if (Mix_PlayingMusic() == 0) {
             Mix_Volume(1, _volume);
-            Mix_PlayMusic(_music[musicName].get(), -1);
+            Mix_PlayMusic(_music[musicName].get(), loopMusic);
         } else {
             spic::Debug::LogWarning("Tried to play new music, while music was still playing");
         }

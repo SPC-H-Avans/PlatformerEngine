@@ -19,7 +19,7 @@ namespace platformer_engine {
 
         void LoadSound(const std::string &soundName, const std::string &fileName);
 
-        void PlayMusic(const std::string &musicName);
+        void PlayMusic(const std::string &musicName, bool loopMusic);
 
         void PlaySound(const std::string &soundName);
 

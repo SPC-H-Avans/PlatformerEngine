@@ -22,8 +22,8 @@ namespace platformer_engine {
             _audioFacade->LoadSound(soundName, fileName);
         }
 
-        void PlayMusic(const std::string &musicName) {
-            _audioFacade->PlayMusic(musicName);
+        void PlayMusic(const std::string &musicName, bool loopMusic) {
+            _audioFacade->PlayMusic(musicName, loopMusic);
         }
 
         void PlaySound(const std::string &soundName) {

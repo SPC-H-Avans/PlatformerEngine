@@ -102,6 +102,8 @@ namespace platformer_engine {
 
         void JoinServer(const std::string &ip, int port);
 
+        inline auto GetFPS() -> int { return _fps; }
+
         /**
          * @brief Get a reference to the window
          * @return a reference to the window
@@ -120,6 +122,7 @@ namespace platformer_engine {
         ~Engine() = default;
 
         bool _isRunning = false;
+        int _fps = 0;
 
         std::unique_ptr<Window> _window = nullptr;
         std::unique_ptr<PhysicsSystem> _physicsSystem = nullptr;

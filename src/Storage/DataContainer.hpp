@@ -10,13 +10,16 @@
 #include <boost/archive/text_iarchive.hpp>
 #include <boost/archive/text_oarchive.hpp>
 
+/**
+ * @class Interface to encapsulate templated DataContainer in a map
+ */
 class IDataContainer {
 public:
-    IDataContainer() {}
+    IDataContainer() = default;
 
     friend class boost::serialization::access;
-    template<typename archive>
-    void serialize(archive &ar, const unsigned /*version*/) {
+    template<typename Archive>
+    void serialize(Archive &ar, const unsigned /*version*/) {
     }
 
     virtual ~IDataContainer() = default;
@@ -26,6 +29,10 @@ public:
     auto operator=(IDataContainer &&other) -> IDataContainer & = default;
 };
 
+/**
+ * @class a container to store any type of serializable data.
+ * @tparam T
+ */
 template<typename T>
 class DataContainer : public IDataContainer {
 public:
@@ -41,8 +48,8 @@ public:
     std::unique_ptr<T> value;
 
     friend class boost::serialization::access;
-    template<typename archive>
-    void serialize(archive& ar, const unsigned /*version*/) {
+    template<typename Archive>
+    void serialize(Archive& ar, const unsigned /*version*/) {
         ar & boost::serialization::base_object<IDataContainer>(*this);
         ar & value;
     }

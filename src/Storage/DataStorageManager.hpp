@@ -11,10 +11,20 @@
 #include <optional>
 
 namespace platformer_engine {
+
+    /**
+     * @class Manager for storing and retrieving data from a save file.
+     */
     class DataStorageManager {
     public:
         DataStorageManager() = default;
 
+        /**
+         * @brief Loads any serializable (boost) type to the save file
+         * @tparam T type of the serializable object
+         * @param keyName key at which the object can be found
+         * @param object object that needs to be serialized
+         */
         template<class T>
         void SaveData(std::string keyName, T object) {
             std::unordered_map<std::string, std::unique_ptr<IDataContainer>> dataMap;
@@ -40,6 +50,12 @@ namespace platformer_engine {
             ofstr.close();
         }
 
+        /**
+         * @brief Retrieve an object from the save file
+         * @tparam T type of serializable object
+         * @param keyName key at which the object can be located
+         * @return
+         */
         template<class T>
         auto LoadData(std::string keyName) -> std::optional<T> {
             std::unordered_map<std::string, std::unique_ptr<IDataContainer>> dataMap;
@@ -68,6 +84,9 @@ namespace platformer_engine {
             return std::nullopt;
         }
 
+        /**
+         * @brief replaces the current storage file with a new file.
+         */
         void ClearStorage() {
             std::ofstream ofstr {"localSave.txt", std::ofstream::out | std::ofstream::trunc};
             ofstr << "";

@@ -66,8 +66,8 @@ platformer_engine::ClientNetworkManager::ClientNetworkManager() {
     _eventMap[NET_LOADED_TEXTURES] = loadedTextures;
 
     std::function<void(int clientId, const uint8_t *data, size_t dataLength)> updateAnimation = [this](int clientId,
-                                                                                                      const uint8_t *data,
-                                                                                                      size_t dataLength) {
+                                                                                                       const uint8_t *data,
+                                                                                                       size_t dataLength) {
         UpdateAnimationFromServer(data, dataLength);
     };
     _eventMap[NET_UPDATE_ACTIVE_ANIMATION] = updateAnimation;
@@ -168,7 +168,7 @@ void platformer_engine::ClientNetworkManager::CreateGameObject(const void *data,
                                                                                      MAX_CREATE_GAME_OBJECT_SIZE,
                                                                                      gameObject);
 
-    gameObject.ResetSelf();
+    gameObject.FixGameObjectAfterDeserialize();
     std::shared_ptr<GameObject> sharedPtr = std::make_shared<GameObject>(gameObject);
     try {
         Engine::GetInstance().GetActiveScene().AddObject(sharedPtr);
@@ -219,15 +219,18 @@ void platformer_engine::ClientNetworkManager::UpdateAnimationFromServer(const vo
     auto pkg = NetPkgs::UpdateActiveAnimation();
     memcpy(&pkg, data, length);
 
-    auto gameObject = platformer_engine::Engine::GetInstance().GetActiveScene().GetObjectByName(std::string(pkg._gameObjectId));
-    if(gameObject == nullptr){
-        spic::Debug::LogWarning("GameObject " + std::string(pkg._gameObjectId) + " does not exist in the client! Ignoring packet!");
+    auto gameObject = platformer_engine::Engine::GetInstance().GetActiveScene().GetObjectByName(
+            std::string(pkg._gameObjectId));
+    if (gameObject == nullptr) {
+        spic::Debug::LogWarning(
+                "GameObject " + std::string(pkg._gameObjectId) + " does not exist in the client! Ignoring packet!");
         return;
     }
     auto playerAnimator = std::dynamic_pointer_cast<Animator>(gameObject->GetComponent<Animator>());
-    if(playerAnimator == nullptr){
+    if (playerAnimator == nullptr) {
         spic::Debug::LogWarning(
-                "GameObject " + std::string(pkg._gameObjectId) + " does not have an animator in the client! Ignoring packet!");
+                "GameObject " + std::string(pkg._gameObjectId) +
+                " does not have an animator in the client! Ignoring packet!");
         return;
     }
     playerAnimator->SetActiveAnimation(std::string(pkg._animationId));
@@ -265,7 +268,7 @@ void platformer_engine::ClientNetworkManager::InitializeMyClient(spic::GameObjec
 }
 
 void platformer_engine::ClientNetworkManager::UpdateActiveAnimation(const std::string &gameObjectId,
-                                                                   const std::string &animationId) {
+                                                                    const std::string &animationId) {
     auto pkg = NetPkgs::UpdateActiveAnimation(gameObjectId.c_str(), animationId.c_str());
     SendNetworkPackage(&pkg, sizeof(pkg), false);
 }

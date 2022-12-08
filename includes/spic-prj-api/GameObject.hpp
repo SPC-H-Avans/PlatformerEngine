@@ -16,6 +16,8 @@
 #include <boost/serialization/vector.hpp>
 #include <boost/serialization/shared_ptr.hpp>
 #include <boost/serialization/weak_ptr.hpp>
+#include <ranges>
+
 
 namespace spic {
 
@@ -24,9 +26,9 @@ namespace spic {
      */
     class GameObject {
     public:
-        template<typename archive> void serialize(archive& ar, const unsigned /*version*/) {
+        template<typename archive>
+        void serialize(archive &ar, const unsigned /*version*/) {
             ar.template register_type<Component>();
-
             ar & _name;
             ar & _tag;
             ar & _active;
@@ -37,7 +39,20 @@ namespace spic {
             ar & _self;
         }
 
+        /**
+         * @brief Reset the _self pointer to match the current GameObject. Should only be used after de-serialization
+         */
         void ResetSelf();
+
+        /**
+         * @brief Fixes the private gameObject pointer in the components this Game Object has. Should only be used after de-serialization
+         */
+        void FixComponents();
+
+        /**
+         * @brief Runs some fixes on the Game Object after it being de-serialized. Recommended to run after de-serialization
+         */
+        void FixGameObjectAfterDeserialize();
 
         /**
          * @brief Finds an active GameObject by name and returns it.
@@ -137,9 +152,7 @@ namespace spic {
         GameObject(const std::string &name, const std::string &tag);
 
 
-        GameObject& operator=(const GameObject& other);
-
-        void UpdateName(const std::string &name);
+        GameObject &operator=(const GameObject &other);
 
         /**
          * @brief Does the object exist? TODO wat wordt hiermee bedoeld?
@@ -193,22 +206,22 @@ namespace spic {
 //        */
 //        auto Children() -> std::vector<std::shared_ptr<GameObject>>;
 
-            /**
-             * @brief Add a Component of the specified type. Must be a valid
-             *        subclass of Component. The GameObject assumes ownership of
-             *        the Component.
-             * @details This function places a pointer to the component in
-             *          a suitable container.
-             * @param component Reference to the component.
-             * @spicapi
-             */
-            template<class T>
-            void AddComponent(std::shared_ptr<Component> component) {
-                if(std::is_base_of<Component, T>::value && component != nullptr) { //T is Component
-                    component->SetGameObject(_self);
-                    _self.lock()->_components[typeid(T).name()].template emplace_back(component);
-                }
+        /**
+         * @brief Add a Component of the specified type. Must be a valid
+         *        subclass of Component. The GameObject assumes ownership of
+         *        the Component.
+         * @details This function places a pointer to the component in
+         *          a suitable container.
+         * @param component Reference to the component.
+         * @spicapi
+         */
+        template<class T>
+        void AddComponent(std::shared_ptr<Component> component) {
+            if (std::is_base_of<Component, T>::value && component != nullptr) { //T is Component
+                component->SetGameObject(_self);
+                _self.lock()->_components[typeid(T).name()].template emplace_back(component);
             }
+        }
 
         /**
          * @brief Get the first component of the specified type. Must be

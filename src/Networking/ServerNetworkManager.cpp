@@ -194,7 +194,8 @@ void platformer_engine::ServerNetworkManager::CreateNetworkedPlayerCharacter(int
             sizeof(pkg), true);
 }
 
-void  platformer_engine::ServerNetworkManager::UpdateAnimation(int clientId, const std::string& gameObjectId, const std::string& animationId){
+void platformer_engine::ServerNetworkManager::UpdateAnimation(int clientId, const std::string &gameObjectId,
+                                                              const std::string &animationId) {
     auto pkg = NetPkgs::UpdateActiveAnimation(gameObjectId.c_str(), animationId.c_str());
     std::vector<int> clientIdsToExcept;
     clientIdsToExcept.push_back(clientId);
@@ -225,7 +226,7 @@ platformer_engine::ServerNetworkManager::HandleGameObjectTransformEventFromClien
                                 ", which does not (yet) exists on the server! Ignoring packet");
         return;
     }
-    gameObject->ResetSelf();
+    gameObject->FixGameObjectAfterDeserialize();
     if (gameObject->GetOwnerId() != clientId) {
         spic::Debug::LogWarning(
                 "Illegal packet received, " + std::to_string(clientId) + " tried to update GameObject " + gameObjectId +
@@ -263,7 +264,7 @@ void platformer_engine::ServerNetworkManager::HandleCreateCharacterFromClient(in
                 ". But this Game Object is already created! Ignoring this packet");
         return;
     }
-    gameObject.ResetSelf();
+    gameObject.FixGameObjectAfterDeserialize();
     platformer_engine::Engine::GetInstance().GetActiveScene().AddObject(std::make_shared<spic::GameObject>(gameObject));
     spic::Debug::Log("Created a player character for player: " + std::to_string(clientId) + ", with object ID: " +
                      gameObject.GetName());
@@ -276,22 +277,24 @@ void platformer_engine::ServerNetworkManager::HandleUpdateAnimationFromClient(in
     memcpy(&pkg, data, length);
 
     auto gameObjectFromScene = platformer_engine::Engine::GetInstance().GetActiveScene().GetObjectByName(
-           std::string(pkg._gameObjectId));
+            std::string(pkg._gameObjectId));
 
-    if(gameObjectFromScene == nullptr){
-        spic::Debug::LogWarning("Illegal packet received, " + std::to_string(clientId) + " tried to update the current animation of: " + std::string(pkg._gameObjectId) + " which does not exist on the server! Ignoring this packet");
+    if (gameObjectFromScene == nullptr) {
+        spic::Debug::LogWarning(
+                "Illegal packet received, " + std::to_string(clientId) + " tried to update the current animation of: " +
+                std::string(pkg._gameObjectId) + " which does not exist on the server! Ignoring this packet");
         return;
     }
-    if(gameObjectFromScene->GetOwnerId() != clientId){
+    if (gameObjectFromScene->GetOwnerId() != clientId) {
         spic::Debug::LogWarning(
                 "Illegal packet received, " + std::to_string(clientId) + " tried to update the current animation of " +
-                        gameObjectFromScene->GetName() +
+                gameObjectFromScene->GetName() +
                 ", which is owned by: " + std::to_string(gameObjectFromScene->GetOwnerId()) +
                 ". This should not be able to happen, check your logic! Ignoring this packet.");
         return;
     }
     auto playerAnimator = std::dynamic_pointer_cast<Animator>(gameObjectFromScene->GetComponent<Animator>());
-    if(playerAnimator == nullptr){
+    if (playerAnimator == nullptr) {
         spic::Debug::LogWarning(
                 "Illegal packet received, " + std::to_string(clientId) + " tried to update the current animation of " +
                 gameObjectFromScene->GetName() +

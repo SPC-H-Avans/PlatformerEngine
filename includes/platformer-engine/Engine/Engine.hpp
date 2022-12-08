@@ -113,11 +113,6 @@ namespace platformer_engine {
             return *_window;
         }
 
-        auto GetAudioManager() -> AudioManager & {
-            return *_audioManager;
-        };
-
-
     private:
         Engine() = default;
 
@@ -131,7 +126,6 @@ namespace platformer_engine {
         std::unique_ptr<BehaviourSystem> _behaviourSystem = nullptr;
         std::unique_ptr<ServerNetworkManager> _serverNetworkManager = nullptr;
         std::unique_ptr<ClientNetworkManager> _clientNetworkManager = nullptr;
-        std::unique_ptr<AudioManager> _audioManager = nullptr;
 
         std::vector<Scene> _scenes;
     };

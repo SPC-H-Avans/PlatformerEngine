@@ -11,12 +11,21 @@ namespace spic {
      */
     class AudioSource : public Component {
         public:
+            AudioSource(){
+                _audioClips = std::map<std::string, int>();
+            }
             /**
-             * @brief Call this method to start playing audio.
+             * @brief Call this method to start playing audio (make sure the audio file is loaded)
              * @param looping Automatically start over when done.
              * @spicapi
              */
-            void Play(bool looping);
+            void PlayMusic(const std::string & musicName, bool looping);
+
+            /**
+             * @brief Play a sound
+             * @param soundName Name of the sound you want to play
+             */
+            void PlaySound(const std::string & soundName);
 
             /**
              * @brief Call this method to stop playing audio.
@@ -24,28 +33,19 @@ namespace spic {
              */
             void Stop();
 
+            /**
+             * @brief Add an audio clip that can be played by this component
+             * @param musicName
+             * @param volume
+             */
+            void AddAudioClip(const std::string & musicName, int volume);
+
         private:
             /**
-             * @brief Path to a locally stored audio file.
+             * @brief Name of the audio clip and the volume
              */
-            std::string audioClip;
-
-            /**
-             * @brief When true, the component will start playing automatically.
-             */
-            bool playOnAwake;
-
-            /**
-             * @brief When true, the audio will play indefinitely.
-             */
-            bool loop;
-
-            /**
-             * @brief Audio volume, between 0.0 and 1.0.
-             */
-            double volume;
+            std::map<std::string, int> _audioClips;
     };
-
 }
 
 #endif // AUDIOSOURCE_H_

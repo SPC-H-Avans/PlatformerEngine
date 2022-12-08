@@ -20,7 +20,6 @@ platformer_engine::Engine::Init(int width, int height, const std::string &title,
     _renderSystem = std::make_unique<RenderSystem>();
     _physicsSystem = std::make_unique<PhysicsSystem>();
     _behaviourSystem = std::make_unique<BehaviourSystem>();
-    _audioManager = std::make_unique<AudioManager>();
 
     return true;
 }

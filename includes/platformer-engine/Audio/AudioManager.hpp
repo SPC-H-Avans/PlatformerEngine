@@ -6,8 +6,9 @@
 namespace platformer_engine {
     class AudioManager {
     public:
-        AudioManager() {
-            _audioFacade = std::make_unique<AudioFacade>();
+        static auto GetInstance() -> AudioManager& {
+            static AudioManager instance;
+            return instance;
         }
 
         /**
@@ -68,6 +69,10 @@ namespace platformer_engine {
         }
 
     private:
+        AudioManager() {
+            _audioFacade = std::make_unique<AudioFacade>();
+        }
+
         std::unique_ptr<AudioFacade> _audioFacade;
     };
 }

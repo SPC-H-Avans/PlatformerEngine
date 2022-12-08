@@ -1,6 +1,7 @@
 #include <stdexcept>
 #include "GameObject.hpp"
 #include "Exceptions/GameObjectAlreadyInSceneException.hpp"
+#include "Engine/Engine.hpp"
 
 using namespace spic;
 

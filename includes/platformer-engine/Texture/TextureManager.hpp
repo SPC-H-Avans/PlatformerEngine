@@ -5,6 +5,7 @@
 #include <utility>
 #include "Facade/GraphicsFacade.hpp"
 #include "Texture/LoadedTextureInfo.hpp"
+#include "Transform.hpp"
 
 //Singleton class to manage all textures
 namespace platformer_engine {
@@ -31,12 +32,6 @@ namespace platformer_engine {
         auto LoadTexture(const std::string &id, const std::string &fileName) -> bool;
 
         inline auto GetLoadedTextures() const -> std::vector<LoadedTextureInfo> { return _loadedTextures; };
-
-        /**
-         * @brief Remove a texture from the texture manager and memory
-         * @param id
-         */
-        void Remove(const std::string &id);
 
         /**
          * @brief Clear all textures from memory
@@ -93,6 +88,9 @@ namespace platformer_engine {
         ~TextureManager() = default;
 
         std::vector<LoadedTextureInfo> _loadedTextures;
+
+        spic::Transform GetCameraPosition();
+
     };
 }
 #endif //PLATFORMER_ENGINE_TEXTUREMANAGER_H

@@ -9,6 +9,7 @@
 #include "Texture/RenderSystem.hpp"
 #include "Networking/ServerNetworkManager.hpp"
 #include "Networking/ClientNetworkManager.hpp"
+#include "Exceptions/NoWindowException.hpp"
 #include "Behaviour/BehaviourSystem.hpp"
 #include "Networking/NetworkingStatus.hpp"
 
@@ -47,7 +48,7 @@ namespace platformer_engine {
          * @platformerengine
          */
         auto
-        Init(int width, int height, const std::string &title, const spic::Color &color, bool debugLogs = false) -> bool;
+        Init(int width, int height, const std::string &title, const spic::Color &color, bool fullScreen, bool debugLogs = false) -> bool;
 
         /**
          * @brief Start the engine, open window, start timer etc.
@@ -148,6 +149,18 @@ namespace platformer_engine {
          * @param enabled  True if debug logs are enabled, false if not
          */
         inline void SetDebugLogsEnabled(bool enabled) { _debugLogs = enabled; }
+
+        /**
+         * @brief Get a reference to the window
+         * @return a reference to the window
+         */
+        auto GetWindow() -> Window &{
+            if(_window == nullptr){
+                throw spic::NoWindowException();
+            }
+
+            return *_window;
+        }
 
     private:
         Engine() = default;

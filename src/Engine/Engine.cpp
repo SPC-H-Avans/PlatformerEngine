@@ -12,12 +12,12 @@ const int TARGET_FPS = 60;
 const double TARGET_FRAME_DELAY = 1000.0 / TARGET_FPS;
 
 auto
-platformer_engine::Engine::Init(int width, int height, const std::string &title, const spic::Color &color,
+platformer_engine::Engine::Init(int width, int height, const std::string &title, const spic::Color &color, bool fullScreen,
                                 bool debugLogs) -> bool {
     if (_window != nullptr) {
         return false;
     }
-    _window = std::make_unique<Window>(width, height, title, color);
+    _window = std::make_unique<Window>(width, height, title, color, fullScreen);
     _renderSystem = std::make_unique<RenderSystem>();
     _physicsSystem = std::make_unique<PhysicsSystem>();
     _behaviourSystem = std::make_unique<BehaviourSystem>();
@@ -35,9 +35,14 @@ void platformer_engine::Engine::Start() {
     while (_isRunning) {
         uint64_t start = Window::GetPerformanceFrequency();
 
+        std::thread renderThread([this] {
+            Render();
+        });
+
         Update();
         Events();
-        Render();
+
+        renderThread.join();
 
         float elapsedMs =
                 (Window::GetPerformanceFrequency() - start) / static_cast<float>(Window::GetPerformanceFrequency()) *

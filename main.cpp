@@ -3,6 +3,9 @@
 #include <iostream>
 #include <boost/asio/streambuf.hpp>
 #include "Networking/ProtocolPackages.hpp"
+#include "BehaviourScript.hpp"
+#include "Behaviour/CollisionBehaviour.hpp"
+#include "Builder/GameObjectBuilder.hpp"
 #include "Sprite.hpp"
 #include "Builder/GameObjectBuilder.hpp"
 #include "Utility/NetworkingBuffer.hpp"
@@ -16,68 +19,52 @@ const int SCREEN_HEIGHT = 480;
 auto main([[maybe_unused]] int argc, [[maybe_unused]] char *argv[]) -> int {
     platformer_engine::Engine &engine = platformer_engine::Engine::GetInstance();
 
-    engine.Init(SCREEN_WIDTH, SCREEN_HEIGHT, "PlatFormer Engine Debug", spic::Color::Cyan());
+    engine.Init(SCREEN_WIDTH, SCREEN_HEIGHT, "PlatFormer Engine Debug", spic::Color::Cyan(), false);
 
-    platformer_engine::TextureManager::GetInstance().LoadTexture("mario",
-                                                                 "/Users/jaap/Documents/GitHub/MarioGame/resources/Sprites/Mario/Idle.png");
     platformer_engine::SceneBuilder builder("Test Scene");
+
+    std::shared_ptr<Camera> camera = std::make_shared<Camera>("camera1", "camera", spic::Color::Cyan(), SCREEN_WIDTH,
+                                                              SCREEN_HEIGHT);
+
     auto scene = builder.GetScene();
-    Transform transform;
-    Point position;
-    position.x = 300;
-    position.y = 300;
-    transform.position = position;
-    GameObjectBuilder gameobjectBuilder(std::string(NET_PLAYER_PREFIX) + "0");
-    Sprite sprite = Sprite("mario", 15, 17);
-    gameobjectBuilder.AddSprite(sprite);
-    gameobjectBuilder.AddTransform(transform);
-    auto gameObject = gameobjectBuilder.GetGameObject();
 
-    auto boxCollider = BoxCollider();
-    boxCollider.Width(1);
-    boxCollider.Height(1);
+    GameObjectBuilder gameObjectBuilder{"speler"};
 
-    auto collider = Collider();
-    gameObject->AddComponent<BoxCollider>(std::make_shared<BoxCollider>(boxCollider));
-    //gameObject->AddComponent<Collider>(std::make_shared<Collider>(collider));
+    auto gameObject = gameObjectBuilder.GetGameObject();
 
-    boost::asio::streambuf buf;
-    platformer_engine::NetworkingBuffer::ObjectToAsioBuffer<spic::GameObject>(*gameObject, buf);
+    // Add a BoxCollider
+    auto collider = BoxCollider();
+    collider.Width(24);
+    collider.Height(24);
+    gameObject->AddComponent<BoxCollider>(std::make_shared<BoxCollider>(collider));
 
+    // Add collision behaviourscript
+    gameObject->AddComponent<BehaviourScript>(std::make_shared<platformer_engine::CollisionBehaviour>());
+
+    auto transform = Transform();
+    transform.position = Point();
+    transform.rotation = 0;
+    transform.position.x = 200;
+    transform.position.y = 300;
+    transform.scale = 1.0;
+    gameObject->SetTransform(transform);
     scene.AddObject(gameObject);
+
+    camera->SetTarget(*gameObject);
+
+    scene.AddCamera(*camera);
+
     engine.AddScene(scene);
+
+
     engine.HostServer(scene.GetSceneName(), 10, 7779);
     //engine.JoinServer("127.0.0.1", 7779);
+    NetPkgs::Ping ping;
+    engine.GetServerNetworkManager().SendUpdateToClients(&ping, sizeof(NetPkgs::Ping));
 
-    // auto &clientManager = engine.GetClientNetworkManager();
-
-
-//    std::function<void(int clientId, const uint8_t *data, size_t dataLength)> onConnect = [&clientManager](int clientId,
-//                                                                                                           const uint8_t *data,
-//                                                                                                           size_t dataLength) {
-//        clientManager.CreateScene(data, dataLength);
-//        Transform transform;
-//        Point position;
-//        position.x = 300;
-//        position.y = 300;
-//        transform.position = position;
-//        GameObjectBuilder gameobjectBuilder(std::string(NET_PLAYER_PREFIX) + std::to_string(clientManager.GetLocalPlayerId()));
-//        Sprite sprite = Sprite("mario", 15, 17);
-//        gameobjectBuilder.AddSprite(sprite);
-//        gameobjectBuilder.AddTransform(transform);
-//        gameobjectBuilder.GetGameObject();
-//
-//        auto gameObject = GameObject::Find(std::string(NET_PLAYER_PREFIX) + std::to_string(clientManager.GetLocalPlayerId()));
-//        if (gameObject == nullptr) return;
-//        clientManager.InitializeMyClient(*gameObject);
-//    };
-//
-//    clientManager.RegisterEventHandler(NET_CREATE_SCENE, onConnect);
-
-    // NetPkgs::Ping ping;
-    // engine.GetServerNetworkManager().SendUpdateToClients(&ping, sizeof(NetPkgs::Ping));
     engine.Start();
 
     std::cout << "Hello, World!" << std::endl;
     return 0;
+
 }

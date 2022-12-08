@@ -12,7 +12,7 @@ namespace platformer_engine {
     void CollisionBehaviour::OnUpdate() {
     }
 
-    void CollisionBehaviour::OnTriggerEnter2D(const Collision collision) {
+    void CollisionBehaviour::OnTriggerEnter2D(Collision collision) {
         _activeCollisions.push_back(collision);
         UpdateMoveRestriction(collision, false);
         Unstuck(collision);
@@ -53,7 +53,7 @@ namespace platformer_engine {
         }
     }
 
-    void CollisionBehaviour::Unstuck(const Collision &collision) {
+    void CollisionBehaviour::Unstuck(Collision &collision) {
         std::shared_ptr<GameObject> currentGameObject{GetGameObject().lock()};
         if (currentGameObject &&
             currentGameObject->GetOwnerId() == platformer_engine::Engine::GetInstance().GetLocalClientId()) {

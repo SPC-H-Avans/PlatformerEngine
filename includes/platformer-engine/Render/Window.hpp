@@ -23,7 +23,7 @@ namespace platformer_engine {
          * @param color The background color of the window.
          * @platformerengine
          */
-        Window(int width, int height, const std::string &title, const spic::Color &color);
+        Window(int width, int height, const std::string &title, const spic::Color &color, bool fullScreen);
 
         /**
          * @brief Render the game on the screen
@@ -64,9 +64,27 @@ namespace platformer_engine {
          */
         auto GetActiveScene() -> spic::Scene &;
 
+        /**
+         * @brief Get the screen width
+         * @return The screen width
+         */
+        auto GetWidth() const -> int {
+            return _width;
+        }
+
+        /**
+         * @brief Get the screen height
+         * @return The screen height
+         */
+        auto GetHeight() const -> int {
+            return _height;
+        }
+
         static inline auto GetTicks() -> Uint64 { return platformer_engine::GraphicsFacade::GetTicks(); };
 
     private:
+        int _width;
+        int _height;
         spic::Scene _activeScene;
     };
 }//namespace platformer_engine

@@ -20,7 +20,7 @@ namespace spic {
         auto GetCollisionById(int uid) -> Collision&;
         void AddCollision(Collision col);
         void RemoveCollision(int uid);
-        auto GetObstructsMovement() -> bool { return _obstructsMovement; }
+        auto GetObstructsMovement() const -> bool { return _obstructsMovement; }
         void SetObstructsMovement(bool obstructsMovement) { _obstructsMovement = obstructsMovement; }
     private:
         std::vector<Collision> _collisions;

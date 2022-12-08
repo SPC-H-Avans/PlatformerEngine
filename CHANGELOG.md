@@ -5,7 +5,20 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [0.0.2] - To be released
+## [0.0.3] - To be released
+
+Further development of the multiplayer component of the engine.
+
+### Changes
+- 
+
+- SPCH-57: Replicate scene on join and animations
+
+### Bug Fixes
+
+None
+
+## [0.0.2] - 05-12-2022
 
 Added multiplayer support, mario physics and a camera.
 Reading tmx files will now add GameObjects to the scene.

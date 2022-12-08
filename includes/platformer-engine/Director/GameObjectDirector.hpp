@@ -40,12 +40,11 @@ public:
     ) -> GameObject&;
 
     /**
-     * @brief Create a Player (collidable) and add it to the scene
-     * @param transform the transform of the Player
+     * @brief Create a background object (not collidable) and add it to the scene
+     * @param sprite the sprite to use
+     * @param transform the transform to use
      * @param colliderWidth the width of the collider
      * @param colliderHeight the height of the collider
-     * @param animations a vector of AnimatedSprites to use for animations
-     * @param behaviourScripts a vector of BehaviourScripts that will apply to the player
      * @return The created GameObject
      */
     static auto CreatePlayer(
@@ -53,7 +52,7 @@ public:
             int colliderWidth,
             int colliderHeight,
             std::vector<platformer_engine::AnimatedSprite>& animations,
-            const std::vector<BehaviourScript>& behaviourScripts
+            const std::vector<std::shared_ptr<BehaviourScript>>& behaviourScripts // must use pointers to store derived classes
     ) -> GameObject&;
 };
 

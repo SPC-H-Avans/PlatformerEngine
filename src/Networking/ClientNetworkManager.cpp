@@ -155,6 +155,9 @@ void platformer_engine::ClientNetworkManager::CreateScene(const void *data, size
                                                                                 scene);
 
     scene.ResetScene(); //Loads objects on instances.
+    for (const auto &item: scene.GetAllObjects()) {
+        item->FixGameObjectAfterDeserialize();
+    }
     Engine::GetInstance().AddScene(scene);
     Engine::GetInstance().SetActiveScene(scene.GetSceneName());
 }

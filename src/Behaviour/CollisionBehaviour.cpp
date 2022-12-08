@@ -2,6 +2,7 @@
 #include "GameObject.hpp"
 #include "RigidBody.hpp"
 #include "BoxCollider.hpp"
+#include "Engine/Engine.hpp"
 
 namespace platformer_engine {
 
@@ -54,7 +55,8 @@ namespace platformer_engine {
 
     void CollisionBehaviour::Unstuck(const Collision &collision) {
         std::shared_ptr<GameObject> currentGameObject{GetGameObject().lock()};
-        if (currentGameObject) {
+        if (currentGameObject &&
+            currentGameObject->GetOwnerId() == platformer_engine::Engine::GetInstance().GetLocalClientId()) {
             auto currentTransform = currentGameObject->GetTransform();
             auto currentCollider = std::dynamic_pointer_cast<BoxCollider>(
                     currentGameObject->GetComponent<BoxCollider>());

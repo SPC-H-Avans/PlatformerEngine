@@ -1,7 +1,6 @@
 #include <stdexcept>
 #include "GameObject.hpp"
 #include "Exceptions/GameObjectAlreadyInSceneException.hpp"
-#include "Engine/Engine.hpp"
 
 using namespace spic;
 
@@ -154,22 +153,6 @@ auto GameObject::IsActiveInWorld() const -> bool {
 
 void GameObject::SetTransform(const spic::Transform &transform) {
     _self.lock()->_transform = transform;
-    try {
-        auto &engine = platformer_engine::Engine::GetInstance();
-        auto localClientId = engine.GetLocalClientId();
-        if (this != nullptr && localClientId == this->GetOwnerId()) {
-            switch (engine.GetNetworkingStatus()) {
-                case platformer_engine::MultiplayerClient:
-                    engine.GetClientNetworkManager().UpdateNetworkedGameObjectTransform(transform, this->_name);
-                case platformer_engine::MultiplayerServer:
-                    engine.GetServerNetworkManager().UpdateNetworkedGameObjectTransform(transform, this->_name);
-                case platformer_engine::Singleplayer:
-                    break;
-            }
-        }
-    } catch (std::exception &e) {
-        //Just ignore the exception, we will try resending the transform later
-    }
 }
 
 auto GameObject::GetTransform() -> Transform { return _self.lock()->_transform; }

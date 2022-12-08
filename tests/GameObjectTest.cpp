@@ -6,8 +6,8 @@ class GameObjectTest : public ::testing::Test {
 };
 
 TEST_F(GameObjectTest, CanCreateGameObjectWithName) {
-    auto gameObject = spic::GameObject("Test");
-    ASSERT_EQ(gameObject.GetName(), "Test");
+    auto gameObject = spic::GameObject("CanCreateGameObjectWithNameTestObject");
+    ASSERT_EQ(gameObject.GetName(), "CanCreateGameObjectWithNameTestObject");
 }
 
 TEST_F(GameObjectTest, CanFindGameObjectByName) {

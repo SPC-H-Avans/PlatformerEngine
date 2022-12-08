@@ -16,6 +16,9 @@ void spic::Animator::AddAnimation(const platformer_engine::AnimatedSprite &anima
 }
 
 void spic::Animator::SetActiveAnimation(const std::string &animationId) {
+    if (animationId == _currentAnimation->GetSpriteId()) {
+        return;
+    }
     if (_animationMap.contains(animationId)) {
         _currentAnimation = _animationMap[animationId];
     }

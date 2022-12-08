@@ -108,6 +108,8 @@ namespace platformer_engine {
 
         void InitializeMyClient(spic::GameObject &playerChar);
 
+        void UpdateActiveAnimation(const std::string& gameObjectId, const std::string& animationId);
+
 #pragma endregion DefaultClientEvents
 
         /**
@@ -155,6 +157,8 @@ namespace platformer_engine {
         void UpdateGameObjectTransform(const void *data, size_t length);
 
         void LoadedTextures(const void *data, size_t length);
+
+        void UpdateAnimationFromServer(const void *data, size_t length);
 
 #pragma endregion HandleIncomingPackets
     };

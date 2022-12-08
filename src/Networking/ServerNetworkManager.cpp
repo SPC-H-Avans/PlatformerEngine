@@ -40,6 +40,14 @@ platformer_engine::ServerNetworkManager::ServerNetworkManager(spic::Scene &scene
     };
     _eventMap[NET_SEND_CHARACTER_TO_SERVER] = handleCreateCharacterFromClient;
 
+    std::function<void(int clientId, const uint8_t *data,
+                       size_t dataLength)> handleUpdateAnimationFromClient = [this](int clientId,
+                                                                                    const uint8_t *data,
+                                                                                    size_t dataLength) {
+        HandleUpdateAnimationFromClient(clientId, data, dataLength);
+    };
+    _eventMap[NET_UPDATE_ACTIVE_ANIMATION] = handleUpdateAnimationFromClient;
+
 }
 
 void platformer_engine::ServerNetworkManager::SendUpdateToClients(const void *data, size_t dataLength, bool reliable) {
@@ -186,6 +194,15 @@ void platformer_engine::ServerNetworkManager::CreateNetworkedPlayerCharacter(int
             sizeof(pkg), true);
 }
 
+void  platformer_engine::ServerNetworkManager::UpdateAnimation(int clientId, const std::string& gameObjectId, const std::string& animationId){
+    auto pkg = NetPkgs::UpdateActiveAnimation(gameObjectId.c_str(), animationId.c_str());
+    std::vector<int> clientIdsToExcept;
+    clientIdsToExcept.push_back(clientId);
+    SendUpdateToClientsExcept(
+            clientIdsToExcept, &pkg,
+            sizeof(pkg), true);
+}
+
 #pragma endregion DefaultServerEvents
 
 #pragma region HandlePacketsFromClient
@@ -251,6 +268,38 @@ void platformer_engine::ServerNetworkManager::HandleCreateCharacterFromClient(in
     spic::Debug::Log("Created a player character for player: " + std::to_string(clientId) + ", with object ID: " +
                      gameObject.GetName());
     CreateNetworkedPlayerCharacter(clientId, gameObject);
+}
+
+void platformer_engine::ServerNetworkManager::HandleUpdateAnimationFromClient(int clientId, const void *data,
+                                                                              size_t length) {
+    auto pkg = NetPkgs::UpdateActiveAnimation();
+    memcpy(&pkg, data, length);
+
+    auto gameObjectFromScene = platformer_engine::Engine::GetInstance().GetActiveScene().GetObjectByName(
+           std::string(pkg._gameObjectId));
+
+    if(gameObjectFromScene == nullptr){
+        spic::Debug::LogWarning("Illegal packet received, " + std::to_string(clientId) + " tried to update the current animation of: " + std::string(pkg._gameObjectId) + " which does not exist on the server! Ignoring this packet");
+        return;
+    }
+    if(gameObjectFromScene->GetOwnerId() != clientId){
+        spic::Debug::LogWarning(
+                "Illegal packet received, " + std::to_string(clientId) + " tried to update the current animation of " +
+                        gameObjectFromScene->GetName() +
+                ", which is owned by: " + std::to_string(gameObjectFromScene->GetOwnerId()) +
+                ". This should not be able to happen, check your logic! Ignoring this packet.");
+        return;
+    }
+    auto playerAnimator = std::dynamic_pointer_cast<Animator>(gameObjectFromScene->GetComponent<Animator>());
+    if(playerAnimator == nullptr){
+        spic::Debug::LogWarning(
+                "Illegal packet received, " + std::to_string(clientId) + " tried to update the current animation of " +
+                gameObjectFromScene->GetName() +
+                ", which does not have an animator! Ignoring this packet");
+        return;
+    }
+    playerAnimator->SetActiveAnimation(std::string(pkg._animationId));
+    UpdateAnimation(clientId, std::string(pkg._gameObjectId), std::string(pkg._animationId));
 }
 
 #pragma endregion HandlePacketsFromClient

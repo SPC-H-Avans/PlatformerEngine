@@ -64,6 +64,13 @@ platformer_engine::ClientNetworkManager::ClientNetworkManager() {
         LoadedTextures(data, dataLength);
     };
     _eventMap[NET_LOADED_TEXTURES] = loadedTextures;
+
+    std::function<void(int clientId, const uint8_t *data, size_t dataLength)> updateAnimation = [this](int clientId,
+                                                                                                      const uint8_t *data,
+                                                                                                      size_t dataLength) {
+        UpdateAnimationFromServer(data, dataLength);
+    };
+    _eventMap[NET_UPDATE_ACTIVE_ANIMATION] = updateAnimation;
 }
 
 void platformer_engine::ClientNetworkManager::ConnectToServer(const std::string &ip, int port) {
@@ -208,9 +215,27 @@ void platformer_engine::ClientNetworkManager::LoadedTextures(const void *data, s
     }
 }
 
+void platformer_engine::ClientNetworkManager::UpdateAnimationFromServer(const void *data, size_t length) {
+    auto pkg = NetPkgs::UpdateActiveAnimation();
+    memcpy(&pkg, data, length);
+
+    auto gameObject = platformer_engine::Engine::GetInstance().GetActiveScene().GetObjectByName(std::string(pkg._gameObjectId));
+    if(gameObject == nullptr){
+        spic::Debug::LogWarning("GameObject " + std::string(pkg._gameObjectId) + " does not exist in the client! Ignoring packet!");
+        return;
+    }
+    auto playerAnimator = std::dynamic_pointer_cast<Animator>(gameObject->GetComponent<Animator>());
+    if(playerAnimator == nullptr){
+        spic::Debug::LogWarning(
+                "GameObject " + std::string(pkg._gameObjectId) + " does not have an animator in the client! Ignoring packet!");
+        return;
+    }
+    playerAnimator->SetActiveAnimation(std::string(pkg._animationId));
+}
+
 #pragma endregion HandlePacketsFromClient
 
-#pragma region DefaultServerEvents
+#pragma region DefaultClientEvents
 
 void platformer_engine::ClientNetworkManager::UpdateNetworkedGameObjectTransform(const Transform &transform,
                                                                                  const std::string &gameObjectId) {
@@ -239,4 +264,10 @@ void platformer_engine::ClientNetworkManager::InitializeMyClient(spic::GameObjec
     SendNetworkPackage(&pkg, sizeof(pkg), false);
 }
 
-#pragma endregion DefaultServerEvents
+void platformer_engine::ClientNetworkManager::UpdateActiveAnimation(const std::string &gameObjectId,
+                                                                   const std::string &animationId) {
+    auto pkg = NetPkgs::UpdateActiveAnimation(gameObjectId.c_str(), animationId.c_str());
+    SendNetworkPackage(&pkg, sizeof(pkg), false);
+}
+
+#pragma endregion DefaultClientEvents

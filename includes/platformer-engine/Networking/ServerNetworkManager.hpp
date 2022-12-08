@@ -129,6 +129,8 @@ namespace platformer_engine {
 
         void CreateNetworkedPlayerCharacter(int clientId, const spic::GameObject &gameObjectToCreate);
 
+        void UpdateAnimation(int clientId, const std::string& gameObjectId, const std::string& animationId);
+
 #pragma endregion DefaultServerEvents
 
     private:
@@ -142,6 +144,8 @@ namespace platformer_engine {
         void HandleGameObjectTransformEventFromClient(int clientId, const void *data, size_t length);
 
         void HandleCreateCharacterFromClient(int clientId, const void *data, size_t length);
+
+        void HandleUpdateAnimationFromClient(int clientId, const void *data, size_t length);
 
 #pragma endregion HandlePacketsFromClient
     };

@@ -1,4 +1,5 @@
 #include "Animator.hpp"
+#include "Engine/Engine.hpp"
 #include <boost/serialization/export.hpp>
 
 spic::Animator::Animator(const platformer_engine::AnimatedSprite &animatedSprite, bool isPlaying,
@@ -17,6 +18,24 @@ void spic::Animator::AddAnimation(const platformer_engine::AnimatedSprite &anima
 void spic::Animator::SetActiveAnimation(const std::string &animationId) {
     if (_animationMap.contains(animationId)) {
         _currentAnimation = _animationMap[animationId];
+    }
+    try {
+        auto &engine = platformer_engine::Engine::GetInstance();
+        auto localClientId = engine.GetLocalClientId();
+        auto gameObject = GetGameObject().lock();
+        if (gameObject != nullptr && localClientId == gameObject->GetOwnerId()) {
+            switch (engine.GetNetworkingStatus()) {
+                case platformer_engine::MultiplayerClient:
+                    engine.GetClientNetworkManager().UpdateActiveAnimation(gameObject->GetName(), animationId);
+                case platformer_engine::MultiplayerServer:
+                    engine.GetServerNetworkManager().UpdateAnimation(
+                            localClientId, gameObject->GetName(), animationId);
+                case platformer_engine::Singleplayer:
+                    break;
+            }
+        }
+    } catch (std::exception &e) {
+        //Just ignore the exception, we will try resending the transform later
     }
 }
 

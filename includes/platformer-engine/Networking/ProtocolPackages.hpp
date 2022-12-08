@@ -154,6 +154,23 @@ namespace NetPkgs {
         }
     };
 
+    struct UpdateActiveAnimation : MessageHeader {
+        char _gameObjectId[MAX_GAME_OBJECT_NAME_SIZE];
+        char _animationId[MAX_ANIMATION_ID_SIZE];
+
+        UpdateActiveAnimation() : MessageHeader(NET_UPDATE_ACTIVE_ANIMATION) {}
+
+        UpdateActiveAnimation(const char *gameObjectId, const char *animationId) : MessageHeader(
+                NET_UPDATE_ACTIVE_ANIMATION) {
+            strncpy(_gameObjectId, gameObjectId, MAX_GAME_OBJECT_NAME_SIZE);
+            _gameObjectId[MAX_GAME_OBJECT_NAME_SIZE - 1] = '\0';
+
+            strncpy(_animationId, animationId, MAX_ANIMATION_ID_SIZE);
+            _animationId[MAX_ANIMATION_ID_SIZE - 1] = '\0';
+        }
+
+    };
+
 
 }  // namespace NetPkgs
 #endif //PLATFORMER_ENGINE_PROTOCOLPACKAGES_H

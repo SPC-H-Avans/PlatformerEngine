@@ -67,7 +67,11 @@ namespace spic {
         [[nodiscard]] auto GetMaxSpeed() const -> Point;
         [[nodiscard]] auto GetVelocity() const -> Point;
         [[nodiscard]] auto GetHeading() const -> Point;
+        [[nodiscard]] auto GetGravityScale() const -> float;
+        [[nodiscard]] auto GetMass() const -> float;
+        [[nodiscard]] auto GetFriction() const -> float;
         void SetHeading(Point new_heading);
+        void SetVelocity(Point velocity);
 
     protected:
         enum BodyType _bodyType;

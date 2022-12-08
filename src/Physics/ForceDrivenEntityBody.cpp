@@ -1,20 +1,20 @@
 #include "Physics/ForceDrivenEntityBody.hpp"
 #include "BoxCollider.hpp"
 
-void ForceDrivenEntityBody::Update(double time_elapsed) {
+auto ForceDrivenEntityBody::CalcSteeringForce() -> Point {
     //calculate the combined force from each steering behavior in the
     //vehicle’s list
     Point pursuitForce = _behaviours->Pursuit(_following);
     Point avoidForce = AvoidObjects();
 
-    Point steeringForce = pursuitForce + avoidForce;
+    Point steeringForce = pursuitForce;
     if(steeringForce.y < 0 && _mass != 0) {
         steeringForce.y *= 15;
     }
 
     UpdateLookAhead();
 
-    AddForce(steeringForce);
+    return steeringForce;
 }
 
 Point ForceDrivenEntityBody::AvoidObjects() {
@@ -55,7 +55,6 @@ Point ForceDrivenEntityBody::AvoidObjects() {
 //            }
 
             Point collisionDirection = Point::PointNormalize(nearest->GetPosition() - currentGameObject->GetTransform().position);
-            _heading += collisionDirection * -0.3;
 
             auto maxNegativeForce = _maxSpeed.x * _mass * -2.5;
 
@@ -100,9 +99,9 @@ void ForceDrivenEntityBody::Follow(const std::shared_ptr<GameObject>& gameObject
 }
 
 ForceDrivenEntityBody::ForceDrivenEntityBody(float friction) : RigidBody(friction), _lookAhead(25) {
-    _gravityScale = 0.055;
-    _mass = 8;
-    _maxSpeed = Point{2, 7};
+    _gravityScale = 0.005;
+    _mass = 15;
+    _maxSpeed = Point{2, 4};
     _behaviours = std::make_unique<platformer_engine::ForceDrivenEntityBehaviours>(GetGameObject());
 }
 

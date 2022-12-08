@@ -8,7 +8,6 @@ class ForceDrivenEntityBody : public RigidBody {
 
 public:
     ForceDrivenEntityBody(float friction);
-    void Update(double time_elapsed);
     void Follow(const std::shared_ptr<GameObject>& gameObject);
 
     void SetGameObject(std::weak_ptr<GameObject> gObj) override {
@@ -20,6 +19,7 @@ public:
     auto GetLookAhead() -> double;
 
     void AddNearbyCollider(Collider &collider);
+    auto CalcSteeringForce() -> Point;
 
 private:
     //the steering behavior class

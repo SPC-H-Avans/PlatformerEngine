@@ -4,6 +4,7 @@
 #include "Transform.hpp"
 #include "BehaviourScript.hpp"
 #include "Physics/PlayerRigidBody.hpp"
+#include "Physics/ForceDrivenEntityBody.hpp"
 //#include "Input.hpp"
 #include <algorithm>
 #include <unordered_map>
@@ -26,7 +27,28 @@ void PhysicsSystem::Update() {
 }
 
 void PhysicsSystem::MoveObjects() {
-    // TODO
+    vector<shared_ptr<GameObject>> gameObjects = GameObject::FindObjectsOfType<GameObject>();
+
+    for(auto& obj : gameObjects) {
+        if(obj != nullptr && obj->GetOwnerId() == _clientId) { //If owned by client
+            auto rigidBody = std::static_pointer_cast<RigidBody>(obj->GetComponent<RigidBody>());
+            if(rigidBody != nullptr && rigidBody->BodyType() == BodyType::dynamicBody) {
+                Point gravityForce {0, rigidBody->GetGravityScale() * rigidBody->GetMass()};
+                Point frictionForce {rigidBody->GetFriction() * rigidBody->GetHeading().x, 0};
+
+                Point totalForce = gravityForce + frictionForce;
+
+                auto forceDrivenEntityBody = std::dynamic_pointer_cast<ForceDrivenEntityBody>(rigidBody);
+                if(forceDrivenEntityBody != nullptr) {
+                    auto FDEForce = forceDrivenEntityBody->CalcSteeringForce();
+                    totalForce += FDEForce;
+                }
+
+                rigidBody->AddForce(totalForce);
+            }
+        }
+    }
+
 }
 
 typedef std::unordered_map<std::pair<int, int>, std::vector<shared_ptr<GameObject>>, boost::hash<std::pair<int, int>>> SpatialMap;

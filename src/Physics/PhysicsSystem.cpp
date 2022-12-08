@@ -182,6 +182,7 @@ void PhysicsSystem::RemainCollision(const shared_ptr<GameObject>& initiator, con
 void PhysicsSystem::EndCollision(const shared_ptr<GameObject>& initiator, const shared_ptr<Collider>& init_collider,
                                  const shared_ptr<GameObject>& receiver, const shared_ptr<Collider>& rec_collider,
                                  const int collisionId) {
+    if (initiator == nullptr || receiver == nullptr) return; // TODO: is this a sufficient solution?
 
     auto init_collision = init_collider->GetCollisionById(collisionId);
     auto rec_collision = rec_collider->GetCollisionById(collisionId);

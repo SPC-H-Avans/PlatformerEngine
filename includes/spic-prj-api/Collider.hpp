@@ -41,7 +41,8 @@ namespace spic {
         auto GetObstructsMovement() const -> bool { return _obstructsMovement; }
         void SetObstructsMovement(bool obstructsMovement) { _obstructsMovement = obstructsMovement; }
     private:
-        std::vector<Collision> _collisions;
+        std::vector<std::shared_ptr<Collision>> _collisions;
+//        std::vector<Collision> _collisions;
         bool _obstructsMovement = true;
     };
 

@@ -28,6 +28,11 @@ namespace platformer_engine {
         _volume = (MIX_MAX_VOLUME * volume) / 100;
     }
 
+    void AudioFacade::SetVolumeMusic(int volume) {
+        SetVolume(volume);
+        Mix_VolumeMusic(_volume);
+    }
+
     void AudioFacade::LoadMusic(const std::string &musicName, const std::string &fileName) {
         std::unique_ptr<Mix_Music, std::function<void(
                 Mix_Music *)>> music = std::unique_ptr<Mix_Music, std::function<void(Mix_Music *)>>(

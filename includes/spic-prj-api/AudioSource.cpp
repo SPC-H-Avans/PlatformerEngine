@@ -11,7 +11,7 @@ namespace spic {
 
     void AudioSource::PlaySound(const std::string &soundName) {
         if (_audioClips.contains(soundName)) {
-            platformer_engine::AudioManager::GetInstance().SetVolume(_audioClips[soundName]);
+            platformer_engine::AudioManager::GetInstance().SetVolumeMusic(_audioClips[soundName]);
             platformer_engine::AudioManager::GetInstance().PlaySound(soundName);
         }
     }

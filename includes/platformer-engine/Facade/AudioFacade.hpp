@@ -17,10 +17,16 @@ namespace platformer_engine {
         void Quit();
 
         /**
-         * @brief Set the volume of the audio system
+         * @brief Set the volume of the audio system (use this before playing music)
          * @param volume The volume to set
          */
         void SetVolume(int volume);
+
+        /**
+         * @brief Set the volume of the music (that is already playing)
+         * @param volume The volume to set
+         */
+        void SetVolumeMusic(int volume);
 
         /**
          * @brief Load a music file

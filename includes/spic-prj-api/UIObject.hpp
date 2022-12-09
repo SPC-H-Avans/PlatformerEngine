@@ -11,11 +11,29 @@ namespace spic {
      */
     class UIObject : public GameObject {
         public:
-            UIObject(const std::string &name, const std::string &tag, double width, double height);
+            /**
+             * @brief UIObject constructor
+             * @spicapi
+             */
+            UIObject(const std::string &name, double width, double height);
 
-        private:
-            double width;
-            double height;
+            virtual void Render() = 0;
+
+            /**
+             * @brief Get the width
+             * @spicapi
+             */
+            inline auto GetWidth() -> double { return _width; }
+
+            /**
+             * @brief Get the height
+             * @spicapi
+             */
+            inline auto GetHeight() -> double { return _height; }
+
+    protected:
+            double _width;
+            double _height;
     };
 
 }

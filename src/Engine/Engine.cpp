@@ -21,6 +21,7 @@ platformer_engine::Engine::Init(int width, int height, const std::string &title,
     _renderSystem = std::make_unique<RenderSystem>();
     _physicsSystem = std::make_unique<PhysicsSystem>();
     _behaviourSystem = std::make_unique<BehaviourSystem>();
+    _clickSystem = std::make_unique<ClickSystem>();
 
     _debugLogs = debugLogs;
 
@@ -57,11 +58,11 @@ void platformer_engine::Engine::Start() {
 void platformer_engine::Engine::Update() {
     auto &timer = Timer::Instance();
     timer.Update();
+    //Call systems
     _physicsSystem->Update();
     _renderSystem->Update();
     _behaviourSystem->Update();
-
-    //Call systems
+    _clickSystem->Update();
 }
 
 void platformer_engine::Engine::Events() {

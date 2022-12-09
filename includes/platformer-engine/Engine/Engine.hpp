@@ -1,16 +1,20 @@
 #ifndef PLATFORMER_ENGINE_ENGINE_HPP
 #define PLATFORMER_ENGINE_ENGINE_HPP
 
+#include <memory>
+
 #include "Render/Window.hpp"
 #include "Timer/Timer.hpp"
-#include "Physics/PhysicsSystem.hpp"
-#include <memory>
 #include "Scene.hpp"
+#include "Physics/PhysicsSystem.hpp"
 #include "Texture/RenderSystem.hpp"
+#include "Behaviour/BehaviourSystem.hpp"
+#include "UI/ClickSystem.hpp"
 #include "Networking/ServerNetworkManager.hpp"
 #include "Networking/ClientNetworkManager.hpp"
 #include "Exceptions/NoWindowException.hpp"
 #include "Behaviour/BehaviourSystem.hpp"
+#include "Networking/NetworkingStatus.hpp"
 
 namespace platformer_engine {
     /**
@@ -42,10 +46,12 @@ namespace platformer_engine {
          * @param height The height of the window in px
          * @param title  Title of the window
          * @param color Color of the window background
+         * @param debugLogs Enable debug logs
          * @return bool True if the engine is initialized, false if not
          * @platformerengine
          */
-        auto Init(int width, int height, const std::string &title, const spic::Color &color, bool fullScreen) -> bool;
+        auto
+        Init(int width, int height, const std::string &title, const spic::Color &color, bool fullScreen, bool debugLogs = false) -> bool;
 
         /**
          * @brief Start the engine, open window, start timer etc.
@@ -90,15 +96,62 @@ namespace platformer_engine {
          */
         auto GetActiveScene() -> spic::Scene &;
 
+        /**
+         * @brief Add a scene to the scene list
+         * @param scene
+         */
         void AddScene(const Scene &scene);
 
+        /**
+         * @brief Get the server network manager when active
+         * @return ServerNetworkManager
+         */
         auto GetServerNetworkManager() -> ServerNetworkManager &;
 
+        /**
+         * @brief Get the client network manager when active
+         * @return ClientNetworkManager
+         */
         auto GetClientNetworkManager() -> ClientNetworkManager &;
 
+        /**
+         * @brief Host a new server and load into a scene
+         * @param sceneId scene to use
+         * @param playerLimit Max player amount
+         * @param port Port
+         */
         void HostServer(const std::string &sceneId, int playerLimit, int port);
 
+        /**
+         * @brief Join a server by IP and port
+         * @param ip IP of the server
+         * @param port Port of the server
+         */
         void JoinServer(const std::string &ip, int port);
+
+        /**
+         * @brief Get local client is, local client id is 0 when not in a server or when being the host
+         * @return int local client id
+         */
+        auto GetLocalClientId() -> const int;
+
+        /**
+         * @brief Get the networking status
+         * @return NetworkingStatus
+         */
+        auto GetNetworkingStatus() -> const NetworkingStatus;
+
+        /**
+         * @brief Is debug logs enabled
+         * @return bool True if debug logs are enabled, false if not
+         */
+        [[nodiscard]] inline auto IsDebugLogsEnabled() const -> bool { return _debugLogs; }
+
+        /**
+         * @brief Set debug logs enabled
+         * @param enabled  True if debug logs are enabled, false if not
+         */
+        inline void SetDebugLogsEnabled(bool enabled) { _debugLogs = enabled; }
 
         /**
          * @brief Get a reference to the window
@@ -118,11 +171,13 @@ namespace platformer_engine {
         ~Engine() = default;
 
         bool _isRunning = false;
+        bool _debugLogs = false;
 
         std::unique_ptr<Window> _window = nullptr;
         std::unique_ptr<PhysicsSystem> _physicsSystem = nullptr;
         std::unique_ptr<RenderSystem> _renderSystem = nullptr;
         std::unique_ptr<BehaviourSystem> _behaviourSystem = nullptr;
+        std::unique_ptr<ClickSystem> _clickSystem = nullptr;
         std::unique_ptr<ServerNetworkManager> _serverNetworkManager = nullptr;
         std::unique_ptr<ClientNetworkManager> _clientNetworkManager = nullptr;
 

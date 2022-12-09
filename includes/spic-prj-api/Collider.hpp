@@ -38,7 +38,9 @@ namespace spic {
         void AddCollision(Collision col);
 
         void RemoveCollision(int uid);
-        auto GetObstructsMovement() const -> bool { return _obstructsMovement; }
+
+        [[nodiscard]] auto GetObstructsMovement() const -> bool { return _obstructsMovement; }
+
         void SetObstructsMovement(bool obstructsMovement) { _obstructsMovement = obstructsMovement; }
     private:
         std::vector<std::shared_ptr<Collision>> _collisions;

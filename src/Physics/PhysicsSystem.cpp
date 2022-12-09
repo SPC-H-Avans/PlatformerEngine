@@ -206,7 +206,7 @@ void PhysicsSystem::EndCollision(const shared_ptr<GameObject> &initiator, const 
         for (auto &script: initiator->GetComponents<BehaviourScript>())
             std::static_pointer_cast<BehaviourScript>(script)->OnTriggerExit2D(init_collision.value());
     }
-    if (initiator != nullptr && rec_collision.has_value()) {
+    if (receiver != nullptr && rec_collision.has_value()) {
         for (auto &script: receiver->GetComponents<BehaviourScript>())
             std::static_pointer_cast<BehaviourScript>(script)->OnTriggerExit2D(rec_collision.value());
     }

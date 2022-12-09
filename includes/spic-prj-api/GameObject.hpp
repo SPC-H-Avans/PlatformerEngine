@@ -190,7 +190,7 @@ namespace spic {
          * @return name of the gameobject
          * @spicapi
          */
-        [[nodiscard]] auto GetName() const -> std::string;
+        auto GetName() const -> std::string;
 
         /**
         * @brief Returns the tag of the GameObject

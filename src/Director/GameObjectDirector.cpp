@@ -4,8 +4,10 @@
 #include "Engine/Engine.hpp"
 #include "Physics/PlayerRigidBody.hpp"
 #include "BehaviourScript.hpp"
+#include "Text.hpp"
+#include "Button.hpp"
 
-auto GameObjectDirector::CreateTile(const spic::Sprite& sprite,
+auto GameObjectDirector::CreateTile(const spic::Sprite& sprite, // TODO: switch sprite and transform for consistency
                                     Transform transform, int colliderWidth, int colliderHeight) -> GameObject& {
     auto& scene = platformer_engine::Engine::GetInstance().GetActiveScene();
     auto builder =
@@ -70,4 +72,31 @@ auto GameObjectDirector::CreatePlayer(Transform transform, int colliderWidth, in
 
     scene.AddObject(obj);
     return *obj;
+}
+
+auto GameObjectDirector::CreateText(Transform transform, const std::string objectId, const std::string& text,
+                                    const std::string& fontPath, int textWidth, int textHeight,
+                                    int fontSize, Color textColor) -> Text& {
+    auto& scene = platformer_engine::Engine::GetInstance().GetActiveScene();
+    auto obj = Text(objectId, textWidth, textHeight, text, fontPath, fontSize, textColor);
+
+    obj.SetTransform(transform);
+
+    scene.AddUIObject(std::make_shared<Text>(obj));
+    auto foo = std::make_shared<Text>(obj);
+    return *foo;
+}
+
+auto GameObjectDirector::CreateButton(Transform transform, const std::string objectId, const spic::Sprite& sprite,
+                                      const std::string& imgPath, int buttonWidth, int buttonHeight,
+                                      std::function<void()> onClick) -> Button& {
+    auto& scene = platformer_engine::Engine::GetInstance().GetActiveScene();
+    auto obj = Button(objectId, sprite, imgPath, buttonWidth, buttonHeight);
+
+    obj.SetTransform(transform);
+    obj.OnClick(onClick);
+
+    scene.AddUIObject(std::make_shared<Button>(obj));
+    auto foo = std::make_shared<Button>(obj);
+    return *foo;
 }

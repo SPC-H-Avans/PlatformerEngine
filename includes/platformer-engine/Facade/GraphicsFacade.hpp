@@ -77,6 +77,16 @@ namespace platformer_engine {
         auto LoadTexture(const std::string &id, const std::string &fileName) -> bool;
 
         /**
+         * @brief Load a text object
+         */
+        auto LoadUIText(const std::string textId, const std::string filePath, const std::string text, const int fontSize, const spic::Color color) -> bool;
+
+        /**
+         * @brief Create a Text element, or update it if the textId already exists
+         */
+        auto CreateOrUpdateUIText(const std::string textId, const std::string filePath, const std::string text, const int fontSize, const spic::Color color) -> bool;
+
+        /**
          * @brief Draw a texture (complete png for example)
          * @param id
          * @param x
@@ -88,6 +98,11 @@ namespace platformer_engine {
         void DrawTexture(const std::string &id, int x, int y, int width, int height,
                          const SPIC_RendererFlip &flip = FLIP_NONE, double scale = 1.0,
                          int spriteSheetX = 0, int spriteSheetY = 0);
+
+        /**
+         * @brief Draw a text UI element
+         */
+        void DrawUIText(const std::string textId, const int x, const int y, const int width, const int height);
 
         void DrawFrame(const std::string &id, int x, int y, int width, int height, int row, int frame,
                        const SPIC_RendererFlip &flip = FLIP_NONE, double scale = 1.0);
@@ -108,6 +123,8 @@ namespace platformer_engine {
         std::unique_ptr<SDL_Renderer, std::function<void(SDL_Renderer *)>> _renderer{nullptr};
         std::map<std::string, std::unique_ptr<SDL_Texture, std::function<void(
                 SDL_Texture *)>>> _textureMap;
+        std::map<std::string, std::unique_ptr<SDL_Texture, std::function<void(
+                SDL_Texture *)>>> _uiTextMap;
 
         /**
          * @brief Converts the color value, which is a double between 0 and 1 to a value between 0 and 255 as int

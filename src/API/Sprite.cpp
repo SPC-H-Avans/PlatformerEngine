@@ -15,4 +15,5 @@ void spic::Sprite::Render(spic::Transform transform) {
     textureManager.DrawTexture(_spriteId, transform.position.x, transform.position.y, _spriteWidth, _spriteHeight,
                                _flip, _spriteScale, _spriteSheetX, _spriteSheetY);
 }
+
 BOOST_CLASS_EXPORT(spic::Sprite);

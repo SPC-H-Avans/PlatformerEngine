@@ -68,7 +68,7 @@ auto GameObjectDirector::CreatePlayer(int playerId, Transform transform, int col
                                       const std::vector<std::shared_ptr<BehaviourScript>> &behaviourScripts) -> GameObject & {
     auto &scene = platformer_engine::Engine::GetInstance().GetActiveScene();
 
-    auto builder = GameObjectBuilder(std::string(NET_PLAYER_PREFIX) + std::to_string(playerId))
+    auto builder = GameObjectBuilder(std::string(NET_PLAYER_PREFIX) + std::to_string(playerId), "player")
             // animations
             .AddAnimator(animations).SetOwnerId(playerId);
     auto obj = builder.GetGameObject();

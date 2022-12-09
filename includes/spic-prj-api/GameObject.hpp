@@ -389,6 +389,7 @@ namespace spic {
         //Multiton Pattern
         static std::map<std::string, std::shared_ptr<GameObject>> _instances;
 
+        std::string GetTag() const;
     };
 
 } // namespace spic

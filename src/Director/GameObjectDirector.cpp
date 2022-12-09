@@ -38,6 +38,31 @@ auto GameObjectDirector::CreateBackgroundObject(const spic::Sprite &sprite,
     return *obj;
 }
 
+auto GameObjectDirector::CreateFlag(const spic::Sprite& sprite,
+                                    Transform transform, int colliderWidth, int colliderHeight,
+                                    const std::vector<std::shared_ptr<BehaviourScript>>& behaviourScripts) -> GameObject & {
+    auto& scene = platformer_engine::Engine::GetInstance().GetActiveScene();
+    auto builder =
+            GameObjectBuilder("flag" + std::to_string(scene.GetObjectCount()))
+                    .AddSprite(sprite);
+
+    auto obj = builder.GetGameObject();
+    obj->SetTransform(transform);
+
+    // collider
+    auto collider = BoxCollider();
+    collider.Width(colliderWidth);
+    collider.Height(colliderHeight);
+    obj->AddComponent<BoxCollider>(std::make_shared<BoxCollider>(collider));
+
+    // scripts
+    for (const auto &script: behaviourScripts) {
+        obj->AddComponent<BehaviourScript>(script);
+    }
+
+    return *obj;
+}
+
 auto GameObjectDirector::CreatePlayer(int playerId, Transform transform, int colliderWidth, int colliderHeight,
                                       std::vector<platformer_engine::AnimatedSprite> &animations,
                                       const std::vector<std::shared_ptr<BehaviourScript>> &behaviourScripts) -> GameObject & {

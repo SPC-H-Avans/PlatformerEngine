@@ -91,6 +91,9 @@ public:
     static auto CreateButton(Transform transform, const std::string objectId, const spic::Sprite& sprite,
                              const std::string& imgPath, int buttonWidth, int buttonHeight,
                              std::function<void()> onClick) -> Button&;
+
+    static auto CreateFlag(const Sprite &sprite, Transform transform, int colliderWidth, int colliderHeight,
+                          const std::vector<std::shared_ptr<BehaviourScript>> &behaviourScripts) -> GameObject&;
 };
 
 #endif //PLATFORMER_ENGINE_GAMEOBJECTDIRECTOR_HPP

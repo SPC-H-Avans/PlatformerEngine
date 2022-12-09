@@ -7,6 +7,8 @@
 #include "Point.hpp"
 #include "Transform.hpp"
 #include <boost/serialization/access.hpp>
+#include <boost/serialization/map.hpp>
+#include <boost/serialization/shared_ptr.hpp>
 
 namespace spic {
 
@@ -16,12 +18,20 @@ namespace spic {
     class Animator : public Component {
     public:
 
-        template<typename archive> void serialize(archive& ar, const unsigned /*version*/) {
+        Animator();
+
+        ~Animator() = default;
+
+        template<typename archive>
+        void serialize(archive &ar, const unsigned /*version*/) {
+            ar & boost::serialization::base_object<Component, Animator>(*this);
+            boost::serialization::void_cast_register<Animator, Component>();
             ar & _animationMap;
             ar & _currentAnimation;
             ar & _isPlaying;
             ar & _isLooping;
         }
+
         Animator(const platformer_engine::AnimatedSprite &animatedSprite, bool isPlaying = true,
                  bool isLooping = true);
 
@@ -77,13 +87,13 @@ namespace spic {
         /**
          * @brief boolean to toggle if an animation is playing
          */
-        bool _isPlaying;
+        bool _isPlaying = true;
         /**
          * @brief boolean to toggle if an animation is looping
          */
-        bool _isLooping;
+        bool _isLooping = true;
     };
 
-}
+}  // namespace spic
 
 #endif // ANIMATOR_H_

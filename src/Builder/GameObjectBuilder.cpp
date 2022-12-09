@@ -28,7 +28,8 @@ auto GameObjectBuilder::AddAnimator(platformer_engine::AnimatedSprite &animatedS
     return *this;
 }
 
-auto GameObjectBuilder::AddAnimator(std::vector<platformer_engine::AnimatedSprite> &animatedSprite) -> GameObjectBuilder & {
+auto
+GameObjectBuilder::AddAnimator(std::vector<platformer_engine::AnimatedSprite> &animatedSprite) -> GameObjectBuilder & {
     if (animatedSprite.empty()) {
         throw std::invalid_argument("animatedSprite is empty");
     }
@@ -61,5 +62,15 @@ auto GameObjectBuilder::AddRigidBody() -> GameObjectBuilder & {
 
 auto GameObjectBuilder::AddSprite(const spic::Sprite &sprite) -> GameObjectBuilder & {
     _gameObject->AddComponent<Sprite>(std::make_shared<Sprite>(sprite));
+    return *this;
+}
+
+auto GameObjectBuilder::AddTransform(const spic::Transform &transform) -> GameObjectBuilder & {
+    _gameObject->SetTransform(transform);
+    return *this;
+}
+
+auto GameObjectBuilder::SetOwnerId(int ownerId) -> GameObjectBuilder & {
+    _gameObject->SetOwnerId(ownerId);
     return *this;
 }

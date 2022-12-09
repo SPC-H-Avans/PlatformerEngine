@@ -60,7 +60,7 @@ auto main([[maybe_unused]] int argc, [[maybe_unused]] char *argv[]) -> int {
     //engine.JoinServer("127.0.0.1", 7779); 
 
     NetPkgs::Ping ping;
-    engine.GetServerNetworkManager().SendUpdateToClients(&ping, sizeof(NetPkgs::Ping));*/
+    engine.GetServerNetworkManager().SendUpdateToClients(&ping, sizeof(NetPkgs::Ping));
 
     //Save and Load data to a local file
     //GameObject ("TEST");

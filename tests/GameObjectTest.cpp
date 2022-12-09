@@ -11,9 +11,9 @@ TEST_F(GameObjectTest, CanCreateGameObjectWithName) {
 }
 
 TEST_F(GameObjectTest, CanFindGameObjectByName) {
-    spic::GameObject("Test"); // NOLINT(bugprone-unused-raii)
-    auto gameObject = spic::GameObject::Find("Test");
-    auto gameObject2 = spic::GameObject::Find("Test2");
+    spic::GameObject("Test_GameObjectTest"); // NOLINT(bugprone-unused-raii)
+    auto gameObject = spic::GameObject::Find("Test_GameObjectTest");
+    auto gameObject2 = spic::GameObject::Find("Test2_GameObjectTest");
     ASSERT_TRUE(gameObject != nullptr);
     ASSERT_TRUE(gameObject2 == nullptr);
 }

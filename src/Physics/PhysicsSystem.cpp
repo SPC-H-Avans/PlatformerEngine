@@ -185,11 +185,11 @@ void PhysicsSystem::EndCollision(const shared_ptr<GameObject>& initiator, const 
     std::optional<Collision> init_collision = std::nullopt;
     std::optional<Collision> rec_collision = std::nullopt;
     if (init_collider != nullptr ) {
-        init_collision.value() = init_collider->GetCollisionById(collisionId);
+        init_collision = init_collider->GetCollisionById(collisionId);
         init_collider->RemoveCollision(collisionId);
     }
     if (rec_collider != nullptr ) {
-        rec_collision.value() = rec_collider->GetCollisionById(collisionId);
+        rec_collision = rec_collider->GetCollisionById(collisionId);
         rec_collider->RemoveCollision(collisionId);
     }
 

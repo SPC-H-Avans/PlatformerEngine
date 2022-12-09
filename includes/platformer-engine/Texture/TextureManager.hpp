@@ -4,6 +4,7 @@
 #include <string>
 #include <utility>
 #include "Facade/GraphicsFacade.hpp"
+#include "Texture/LoadedTextureInfo.hpp"
 #include "Transform.hpp"
 
 //Singleton class to manage all textures
@@ -30,6 +31,18 @@ namespace platformer_engine {
          */
         auto LoadTexture(const std::string &id, const std::string &fileName) -> bool;
 
+        inline auto GetLoadedTextures() const -> std::vector<LoadedTextureInfo> { return _loadedTextures; };
+
+        /**
+         * @brief Create a Text element, or update it if the textId already exists
+         * @param textId Id of the text element
+         * @param filePath Path to the font file
+         * @param text Text to display
+         * @param fontSize Size of the font
+         * @param color Color of the font
+         */
+        auto CreateOrUpdateUIText(const std::string textId, const std::string filePath, const std::string text, const int fontSize, const spic::Color color) -> bool;
+
         /**
          * @brief Clear all textures from memory
          * @return
@@ -51,18 +64,30 @@ namespace platformer_engine {
                          int spriteSheetX = 0, int spriteSheetY = 0);
 
         /**
-         * @brief Render a Game Map tile on the screen
-         * @param tileSetID ID of the texture
-         * @param tileSize size of the tile to render
-         * @param x X location on the screen
-         * @param y Y location on the screen
-         * @param row Row where the sprite can be found
-         * @param frame Frame where to sprite can be found
-         * @param flip Flip the texture according to SPIC_RendererFlip Enum
-         * @param scale Scale of the sprite
+         * @brief Draw a button UI element
+         * @param id ID of the UIButton
+         * @param x X position on the window
+         * @param y Y position on the window
+         * @param width width of the button
+         * @param height height of the button
+         * @param flip flip of the button
+         * @param scale scale of the button, where 1.0 = 100%
+         * @param spriteSheetX the sprite's x position on the spriteSheet
+         * @param spriteSheetY the sprite's y position on the spriteSheet
          */
-//        void DrawTile(const std::string &tileSetID, int tileSize, int x, int y, int row, int frame,
-//                      const SPIC_RendererFlip &flip = FLIP_NONE, double scale = 1.0);
+        void DrawUIButton(const std::string &id, int x, int y, int width, int height,
+                                const SPIC_RendererFlip &flip = FLIP_NONE, double scale = 1.0,
+                                int spriteSheetX = 0, int spriteSheetY = 0);
+
+        /**
+         * @brief Draw a text UI element
+         * @param textId ID of the UIButton
+         * @param x X position on the window
+         * @param y Y position on the window
+         * @param width width of the text
+         * @param height height of the text
+         */
+        void DrawUIText(const std::string textId, const int x, const int y, const int width, const int height);
 
         /**
          * @brief Draw a frame of a sprite sheet animation
@@ -83,6 +108,8 @@ namespace platformer_engine {
         TextureManager() = default;
 
         ~TextureManager() = default;
+
+        std::vector<LoadedTextureInfo> _loadedTextures;
 
         spic::Transform GetCameraPosition();
 

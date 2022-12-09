@@ -13,17 +13,30 @@ constexpr int NET_CREATE_GAMEOBJECT = 14;
 constexpr int NET_DESTROY_GAMEOBJECT = 15;
 constexpr int NET_UPDATE_GAMEOBJECT_TRANSFORM = 16;
 constexpr int NET_CREATE_SCENE = 17;
+constexpr int NET_SEND_CHARACTER_TO_SERVER = 18;
+constexpr int NET_LOADED_TEXTURES = 19;
+constexpr int NET_UPDATE_ACTIVE_ANIMATION = 20;
 
 #pragma endregion NET_PACKET_IDS
+
+#pragma region NET_DEFAULT_EVENTS
+constexpr int NET_ON_CONNECT = 1;
+constexpr int NET_ON_DISCONNECT = 2;
+#pragma endregion NET_DEFAULT_EVENTS
 
 #pragma region MAX_PACKAGE_SIZES
 
 
-constexpr int MAX_CREATE_GAME_OBJECT_SIZE = 256;
-constexpr int MAX_CREATE_SCENE_SIZE = 10240;
+constexpr int MAX_CREATE_GAME_OBJECT_SIZE = 2048;
+constexpr int MAX_CREATE_SCENE_SIZE = 269098;
+constexpr int MAX_SEND_CHARACTER_TO_SERVER_SIZE = 2048;
 constexpr int MAX_GAME_OBJECT_NAME_SIZE = 256;
+constexpr int MAX_ANIMATION_ID_SIZE = 256;
 constexpr int MAX_UPDATE_TRANSFORM_SIZE = 128;
+constexpr int MAX_LOADED_TEXTURES_SIZE = 102400;
 
 #pragma endregion MAX_PACKAGE_SIZES
+
+constexpr const char *const NET_PLAYER_PREFIX = "PLAYER-";
 
 #endif //PLATFORMER_ENGINE_PROTOCOLDEFINITIONS_HPP

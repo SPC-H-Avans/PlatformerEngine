@@ -1,4 +1,5 @@
 #include "Debug.hpp"
+#include "Engine/Engine.hpp"
 #include <iostream>
 
 void spic::Debug::LogWarning(const std::string &warning) {
@@ -10,5 +11,7 @@ void spic::Debug::LogError(const std::string &error) {
 }
 
 void spic::Debug::Log(const std::string &message) {
-    std::cout << "LOG: " << message << std::endl;
+    if (platformer_engine::Engine::GetInstance().IsDebugLogsEnabled()) {
+        std::cout << "LOG: " << message << std::endl;
+    }
 }

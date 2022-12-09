@@ -5,6 +5,11 @@
 
 #include "GameObject.hpp"
 #include "Camera.hpp"
+#include <boost/serialization/access.hpp>
+#include <boost/serialization/export.hpp>
+#include <boost/serialization/shared_ptr.hpp>
+#include <boost/serialization/vector.hpp>
+#include "UIObject.hpp"
 
 namespace spic {
 
@@ -17,6 +22,7 @@ namespace spic {
         void serialize(archive &ar, const unsigned /*version*/) {
             ar & _sceneName;
             ar & _origins;
+            //ar & _contents;
             ar & _activeCamera;
             ar & _cameras;
         }
@@ -39,6 +45,13 @@ namespace spic {
         void AddObject(const std::shared_ptr<GameObject> &gameObject);
 
         /**
+         * @brief Add a new UI Object to this scene
+         * @param uiObject
+         * @spicapi
+         */
+        void AddUIObject(const std::shared_ptr<spic::UIObject>& uiObject);
+
+        /**
          * @brief Remove a Game Object from this scene by name
          * @param name Name of the Game Objects that needs to be removed from this scene
          * @spicapi
@@ -53,9 +66,24 @@ namespace spic {
          */
         auto GetObjectByName(const std::string &name) -> std::shared_ptr<GameObject>;
 
+        /**
+         * @brief Get the GameObjects in this scene
+         * @spicapi
+         */
         [[nodiscard]] inline auto
         GetAllObjects() const -> std::vector<std::shared_ptr<GameObject>> { return _contents; };
 
+        /**
+         * @brief Get the UIObjects in this scene
+         * @spicapi
+         */
+        [[nodiscard]] inline auto
+        GetAllUIObjects() const -> std::vector<std::shared_ptr<UIObject>> { return _uiObjects; };
+
+        /**
+         * @brief Get the number of GameObjects currently in this scene
+         * @spicapi
+         */
         auto GetObjectCount() -> int;
 
         /**
@@ -121,10 +149,21 @@ namespace spic {
         void RenderGameObjects();
 
         /**
+         * @brief Render all UIObjects in this scene
+         */
+        void RenderUIObjects();
+
+        /**
          * @brief List of all Game Object Unique Identifiers in this scene
          * @spicapi
          */
         std::vector<std::shared_ptr<GameObject>> _contents;
+
+        /**
+         * @brief List of all UIObjects in this scene
+         * @spicapi
+         */
+        std::vector<std::shared_ptr<UIObject>> _uiObjects;
 
         /**
          * @brief Default values of the objects used to reset a scene after its been played.

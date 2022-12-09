@@ -12,6 +12,19 @@ namespace spic {
     class Button : public UIObject {
         public:
             /**
+             * @brief Button constructor
+             * @spicapi
+             */
+            Button(const std::string &name, const Sprite& sprite, const std::string imgPath,
+                   double width, double height, bool disabled = false);
+
+            /**
+             * @brief Render the button
+             * @spicapi
+             */
+            void Render() override;
+
+            /**
              * @brief This function is called when the button is clicked, which
              *        will trigger a call to the registered onClick member.
              * @spicapi
@@ -26,6 +39,12 @@ namespace spic {
              */
             void OnClick(std::function<void()> callback) { onClick = callback; }
 
+            /**
+             * @brief Get the sprite
+             * @spicapi
+             */
+            inline auto GetSprite() -> Sprite { return _sprite; }
+
         private:
             /**
              * @brief When false, the button will not react to clicks.
@@ -36,6 +55,11 @@ namespace spic {
              * @brief The registered click handler.
              */
             std::function<void()> onClick;
+
+            /**
+             * @brief The sprite to render when the button is clicked.
+             */
+            Sprite _sprite;
     };
 
 }

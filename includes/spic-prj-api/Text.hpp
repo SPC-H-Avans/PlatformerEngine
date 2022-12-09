@@ -22,12 +22,27 @@ namespace spic {
      * @spicapi
      */
     class Text : public UIObject {
+        public:
+            /**
+             * @brief Text constructor
+             * @spicapi
+             */
+            Text(const std::string& name, double width, double height,
+                 const std::string& text, const std::string& fontPath,
+                 int fontSize = 24, Color color = Color::Black(),
+                 Alignment alignment = Alignment::center); // alignment is currently unused
+
+            /**
+            * @brief Render the Text
+            * @spicapi
+            */
+            void Render() override;
         private:
-            std::string text;
-            std::string font;
-            int size;
-            Alignment alignment;
-            Color color;
+            std::string _text;
+            std::string _font;
+            int _size;
+            Alignment _alignment;
+            Color _color;
     };
 
 }

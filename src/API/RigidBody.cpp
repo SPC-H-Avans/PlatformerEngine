@@ -1,6 +1,7 @@
 #include "RigidBody.hpp"
 #include "Exceptions/IllegalCollisionBehaviourException.hpp"
 #include "GameObject.hpp"
+#include "Engine/Engine.hpp"
 
 void spic::RigidBody::AddForce(const spic::Point &force) {
     auto x_acceleration = force.x / _mass;
@@ -33,20 +34,39 @@ void spic::RigidBody::AddForce(const spic::Point &force) {
         transform.position.x += _velocity.x;
         transform.position.y += _velocity.y;
         gameObject->SetTransform(transform);
+
+        try {
+            auto &engine = platformer_engine::Engine::GetInstance();
+            auto localClientId = engine.GetLocalClientId();
+            if (gameObject != nullptr && localClientId == gameObject->GetOwnerId()) {
+                switch (engine.GetNetworkingStatus()) {
+                    case platformer_engine::MultiplayerClient:
+                        engine.GetClientNetworkManager().UpdateNetworkedGameObjectTransform(transform,
+                                                                                            gameObject->GetName());
+                    case platformer_engine::MultiplayerServer:
+                        engine.GetServerNetworkManager().UpdateNetworkedGameObjectTransform(transform,
+                                                                                            gameObject->GetName());
+                    case platformer_engine::Singleplayer:
+                        break;
+                }
+            }
+        } catch (std::exception &e) {
+            //Just ignore the exception, we will try resending the transform later
+        }
     } else { // GameObject was already deleted
         gameObject.reset();
     }
 }
 
 bool spic::RigidBody::CanMoveTo(CollisionPoint point) {
-    if(_moveRestrictions.contains(point)) {
+    if (_moveRestrictions.contains(point)) {
         return _moveRestrictions[point] == 0;
     }
     return true;
 }
 
 void spic::RigidBody::AllowMoveTo(CollisionPoint point) {
-    if(_moveRestrictions[point] <= 0) { // Numbers below zero are illegal
+    if (_moveRestrictions[point] <= 0) { // Numbers below zero are illegal
         throw IllegalCollisionBehaviourException(_bodyType, point);
     }
     _moveRestrictions[point] -= 1;
@@ -67,3 +87,10 @@ auto RigidBody::GetVelocity() const -> Point {
 RigidBody::RigidBody(float friction)
         : _bodyType(BodyType::staticBody), _mass(0), _gravityScale(0), _friction(friction) {
 }
+
+RigidBody::RigidBody() : _friction(0) {
+
+}
+
+
+BOOST_CLASS_EXPORT(RigidBody);

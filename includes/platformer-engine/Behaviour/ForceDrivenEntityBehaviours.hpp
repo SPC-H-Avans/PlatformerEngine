@@ -16,10 +16,10 @@ namespace platformer_engine {
     private:
         auto Seek(Point point) -> Point;
         auto Flee(Point &point) -> Point;
-        auto Arrive(Point &point, Deceleration deceleration) -> Point;
         std::weak_ptr<GameObject> _gameObject;
     public:
         auto Pursuit(const std::weak_ptr<GameObject>& evader) -> Point;
+        auto Arrive(Point &point, Deceleration deceleration) -> Point;
         ForceDrivenEntityBehaviours(std::weak_ptr<GameObject> gameObject);
         auto Calculate() -> Point;
         auto ForwardComponent() -> Point;

@@ -5,6 +5,7 @@ auto ForceDrivenEntityBody::CalcSteeringForce() -> Point {
     //calculate the combined force from each steering behavior in the
     //vehicle’s list
     Point pursuitForce = _behaviours->Pursuit(_following);
+//    Point arriveForce = _behaviours->Arrive(_following);
     Point avoidForce = AvoidObjects();
 
     Point steeringForce = pursuitForce;

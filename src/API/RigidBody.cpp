@@ -18,34 +18,6 @@ void spic::RigidBody::AddForce(const spic::Point &force) {
     auto y_acceleration = force.y / _mass;
     _velocity.y += y_acceleration;
     if(_velocity.y < -1 * _maxSpeed.y) {_velocity.y = -1*_maxSpeed.y;}
-
-//    if (_gravityScale == 0 || (force.y < 0 &&
-//                               !CanMoveTo(CollisionPoint::Bottom))) { // Jump when on top of an object or if object has no gravity
-//
-//    }
-
-    if (_velocity.y > 0 && !CanMoveTo(CollisionPoint::Bottom)) { _velocity.y = 0; }
-    if (_velocity.x > 0 && !CanMoveTo(CollisionPoint::Right)) { _velocity.x = 0; }
-    if (_velocity.x < 0 && !CanMoveTo(CollisionPoint::Left)) { _velocity.x = 0; }
-    if (_velocity.y < 0 && !CanMoveTo(CollisionPoint::Top)) { _velocity.y = 0; }
-
-    std::shared_ptr<GameObject> gameObject{GetGameObject().lock()};
-    if (gameObject) {
-        auto transform = gameObject->GetTransform();
-        auto oldPos = transform.position;
-        transform.position += _velocity;
-        gameObject->SetTransform(transform);
-    } else { // GameObject was already deleted
-        gameObject.reset();
-    }
-
-    //update the heading if the vehicle has a non zero velocity
-    if (_velocity.LengthSq() > 0.00000001)
-    {
-        _heading = Point::PointNormalize(_velocity);
-
-        //m_vSide = m_vHeading.Perp();
-    }
 }
 
 bool spic::RigidBody::CanMoveTo(CollisionPoint point) {
@@ -72,14 +44,15 @@ RigidBody::RigidBody(float friction)
 
 }
 
-void RigidBody::SetHeading(Point new_heading)
+void RigidBody::SetHeading()
 {
-    assert( (new_heading.LengthSq() - 1.0) < 0.00001);
+    //update the heading if the vehicle has a non zero velocity
+    if (_velocity.LengthSq() > 0.00000001)
+    {
+        _heading = Point::PointNormalize(_velocity);
 
-    _heading = new_heading;
-
-    //the side vector must always be perpendicular to the heading
-//    _side = m_vHeading.Perp();
+        //m_vSide = m_vHeading.Perp();
+    }
 }
 
 auto RigidBody::GetMaxSpeed() const -> Point {

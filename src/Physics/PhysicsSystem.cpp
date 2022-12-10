@@ -45,8 +45,24 @@ void PhysicsSystem::MoveObjects() {
                     totalForce += FDEForce;
                 }
 
-
                 rigidBody->AddForce(totalForce);
+                auto velocity = rigidBody->GetVelocity();
+
+                if (velocity.y > 0 && !rigidBody->CanMoveTo(CollisionPoint::Bottom)
+                || velocity.y < 0 && !rigidBody->CanMoveTo(CollisionPoint::Top)) {
+                    velocity.y = 0;
+                }
+                if (velocity.x > 0 && !rigidBody->CanMoveTo(CollisionPoint::Right)
+                || velocity.x < 0 && !rigidBody->CanMoveTo(CollisionPoint::Left)) {
+                    velocity.x = 0;
+                }
+
+                rigidBody->SetVelocity(velocity);
+                auto transform = obj->GetTransform();
+                transform.position += velocity;
+                obj->SetTransform(transform);
+
+                rigidBody->SetHeading();
             }
         }
     }

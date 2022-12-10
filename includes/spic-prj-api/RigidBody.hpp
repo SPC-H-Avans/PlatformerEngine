@@ -33,6 +33,7 @@ namespace spic {
             ar & _velocity;
             ar & _friction;
             ar & _maxSpeed;
+            ar & _heading;
         }
 
 
@@ -64,15 +65,54 @@ namespace spic {
         */
         void DenyMoveTo(CollisionPoint point);
 
+        /**
+        * @brief Gets the maximum speed 2D vector
+        */
         [[nodiscard]] auto GetMaxSpeed() const -> Point;
+
+        /**
+        * @brief Gets the velocity 2D vector
+        */
         [[nodiscard]] auto GetVelocity() const -> Point;
+
+        /**
+        * @brief Gets the Heading (move direction) 2D vector
+        */
         [[nodiscard]] auto GetHeading() const -> Point;
+
+        /**
+        * @brief Gets the gravity scale (m/s/s)
+        */
         [[nodiscard]] auto GetGravityScale() const -> float;
+
+        /**
+        * @brief Gets the mass
+        */
         [[nodiscard]] auto GetMass() const -> float;
+
+        /**
+        * @brief Gets the friction
+        */
         [[nodiscard]] auto GetFriction() const -> float;
-        void SetHeading(Point new_heading);
+
+        /**
+        * @brief Sets the heading using the rigidbody's velocity
+        */
+        void SetHeading();
+
+        /**
+        * @brief Sets the velocity to a new 2D Vector
+        */
         void SetVelocity(Point velocity);
+
+        /**
+        * @brief Sets the mass of the rigidbody
+        */
         void SetMass(float mass);
+
+        /**
+        * @brief Sets the gravityScale of the rigidbody
+        */
         void SetGravityScale(float gravityScale);
 
     protected:

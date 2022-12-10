@@ -33,8 +33,9 @@ void PhysicsSystem::MoveObjects() {
         if(obj != nullptr && obj->GetOwnerId() == _clientId) { //If owned by client
             auto rigidBody = std::static_pointer_cast<RigidBody>(obj->GetComponent<RigidBody>());
             if(rigidBody != nullptr && rigidBody->BodyType() == BodyType::dynamicBody) {
-                Point gravityForce {0, rigidBody->GetGravityScale() * rigidBody->GetMass()};
-                Point frictionForce {rigidBody->GetFriction() * rigidBody->GetHeading().x, 0};
+                auto gravity = rigidBody->GetGravityScale() * rigidBody->GetMass() * rigidBody->GetMass();
+                Point gravityForce {0, gravity};
+                Point frictionForce {rigidBody->GetFriction() * -1 * rigidBody->GetHeading().x * rigidBody->GetMass(), 0};
 
                 Point totalForce = gravityForce + frictionForce;
 
@@ -43,6 +44,7 @@ void PhysicsSystem::MoveObjects() {
                     auto FDEForce = forceDrivenEntityBody->CalcSteeringForce();
                     totalForce += FDEForce;
                 }
+
 
                 rigidBody->AddForce(totalForce);
             }

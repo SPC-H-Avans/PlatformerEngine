@@ -9,7 +9,11 @@ auto ForceDrivenEntityBody::CalcSteeringForce() -> Point {
 
     Point steeringForce = pursuitForce;
     if(steeringForce.y < 0 && _mass != 0) {
-        steeringForce.y *= 15;
+        if(!CanMoveTo(CollisionPoint::Bottom)) {
+            steeringForce.y *= 26;
+        } else {
+            steeringForce.y *= 0;
+        }
     }
 
     UpdateLookAhead();
@@ -99,7 +103,7 @@ void ForceDrivenEntityBody::Follow(const std::shared_ptr<GameObject>& gameObject
 }
 
 ForceDrivenEntityBody::ForceDrivenEntityBody(float friction) : RigidBody(friction), _lookAhead(25) {
-    _gravityScale = 0.005;
+    _gravityScale = 0.01;
     _mass = 15;
     _maxSpeed = Point{2, 4};
     _behaviours = std::make_unique<platformer_engine::ForceDrivenEntityBehaviours>(GetGameObject());

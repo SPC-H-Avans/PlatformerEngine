@@ -19,6 +19,7 @@ protected:
 
         //Set Rigidbody on both objects;
         auto body = RigidBody(0.045);
+        body.SetMass(0);
         body.BodyType(spic::BodyType::dynamicBody);
         g1.AddComponent<RigidBody>(std::make_shared<RigidBody>(body));
         body.BodyType(spic::BodyType::staticBody);

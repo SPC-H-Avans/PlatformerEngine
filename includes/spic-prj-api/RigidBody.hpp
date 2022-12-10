@@ -72,6 +72,8 @@ namespace spic {
         [[nodiscard]] auto GetFriction() const -> float;
         void SetHeading(Point new_heading);
         void SetVelocity(Point velocity);
+        void SetMass(float mass);
+        void SetGravityScale(float gravityScale);
 
     protected:
         enum BodyType _bodyType;
@@ -83,6 +85,7 @@ namespace spic {
         const float _friction;
 
         std::map<CollisionPoint, int> _moveRestrictions;
+
     };
 
 } // namespace spic

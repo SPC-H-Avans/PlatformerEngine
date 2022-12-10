@@ -5,6 +5,7 @@
 
 void spic::RigidBody::AddForce(const spic::Point &force) {
 
+    if(_mass == 0) return;
     auto x_acceleration = force.x / _mass;
     _velocity.x += x_acceleration;
 
@@ -107,5 +108,13 @@ auto RigidBody::GetMass() const -> float {
 
 auto RigidBody::GetFriction() const -> float {
     return _friction;
+}
+
+void RigidBody::SetMass(float mass) {
+    _mass = mass;
+}
+
+void RigidBody::SetGravityScale(float gravityScale) {
+    _gravityScale = gravityScale;
 }
 

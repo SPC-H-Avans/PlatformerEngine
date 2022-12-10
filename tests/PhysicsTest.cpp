@@ -94,6 +94,7 @@ TEST_F(PhysicsTests, MarioFallsUntilBlock) {
     _mario->SetTransform(Transform {Point {marioStartX, marioStartY}, 0, 0});
     _block->SetTransform(Transform {Point {0, 101}, 0, 0});
     UpdateBehaviours();
+    physics.Update();
 
     auto marioNextY = _mario->GetTransform().position.y;
 

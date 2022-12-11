@@ -4,13 +4,13 @@
 #include "Exceptions/LevelCouldNotBeParsedException.hpp"
 
 namespace platformer_engine {
-    auto LevelParser::ParseLevel(const std::string &id, const std::string &filePath, const std::string &fileName,
-                                 const std::map<int, std::function<spic::GameObject(spic::Transform)>> &config) -> bool {
+    auto LevelParser::ParseLevel(spic::Scene& scene, const std::string &id, const std::string &filePath, const std::string &fileName,
+                                 const std::map<int, std::function<spic::GameObject&(spic::Transform)>> &config) -> bool {
         std::string fileType = fileName.substr(fileName.find('.') + 1);
 
         if (fileType == "tmx") {
             auto parser = TMXParser();  // can be made static instead of using a singleton after removing _levels
-            return parser.Load(id, filePath, fileName, config);
+            return parser.LoadOnScene(scene, id, filePath, fileName, config);
         } else {
             throw spic::LevelCouldNotBeParsedException(filePath + fileName);
         }

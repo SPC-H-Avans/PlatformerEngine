@@ -7,6 +7,7 @@
 #include <functional>
 
 #include "GameObject.hpp"
+#include "Scene.hpp"
 
 namespace platformer_engine {
     class LevelParser {
@@ -26,7 +27,7 @@ namespace platformer_engine {
         * @param filePath A path to the file (with out the file name)
         * @param fileName Name of the file with the extension
          */
-        static auto ParseLevel(const std::string &id, const std::string &filePath, const std::string &fileName, const std::map<int, std::function<spic::GameObject(spic::Transform)>> &config) -> bool;
+        static auto ParseLevel(spic::Scene& scene, const std::string &id, const std::string &filePath, const std::string &fileName, const std::map<int, std::function<spic::GameObject&(spic::Transform)>> &config) -> bool;
 
     private:
         LevelParser() = default;

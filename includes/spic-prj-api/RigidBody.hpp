@@ -4,6 +4,7 @@
 #include "Component.hpp"
 #include "Point.hpp"
 #include "Physics/Collision.hpp"
+#include "Physics/Templates/PhysicsTemplate.hpp"
 #include <map>
 #include <boost/serialization/access.hpp>
 
@@ -23,7 +24,8 @@ namespace spic {
      */
     class RigidBody : public Component {
     public:
-        RigidBody(float friction);
+        RigidBody();
+        RigidBody(const PhysicsTemplate& physicsTemplate);
 
         template<typename archive> void serialize(archive& ar, const unsigned /*version*/) {
             ar & _bodyType;

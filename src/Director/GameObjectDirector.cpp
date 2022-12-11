@@ -1,10 +1,9 @@
-#include <stdexcept>
-
 #include "Director/GameObjectDirector.hpp"
 #include "Engine/Engine.hpp"
-#include "Physics/PlayerRigidBody.hpp"
 #include "BehaviourScript.hpp"
 #include "Physics/ForceDrivenEntityBody.hpp"
+#include "Physics/Templates/FlyingGumbaTemplate.hpp"
+#include "Physics/Templates/MarioPhysicsTemplate.hpp"
 
 auto GameObjectDirector::CreateTile(const spic::Sprite& sprite,
                                     Transform transform, int colliderWidth, int colliderHeight) -> GameObject& {
@@ -54,9 +53,10 @@ auto GameObjectDirector::CreatePlayer(Transform transform, int colliderWidth, in
     obj->SetTransform(transform);
 
     // rigidbody
-    auto playerBody = PlayerRigidBody();
+    MarioPhysicsTemplate physicsTemplate;
+    auto playerBody = RigidBody(physicsTemplate);
     playerBody.BodyType(spic::BodyType::dynamicBody);
-    obj->AddComponent<RigidBody>(std::make_shared<PlayerRigidBody>(playerBody));
+    obj->AddComponent<RigidBody>(std::make_shared<RigidBody>(playerBody));
 
     // collider
     auto collider = BoxCollider();
@@ -90,7 +90,8 @@ auto GameObjectDirector::CreateEnemy(Transform transform, int colliderWidth, int
     obj->SetTransform(transform);
 
     // rigidbody
-    auto enemyBody = std::make_shared<ForceDrivenEntityBody>(0.045);
+    FlyingGumbaTemplate physicsTemplate;
+    auto enemyBody = std::make_shared<ForceDrivenEntityBody>(physicsTemplate);
     enemyBody->BodyType(spic::BodyType::dynamicBody);
     obj->AddComponent<RigidBody>(enemyBody);
 

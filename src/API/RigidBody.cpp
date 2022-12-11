@@ -38,10 +38,10 @@ void spic::RigidBody::DenyMoveTo(CollisionPoint point) {
     _moveRestrictions[point] += 1;
 }
 
-RigidBody::RigidBody(float friction)
-        : _bodyType(BodyType::staticBody), _mass(0), _gravityScale(0), _friction(friction) {
-
-
+RigidBody::RigidBody(const PhysicsTemplate& physicsTemplate)
+        : _bodyType(BodyType::staticBody), _mass(physicsTemplate.GetMass())
+        , _gravityScale(physicsTemplate.GetGravityScale()), _friction(physicsTemplate.GetFriction()) {
+    _maxSpeed = physicsTemplate.GetMaxSpeed();
 }
 
 void RigidBody::SetHeading()
@@ -89,5 +89,9 @@ void RigidBody::SetMass(float mass) {
 
 void RigidBody::SetGravityScale(float gravityScale) {
     _gravityScale = gravityScale;
+}
+
+RigidBody::RigidBody() : RigidBody(PhysicsTemplate()) {
+
 }
 

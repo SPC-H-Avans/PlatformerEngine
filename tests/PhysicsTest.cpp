@@ -4,8 +4,8 @@
 #include "RigidBody.hpp"
 #include "BoxCollider.hpp"
 #include "Physics/PhysicsSystem.hpp"
-#include "Physics/PlayerRigidBody.hpp"
 #include "Behaviour/CollisionBehaviour.hpp"
+#include "Physics/Templates/MarioPhysicsTemplate.hpp"
 
 class PhysicsTests : public ::testing::Test {
 protected:
@@ -19,11 +19,13 @@ protected:
         block.SetTransform(Transform {Point {0, 0}, 0, 0});
 
         //Set Rigidbody on both objects;
-        PlayerRigidBody marioBody;
+        MarioPhysicsTemplate marioPhysics;
+        RigidBody marioBody(marioPhysics);
         marioBody.BodyType(spic::BodyType::dynamicBody);
-        mario.AddComponent<RigidBody>(std::make_shared<PlayerRigidBody>(marioBody));
+        mario.AddComponent<RigidBody>(std::make_shared<RigidBody>(marioBody));
 
-        RigidBody blockBody(0);
+
+        RigidBody blockBody;
         blockBody.BodyType(spic::BodyType::staticBody);
         block.AddComponent<RigidBody>(std::make_shared<RigidBody>(blockBody));
 
@@ -32,7 +34,7 @@ protected:
         block.AddComponent<BehaviourScript>(std::make_shared<BehaviourScript>());
 
         _mario = GameObject::Find("Mario");
-        _marioBody = std::dynamic_pointer_cast<PlayerRigidBody>(_mario->GetComponent<RigidBody>());
+        _marioBody = std::dynamic_pointer_cast<RigidBody>(_mario->GetComponent<RigidBody>());
         _block = GameObject::Find("Block");
 
         //Set Colliders on objects
@@ -46,7 +48,7 @@ protected:
 
     std::shared_ptr<GameObject> _mario;
     std::shared_ptr<GameObject> _block;
-    std::shared_ptr<PlayerRigidBody> _marioBody;
+    std::shared_ptr<RigidBody> _marioBody;
 
     PhysicsSystem physics = PhysicsSystem();
 

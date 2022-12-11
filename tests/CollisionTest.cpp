@@ -18,7 +18,7 @@ protected:
         g2.SetTransform(Transform {Point {0, 0}, 0, 0});
 
         //Set Rigidbody on both objects;
-        auto body = RigidBody(0.045);
+        auto body = RigidBody();
         body.SetMass(0);
         body.BodyType(spic::BodyType::dynamicBody);
         g1.AddComponent<RigidBody>(std::make_shared<RigidBody>(body));
@@ -170,7 +170,7 @@ TEST_F(CollisionTests, IsCollisionBetweenThreeObjectsDetected) {
 
     // 1. Create a third Collision object to be able to collide with the first two
     GameObject g3 = GameObject("static2");
-    RigidBody body(0);
+    RigidBody body;
     body.BodyType(spic::BodyType::staticBody);
     g3.AddComponent<RigidBody>(std::make_shared<RigidBody>(body));
     g3.AddComponent<BehaviourScript>(std::make_shared<TestCollisionBehaviour>());

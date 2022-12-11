@@ -99,8 +99,9 @@ namespace platformer_engine {
         /**
          * @brief Add a scene to the scene list
          * @param scene
+         * @param isDefault determines wether the scene will be set as the default scene
          */
-        void AddScene(const Scene &scene);
+        void AddScene(const Scene &scene, bool isDefault = false);
 
         /**
          * @brief Get the server network manager when active
@@ -165,6 +166,14 @@ namespace platformer_engine {
             return *_window;
         }
 
+        /**
+         * @brief returns the name of the scene set as default.
+         * @return
+         */
+        auto GetDefaultSceneName() -> std::string {
+            return _defaultScene;
+        }
+
     private:
         Engine() = default;
 
@@ -182,6 +191,7 @@ namespace platformer_engine {
         std::unique_ptr<ClientNetworkManager> _clientNetworkManager = nullptr;
 
         std::vector<Scene> _scenes;
+        std::string _defaultScene;
     };
 }//namespace platformer_engine
 

@@ -41,6 +41,16 @@ void PhysicsSystem::MoveObjects() {
 
                 auto forceDrivenEntityBody = std::dynamic_pointer_cast<ForceDrivenEntityBody>(rigidBody);
                 if(forceDrivenEntityBody != nullptr) {
+                    auto following = forceDrivenEntityBody->GetFollowing().lock();
+                    if(following) {
+                        if(following->GetTransform().position.Distance(obj->GetTransform().position) < 50) {
+                            forceDrivenEntityBody->FollowOn();
+                        } else {
+                            forceDrivenEntityBody->WanderOn();
+                        }
+                    } else {
+                        following.reset();
+                    }
                     auto FDEForce = forceDrivenEntityBody->CalcSteeringForce();
                     totalForce += FDEForce;
                 }

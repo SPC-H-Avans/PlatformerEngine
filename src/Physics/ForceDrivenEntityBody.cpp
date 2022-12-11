@@ -102,15 +102,18 @@ void ForceDrivenEntityBody::UpdateLookAhead() {
     }
 }
 
-void ForceDrivenEntityBody::Follow(const std::shared_ptr<GameObject>& gameObject) {
-    _following = gameObject;
+void ForceDrivenEntityBody::FollowOn() {
     EntityPursuitState pursuitState;
     _entityStateMachine->SetState(pursuitState);
 }
 
-void ForceDrivenEntityBody::Wander() {
+void ForceDrivenEntityBody::WanderOn() {
     EntityWanderState wanderState;
     _entityStateMachine->SetState(wanderState);
+}
+
+void ForceDrivenEntityBody::SetFollowing(const std::shared_ptr<GameObject>& gameObject) {
+    _following = gameObject;
 }
 
 ForceDrivenEntityBody::ForceDrivenEntityBody(float friction) : RigidBody(friction), _lookAhead(25) {

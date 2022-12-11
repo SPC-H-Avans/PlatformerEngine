@@ -9,7 +9,8 @@ class ForceDrivenEntityBody : public RigidBody, std::enable_shared_from_this<For
 
 public:
     ForceDrivenEntityBody(float friction);
-    void Follow(const std::shared_ptr<GameObject>& gameObject);
+    void FollowOn();
+    void WanderOn();
 
     void SetGameObject(std::weak_ptr<GameObject> gObj) override {
         Component::SetGameObject(gObj);
@@ -19,6 +20,7 @@ public:
     void SetLookAhead(double lookAhead);
     auto GetLookAhead() -> double;
     auto GetFollowing() -> std::weak_ptr<GameObject>;
+    void SetFollowing(const std::shared_ptr<GameObject>& gameObject);
 
     void AddNearbyCollider(Collider &collider);
     auto CalcSteeringForce() -> Point;
@@ -34,8 +36,6 @@ private:
     Point AvoidObjects();
 
     void UpdateLookAhead();
-
-    void Wander();
 };
 
 

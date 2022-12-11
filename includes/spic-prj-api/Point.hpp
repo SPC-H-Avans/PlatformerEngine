@@ -114,17 +114,17 @@ namespace spic {
             return *this;
         }
 
-        inline double LengthSq()const
+        [[nodiscard]] inline auto LengthSq() const -> double
         {
             return (x * x + y * y);
         }
 
-        inline double Dot(const Point &v2)const
+        [[nodiscard]] inline auto Dot(const Point &other)const -> double
         {
-            return x*v2.x + y*v2.y;
+            return x*other.x + y*other.y;
         }
 
-        static Point PointNormalize(const Point &v) {
+        static auto PointNormalize(const Point &v) -> Point {
             Point vec = v;
 
             double vector_length = vec.Length();
@@ -135,6 +135,13 @@ namespace spic {
             }
 
             return vec;
+        }
+
+        // Function to calculate distance
+        [[nodiscard]] auto Distance(const Point &other) const -> float
+        {
+            // Calculating distance
+            return sqrt(pow(other.x - x, 2) + pow(other.y - y, 2) * 1.0);
         }
     };
 

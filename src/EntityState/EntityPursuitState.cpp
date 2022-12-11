@@ -13,14 +13,13 @@ auto EntityPursuitState::CalculateForce(std::shared_ptr<RigidBody> &rigidBody) -
     std::shared_ptr<GameObject> gameObject{entityBody->GetGameObject().lock()};
     std::shared_ptr<GameObject> evader{entityBody->GetFollowing().lock()};
     if (gameObject && evader) {
-        auto body = std::dynamic_pointer_cast<RigidBody>(gameObject->GetComponent<RigidBody>());
         auto evaderBody = std::dynamic_pointer_cast<RigidBody>(evader->GetComponent<RigidBody>());
-        if(body != nullptr) {
+        if(evaderBody != nullptr) {
             //if the evader is ahead and facing the agent then we can just seek
             //for the evader's current position.
             Point ToEvader = evader->GetTransform().position - gameObject->GetTransform().position;
-            double RelativeHeading = body->GetHeading().Dot(evaderBody->GetHeading());
-            if ((ToEvader.Dot(body->GetHeading()) > 0) &&
+            double RelativeHeading = entityBody->GetHeading().Dot(evaderBody->GetHeading());
+            if ((ToEvader.Dot(entityBody->GetHeading()) > 0) &&
                 (RelativeHeading < -0.95)) //acos(0.95)=18 degs
             {
                 return Seek(*entityBody, evader->GetTransform().position);
@@ -30,7 +29,7 @@ auto EntityPursuitState::CalculateForce(std::shared_ptr<RigidBody> &rigidBody) -
             //and the pursuer; and is inversely proportional to the sum of the
             //agents' velocities
             double LookAheadTime = ToEvader.Length() /
-                                   (body->GetMaxSpeed().x + evaderBody->GetVelocity().Length());
+                                   (entityBody->GetMaxSpeed().x + evaderBody->GetVelocity().Length());
             //now seek to the predicted future position of the evader
             return Seek(*entityBody, evader->GetTransform().position + evaderBody->GetVelocity() * LookAheadTime);
         }

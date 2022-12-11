@@ -149,20 +149,8 @@ void platformer_engine::GraphicsFacade::DrawTexture(const std::string &id, int x
 
 void platformer_engine::GraphicsFacade::DrawUIText(const std::string textId, const int x, const int y, const int width,
                                                    const int height) {
-    std::unique_ptr<SDL_Texture, std::function<void(
-            SDL_Texture *)>> texture = std::unique_ptr<SDL_Texture, std::function<void(SDL_Texture *)>>(
-            _textureMap[textId].get(),
-            SDL_DestroyTexture);
-    if (texture == nullptr)
-        spic::Debug::LogWarning("Failed to find texture with id " + textId + ", " + std::string(SDL_GetError()));
-
-    SDL_Rect message_rect;
-    message_rect.x = x;
-    message_rect.y = y;
-    message_rect.w = width;
-    message_rect.h = height;
-
-    SDL_RenderCopy(_renderer.get(), texture.get(), NULL, &message_rect);
+    SDL_Rect rect {x, y, width, height};
+    SDL_RenderCopy(_renderer.get(), _textureMap[textId].get(), NULL, &rect);
 }
 
 void
@@ -183,8 +171,6 @@ void platformer_engine::GraphicsFacade::ClearTextures() {
     std::map<std::string, std::unique_ptr<SDL_Texture, std::function<void(
             SDL_Texture *)>>>::iterator it;
     for (it = _textureMap.begin(); it != _textureMap.end(); it++)
-        SDL_DestroyTexture(it->second.get());
-    for (it = _uiTextMap.begin(); it != _uiTextMap.end(); it++)
         SDL_DestroyTexture(it->second.get());
 
     _textureMap.clear();

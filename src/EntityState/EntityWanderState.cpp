@@ -22,7 +22,8 @@ auto EntityWanderState::CalculateForce(std::shared_ptr<RigidBody> &rigidBody) ->
     std::mt19937 generator(random()); // Mersenne Twister 19937 generator
     std::uniform_int_distribution<> distribution(0, 100); // Uniform distribution from 0 to 100
     auto xForce = static_cast<double>(distribution(generator));
-    auto yForce = -1 * static_cast<double>(distribution(generator));
+    auto yForce = static_cast<double>(distribution(generator));
+    yForce = yForce > 90 ? -1 * yForce : 0;
     totalForce += heading * Point{xForce, yForce};
 
     if(!entityBody->CanMoveTo(CollisionPoint::Right) || !entityBody->CanMoveTo(CollisionPoint::Left)) {

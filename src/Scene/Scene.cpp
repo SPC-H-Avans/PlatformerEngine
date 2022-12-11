@@ -9,6 +9,10 @@
 
 spic::Scene::Scene(const std::string &sceneName) : _sceneName(sceneName) {}
 
+void spic::Scene::SetNextScene(const std::string sceneName) {_nextScene = sceneName;};
+
+auto spic::Scene::GetNextScene() const -> std::optional<std::string> { return _nextScene;};
+
 void spic::Scene::RenderScene() {
 
     RenderGameObjects();

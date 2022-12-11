@@ -142,6 +142,10 @@ namespace spic {
          */
         inline auto GetSceneName() const -> std::string { return _sceneName; };
 
+        void SetNextScene(const std::string sceneName);
+
+        auto GetNextScene() const -> std::optional<std::string>;
+
     private:
         /**
          * @brief Render all GameObjects in this scene
@@ -182,6 +186,7 @@ namespace spic {
          */
         std::shared_ptr<Camera> _activeCamera = nullptr;
         std::string _sceneName{"Null Scene"};
+        std::optional<std::string> _nextScene;
     };
 
 }  // namespace spic

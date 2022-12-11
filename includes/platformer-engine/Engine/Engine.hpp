@@ -165,8 +165,16 @@ namespace platformer_engine {
             return *_window;
         }
 
+        /**
+         * @brief Update the game speed multiplier. The higher the number, the faster the game plays
+         * @param newSpeedMultiplier
+         */
         inline void SetSpeedMultiplier(double newSpeedMultiplier) {_speedMultiplier = newSpeedMultiplier;}
 
+        /**
+         * @brief Get the current game speed multiplier
+         * @return
+         */
         inline double GetSpeedMultiplier() const {return _speedMultiplier;}
 
     private:

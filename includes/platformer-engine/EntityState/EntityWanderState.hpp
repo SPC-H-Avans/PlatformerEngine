@@ -6,16 +6,8 @@
 
 class EntityWanderState : public EntityState {
 public:
-    EntityWanderState();
-    auto CalculateForce(std::weak_ptr<RigidBody> &entityBody) -> spic::Point override;
+    auto CalculateForce(std::shared_ptr<RigidBody> &rigidBody) -> spic::Point override;
     [[nodiscard]] auto Clone() const -> std::unique_ptr<EntityState> override;
-    ~EntityWanderState() override;
-
-    EntityWanderState(const EntityWanderState&) = default;
-    auto operator=(const EntityWanderState&) -> EntityWanderState& = default;
-
-    EntityWanderState(EntityWanderState&&) = default;
-    auto operator=(EntityWanderState&&) -> EntityWanderState& = default;
 };
 
 

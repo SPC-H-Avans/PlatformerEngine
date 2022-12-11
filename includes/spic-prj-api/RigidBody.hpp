@@ -122,7 +122,7 @@ namespace spic {
         Point _velocity;
         Point _maxSpeed;
         Point _heading;
-        const float _friction;
+        float _friction;
 
         std::map<CollisionPoint, int> _moveRestrictions;
 

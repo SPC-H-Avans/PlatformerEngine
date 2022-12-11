@@ -5,10 +5,10 @@
 #include "Behaviour/ForceDrivenEntityBehaviours.hpp"
 #include "EntityState/EntityStateMachine.hpp"
 
-class ForceDrivenEntityBody : public RigidBody, std::enable_shared_from_this<ForceDrivenEntityBody> {
+class ForceDrivenEntityBody : public RigidBody, public std::enable_shared_from_this<ForceDrivenEntityBody> {
 
 public:
-    ForceDrivenEntityBody(float friction);
+    explicit ForceDrivenEntityBody(float friction);
     void FollowOn();
     void WanderOn();
 

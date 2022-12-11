@@ -16,12 +16,12 @@ public:
     virtual ~EntityState() = default;
 
     EntityState(const EntityState&) = default;
-    EntityState& operator=(const EntityState&) = default;
+    auto operator=(const EntityState&) -> EntityState& = default;
 
     EntityState(EntityState&&) = default;
-    EntityState& operator=(EntityState&&) = default;
+    auto operator=(EntityState&&) -> EntityState& = default;
 
-    virtual auto CalculateForce(std::weak_ptr<RigidBody> &entityBody) -> spic::Point = 0;
+    virtual auto CalculateForce(std::shared_ptr<RigidBody> &rigidBody) -> spic::Point = 0;
     [[nodiscard]] virtual auto Clone() const -> std::unique_ptr<EntityState> = 0;
 };
 

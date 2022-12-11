@@ -9,7 +9,7 @@ auto ForceDrivenEntityBody::CalcSteeringForce() -> Point {
     //vehicle’s list
     //Point pursuitForce = _behaviours->Pursuit(_following);
 
-    Point stateForce = _entityStateMachine->CalculateForce();
+    Point stateForce = _entityStateMachine->CalculateForce(shared_from_this());
 //    Point arriveForce = _behaviours->Arrive(_following);
     // Point avoidForce = AvoidObjects();
 
@@ -51,7 +51,7 @@ Point ForceDrivenEntityBody::AvoidObjects() {
             }
         }
 
-        // If we found a nearest collision, calculate a steering force
+        // If we found the nearest collision, calculate a steering force
         // to avoid it
         if (nearest != nullptr)
         {
@@ -122,7 +122,7 @@ ForceDrivenEntityBody::ForceDrivenEntityBody(float friction) : RigidBody(frictio
     _maxSpeed = Point{2, 4};
     _behaviours = std::make_unique<platformer_engine::ForceDrivenEntityBehaviours>(GetGameObject());
     EntityWanderState state;
-    _entityStateMachine = std::make_unique<EntityStateMachine>(state, *this);
+    _entityStateMachine = std::make_unique<EntityStateMachine>(state);
 }
 
 void ForceDrivenEntityBody::SetLookAhead(double lookAhead) {

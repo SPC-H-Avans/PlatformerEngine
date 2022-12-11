@@ -1,16 +1,16 @@
 #include "EntityState/EntityStateMachine.hpp"
 #include "EntityState/EntityState.hpp"
+#include "Physics/ForceDrivenEntityBody.hpp"
 
-EntityStateMachine::EntityStateMachine(EntityState &initialState, RigidBody& entityBody)
-        : _entityBody(std::make_shared<RigidBody>(entityBody)), _currentState(initialState.Clone()) {
+EntityStateMachine::EntityStateMachine(EntityState &initialState)
+        : _currentState(initialState.Clone()) {
 }
 
 void EntityStateMachine::SetState(EntityState &state) {
     _currentState = std::move(state.Clone());
 }
 
-auto EntityStateMachine::CalculateForce() -> Point
+auto EntityStateMachine::CalculateForce(std::shared_ptr<RigidBody> rigidBody) -> Point
 {
-    return _currentState->CalculateForce(_entityBody);
+    return _currentState->CalculateForce(rigidBody);
 }
-

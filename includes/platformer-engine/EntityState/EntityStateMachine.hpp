@@ -13,7 +13,7 @@ public:
      * @brief Constructor for the EntityStateMachine sets the current state to the initial state
      * @param initialState the initial EntityState
      */
-    EntityStateMachine(EntityState& initialState, RigidBody &entityBody);
+    EntityStateMachine(EntityState& initialState);
 
     /**
     * @brief Updates the EntityState in the stateMachine
@@ -25,11 +25,10 @@ public:
     * @brief Calls the EntityState.CalculateForce function of the currently active state
     * @return 2D Vector point for the force calculated by the active state
     */
-    auto CalculateForce() -> Point;
+    auto CalculateForce(std::shared_ptr<RigidBody> rigidBody) -> Point;
 
 private:
     std::unique_ptr<EntityState> _currentState;
-    std::weak_ptr<RigidBody> _entityBody;
 };
 
 

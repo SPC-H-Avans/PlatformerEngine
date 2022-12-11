@@ -2,11 +2,10 @@
 #include "Physics/ForceDrivenEntityBody.hpp"
 #include <memory>
 
-auto EntityPursuitState::CalculateForce(std::weak_ptr<RigidBody> &entityBodyWeak) -> Point {
+auto EntityPursuitState::CalculateForce(std::shared_ptr<RigidBody> &rigidBody) -> Point {
 
-    auto entityBody = std::dynamic_pointer_cast<ForceDrivenEntityBody>(entityBodyWeak.lock());
+    auto entityBody = std::dynamic_pointer_cast<ForceDrivenEntityBody>(rigidBody);
     if(!entityBody) {
-        entityBodyWeak.reset();
         return {0,0};
     }
 
@@ -56,7 +55,3 @@ auto EntityPursuitState::Seek(RigidBody &entityBody, Point targetPos) -> Point {
 auto EntityPursuitState::Clone() const -> std::unique_ptr<EntityState> {
     return std::make_unique<EntityPursuitState>(*this);
 }
-
-EntityPursuitState::EntityPursuitState() = default;
-
-EntityPursuitState::~EntityPursuitState() = default;

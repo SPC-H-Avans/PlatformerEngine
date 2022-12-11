@@ -1,7 +1,6 @@
 #include "EntityState/EntityWanderState.hpp"
 #include "Physics/ForceDrivenEntityBody.hpp"
 #include <memory>
-#include <random>
 
 auto EntityWanderState::CalculateForce(std::shared_ptr<RigidBody> &rigidBody) -> spic::Point {
     auto entityBody = std::dynamic_pointer_cast<ForceDrivenEntityBody>(rigidBody);

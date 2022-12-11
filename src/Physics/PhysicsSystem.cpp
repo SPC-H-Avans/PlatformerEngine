@@ -48,7 +48,7 @@ void PhysicsSystem::MoveObjects() {
                 if(forceDrivenEntityBody != nullptr) {
                     auto following = forceDrivenEntityBody->GetFollowing().lock();
                     if(following) {
-                        if(following->GetTransform().position.Distance(obj->GetTransform().position) < 50) {
+                        if(following->GetTransform().position.Distance(obj->GetTransform().position) < forceDrivenEntityBody->GetFollowRange()) {
                             forceDrivenEntityBody->FollowOn();
                         } else {
                             forceDrivenEntityBody->WanderOn();

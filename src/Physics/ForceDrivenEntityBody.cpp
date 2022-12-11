@@ -113,8 +113,9 @@ void ForceDrivenEntityBody::WanderOn() {
     _entityStateMachine->SetState(wanderState);
 }
 
-void ForceDrivenEntityBody::SetFollowing(const std::shared_ptr<GameObject>& gameObject) {
+void ForceDrivenEntityBody::SetFollowing(const std::shared_ptr<GameObject>& gameObject, double range) {
     _following = gameObject;
+    _range = range;
 }
 
 ForceDrivenEntityBody::ForceDrivenEntityBody(float friction) : RigidBody(friction), _lookAhead(25) {
@@ -139,4 +140,8 @@ void ForceDrivenEntityBody::AddNearbyCollider(Collider &collider) {
 
 auto ForceDrivenEntityBody::GetFollowing() -> std::weak_ptr<GameObject> {
     return _following;
+}
+
+auto ForceDrivenEntityBody::GetFollowRange() -> double {
+    return _range;
 }

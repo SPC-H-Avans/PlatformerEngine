@@ -31,11 +31,18 @@ void PhysicsSystem::MoveObjects() {
         if(obj != nullptr && obj->GetOwnerId() == _clientId) { //If owned by client
             auto rigidBody = std::static_pointer_cast<RigidBody>(obj->GetComponent<RigidBody>());
             if(rigidBody != nullptr && rigidBody->BodyType() == BodyType::dynamicBody) {
-                auto gravity = rigidBody->GetGravityScale() * rigidBody->GetMass() * rigidBody->GetMass();
-                Point gravityForce {0, gravity};
-                Point frictionForce {rigidBody->GetFriction() * -1 * rigidBody->GetHeading().x * rigidBody->GetMass(), 0};
 
-                Point totalForce = gravityForce + frictionForce;
+                Point totalForce = {0,0};
+
+                // Gravity force
+                auto gravity = rigidBody->GetGravityScale() * rigidBody->GetMass() * rigidBody->GetMass();
+                totalForce += {0, gravity};
+
+                // Friction force
+                if(rigidBody->GetVelocity().x != 0) {
+                    totalForce += {rigidBody->GetFriction() * -1 * rigidBody->GetHeading().x * rigidBody->GetMass(), 0};
+                }
+
 
                 auto forceDrivenEntityBody = std::dynamic_pointer_cast<ForceDrivenEntityBody>(rigidBody);
                 if(forceDrivenEntityBody != nullptr) {
@@ -57,11 +64,11 @@ void PhysicsSystem::MoveObjects() {
                 auto velocity = rigidBody->GetVelocity();
 
                 if (velocity.y > 0 && !rigidBody->CanMoveTo(CollisionPoint::Bottom)
-                || velocity.y < 0 && !rigidBody->CanMoveTo(CollisionPoint::Top)) {
+                    || velocity.y < 0 && !rigidBody->CanMoveTo(CollisionPoint::Top)) {
                     velocity.y = 0;
                 }
                 if (velocity.x > 0 && !rigidBody->CanMoveTo(CollisionPoint::Right)
-                || velocity.x < 0 && !rigidBody->CanMoveTo(CollisionPoint::Left)) {
+                    || velocity.x < 0 && !rigidBody->CanMoveTo(CollisionPoint::Left)) {
                     velocity.x = 0;
                 }
 

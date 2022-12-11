@@ -118,9 +118,9 @@ void ForceDrivenEntityBody::SetFollowing(const std::shared_ptr<GameObject>& game
 }
 
 ForceDrivenEntityBody::ForceDrivenEntityBody(float friction) : RigidBody(friction), _lookAhead(25) {
-    _gravityScale = 0.01;
+    _gravityScale = 0.005;
     _mass = 15;
-    _maxSpeed = Point{2, 4};
+    _maxSpeed = Point{1, 4};
     EntityWanderState state;
     _entityStateMachine = std::make_unique<EntityStateMachine>(state);
 }

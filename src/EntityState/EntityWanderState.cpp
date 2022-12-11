@@ -9,7 +9,6 @@ auto EntityWanderState::CalculateForce(std::shared_ptr<RigidBody> &rigidBody) ->
         return {0,0};
     }
     Point heading = entityBody->GetHeading();
-    Point velocity = entityBody->GetVelocity();
     Point totalForce {0,0};
 
     // Make sure the enemy is always heading somewhere
@@ -17,17 +16,13 @@ auto EntityWanderState::CalculateForce(std::shared_ptr<RigidBody> &rigidBody) ->
         totalForce += {1,-1};
     }
 
-    // Add a random wander force between 0 and 100, with the y being inverted for jumping
-    std::random_device random;  // Seed for the random number generator
-    std::mt19937 generator(random()); // Mersenne Twister 19937 generator
-    std::uniform_int_distribution<> distribution(0, 100); // Uniform distribution from 0 to 100
-    auto xForce = static_cast<double>(distribution(generator));
-    auto yForce = static_cast<double>(distribution(generator));
-    yForce = yForce > 90 ? -1 * yForce : 0;
-    totalForce += heading * Point{xForce, yForce};
+    totalForce += heading * Point{1.5, 1.5};
 
     if(!entityBody->CanMoveTo(CollisionPoint::Right) || !entityBody->CanMoveTo(CollisionPoint::Left)) {
-        totalForce.x *= -1;
+        totalForce.x *= -10;
+    }
+    if(!entityBody->CanMoveTo(CollisionPoint::Right) && !entityBody->CanMoveTo(CollisionPoint::Left)) {
+        totalForce.y *= 100;
     }
 
     return totalForce;

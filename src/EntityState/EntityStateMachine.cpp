@@ -1,6 +1,7 @@
 #include "EntityState/EntityStateMachine.hpp"
+#include "EntityState/EntityState.hpp"
 
-EntityStateMachine::EntityStateMachine(EntityState &initialState) {
+EntityStateMachine::EntityStateMachine(EntityState &initialState, std::weak_ptr<RigidBody> entityBody) : _entityBody(std::move(entityBody)) {
     SetState(initialState);
 }
 
@@ -9,7 +10,8 @@ void EntityStateMachine::SetState(EntityState &state) {
     newState.swap(_currentState);
 }
 
-void EntityStateMachine::Update()
+auto EntityStateMachine::CalculateForce() -> Point
 {
-    _currentState->execute(*this);
+    return _currentState->CalculateForce(_entityBody);
 }
+

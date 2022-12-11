@@ -1,6 +1,10 @@
 #ifndef PLATFORMER_ENGINE_ENTITYSTATE_HPP
 #define PLATFORMER_ENGINE_ENTITYSTATE_HPP
 
+#include "Point.hpp"
+#include <memory>
+#include "RigidBody.hpp"
+
 // Forward declaration of the state machine class
 class EntityStateMachine;
 
@@ -8,7 +12,7 @@ class EntityStateMachine;
 class EntityState
 {
 public:
-    virtual void execute(EntityStateMachine& stateMachine) = 0;
+    virtual spic::Point CalculateForce(std::weak_ptr<RigidBody> &entityBody) = 0;
 };
 
 

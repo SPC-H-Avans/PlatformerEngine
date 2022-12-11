@@ -1,5 +1,5 @@
 #include "EntityState/EntityWanderState.hpp"
 
-void EntityWanderState::execute(EntityStateMachine &stateMachine) {
-
+auto EntityWanderState::CalculateForce(std::weak_ptr<RigidBody> &entityBody) -> spic::Point {
+    return {0,0};
 }

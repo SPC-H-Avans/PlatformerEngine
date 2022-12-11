@@ -1,14 +1,19 @@
 #include "Physics/ForceDrivenEntityBody.hpp"
 #include "BoxCollider.hpp"
+#include "EntityState/EntityWanderState.hpp"
+#include "EntityState/EntityPursuitState.hpp"
+#include "EntityState/EntityStateMachine.hpp"
 
 auto ForceDrivenEntityBody::CalcSteeringForce() -> Point {
     //calculate the combined force from each steering behavior in the
     //vehicle’s list
-    Point pursuitForce = _behaviours->Pursuit(_following);
-//    Point arriveForce = _behaviours->Arrive(_following);
-    Point avoidForce = AvoidObjects();
+    //Point pursuitForce = _behaviours->Pursuit(_following);
 
-    Point steeringForce = pursuitForce;
+    Point stateForce = _entityStateMachine->CalculateForce();
+//    Point arriveForce = _behaviours->Arrive(_following);
+   // Point avoidForce = AvoidObjects();
+
+    Point steeringForce = stateForce;
     if(steeringForce.y < 0 && _mass != 0) {
         if(!CanMoveTo(CollisionPoint::Bottom)) {
             steeringForce.y *= 26;
@@ -66,8 +71,6 @@ Point ForceDrivenEntityBody::AvoidObjects() {
             // Calculate the steering force to avoid the collision
             steeringForce = collisionDirection * maxNegativeForce;
 //            break;
-
-
         }
 
     } else {
@@ -101,6 +104,13 @@ void ForceDrivenEntityBody::UpdateLookAhead() {
 
 void ForceDrivenEntityBody::Follow(const std::shared_ptr<GameObject>& gameObject) {
     _following = gameObject;
+    EntityPursuitState pursuitState;
+    _entityStateMachine->SetState(pursuitState);
+}
+
+void ForceDrivenEntityBody::Wander() {
+    EntityWanderState wanderState;
+    _entityStateMachine->SetState(wanderState);
 }
 
 ForceDrivenEntityBody::ForceDrivenEntityBody(float friction) : RigidBody(friction), _lookAhead(25) {
@@ -108,6 +118,8 @@ ForceDrivenEntityBody::ForceDrivenEntityBody(float friction) : RigidBody(frictio
     _mass = 15;
     _maxSpeed = Point{2, 4};
     _behaviours = std::make_unique<platformer_engine::ForceDrivenEntityBehaviours>(GetGameObject());
+    EntityWanderState state;
+    _entityStateMachine = std::make_unique<EntityStateMachine>(state, shared_from_this());
 }
 
 void ForceDrivenEntityBody::SetLookAhead(double lookAhead) {
@@ -120,4 +132,8 @@ double ForceDrivenEntityBody::GetLookAhead() {
 
 void ForceDrivenEntityBody::AddNearbyCollider(Collider &collider) {
     _nearbyColliders.push_back(collider);
+}
+
+auto ForceDrivenEntityBody::GetFollowing() -> std::weak_ptr<GameObject> {
+    return _following;
 }

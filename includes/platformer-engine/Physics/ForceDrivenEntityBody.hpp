@@ -3,8 +3,9 @@
 
 #include "RigidBody.hpp"
 #include "Behaviour/ForceDrivenEntityBehaviours.hpp"
+#include "EntityState/EntityStateMachine.hpp"
 
-class ForceDrivenEntityBody : public RigidBody {
+class ForceDrivenEntityBody : public RigidBody, std::enable_shared_from_this<ForceDrivenEntityBody> {
 
 public:
     ForceDrivenEntityBody(float friction);
@@ -17,6 +18,7 @@ public:
 
     void SetLookAhead(double lookAhead);
     auto GetLookAhead() -> double;
+    auto GetFollowing() -> std::weak_ptr<GameObject>;
 
     void AddNearbyCollider(Collider &collider);
     auto CalcSteeringForce() -> Point;
@@ -24,6 +26,7 @@ public:
 private:
     //the steering behavior class
     std::unique_ptr<platformer_engine::ForceDrivenEntityBehaviours> _behaviours;
+    std::unique_ptr<EntityStateMachine> _entityStateMachine;
     std::weak_ptr<GameObject> _following;
     double _lookAhead = 0;
     std::vector<Collider> _nearbyColliders;
@@ -32,6 +35,7 @@ private:
 
     void UpdateLookAhead();
 
+    void Wander();
 };
 
 

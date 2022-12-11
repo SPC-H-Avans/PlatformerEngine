@@ -2,9 +2,10 @@
 #define PLATFORMER_ENGINE_ENTITYWANDERSTATE_HPP
 
 #include "EntityState.hpp"
+#include "RigidBody.hpp"
 
-class EntityWanderState : EntityState {
-    void execute(EntityStateMachine& stateMachine) override;
+class EntityWanderState : public EntityState {
+    auto CalculateForce(std::weak_ptr<RigidBody> &entityBody) -> spic::Point override;
 };
 
 

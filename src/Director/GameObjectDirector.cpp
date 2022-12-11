@@ -7,12 +7,12 @@
 #include "Text.hpp"
 #include "Button.hpp"
 
+static int tilecounter = 1;
+
 auto GameObjectDirector::CreateTile(const spic::Sprite& sprite, // TODO: switch sprite and transform for consistency
                                     Transform transform, int colliderWidth, int colliderHeight) -> GameObject& {
-    static int counter = 1;
-
     auto builder =
-            GameObjectBuilder("tile" + counter) //TODO
+            GameObjectBuilder("tile" + std::to_string(tilecounter))
                     .AddSprite(sprite);
     auto obj = builder.GetGameObject();
     obj->SetTransform(transform);
@@ -23,21 +23,19 @@ auto GameObjectDirector::CreateTile(const spic::Sprite& sprite, // TODO: switch 
     collider.Height(colliderHeight);
     obj->AddComponent<BoxCollider>(std::make_shared<BoxCollider>(collider));
 
-    ++counter;
+    ++tilecounter;
     return *obj;
 }
 
 auto GameObjectDirector::CreateBackgroundObject(const spic::Sprite &sprite,
                                                 Transform transform) -> GameObject & {
-    static int counter = 1;
-
     auto builder =
-            GameObjectBuilder("tile" + std::to_string(counter))
+            GameObjectBuilder("tile" + std::to_string(tilecounter))
                     .AddSprite(sprite);
     auto obj = builder.GetGameObject();
     obj->SetTransform(transform);
 
-    ++counter;
+    ++tilecounter;
     return *obj;
 }
 

@@ -70,7 +70,7 @@ namespace spic {
         /**
          * @brief Update the animated sprite (current frame)
          */
-        void Update();
+        void Update(double deltaTime);
 
         auto inline
         GetLoadedAnimations() -> std::map<std::string, std::shared_ptr<platformer_engine::AnimatedSprite>> { return _animationMap; };

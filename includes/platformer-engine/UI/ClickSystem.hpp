@@ -7,7 +7,7 @@ public:
     /**
      * @brief Check if Any Buttons should call Click()
      */
-    static void Update();
+    static void Update(double deltaTime);
 };
 
 #endif //PLATFORMER_ENGINE_CLICKSYSTEM_HPP

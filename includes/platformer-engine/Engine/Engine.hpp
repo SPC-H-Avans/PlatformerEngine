@@ -165,6 +165,10 @@ namespace platformer_engine {
             return *_window;
         }
 
+        inline void SetSpeedMultiplier(double newSpeedMultiplier) {_speedMultiplier = newSpeedMultiplier;}
+
+        inline double GetSpeedMultiplier() const {return _speedMultiplier;}
+
     private:
         Engine() = default;
 
@@ -172,6 +176,8 @@ namespace platformer_engine {
 
         bool _isRunning = false;
         bool _debugLogs = false;
+
+        double _speedMultiplier = 1.0;
 
         std::unique_ptr<Window> _window = nullptr;
         std::unique_ptr<PhysicsSystem> _physicsSystem = nullptr;

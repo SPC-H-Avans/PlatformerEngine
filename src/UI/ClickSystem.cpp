@@ -3,7 +3,7 @@
 #include "Button.hpp"
 #include "Input.hpp"
 
-void ClickSystem::Update() {
+void ClickSystem::Update(double deltaTime) {
     // only check for clicks if the mouse has been clicked this frame
     if (!spic::Input::GetMouseButtonDown(MouseButton::LEFT)) return;
 

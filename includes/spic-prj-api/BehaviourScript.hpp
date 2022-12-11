@@ -31,7 +31,7 @@ namespace spic {
          * @brief On update of behaviour script
          * @spicapi
          */
-        virtual void OnUpdate() {};
+        virtual void OnUpdate(double deltaTime) {};
 
         /**
          * @brief Sent when another object enters a trigger collider

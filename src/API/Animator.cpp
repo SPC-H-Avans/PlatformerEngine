@@ -47,9 +47,9 @@ void spic::Animator::Render(spic::Transform transform) {
     _currentAnimation->Draw(transform);
 }
 
-void spic::Animator::Update() {
+void spic::Animator::Update(double deltaTime) {
     if (!_isPlaying || _currentAnimation == nullptr) return;
-    _currentAnimation->Update();
+    _currentAnimation->Update(deltaTime);
     if (_currentAnimation->GetCurrentFrame() == _currentAnimation->GetFrameCount() && !_isLooping) {
         _isPlaying = false;
     }

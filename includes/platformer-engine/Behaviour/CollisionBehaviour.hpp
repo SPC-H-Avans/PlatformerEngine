@@ -17,7 +17,7 @@ namespace platformer_engine {
 
         void OnStart() override;
 
-        void OnUpdate() override;
+        void OnUpdate(double deltaTime) override;
 
         void OnTriggerEnter2D(Collision collision) override;
 

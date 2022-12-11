@@ -60,7 +60,7 @@ void spic::Scene::AddUIObject(const std::shared_ptr<spic::UIObject>& uiObject) {
 }
 
 void spic::Scene::ImportLevel(const std::string &id, const std::string &filePath, const std::string &fileName,
-                              const std::map<int, std::function<spic::GameObject&(Transform)>> &config) {
+                              const std::map<int, std::function<spic::GameObject(Transform)>> &config) {
     platformer_engine::LevelParser::ParseLevel(*this, id, filePath, fileName, config);
 }
 

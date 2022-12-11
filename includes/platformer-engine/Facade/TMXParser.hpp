@@ -23,17 +23,17 @@ namespace platformer_engine {
         using TileSetsList = std::vector<TileSet>;
         using TileMap = std::vector<std::vector<int>>;
 
-        auto LoadOnScene(spic::Scene& scene, const std::string &id, const std::string &filePath, const std::string &fileName, const std::map<int, std::function<spic::GameObject&(spic::Transform)>> &config) -> bool override;
+        auto LoadOnScene(spic::Scene& scene, const std::string &id, const std::string &filePath, const std::string &fileName, const std::map<int, std::function<spic::GameObject(spic::Transform)>> &config) -> bool override;
 
     private:
-        auto ParseLevel(spic::Scene& scene, const std::string &id, const std::string &filePath, const std::string &fileName, const std::map<int, std::function<spic::GameObject&(spic::Transform)>> &config) -> bool;
+        auto ParseLevel(spic::Scene& scene, const std::string &id, const std::string &filePath, const std::string &fileName, const std::map<int, std::function<spic::GameObject(spic::Transform)>> &config) -> bool;
 
         auto ParseTileSet(const TiXmlElement &xmlTileSet) -> TileSet;
 
         void ParseTileLayer(spic::Scene& scene, TiXmlElement &xmlLayer, const std::string &filePath,
                             const platformer_engine::TMXParser::TileSetsList &tileSets,
                             int tileSize, int rowCount, int colCount,
-                            const std::map<int, std::function<spic::GameObject&(spic::Transform)>> &config);
+                            const std::map<int, std::function<spic::GameObject(spic::Transform)>> &config);
     };
 }
 

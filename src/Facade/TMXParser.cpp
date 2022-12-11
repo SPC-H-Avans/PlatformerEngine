@@ -4,7 +4,7 @@
 #include "Engine/Engine.hpp"
 
 auto platformer_engine::TMXParser::LoadOnScene(spic::Scene& scene, const std::string &id, const std::string &filePath, const std::string &fileName,
-                                        const std::map<int, std::function<spic::GameObject&(Transform)>> &config) -> bool {
+                                        const std::map<int, std::function<spic::GameObject(Transform)>> &config) -> bool {
     bool result = ParseLevel(scene, id, filePath, fileName, config);
 
     if (!result) {
@@ -14,7 +14,7 @@ auto platformer_engine::TMXParser::LoadOnScene(spic::Scene& scene, const std::st
 }
 
 auto platformer_engine::TMXParser::ParseLevel(spic::Scene& scene, const std::string &id, const std::string &filePath, const std::string &fileName,
-                                              const std::map<int, std::function<spic::GameObject&(Transform)>> &config) -> bool {
+                                              const std::map<int, std::function<spic::GameObject(Transform)>> &config) -> bool {
     TiXmlDocument xml;
     xml.LoadFile(filePath + fileName);
 
@@ -71,7 +71,7 @@ auto platformer_engine::TMXParser::ParseTileSet(const TiXmlElement &xmlTileSet) 
 void platformer_engine::TMXParser::ParseTileLayer(spic::Scene& scene, TiXmlElement &xmlLayer, const std::string &filePath,
                                                   const platformer_engine::TMXParser::TileSetsList &tileSets,
                                                   int tileSize, int rowCount, int colCount,
-                                                  const std::map<int, std::function<spic::GameObject&(Transform)>> &config) {
+                                                  const std::map<int, std::function<spic::GameObject(Transform)>> &config) {
     TiXmlElement *data;
     for (TiXmlElement *e = xmlLayer.FirstChildElement(); e != nullptr; e = e->NextSiblingElement()) {
         if (e->Value() == std::string("data")) {
@@ -101,7 +101,7 @@ void platformer_engine::TMXParser::ParseTileLayer(spic::Scene& scene, TiXmlEleme
                         static_cast<float>(row * tileSize)},
                     0, 1.0 };
 
-                GameObject& object = config.at(tileMap[row][col])(transform); // create the tile
+                GameObject object = config.at(tileMap[row][col])(transform); // create the tile
                 scene.AddObject(std::make_unique<GameObject>(object));
             }
             if (!iss.good())

@@ -5,7 +5,7 @@
 
 namespace platformer_engine {
     auto LevelParser::ParseLevel(spic::Scene& scene, const std::string &id, const std::string &filePath, const std::string &fileName,
-                                 const std::map<int, std::function<spic::GameObject&(spic::Transform)>> &config) -> bool {
+                                 const std::map<int, std::function<spic::GameObject(spic::Transform)>> &config) -> bool {
         std::string fileType = fileName.substr(fileName.find('.') + 1);
 
         if (fileType == "tmx") {

@@ -13,6 +13,8 @@ class EntityState
 {
 public:
     virtual spic::Point CalculateForce(std::weak_ptr<RigidBody> &entityBody) = 0;
+
+    virtual ~EntityState() = default;
 };
 
 

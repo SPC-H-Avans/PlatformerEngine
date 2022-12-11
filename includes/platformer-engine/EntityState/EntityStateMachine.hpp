@@ -13,7 +13,7 @@ public:
      * @brief Constructor for the EntityStateMachine sets the current state to the initial state
      * @param initialState the initial EntityState
      */
-    EntityStateMachine(EntityState& initialState, std::weak_ptr<RigidBody> entityBody);
+    EntityStateMachine(EntityState& initialState, RigidBody &entityBody);
 
     /**
     * @brief Updates the EntityState in the stateMachine

@@ -12,9 +12,17 @@ class EntityStateMachine;
 class EntityState
 {
 public:
-    virtual spic::Point CalculateForce(std::weak_ptr<RigidBody> &entityBody) = 0;
-
+    EntityState() = default;
     virtual ~EntityState() = default;
+
+    EntityState(const EntityState&) = default;
+    EntityState& operator=(const EntityState&) = default;
+
+    EntityState(EntityState&&) = default;
+    EntityState& operator=(EntityState&&) = default;
+
+    virtual auto CalculateForce(std::weak_ptr<RigidBody> &entityBody) -> spic::Point = 0;
+    [[nodiscard]] virtual auto Clone() const -> std::unique_ptr<EntityState> = 0;
 };
 
 

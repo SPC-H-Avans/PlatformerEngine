@@ -9,10 +9,18 @@
 
 class EntityPursuitState : public EntityState {
 public:
-    spic::Point CalculateForce(std::weak_ptr<RigidBody> &entityBody) override;
+    EntityPursuitState();
+    auto CalculateForce(std::weak_ptr<RigidBody> &entityBody) -> spic::Point override;
+    [[nodiscard]] auto Clone() const -> std::unique_ptr<EntityState> override;
+    ~EntityPursuitState() override;
 
+    EntityPursuitState(const EntityPursuitState&) = default;
+    auto operator=(const EntityPursuitState&) -> EntityPursuitState& = default;
+
+    EntityPursuitState(EntityPursuitState&&) = default;
+    auto operator=(EntityPursuitState&&) -> EntityPursuitState& = default;
 private:
-    Point Seek(RigidBody &entityBody, Point targetPos);
+    auto Seek(RigidBody &entityBody, Point targetPos) -> Point;
 };
 
 #endif //PLATFORMER_ENGINE_ENTITYPURSUITSTATE_HPP

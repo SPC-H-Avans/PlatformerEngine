@@ -52,3 +52,11 @@ auto EntityPursuitState::Seek(RigidBody &entityBody, Point targetPos) -> Point {
     gameObject.reset();
     return {};
 }
+
+auto EntityPursuitState::Clone() const -> std::unique_ptr<EntityState> {
+    return std::make_unique<EntityPursuitState>(*this);
+}
+
+EntityPursuitState::EntityPursuitState() = default;
+
+EntityPursuitState::~EntityPursuitState() = default;

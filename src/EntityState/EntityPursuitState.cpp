@@ -1,6 +1,7 @@
 #include "EntityState/EntityPursuitState.hpp"
 #include "Physics/ForceDrivenEntityBody.hpp"
 #include <memory>
+#include "GameObject.hpp"
 
 auto EntityPursuitState::CalculateForce(std::shared_ptr<RigidBody> &rigidBody) -> Point {
 

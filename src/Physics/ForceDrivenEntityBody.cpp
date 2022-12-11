@@ -3,6 +3,7 @@
 #include "EntityState/EntityWanderState.hpp"
 #include "EntityState/EntityPursuitState.hpp"
 #include "EntityState/EntityStateMachine.hpp"
+#include "GameObject.hpp"
 
 auto ForceDrivenEntityBody::CalcSteeringForce() -> Point {
     //calculate the combined force from each steering behavior in the
@@ -120,7 +121,6 @@ ForceDrivenEntityBody::ForceDrivenEntityBody(float friction) : RigidBody(frictio
     _gravityScale = 0.01;
     _mass = 15;
     _maxSpeed = Point{2, 4};
-    _behaviours = std::make_unique<platformer_engine::ForceDrivenEntityBehaviours>(GetGameObject());
     EntityWanderState state;
     _entityStateMachine = std::make_unique<EntityStateMachine>(state);
 }

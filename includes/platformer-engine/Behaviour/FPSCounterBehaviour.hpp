@@ -3,11 +3,12 @@
 
 #include "BehaviourScript.hpp"
 #include "Color.hpp"
+#include "Utility/InputEnum.hpp"
 
 namespace platformer_engine {
     class FPSCounterBehaviour : public spic::BehaviourScript {
     public:
-        FPSCounterBehaviour(std::string textId, std::string fontPath, int fontSize, spic::Color fontColor);
+        FPSCounterBehaviour(std::string textId, std::string fontPath, int fontSize, spic::Color fontColor, KeyCode);
 
         void OnUpdate() override;
 
@@ -15,6 +16,7 @@ namespace platformer_engine {
         int _lastFPS = 0;
         bool _active = true;
 
+        const KeyCode _key;
         const std::string _textId;
         const std::string _fontPath;
         const int _fontSize;

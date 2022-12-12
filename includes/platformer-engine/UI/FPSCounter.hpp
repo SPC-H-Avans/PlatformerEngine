@@ -4,6 +4,7 @@
 #include <memory>
 
 #include "GameObject.hpp"
+#include "Utility/InputEnum.hpp"
 
 namespace platformer_engine {
     class FPSCounter {
@@ -12,7 +13,7 @@ namespace platformer_engine {
          * @brief Constructor
          */
         FPSCounter(spic::Transform transform, std::string fontPath, int fontSize,
-                   spic::Color fontColor, int width, int height);
+                   spic::Color fontColor, int width, int height, KeyCode key);
 
     private:
         std::shared_ptr<spic::GameObject> _obj;

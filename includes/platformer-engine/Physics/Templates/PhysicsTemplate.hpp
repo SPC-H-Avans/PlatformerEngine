@@ -9,6 +9,13 @@ public:
     : _mass(mass), _gravityScale(gravityScale), _maxSpeed(maxSpeed), _friction(friction) {}
 
     PhysicsTemplate() = default;
+    virtual ~PhysicsTemplate() = default;
+
+    PhysicsTemplate(const PhysicsTemplate&) = default;
+    auto operator=(const PhysicsTemplate&) -> PhysicsTemplate& = delete;
+
+    PhysicsTemplate(PhysicsTemplate&&) = default;
+    auto operator=(PhysicsTemplate&&) -> PhysicsTemplate& = delete;
 
     [[nodiscard]] virtual auto GetMass() const -> float { return _mass; };
     [[nodiscard]] virtual auto GetGravityScale() const -> float { return _gravityScale; };

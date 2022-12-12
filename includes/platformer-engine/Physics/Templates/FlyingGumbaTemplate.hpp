@@ -13,9 +13,9 @@ public:
     [[nodiscard]] auto GetFriction() const -> float override { return _friction; };
 
 private:
-    const float _mass = 8;
-    const float _gravityScale = 0.055;
-    const spic::Point _maxSpeed = spic::Point{2.0, 20.0};
+    const float _mass = 15;
+    const float _gravityScale = 0.005;
+    const spic::Point _maxSpeed = spic::Point{1.5, 4};
     const float _friction = 0.045;
 };
 

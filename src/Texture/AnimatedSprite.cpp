@@ -15,7 +15,7 @@ platformer_engine::AnimatedSprite::AnimatedSprite(std::string spriteId, int spri
 }
 
 void platformer_engine::AnimatedSprite::Update(double deltaTime) {
-    _currentFrame = (static_cast<int>((platformer_engine::Window::GetTicks()) / (_animationSpeed * deltaTime))) % _frameCount;
+    _currentFrame = (static_cast<int>((platformer_engine::Window::GetTicks()) / (_animationSpeed / deltaTime))) % _frameCount;
 }
 
 void platformer_engine::AnimatedSprite::Draw(spic::Transform transform) {

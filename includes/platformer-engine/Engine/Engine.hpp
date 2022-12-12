@@ -132,6 +132,9 @@ namespace platformer_engine {
          */
         void JoinServer(const std::string &ip, int port);
 
+        /**
+         * @brief Returns the number of frames per second
+         */
         inline auto GetFPS() -> int { return _fps; }
 
         /**

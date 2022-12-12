@@ -36,6 +36,7 @@ void MoveSystem::Update() {
                             forceDrivenEntityBody->WanderOn();
                         }
                     } else {
+                        forceDrivenEntityBody->WanderOn();
                         following.reset();
                     }
                     auto FDEForce = forceDrivenEntityBody->CalcSteeringForce();

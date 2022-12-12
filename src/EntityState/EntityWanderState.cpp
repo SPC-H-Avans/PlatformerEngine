@@ -16,7 +16,7 @@ auto EntityWanderState::CalculateForce(std::shared_ptr<RigidBody> &rigidBody) ->
 
     totalForce += heading * Point{1.5, 1.5};
 
-    if(!rigidBody->CanMoveTo(CollisionPoint::Right) || !rigidBody->CanMoveTo(CollisionPoint::Left)) {
+    if(!rigidBody->CanMoveTo(CollisionPoint::Right)) {
         totalForce.x *= -10;
     }
     if(!rigidBody->CanMoveTo(CollisionPoint::Right) && !rigidBody->CanMoveTo(CollisionPoint::Left)) {

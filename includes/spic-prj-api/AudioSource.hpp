@@ -3,6 +3,9 @@
 
 #include "Component.hpp"
 #include <string>
+#include <boost/serialization/access.hpp>
+#include <boost/serialization/export.hpp>
+#include <boost/serialization/map.hpp>
 
 namespace spic {
 
@@ -17,6 +20,13 @@ namespace spic {
 
         AudioSource(std::map<std::string, int> audioClips) {
             _audioClips = std::move(audioClips);
+        }
+
+        template<class Archive>
+        void serialize(Archive &ar, unsigned int version) {
+            ar & boost::serialization::base_object<Component, AudioSource>(*this);
+            boost::serialization::void_cast_register<AudioSource, Component>();
+            ar & _audioClips;
         }
 
         /**

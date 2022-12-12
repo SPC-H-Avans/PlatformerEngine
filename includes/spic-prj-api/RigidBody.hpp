@@ -6,6 +6,7 @@
 #include "Physics/Collision.hpp"
 #include <map>
 #include <boost/serialization/access.hpp>
+#include <boost/serialization/export.hpp>
 
 namespace spic {
 
@@ -22,9 +23,12 @@ namespace spic {
      * @brief A component representing a rigid body.
      */
     class RigidBody : public Component {
-        public:
+    public:
 
-        template<typename archive> void serialize(archive& ar, const unsigned /*version*/) {
+        template<typename archive>
+        void serialize(archive &ar, const unsigned /*version*/) {
+            ar & boost::serialization::base_object<Component, RigidBody>(*this);
+            boost::serialization::void_cast_register<RigidBody, Component>();
             ar & _bodyType;
             ar & _mass;
             ar & _gravityScale;
@@ -33,56 +37,62 @@ namespace spic {
             ar & _maxSpeed;
         }
 
-            RigidBody(float friction);
+        RigidBody();
 
-            /**
-             * @brief Apply force to this rigid body.
-             * @param forceDirection A point, used as a vector to indicate direction
-             *        and magnitude of the force to be applied.
-             * @spicapi
-             */
-            virtual void AddForce(const Point& forceDirection);
+        RigidBody(float friction);
 
-            void BodyType (BodyType bodyType) { this->_bodyType = bodyType; }
-            auto BodyType() -> enum BodyType { return _bodyType; }
+        /**
+         * @brief Apply force to this rigid body.
+         * @param forceDirection A point, used as a vector to indicate direction
+         *        and magnitude of the force to be applied.
+         * @spicapi
+         */
+        virtual void AddForce(const Point &forceDirection);
 
-            /**
-            * @brief Checks if the rigidbody can move to a certain point
-            */
-            auto CanMoveTo(CollisionPoint point) -> bool;
+        void BodyType(BodyType bodyType) { this->_bodyType = bodyType; }
 
-            /**
-            * @brief Allows a move to a direction. If the move was denied twice before, it has to be allowed twice to be
-             * fully allowed.
-            */
-            void AllowMoveTo(CollisionPoint point);
+        enum BodyType BodyType() const { return _bodyType; }
 
-            /**
-            * @brief Denies a move to a direction. If the move was denied twice, it has to be allowed twice to be
-            * fully allowed again.
-            */
-            void DenyMoveTo(CollisionPoint point);
+        /**
+        * @brief Checks if the rigidbody can move to a certain point
+        */
+        auto CanMoveTo(CollisionPoint point) -> bool;
 
-            /**
-            * @brief Get the maximum speed vector from this rigidbody
-            */
-            [[nodiscard]] auto GetMaxSpeed() const -> Point;
+        /**
+        * @brief Allows a move to a direction. If the move was denied twice before, it has to be allowed twice to be
+         * fully allowed.
+        */
+        void AllowMoveTo(CollisionPoint point);
 
-            /**
-            * @brief Get the velocity vector from this rigidbody
-            */
-            [[nodiscard]] auto GetVelocity() const -> Point;
+        /**
+        * @brief Denies a move to a direction. If the move was denied twice, it has to be allowed twice to be
+        * fully allowed again.
+        */
+        void DenyMoveTo(CollisionPoint point);
 
-        protected:
-            enum BodyType _bodyType;
-            float _mass;
-            float _gravityScale;
-            Point _velocity;
-            Point _maxSpeed;
-            const float _friction;
+        /**
+        * @brief Get the maximum speed vector from this rigidbody
+        */
+        [[nodiscard]] auto GetMaxSpeed() const -> Point;
 
-            std::map<CollisionPoint, int> _moveRestrictions;
+        /**
+        * @brief Get the velocity vector from this rigidbody
+        */
+        [[nodiscard]] auto GetVelocity() const -> Point;
+
+
+    protected:
+        float _mass;
+        float _gravityScale;
+        enum BodyType _bodyType;
+        Point _velocity;
+        Point _maxSpeed;
+        float _friction;
+
+        std::map<CollisionPoint, int> _moveRestrictions;
     };
+
+    BOOST_SERIALIZATION_ASSUME_ABSTRACT(RigidBody);
 
 } // namespace spic
 

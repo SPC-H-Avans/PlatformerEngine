@@ -4,6 +4,7 @@
 #include <string>
 #include <utility>
 #include "Facade/GraphicsFacade.hpp"
+#include "Texture/LoadedTextureInfo.hpp"
 #include "Transform.hpp"
 
 //Singleton class to manage all textures
@@ -29,6 +30,8 @@ namespace platformer_engine {
          * @return A true or false value, true if the texture is loaded, false if not
          */
         auto LoadTexture(const std::string &id, const std::string &fileName) -> bool;
+
+        inline auto GetLoadedTextures() const -> std::vector<LoadedTextureInfo> { return _loadedTextures; };
 
         /**
          * @brief Create a Text element, or update it if the textId already exists
@@ -105,6 +108,8 @@ namespace platformer_engine {
         TextureManager() = default;
 
         ~TextureManager() = default;
+
+        std::vector<LoadedTextureInfo> _loadedTextures;
 
         spic::Transform GetCameraPosition();
 

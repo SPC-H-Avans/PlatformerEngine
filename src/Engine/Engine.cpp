@@ -13,7 +13,8 @@ const int TARGET_FPS = 60;
 const double TARGET_FRAME_DELAY = MILLIS_IN_SECOND / TARGET_FPS;
 
 auto
-platformer_engine::Engine::Init(int width, int height, const std::string &title, const spic::Color &color, bool fullScreen) -> bool {
+platformer_engine::Engine::Init(int width, int height, const std::string &title, const spic::Color &color, bool fullScreen,
+                                bool debugLogs) -> bool {
     if (_window != nullptr) {
         return false;
     }
@@ -21,7 +22,10 @@ platformer_engine::Engine::Init(int width, int height, const std::string &title,
     _renderSystem = std::make_unique<RenderSystem>();
     _physicsSystem = std::make_unique<PhysicsSystem>();
     _behaviourSystem = std::make_unique<BehaviourSystem>();
+    _dataManager = std::make_unique<DataStorageManager>();
     _clickSystem = std::make_unique<ClickSystem>();
+
+    _debugLogs = debugLogs;
 
     return true;
 }
@@ -136,19 +140,41 @@ void platformer_engine::Engine::HostServer(const std::string &sceneId, int playe
         SetActiveScene(sceneId);
     }
     if (_serverNetworkManager != nullptr) throw spic::ServerAlreadyActiveException();
+    if (_clientNetworkManager != nullptr) throw spic::ClientAlreadyActiveException();
     _serverNetworkManager = std::make_unique<ServerNetworkManager>(GetActiveScene(), playerLimit, port);
 }
 
 void platformer_engine::Engine::JoinServer(const std::string &ip, int port) {
+    if (_serverNetworkManager != nullptr) throw spic::ServerAlreadyActiveException();
     if (_clientNetworkManager != nullptr) throw spic::ClientAlreadyActiveException();
     _clientNetworkManager = std::make_unique<ClientNetworkManager>();
     _clientNetworkManager->ConnectToServer(ip, port);
 }
 
 void platformer_engine::Engine::AddScene(const Scene &new_scene) {
-    auto iter = std::find_if(_scenes.begin(), _scenes.end(), [&new_scene](const Scene& scene) { return scene.GetSceneName() == new_scene.GetSceneName();});
+    auto iter = std::find_if(_scenes.begin(), _scenes.end(), [&new_scene](const Scene &scene) {
+        return scene.GetSceneName() == new_scene.GetSceneName();
+    });
     if (iter != _scenes.end())
         *iter = new_scene;
     else
         _scenes.push_back(new_scene);
 }
+
+auto platformer_engine::Engine::GetLocalClientId() -> const int {
+    if (_clientNetworkManager != nullptr) {
+        return _clientNetworkManager->GetLocalPlayerId();
+    }
+    return 0;
+}
+
+auto platformer_engine::Engine::GetNetworkingStatus() -> const platformer_engine::NetworkingStatus {
+    if (_clientNetworkManager != nullptr) {
+        return NetworkingStatus::MultiplayerClient;
+    }
+    if (_serverNetworkManager != nullptr) {
+        return NetworkingStatus::MultiplayerServer;
+    }
+    return NetworkingStatus::Singleplayer;
+}
+

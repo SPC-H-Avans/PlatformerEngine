@@ -1,5 +1,6 @@
 #include "Physics/PlayerRigidBody.hpp"
 #include "GameObject.hpp"
+#include "Engine/Engine.hpp"
 
 
 PlayerRigidBody::PlayerRigidBody() : spic::RigidBody(0.060) {
@@ -8,3 +9,4 @@ PlayerRigidBody::PlayerRigidBody() : spic::RigidBody(0.060) {
     auto maxSpeed = Point {2.0, 20.0};
     _maxSpeed = maxSpeed;
 }
+BOOST_CLASS_EXPORT(PlayerRigidBody);

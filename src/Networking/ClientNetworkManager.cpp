@@ -8,42 +8,69 @@
 #include "Debug.hpp"
 #include "Engine/Engine.hpp"
 #include "Utility/NetworkingBuffer.hpp"
+#include "Networking/PackedObjects/PackedLoadedTextureInfo.hpp"
 
 platformer_engine::ClientNetworkManager::ClientNetworkManager() {
-    std::function<void(int clientId, const uint8_t *data, size_t dataLength)> removeLocalClientFromGame = [this](int clientId, const uint8_t *data, size_t dataLength) {
+    std::function<void(int clientId, const uint8_t *data, size_t dataLength)> removeLocalClientFromGame = [this](
+            int clientId, const uint8_t *data, size_t dataLength) {
         RemoveLocalClientFromGame(data, dataLength);
     };
     _eventMap[NET_KICK_CLIENT] = removeLocalClientFromGame;
 
-    std::function<void(int clientId, const uint8_t *data, size_t dataLength)> receivePing = [this](int clientId, const uint8_t *data, size_t dataLength) {
+    std::function<void(int clientId, const uint8_t *data, size_t dataLength)> receivePing = [this](int clientId,
+                                                                                                   const uint8_t *data,
+                                                                                                   size_t dataLength) {
         spic::Debug::Log("Ping received from server!");
     };
     _eventMap[NET_REQUEST_PING] = receivePing;
 
-    std::function<void(int clientId, const uint8_t *data, size_t dataLength)> kickClient = [this](int clientId, const uint8_t *data, size_t dataLength) {
+    std::function<void(int clientId, const uint8_t *data, size_t dataLength)> kickClient = [this](int clientId,
+                                                                                                  const uint8_t *data,
+                                                                                                  size_t dataLength) {
         RemoveLocalClientFromGame(data, dataLength);
     };
     _eventMap[NET_KICK_CLIENT] = kickClient;
 
-    std::function<void(int clientId, const uint8_t *data, size_t dataLength)> createGameObject = [this](int clientId, const uint8_t *data, size_t dataLength) {
+    std::function<void(int clientId, const uint8_t *data, size_t dataLength)> createGameObject = [this](int clientId,
+                                                                                                        const uint8_t *data,
+                                                                                                        size_t dataLength) {
         CreateGameObject(data, dataLength);
     };
     _eventMap[NET_CREATE_GAMEOBJECT] = createGameObject;
 
-    std::function<void(int clientId, const uint8_t *data, size_t dataLength)> destroyGameObject = [this](int clientId, const uint8_t *data, size_t dataLength) {
+    std::function<void(int clientId, const uint8_t *data, size_t dataLength)> destroyGameObject = [this](int clientId,
+                                                                                                         const uint8_t *data,
+                                                                                                         size_t dataLength) {
         DestroyGameObject(data, dataLength);
     };
     _eventMap[NET_DESTROY_GAMEOBJECT] = destroyGameObject;
 
-    std::function<void(int clientId, const uint8_t *data, size_t dataLength)> updateGameObjectTransform = [this](int clientId, const uint8_t *data, size_t dataLength) {
+    std::function<void(int clientId, const uint8_t *data, size_t dataLength)> updateGameObjectTransform = [this](
+            int clientId, const uint8_t *data, size_t dataLength) {
         UpdateGameObjectTransform(data, dataLength);
     };
     _eventMap[NET_UPDATE_GAMEOBJECT_TRANSFORM] = updateGameObjectTransform;
 
-    std::function<void(int clientId, const uint8_t *data, size_t dataLength)> createScene = [this](int clientId, const uint8_t *data, size_t dataLength) {
+    std::function<void(int clientId, const uint8_t *data, size_t dataLength)> createScene = [this](int clientId,
+                                                                                                   const uint8_t *data,
+                                                                                                   size_t dataLength) {
         CreateScene(data, dataLength);
     };
     _eventMap[NET_CREATE_SCENE] = createScene;
+
+    std::function<void(int clientId, const uint8_t *data, size_t dataLength)> loadedTextures = [this](int clientId,
+                                                                                                      const uint8_t *data,
+                                                                                                      size_t dataLength) {
+        LoadedTextures(data, dataLength);
+    };
+    _eventMap[NET_LOADED_TEXTURES] = loadedTextures;
+
+    std::function<void(int clientId, const uint8_t *data, size_t dataLength)> updateAnimation = [this](int clientId,
+                                                                                                       const uint8_t *data,
+                                                                                                       size_t dataLength) {
+        UpdateAnimationFromServer(data, dataLength);
+    };
+    _eventMap[NET_UPDATE_ACTIVE_ANIMATION] = updateAnimation;
 }
 
 void platformer_engine::ClientNetworkManager::ConnectToServer(const std::string &ip, int port) {
@@ -66,6 +93,9 @@ void platformer_engine::ClientNetworkManager::OnConnect(int clientId) {
     _localPlayerId = clientId;
     bool isPartyLeader = false; //TODO revise? b
     _connectionStatus = ConnectionStatus::Connected;
+    if (_eventMap.contains(NET_ON_CONNECT)) {
+        _eventMap[NET_ON_CONNECT](clientId, nullptr, 0);
+    }
 }
 
 void platformer_engine::ClientNetworkManager::OnReceive(int clientId, const uint8_t *data, size_t dataLength) {
@@ -79,16 +109,18 @@ void platformer_engine::ClientNetworkManager::OnReceive(int clientId, const uint
         //Handle bad networking version
         throw spic::NotImplementedException();
     }
-    if(_eventMap.contains(messageType)){
+    if (_eventMap.contains(messageType)) {
         _eventMap[messageType](clientId, data, dataLength);
-    }
-    else{
-        spic::Debug::LogWarning(std::to_string(messageType) + " is not a registered event in the client network manager!");
+    } else {
+        spic::Debug::LogWarning(
+                std::to_string(messageType) + " is not a registered event in the client network manager!");
     }
 }
 
 void
-platformer_engine::ClientNetworkManager::RegisterEventHandler(int eventID, std::function<void(int clientId, const uint8_t *data, size_t dataLength)> functionToCall) {
+platformer_engine::ClientNetworkManager::RegisterEventHandler(int eventID,
+                                                              std::function<void(int clientId, const uint8_t *data,
+                                                                                 size_t dataLength)> functionToCall) {
     _eventMap[eventID] = functionToCall;
 }
 
@@ -96,6 +128,9 @@ void platformer_engine::ClientNetworkManager::OnDisconnect(int clientId) {
     _localPlayerId = 0;
     _isPartyleader = false;
     _connectionStatus = ConnectionStatus::Disconnected;
+    if (_eventMap.contains(NET_ON_DISCONNECT)) {
+        _eventMap[NET_ON_DISCONNECT](clientId, nullptr, 0);
+    }
 }
 
 void platformer_engine::ClientNetworkManager::RemoveLocalClientFromGame(const void *data,
@@ -105,19 +140,24 @@ void platformer_engine::ClientNetworkManager::RemoveLocalClientFromGame(const vo
     std::memcpy(&pkg, data, dataLength);
     auto playerToRemove = pkg.clientId;
     //Perform remove logic
-    throw spic::NotImplementedException();
+    Engine::GetInstance().GetActiveScene().RemoveObject(
+            std::string(NET_PLAYER_PREFIX) + std::to_string(playerToRemove));
 }
 
 #pragma region HandlePacketsFromServer
 
-void platformer_engine::ClientNetworkManager::CreateScene(const void* data, size_t length) {
+void platformer_engine::ClientNetworkManager::CreateScene(const void *data, size_t length) {
     auto pkg = NetPkgs::CreateScene();
     memcpy(&pkg, data, length);
     spic::Scene scene;
 
-    platformer_engine::NetworkingBuffer::ParseIncomingDataToObject<spic::Scene>(pkg._data, MAX_CREATE_SCENE_SIZE, scene);
+    platformer_engine::NetworkingBuffer::ParseIncomingDataToObject<spic::Scene>(pkg._data, MAX_CREATE_SCENE_SIZE,
+                                                                                scene);
 
     scene.ResetScene(); //Loads objects on instances.
+    for (const auto &item: scene.GetAllObjects()) {
+        item->FixGameObjectAfterDeserialize();
+    }
     Engine::GetInstance().AddScene(scene);
     Engine::GetInstance().SetActiveScene(scene.GetSceneName());
 }
@@ -127,10 +167,18 @@ void platformer_engine::ClientNetworkManager::CreateGameObject(const void *data,
     memcpy(&pkg, data, length);
     spic::GameObject gameObject;
 
-    platformer_engine::NetworkingBuffer::ParseIncomingDataToObject<spic::GameObject>(pkg._data, MAX_CREATE_GAME_OBJECT_SIZE, gameObject);
+    platformer_engine::NetworkingBuffer::ParseIncomingDataToObject<spic::GameObject>(pkg._data,
+                                                                                     MAX_CREATE_GAME_OBJECT_SIZE,
+                                                                                     gameObject);
 
+    gameObject.FixGameObjectAfterDeserialize();
     std::shared_ptr<GameObject> sharedPtr = std::make_shared<GameObject>(gameObject);
-    Engine::GetInstance().GetActiveScene().AddObject(sharedPtr);
+    try {
+        Engine::GetInstance().GetActiveScene().AddObject(sharedPtr);
+    } catch (const std::exception &ex) {
+        spic::Debug::LogError("Something went wrong while trying to create a networked game object as client: " +
+                              std::string(ex.what()));
+    }
 }
 
 void platformer_engine::ClientNetworkManager::DestroyGameObject(const void *data, size_t length) {
@@ -145,32 +193,87 @@ void platformer_engine::ClientNetworkManager::UpdateGameObjectTransform(const vo
     memcpy(&pkg, data, length);
     spic::Transform transform;
 
-    platformer_engine::NetworkingBuffer::ParseIncomingDataToObject<spic::Transform>(pkg._data, MAX_UPDATE_TRANSFORM_SIZE, transform);
+    platformer_engine::NetworkingBuffer::ParseIncomingDataToObject<spic::Transform>(pkg._data,
+                                                                                    MAX_UPDATE_TRANSFORM_SIZE,
+                                                                                    transform);
     std::string gameObjectId = std::string(pkg._gameObjectId);
 
-    auto gameObject =  platformer_engine::Engine::GetInstance().GetActiveScene().GetObjectByName(gameObjectId);
-    if(gameObject != nullptr){
+    auto gameObject = platformer_engine::Engine::GetInstance().GetActiveScene().GetObjectByName(gameObjectId);
+    if (gameObject != nullptr) {
         gameObject->SetTransform(transform);
     }
 }
 
+void platformer_engine::ClientNetworkManager::LoadedTextures(const void *data, size_t length) {
+    auto pkg = NetPkgs::LoadedTextures();
+    memcpy(&pkg, data, length);
+    PackedLoadedTextureInfo packedLoadedTextures;
+
+    platformer_engine::NetworkingBuffer::ParseIncomingDataToObject<PackedLoadedTextureInfo>(pkg._data,
+                                                                                            MAX_LOADED_TEXTURES_SIZE,
+                                                                                            packedLoadedTextures);
+    auto loadedTextures = packedLoadedTextures.GetLoadedTextureInfos();
+    for (auto &item: loadedTextures) {
+        TextureManager::GetInstance().LoadTexture(item.GetTextureId(), item.GetTexturePath());
+    }
+}
+
+void platformer_engine::ClientNetworkManager::UpdateAnimationFromServer(const void *data, size_t length) {
+    auto pkg = NetPkgs::UpdateActiveAnimation();
+    memcpy(&pkg, data, length);
+
+    auto gameObject = platformer_engine::Engine::GetInstance().GetActiveScene().GetObjectByName(
+            std::string(pkg._gameObjectId));
+    if (gameObject == nullptr) {
+        spic::Debug::LogWarning(
+                "GameObject " + std::string(pkg._gameObjectId) + " does not exist in the client! Ignoring packet!");
+        return;
+    }
+    auto playerAnimator = std::dynamic_pointer_cast<Animator>(gameObject->GetComponent<Animator>());
+    if (playerAnimator == nullptr) {
+        spic::Debug::LogWarning(
+                "GameObject " + std::string(pkg._gameObjectId) +
+                " does not have an animator in the client! Ignoring packet!");
+        return;
+    }
+    playerAnimator->SetActiveAnimation(std::string(pkg._animationId));
+}
+
 #pragma endregion HandlePacketsFromClient
 
-#pragma region DefaultServerEvents
+#pragma region DefaultClientEvents
 
 void platformer_engine::ClientNetworkManager::UpdateNetworkedGameObjectTransform(const Transform &transform,
                                                                                  const std::string &gameObjectId) {
     auto gameObject = spic::GameObject::Find(gameObjectId);
 
-    if(gameObject == nullptr || gameObject->GetOwnerId() != GetLocalPlayerId()) return;
+    if (gameObject == nullptr || gameObject->GetOwnerId() != GetLocalPlayerId()) return;
 
     boost::asio::streambuf buf;
     platformer_engine::NetworkingBuffer::ObjectToAsioBuffer<spic::Transform>(transform, buf);
 
-    const auto *charPtr = buffer_cast<const char*>(buf.data());
+    const auto *charPtr = buffer_cast<const char *>(buf.data());
 
     auto pkg = NetPkgs::UpdateGameObjectTransform(gameObjectId.c_str(), charPtr, buf.size());
     SendNetworkPackage(&pkg, sizeof(pkg), false);
 }
 
-#pragma endregion DefaultServerEvents
+void platformer_engine::ClientNetworkManager::InitializeMyClient(spic::GameObject &playerChar) {
+    if (_connectionStatus != ConnectionStatus::Connected) return;
+    playerChar.SetOwnerId(GetLocalPlayerId());
+    boost::asio::streambuf buf;
+    platformer_engine::NetworkingBuffer::ObjectToAsioBuffer<spic::GameObject>(playerChar, buf);
+
+    const auto *charPtr = buffer_cast<const char *>(buf.data());
+
+    auto pkg = NetPkgs::CreatePlayerCharacter(charPtr, buf.size());
+    SendNetworkPackage(&pkg, sizeof(pkg), false);
+}
+
+void platformer_engine::ClientNetworkManager::UpdateActiveAnimation(const std::string &gameObjectId,
+                                                                    const std::string &animationId) {
+    auto pkg = NetPkgs::UpdateActiveAnimation(gameObjectId.c_str(), animationId.c_str());
+    SendNetworkPackage(&pkg, sizeof(pkg), false);
+}
+
+#pragma endregion DefaultClientEvents

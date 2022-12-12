@@ -46,8 +46,8 @@ void spic::Scene::AddObject(const std::shared_ptr<spic::GameObject> &gameObject)
     if (GetObjectByName(gameObject->GetName()) != nullptr) {
         throw GameObjectAlreadyInSceneException(gameObject->GetName());
     }
-    _contents.push_back(gameObject);
-    _origins.push_back(*gameObject);
+    _contents.push_back(GameObject::Find(gameObject->GetName()));
+    _origins.push_back(*GameObject::Find(gameObject->GetName()));
 }
 
 void spic::Scene::AddUIObject(const std::shared_ptr<spic::UIObject>& uiObject) {
@@ -69,6 +69,12 @@ void spic::Scene::RemoveObject(const std::string &name) {
                               [&name](const std::shared_ptr<GameObject> &obj) { return obj->GetName() == name; });
 
     _contents.erase(itr, _contents.end());
+
+    auto itrOrigins = std::remove_if(_origins.begin(), _origins.end(),
+                                     [&name](const GameObject &obj) { return obj.GetName() == name; });
+
+    _origins.erase(itrOrigins, _origins.end());
+
 }
 
 auto spic::Scene::GetObjectByName(const std::string &name) -> std::shared_ptr<spic::GameObject> {
@@ -134,11 +140,11 @@ auto spic::Scene::GetActiveCamera() -> std::shared_ptr<spic::Camera> {
 void spic::Scene::ResetScene() {
     _contents.clear();
 
-    for(auto& origin : _origins) {
+    for (auto &origin: _origins) {
         auto instance = GameObject::Find(origin.GetName(), true);
 
-        if(instance == nullptr) {
-            GameObject g (origin.GetName());
+        if (instance == nullptr) {
+            GameObject g(origin.GetName());
             instance = GameObject::Find(origin.GetName(), true);
         }
 

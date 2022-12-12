@@ -5,6 +5,10 @@
 
 #include "GameObject.hpp"
 #include "Camera.hpp"
+#include <boost/serialization/access.hpp>
+#include <boost/serialization/export.hpp>
+#include <boost/serialization/shared_ptr.hpp>
+#include <boost/serialization/vector.hpp>
 #include "UIObject.hpp"
 
 namespace spic {
@@ -18,6 +22,7 @@ namespace spic {
         void serialize(archive &ar, const unsigned /*version*/) {
             ar & _sceneName;
             ar & _origins;
+            //ar & _contents;
             ar & _activeCamera;
             ar & _cameras;
         }

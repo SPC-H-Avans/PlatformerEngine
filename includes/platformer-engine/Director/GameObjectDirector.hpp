@@ -25,11 +25,11 @@ public:
      * @return The created GameObject
      */
     static auto CreateTile(
-            const spic::Sprite& sprite,
+            const spic::Sprite &sprite,
             Transform transform,
             int colliderWidth,
             int colliderHeight
-    ) -> GameObject&;
+    ) -> GameObject &;
 
     /**
      * @brief Create a background object (not collidable) and add it to the scene
@@ -38,9 +38,9 @@ public:
      * @return The created GameObject
      */
     static auto CreateBackgroundObject(
-            const spic::Sprite& sprite,
+            const spic::Sprite &sprite,
             Transform transform
-    ) -> GameObject&;
+    ) -> GameObject &;
 
     /**
      * @brief Create a Player (collidable) and add it to the scene
@@ -53,6 +53,7 @@ public:
      * @return The created GameObject
      */
     static auto CreatePlayer(
+            int playerId,
             Transform transform,
             int colliderWidth,
             int colliderHeight,

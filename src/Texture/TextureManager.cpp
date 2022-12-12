@@ -9,8 +9,14 @@ auto platformer_engine::TextureManager::LoadTexture(const std::string &id, const
     return result;
 }
 
-auto platformer_engine::TextureManager::CreateOrUpdateUIText(const std::string textId, const std::string filePath, const std::string text, const int fontSize, const spic::Color color) -> bool {
-    return GraphicsFacade::GetInstance().CreateOrUpdateUIText(textId, filePath, text, fontSize, color);
+auto platformer_engine::TextureManager::CreateOrUpdateUIText(const std::string textId, const std::string filePath,
+                                                             const std::string text, const int fontSize,
+                                                             const spic::Color color) -> bool {
+    auto result = GraphicsFacade::GetInstance().CreateOrUpdateUIText(textId, filePath, text, fontSize, color);
+//    if (result) { // UI objects should only be seen by the client
+//        _loadedTextures.emplace_back(textId, filePath);
+//    }
+    return result;
 }
 
 void
@@ -23,12 +29,13 @@ platformer_engine::TextureManager::DrawTexture(const std::string &id, int x, int
 }
 
 void platformer_engine::TextureManager::DrawUIButton(const std::string &id, int x, int y, int width, int height,
-                                               const SPIC_RendererFlip &flip, double scale,
-                                               int spriteSheetX, int spriteSheetY) {
+                                                     const SPIC_RendererFlip &flip, double scale,
+                                                     int spriteSheetX, int spriteSheetY) {
     GraphicsFacade::GetInstance().DrawTexture(id, x, y, width, height, flip, scale, spriteSheetX, spriteSheetY);
 }
 
-void platformer_engine::TextureManager::DrawUIText(const std::string textId, const int x, const int y, const int width, const int height) {
+void platformer_engine::TextureManager::DrawUIText(const std::string textId, const int x, const int y, const int width,
+                                                   const int height) {
     GraphicsFacade::GetInstance().DrawUIText(textId, x, y, width, height);
 }
 

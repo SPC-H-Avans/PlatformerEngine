@@ -8,7 +8,9 @@
 // Forward declaration of the state machine class
 class EntityStateMachine;
 
-// Abstract base class for states
+/**
+ * @brief Abstract base class for states
+ */
 class EntityState
 {
 public:
@@ -21,7 +23,17 @@ public:
     EntityState(EntityState&&) = default;
     auto operator=(EntityState&&) -> EntityState& = default;
 
+    /**
+    * @brief Calculate the force coming from the current state
+     * @param rigidBody A reference to the RigidBody whose force should be calculated
+     * @return A 2D vector (Point) with the force to be applied to the rigidBody
+    */
     virtual auto CalculateForce(std::shared_ptr<RigidBody> &rigidBody) -> spic::Point = 0;
+
+    /**
+     * @brief Clone function creates a unique_ptr to the state
+     * @return a std::unique_ptr to the state
+     */
     [[nodiscard]] virtual auto Clone() const -> std::unique_ptr<EntityState> = 0;
 };
 

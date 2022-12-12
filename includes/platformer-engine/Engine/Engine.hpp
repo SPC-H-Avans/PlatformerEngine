@@ -14,6 +14,7 @@
 #include "Networking/ClientNetworkManager.hpp"
 #include "Exceptions/NoWindowException.hpp"
 #include "Behaviour/BehaviourSystem.hpp"
+#include "Audio/AudioManager.hpp"
 #include "Storage/DataStorageManager.hpp"
 #include "Networking/NetworkingStatus.hpp"
 

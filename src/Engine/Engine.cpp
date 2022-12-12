@@ -58,7 +58,7 @@ void platformer_engine::Engine::Start() {
 void platformer_engine::Engine::Update() {
     auto &timer = Timer::Instance();
     timer.Update();
-    auto deltaTime = timer.DeltaTime() * _speedMultiplier;
+    auto deltaTime = /*timer.DeltaTime() * */ _speedMultiplier;
     //Call systems
     _physicsSystem->Update(deltaTime);
     _renderSystem->Update(deltaTime);

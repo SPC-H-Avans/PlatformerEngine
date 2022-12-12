@@ -9,7 +9,7 @@ auto ForceDrivenEntityBody::CalcSteeringForce() -> Point {
     Point stateForce = _entityStateMachine->CalculateForce(shared_from_this());
 
     Point steeringForce = stateForce;
-    if(steeringForce.y < 0 && _mass != 0) {
+    if(steeringForce.y < 0 && GetMass() != 0) {
         if(!CanMoveTo(CollisionPoint::Bottom)) {
             steeringForce.y *= 26;
         } else {

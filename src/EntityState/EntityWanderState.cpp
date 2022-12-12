@@ -1,26 +1,25 @@
 #include "EntityState/EntityWanderState.hpp"
-#include "Physics/ForceDrivenEntityBody.hpp"
 #include <memory>
 
 auto EntityWanderState::CalculateForce(std::shared_ptr<RigidBody> &rigidBody) -> spic::Point {
-    auto entityBody = std::dynamic_pointer_cast<ForceDrivenEntityBody>(rigidBody);
-    if(!entityBody) {
+    if(!rigidBody) {
         return {0,0};
     }
-    Point heading = entityBody->GetHeading();
+
+    Point heading = rigidBody->GetHeading();
     Point totalForce {0,0};
 
     // Make sure the enemy is always heading somewhere
-    if(abs(entityBody->GetHeading().x) < 0.01  || abs(entityBody->GetHeading().y) < 0.01) {
+    if(abs(rigidBody->GetHeading().x) < 0.01  || abs(rigidBody->GetHeading().y) < 0.01) {
         totalForce += {1,-1};
     }
 
     totalForce += heading * Point{1.5, 1.5};
 
-    if(!entityBody->CanMoveTo(CollisionPoint::Right) || !entityBody->CanMoveTo(CollisionPoint::Left)) {
+    if(!rigidBody->CanMoveTo(CollisionPoint::Right) || !rigidBody->CanMoveTo(CollisionPoint::Left)) {
         totalForce.x *= -10;
     }
-    if(!entityBody->CanMoveTo(CollisionPoint::Right) && !entityBody->CanMoveTo(CollisionPoint::Left)) {
+    if(!rigidBody->CanMoveTo(CollisionPoint::Right) && !rigidBody->CanMoveTo(CollisionPoint::Left)) {
         totalForce.y *= 100;
     }
 

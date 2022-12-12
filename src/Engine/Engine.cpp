@@ -18,6 +18,7 @@ platformer_engine::Engine::Init(int width, int height, const std::string &title,
     }
     _window = std::make_unique<Window>(width, height, title, color, fullScreen);
     _renderSystem = std::make_unique<RenderSystem>();
+    _moveSystem = std::make_unique<MoveSystem>();
     _physicsSystem = std::make_unique<PhysicsSystem>();
     _behaviourSystem = std::make_unique<BehaviourSystem>();
 
@@ -54,6 +55,7 @@ void platformer_engine::Engine::Start() {
 void platformer_engine::Engine::Update() {
     auto &timer = Timer::Instance();
     timer.Update();
+    _moveSystem->Update();
     _physicsSystem->Update();
     _renderSystem->Update();
     _behaviourSystem->Update();

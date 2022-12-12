@@ -29,10 +29,6 @@ public:
      */
     void CheckCollisions();
 
-    /*
-     * @brief Move every active dynamic RigidBody according to their physics
-     */
-    void MoveObjects();
 private:
     /**
      * @brief Collision was not in motion yet. Collision is now added to the active collisions list and the OnTriggerEnter2D handlers have been invoked.

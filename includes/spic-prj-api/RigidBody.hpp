@@ -116,7 +116,18 @@ namespace spic {
         */
         void SetGravityScale(float gravityScale);
 
-    protected:
+        /**
+        * @brief Sets the maximum speed of the rigidbody
+         * @param maxSpeed A 2D Vector point of the maximum x and y speed
+        */
+        void SetMaxSpeed(Point maxSpeed);
+
+        /**
+        * @brief Sets the friction of the rigidbody
+        */
+        void SetFriction(float friction);
+
+    private:
         enum BodyType _bodyType;
         float _mass;
         float _gravityScale;

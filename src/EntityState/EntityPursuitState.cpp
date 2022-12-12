@@ -22,7 +22,7 @@ auto EntityPursuitState::CalculateForce(std::shared_ptr<RigidBody> &rigidBody) -
             if ((ToEvader.Dot(entityBody->GetHeading()) > 0) &&
                 (RelativeHeading < -0.95)) //acos(0.95)=18 degs
             {
-                return Seek(*entityBody, evader->GetTransform().position);
+                return Seek(gameObject, evader->GetTransform().position);
             }
             //Not considered ahead so we predict where the evader will be.
             //the look-ahead time is proportional to the distance between the evader
@@ -31,25 +31,19 @@ auto EntityPursuitState::CalculateForce(std::shared_ptr<RigidBody> &rigidBody) -
             double LookAheadTime = ToEvader.Length() /
                                    (entityBody->GetMaxSpeed().x + evaderBody->GetVelocity().Length());
             //now seek to the predicted future position of the evader
-            return Seek(*entityBody, evader->GetTransform().position + evaderBody->GetVelocity() * LookAheadTime);
+            return Seek(gameObject, evader->GetTransform().position + evaderBody->GetVelocity() * LookAheadTime);
         }
     }
     gameObject.reset();
     return {0, 0};
 }
 
-auto EntityPursuitState::Seek(RigidBody &entityBody, Point targetPos) -> Point {
-    std::shared_ptr<GameObject> gameObject{entityBody.GetGameObject().lock()};
-    if (gameObject) {
-        auto transform = gameObject->GetTransform();
-        auto body = std::dynamic_pointer_cast<RigidBody>(gameObject->GetComponent<RigidBody>());
-        Point DesiredVelocity = spic::Point::PointNormalize(targetPos - transform.position)
+auto EntityPursuitState::Seek(const std::shared_ptr<GameObject>& gameObject, Point targetPos) -> Point {
+    auto transform = gameObject->GetTransform();
+    auto body = std::dynamic_pointer_cast<RigidBody>(gameObject->GetComponent<RigidBody>());
+    Point DesiredVelocity = spic::Point::PointNormalize(targetPos - transform.position)
                                 * body->GetMaxSpeed();
-        return (DesiredVelocity - body->GetVelocity());
-    }
-    // GameObject was already deleted
-    gameObject.reset();
-    return {};
+    return (DesiredVelocity - body->GetVelocity());
 }
 
 auto EntityPursuitState::Clone() const -> std::unique_ptr<EntityState> {

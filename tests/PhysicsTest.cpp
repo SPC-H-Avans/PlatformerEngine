@@ -6,6 +6,7 @@
 #include "Physics/PhysicsSystem.hpp"
 #include "Behaviour/CollisionBehaviour.hpp"
 #include "Physics/Templates/MarioPhysicsTemplate.hpp"
+#include "Physics/MoveSystem.hpp"
 
 class PhysicsTests : public ::testing::Test {
 protected:
@@ -51,6 +52,7 @@ protected:
     std::shared_ptr<RigidBody> _marioBody;
 
     PhysicsSystem physics = PhysicsSystem();
+    MoveSystem moveSystem = MoveSystem();
 
     void SetBoxColliders();
 
@@ -73,6 +75,7 @@ TEST_F(PhysicsTests, MarioDoesntFallThroughBlock) {
     // 3. Update mario's position
     UpdateBehaviours();
     physics.Update();
+    moveSystem.Update();
 
     // 4. Assert that the Mario object's location has not been updated
     auto marioNextX = _mario->GetTransform().position.x;
@@ -97,6 +100,7 @@ TEST_F(PhysicsTests, MarioFallsUntilBlock) {
     _block->SetTransform(Transform {Point {0, 101}, 0, 0});
     UpdateBehaviours();
     physics.Update();
+    moveSystem.Update();
 
     auto marioNextY = _mario->GetTransform().position.y;
 
@@ -108,6 +112,7 @@ TEST_F(PhysicsTests, MarioFallsUntilBlock) {
     for(int i = 0; i < 50; i++) {
         UpdateBehaviours();
         physics.Update();
+        moveSystem.Update();
     }
 
     auto marioFinalY = _mario->GetTransform().position.y;

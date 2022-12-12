@@ -337,7 +337,7 @@ namespace spic {
         auto GetTransform() -> Transform;
 
         /**
-         * @brief sets the Transform of current GameObject
+         * @brief sets the Transform of current GameObject and updates all it's Collider's positions
          * @spicapi
          */
         void SetTransform(const Transform &transform);

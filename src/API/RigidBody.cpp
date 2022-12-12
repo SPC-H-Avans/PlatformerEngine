@@ -95,3 +95,11 @@ RigidBody::RigidBody() : RigidBody(PhysicsTemplate()) {
 
 }
 
+void RigidBody::SetMaxSpeed(Point maxSpeed) {
+    _maxSpeed = maxSpeed;
+}
+
+void RigidBody::SetFriction(float friction) {
+    _friction = friction;
+}
+

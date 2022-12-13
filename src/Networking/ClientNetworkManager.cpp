@@ -3,6 +3,7 @@
 #include <boost/archive/binary_iarchive.hpp>
 #include <boost/asio/streambuf.hpp>
 #include <boost/asio/buffers_iterator.hpp>
+#include <thread>
 #include "Networking/ClientNetworkManager.hpp"
 #include "Exceptions/NotImplementedException.hpp"
 #include "Debug.hpp"
@@ -219,9 +220,14 @@ void platformer_engine::ClientNetworkManager::LoadedTextures(const void *data, s
                                                                                             MAX_LOADED_TEXTURES_SIZE,
                                                                                             packedLoadedTextures);
     auto loadedTextures = packedLoadedTextures.GetLoadedTextureInfos();
-    for (auto &item: loadedTextures) {
-        TextureManager::GetInstance().LoadTexture(item.GetTextureId(), item.GetTexturePath());
-    }
+    std::thread th1([loadedTextures] {
+        for (LoadedTextureInfo item: loadedTextures) {
+            std::this_thread::sleep_for(std::chrono::milliseconds(1));
+            TextureManager::GetInstance().LoadTexture(item.GetTextureId(), item.GetTexturePath());
+        }
+    });
+    th1.detach();
+
 }
 
 void platformer_engine::ClientNetworkManager::UpdateAnimationFromServer(const void *data, size_t length) {

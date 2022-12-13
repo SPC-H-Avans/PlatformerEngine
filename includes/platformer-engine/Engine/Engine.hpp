@@ -175,6 +175,7 @@ namespace platformer_engine {
          */
         auto GetDefaultSceneName() -> std::string {
             return _defaultScene;
+        }
 
         /**
         * @brief returns the manager for datastoring

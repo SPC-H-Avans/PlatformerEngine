@@ -20,7 +20,9 @@ public:
      */
     GameObjectBuilder(const std::string &name);
 
-    /**
+    GameObjectBuilder(const std::string &name, const std::string &tag);
+
+/**
      * @brief Sets a new instance of GameObject on the gameObject variable using the given name;
      * @param name the name being used to instantiate the new GameObject
      * @return shared pointer to GameObject. (Shared with static instance list)
@@ -91,6 +93,8 @@ public:
 private:
     //Shares ptr with GameObject static instace list
     std::shared_ptr<GameObject> _gameObject;
+
+    void Reset(const std::string &name, const std::string &tag);
 };
 
 #endif //PLATFORMER_ENGINE_GAMEOBJECTBUILDER_HPP

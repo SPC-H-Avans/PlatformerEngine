@@ -152,7 +152,11 @@ void platformer_engine::Engine::JoinServer(const std::string &ip, int port) {
     _clientNetworkManager->ConnectToServer(ip, port);
 }
 
-void platformer_engine::Engine::AddScene(const Scene &new_scene) {
+void platformer_engine::Engine::AddScene(const Scene &new_scene, bool isDefault) {
+    if(_defaultScene == "" || isDefault == true) {
+        _defaultScene = new_scene.GetSceneName();
+    }
+
     auto iter = std::find_if(_scenes.begin(), _scenes.end(), [&new_scene](const Scene &scene) {
         return scene.GetSceneName() == new_scene.GetSceneName();
     });

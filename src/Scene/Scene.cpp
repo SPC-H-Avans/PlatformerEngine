@@ -9,6 +9,10 @@
 
 spic::Scene::Scene(const std::string &sceneName) : _sceneName(sceneName) {}
 
+void spic::Scene::SetNextScene(const std::string sceneName) {_nextScene = sceneName;};
+
+auto spic::Scene::GetNextScene() const -> std::optional<std::string> { return _nextScene;};
+
 void spic::Scene::RenderScene() {
 
     RenderGameObjects();
@@ -61,7 +65,7 @@ void spic::Scene::AddUIObject(const std::shared_ptr<spic::UIObject> &uiObject) {
 
 void spic::Scene::ImportLevel(const std::string &id, const std::string &filePath, const std::string &fileName,
                               const std::map<int, std::function<spic::GameObject(Transform)>> &config) {
-    platformer_engine::LevelParser::ParseLevel(id, filePath, fileName, config);
+    platformer_engine::LevelParser::ParseLevel(*this, id, filePath, fileName, config);
 }
 
 void spic::Scene::RemoveObject(const std::string &name) {

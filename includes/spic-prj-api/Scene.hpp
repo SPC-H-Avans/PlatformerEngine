@@ -142,8 +142,16 @@ namespace spic {
          */
         inline auto GetSceneName() const -> std::string { return _sceneName; };
 
+        /**
+         * @brief Sets a scene name for handling scene flow.
+         * @param sceneName String must be a valid scene loaded on the engine
+         */
         void SetNextScene(const std::string sceneName);
 
+        /**
+         *
+         * @return an optional which can hold the next scene if not nullopt
+         */
         auto GetNextScene() const -> std::optional<std::string>;
 
     private:

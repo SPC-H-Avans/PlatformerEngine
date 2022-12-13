@@ -133,6 +133,11 @@ namespace platformer_engine {
         void JoinServer(const std::string &ip, int port);
 
         /**
+         * @brief Returns the number of frames per second
+         */
+        inline auto GetFPS() -> int { return _fps; }
+
+        /**
          * @brief Get local client is, local client id is 0 when not in a server or when being the host
          * @return int local client id
          */
@@ -191,6 +196,7 @@ namespace platformer_engine {
 
         bool _isRunning = false;
         bool _debugLogs = false;
+        int _fps = 0;
 
         double _speedMultiplier = 1.0;
 

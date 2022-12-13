@@ -14,7 +14,10 @@
 #include "Networking/ClientNetworkManager.hpp"
 #include "Exceptions/NoWindowException.hpp"
 #include "Behaviour/BehaviourSystem.hpp"
+#include "Audio/AudioManager.hpp"
+#include "Storage/DataStorageManager.hpp"
 #include "Networking/NetworkingStatus.hpp"
+
 
 namespace platformer_engine {
     /**
@@ -177,6 +180,10 @@ namespace platformer_engine {
          */
         inline double GetSpeedMultiplier() const {return _speedMultiplier;}
 
+        auto GetDataManager() -> DataStorageManager& {
+            return *_dataManager;
+        }
+
     private:
         Engine() = default;
 
@@ -194,6 +201,7 @@ namespace platformer_engine {
         std::unique_ptr<ClickSystem> _clickSystem = nullptr;
         std::unique_ptr<ServerNetworkManager> _serverNetworkManager = nullptr;
         std::unique_ptr<ClientNetworkManager> _clientNetworkManager = nullptr;
+        std::unique_ptr<DataStorageManager> _dataManager = nullptr;
 
         std::vector<Scene> _scenes;
     };

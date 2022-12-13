@@ -6,14 +6,14 @@ class GameObjectTest : public ::testing::Test {
 };
 
 TEST_F(GameObjectTest, CanCreateGameObjectWithName) {
-    auto gameObject = spic::GameObject("Test");
-    ASSERT_EQ(gameObject.GetName(), "Test");
+    auto gameObject = spic::GameObject("CanCreateGameObjectWithNameTestObject");
+    ASSERT_EQ(gameObject.GetName(), "CanCreateGameObjectWithNameTestObject");
 }
 
 TEST_F(GameObjectTest, CanFindGameObjectByName) {
-    spic::GameObject("Test"); // NOLINT(bugprone-unused-raii)
-    auto gameObject = spic::GameObject::Find("Test");
-    auto gameObject2 = spic::GameObject::Find("Test2");
+    spic::GameObject("Test_GameObjectTest"); // NOLINT(bugprone-unused-raii)
+    auto gameObject = spic::GameObject::Find("Test_GameObjectTest");
+    auto gameObject2 = spic::GameObject::Find("Test2_GameObjectTest");
     ASSERT_TRUE(gameObject != nullptr);
     ASSERT_TRUE(gameObject2 == nullptr);
 }

@@ -31,7 +31,7 @@ namespace platformer_engine {
         /**
         * @brief Update the moveRestrictions for the GameObject's rigidbody for the current collision
         */
-        void UpdateMoveRestriction(const Collision &col, bool allow);
+        void UpdateMoveRestriction(Collision &col, bool allow);
 
         /**
         * @brief When an object has moved more than a single pixel in a tick, it can move through a block.

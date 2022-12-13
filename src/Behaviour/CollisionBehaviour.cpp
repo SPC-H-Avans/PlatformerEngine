@@ -18,7 +18,7 @@ namespace platformer_engine {
         Unstuck(collision);
     }
 
-    void CollisionBehaviour::OnTriggerExit2D(const Collision collision) {
+    void CollisionBehaviour::OnTriggerExit2D(Collision collision) {
 
         // Remove the collision from _activeCollisions
         for (auto &col: _activeCollisions) {
@@ -32,10 +32,11 @@ namespace platformer_engine {
         UpdateMoveRestriction(collision, true);
     }
 
-    void CollisionBehaviour::OnTriggerStay2D(const Collision collision) {
+    void CollisionBehaviour::OnTriggerStay2D(Collision collision) {
     }
 
-    void CollisionBehaviour::UpdateMoveRestriction(const Collision &col, bool allow) {
+    void CollisionBehaviour::UpdateMoveRestriction(Collision &col, bool allow) {
+        if (!col.GetCollider()->GetObstructsMovement()) return;
         auto point = col.Contact();
         auto gameObjWeak = GetGameObject();
         std::shared_ptr<spic::GameObject> gameObj{gameObjWeak.lock()};

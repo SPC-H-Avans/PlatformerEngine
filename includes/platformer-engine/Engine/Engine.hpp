@@ -14,7 +14,10 @@
 #include "Networking/ClientNetworkManager.hpp"
 #include "Exceptions/NoWindowException.hpp"
 #include "Behaviour/BehaviourSystem.hpp"
+#include "Audio/AudioManager.hpp"
+#include "Storage/DataStorageManager.hpp"
 #include "Networking/NetworkingStatus.hpp"
+
 
 namespace platformer_engine {
     /**
@@ -172,6 +175,13 @@ namespace platformer_engine {
          */
         auto GetDefaultSceneName() -> std::string {
             return _defaultScene;
+
+        /**
+        * @brief returns the manager for datastoring
+        * @return a DataStorageManager for saving and loading to a file
+        */
+        auto GetDataManager() -> DataStorageManager& {
+            return *_dataManager;
         }
 
     private:
@@ -189,6 +199,7 @@ namespace platformer_engine {
         std::unique_ptr<ClickSystem> _clickSystem = nullptr;
         std::unique_ptr<ServerNetworkManager> _serverNetworkManager = nullptr;
         std::unique_ptr<ClientNetworkManager> _clientNetworkManager = nullptr;
+        std::unique_ptr<DataStorageManager> _dataManager = nullptr;
 
         std::vector<Scene> _scenes;
         std::string _defaultScene;

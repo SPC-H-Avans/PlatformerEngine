@@ -9,6 +9,8 @@
 #include <boost/serialization/weak_ptr.hpp>
 #include <boost/archive/binary_iarchive.hpp>
 #include <boost/archive/binary_oarchive.hpp>
+#include "boost/archive/text_iarchive.hpp"
+#include "boost/archive/text_oarchive.hpp"
 #include "Networking/boost/portable_binary_iarchive.hpp"
 #include "Networking/boost/portable_binary_oarchive.hpp"
 
@@ -39,8 +41,13 @@ namespace spic {
 
         void RemoveCollision(int uid);
 
+        [[nodiscard]] auto GetObstructsMovement() const -> bool { return _obstructsMovement; }
+
+        void SetObstructsMovement(bool obstructsMovement) { _obstructsMovement = obstructsMovement; }
     private:
         std::vector<std::shared_ptr<Collision>> _collisions;
+//        std::vector<Collision> _collisions;
+        bool _obstructsMovement = true;
     };
 
 }  // namespace spic

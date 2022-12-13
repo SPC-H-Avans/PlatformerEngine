@@ -25,6 +25,7 @@ public:
      * @return The created GameObject
      */
     static auto CreateTile(
+            const std::string& namePrefix,
             const spic::Sprite &sprite,
             Transform transform,
             int colliderWidth,
@@ -38,6 +39,7 @@ public:
      * @return The created GameObject
      */
     static auto CreateBackgroundObject(
+            const std::string& namePrefix,
             const spic::Sprite &sprite,
             Transform transform
     ) -> GameObject &;
@@ -92,7 +94,17 @@ public:
                              const std::string& imgPath, int buttonWidth, int buttonHeight,
                              std::function<void()> onClick) -> Button&;
 
-    static auto CreateFlag(const Sprite &sprite, Transform transform, int colliderWidth, int colliderHeight,
+    /**
+     *
+     * @param namePrefix the string all the object names will be prefixed with
+     * @param sprite the sprite to use
+     * @param transform the transform to use
+     * @param colliderWidth the width of the collider
+     * @param colliderHeight the height of the collider
+     * @param behaviourScripts any type of behaviourscript
+     * @return
+     */
+    static auto CreateScriptedTile(const std::string& namePrefix, const Sprite &sprite, Transform transform, int colliderWidth, int colliderHeight,
                           const std::vector<std::shared_ptr<BehaviourScript>> &behaviourScripts) -> GameObject&;
 };
 

@@ -7,12 +7,12 @@
 #include "Text.hpp"
 #include "Button.hpp"
 
-static int tilecounter = 1;
+static int tileCounter = 1;
 
-auto GameObjectDirector::CreateTile(const spic::Sprite& sprite, // TODO: switch sprite and transform for consistency
+auto GameObjectDirector::CreateTile(const std::string& namePrefix, const spic::Sprite& sprite, // TODO: switch sprite and transform for consistency
                                     Transform transform, int colliderWidth, int colliderHeight) -> GameObject& {
     auto builder =
-            GameObjectBuilder("tile" + std::to_string(tilecounter))
+            GameObjectBuilder(namePrefix + std::to_string(tileCounter))
                     .AddSprite(sprite);
     auto obj = builder.GetGameObject();
     obj->SetTransform(transform);
@@ -23,29 +23,29 @@ auto GameObjectDirector::CreateTile(const spic::Sprite& sprite, // TODO: switch 
     collider.Height(colliderHeight);
     obj->AddComponent<BoxCollider>(std::make_shared<BoxCollider>(collider));
 
-    ++tilecounter;
+    ++tileCounter;
     return *obj;
 }
 
-auto GameObjectDirector::CreateBackgroundObject(const spic::Sprite &sprite,
+auto GameObjectDirector::CreateBackgroundObject(const std::string& namePrefix, const spic::Sprite &sprite,
                                                 Transform transform) -> GameObject & {
     auto builder =
-            GameObjectBuilder("tile" + std::to_string(tilecounter))
+            GameObjectBuilder(namePrefix + std::to_string(tileCounter))
                     .AddSprite(sprite);
     auto obj = builder.GetGameObject();
     obj->SetTransform(transform);
 
-    ++tilecounter;
+    ++tileCounter;
     return *obj;
 }
 
-auto GameObjectDirector::CreateFlag(const spic::Sprite& sprite,
+auto GameObjectDirector::CreateScriptedTile(const std::string& namePrefix, const spic::Sprite& sprite,
                                     Transform transform, int colliderWidth, int colliderHeight,
                                     const std::vector<std::shared_ptr<BehaviourScript>>& behaviourScripts) -> GameObject & {
     static int counter = 1;
 
     auto builder =
-            GameObjectBuilder("flag" + std::to_string(counter))
+            GameObjectBuilder(namePrefix + std::to_string(counter))
                     .AddSprite(sprite);
 
     auto obj = builder.GetGameObject();

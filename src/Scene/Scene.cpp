@@ -54,13 +54,13 @@ void spic::Scene::AddObject(const std::shared_ptr<spic::GameObject> &gameObject)
     _origins.push_back(*GameObject::Find(gameObject->GetName()));
 }
 
-void spic::Scene::AddUIObject(const std::shared_ptr<spic::UIObject>& uiObject) {
+void spic::Scene::AddUIObject(const std::shared_ptr<spic::UIObject> &uiObject) {
     if (GetObjectByName(uiObject->GetName()) != nullptr) {
         throw spic::GameObjectAlreadyInSceneException(uiObject->GetName());
     }
 //    auto obj = std::make_shared<UIObject>(uiObject);
     _uiObjects.push_back(uiObject);
-    _origins.push_back(*uiObject);
+//    _origins.push_back(*uiObject);
 }
 
 void spic::Scene::ImportLevel(const std::string &id, const std::string &filePath, const std::string &fileName,

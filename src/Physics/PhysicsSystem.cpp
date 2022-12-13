@@ -190,17 +190,27 @@ void PhysicsSystem::RemainCollision(const shared_ptr<GameObject> &initiator, con
 void PhysicsSystem::EndCollision(const shared_ptr<GameObject> &initiator, const shared_ptr<Collider> &init_collider,
                                  const shared_ptr<GameObject> &receiver, const shared_ptr<Collider> &rec_collider,
                                  const int collisionId) {
-
-    auto init_collision = init_collider->GetCollisionById(collisionId);
-    auto rec_collision = rec_collider->GetCollisionById(collisionId);
-    init_collider->RemoveCollision(collisionId);
-    rec_collider->RemoveCollision(collisionId);
+    std::optional<Collision> init_collision = std::nullopt;
+    std::optional<Collision> rec_collision = std::nullopt;
+    if (init_collider != nullptr ) {
+        init_collision = init_collider->GetCollisionById(collisionId);
+        init_collider->RemoveCollision(collisionId);
+    }
+    if (rec_collider != nullptr ) {
+        rec_collision = rec_collider->GetCollisionById(collisionId);
+        rec_collider->RemoveCollision(collisionId);
+    }
 
     //Call Behaviour scripts
-    for (auto &script: initiator->GetComponents<BehaviourScript>())
-        std::static_pointer_cast<BehaviourScript>(script)->OnTriggerExit2D(init_collision);
-    for (auto &script: receiver->GetComponents<BehaviourScript>())
-        std::static_pointer_cast<BehaviourScript>(script)->OnTriggerExit2D(rec_collision);
+    if (initiator != nullptr && init_collision.has_value()) {
+        for (auto &script: initiator->GetComponents<BehaviourScript>())
+            std::static_pointer_cast<BehaviourScript>(script)->OnTriggerExit2D(init_collision.value());
+    }
+    if (receiver != nullptr && rec_collision.has_value()) {
+        for (auto &script: receiver->GetComponents<BehaviourScript>())
+            std::static_pointer_cast<BehaviourScript>(script)->OnTriggerExit2D(rec_collision.value());
+    }
+        
 }
 
 auto PhysicsSystem::CheckBoxCollision(Point aPos, const BoxCollider &aCol, Point bPos,

@@ -7,6 +7,7 @@
 #include "Behaviour/CollisionBehaviour.hpp"
 #include "Builder/GameObjectBuilder.hpp"
 #include "Sprite.hpp"
+#include "Audio/AudioManager.hpp"
 #include "Builder/GameObjectBuilder.hpp"
 #include "Utility/NetworkingBuffer.hpp"
 

@@ -103,7 +103,7 @@ auto GameObjectDirector::CreateText(Transform transform, const std::string objec
     auto textObject = Text(objectId, textWidth, textHeight, text, fontPath, fontSize, textColor);
 
     textObject.SetTransform(transform);
-    auto textPtr = std::make_shared<Text>(textObject);
+    auto textPtr = std::make_unique<Text>(textObject);
 
     return *textPtr;
 }
@@ -115,5 +115,7 @@ auto GameObjectDirector::CreateButton(Transform transform, const std::string obj
 
     buttonObject.SetTransform(transform);
     buttonObject.OnClick(onClick);
+
+    auto buttonPtr = std::make_unique<Button>(buttonObject);
     return *buttonPtr;
 }

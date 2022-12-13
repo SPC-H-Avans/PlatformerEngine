@@ -8,8 +8,9 @@
 #include "Exceptions/NoClientNetworkManagerActiveException.hpp"
 #include <thread>
 
+const int MILLIS_IN_SECOND = 1000;
 const int TARGET_FPS = 60;
-const double TARGET_FRAME_DELAY = 1000.0 / TARGET_FPS;
+const double TARGET_FRAME_DELAY = MILLIS_IN_SECOND / TARGET_FPS;
 
 auto
 platformer_engine::Engine::Init(int width, int height, const std::string &title, const spic::Color &color, bool fullScreen,
@@ -33,6 +34,10 @@ void platformer_engine::Engine::Start() {
     if (_window == nullptr) {
         throw spic::NoWindowException();
     }
+
+    auto timeInMillis = Window::GetTicks();
+    int framesThisSecond = 0;
+
     _isRunning = true;
     while (_isRunning) {
         uint64_t start = Window::GetPerformanceFrequency();
@@ -45,6 +50,14 @@ void platformer_engine::Engine::Start() {
         Events();
 
         renderThread.join();
+
+        framesThisSecond++;
+        if (timeInMillis < Window::GetTicks() - MILLIS_IN_SECOND)
+        {
+            timeInMillis = Window::GetTicks();
+            _fps = framesThisSecond;
+            framesThisSecond = 0;
+        }
 
         float elapsedMs =
                 (Window::GetPerformanceFrequency() - start) / static_cast<float>(Window::GetPerformanceFrequency()) *

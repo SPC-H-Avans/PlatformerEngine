@@ -92,7 +92,7 @@ void platformer_engine::ClientNetworkManager::SendNetworkPackage(const void *dat
 void platformer_engine::ClientNetworkManager::OnConnect(int clientId) {
     _localPlayerId = clientId;
     bool isPartyLeader = false; //TODO revise? b
-    _connectionStatus = ConnectionStatus::Connected;
+    _connectionStatus = ConnectionStatus::WaitingForMap;
     if (_eventMap.contains(NET_ON_CONNECT)) {
         _eventMap[NET_ON_CONNECT](clientId, nullptr, 0);
     }
@@ -135,6 +135,7 @@ void platformer_engine::ClientNetworkManager::OnDisconnect(int clientId) {
 
 void platformer_engine::ClientNetworkManager::RemoveLocalClientFromGame(const void *data,
                                                                         size_t dataLength) {
+    if (_connectionStatus != ConnectionStatus::Connected) return;
     //Check if player exists
     auto pkg = NetPkgs::KickClient(0);
     std::memcpy(&pkg, data, dataLength);
@@ -147,6 +148,7 @@ void platformer_engine::ClientNetworkManager::RemoveLocalClientFromGame(const vo
 #pragma region HandlePacketsFromServer
 
 void platformer_engine::ClientNetworkManager::CreateScene(const void *data, size_t length) {
+    _connectionStatus = ConnectionStatus::InitializingMap;
     auto pkg = NetPkgs::CreateScene();
     memcpy(&pkg, data, length);
     spic::Scene scene;
@@ -160,9 +162,11 @@ void platformer_engine::ClientNetworkManager::CreateScene(const void *data, size
     }
     Engine::GetInstance().AddScene(scene);
     Engine::GetInstance().SetActiveScene(scene.GetSceneName());
+    _connectionStatus = ConnectionStatus::Connected;
 }
 
 void platformer_engine::ClientNetworkManager::CreateGameObject(const void *data, size_t length) {
+    if (_connectionStatus != ConnectionStatus::Connected) return;
     auto pkg = NetPkgs::CreateGameObject();
     memcpy(&pkg, data, length);
     spic::GameObject gameObject;
@@ -182,6 +186,7 @@ void platformer_engine::ClientNetworkManager::CreateGameObject(const void *data,
 }
 
 void platformer_engine::ClientNetworkManager::DestroyGameObject(const void *data, size_t length) {
+    if (_connectionStatus != ConnectionStatus::Connected) return;
     auto pkg = NetPkgs::DestroyGameObject();
     memcpy(&pkg, data, length);
     auto gameObjectName = std::string(pkg._data);
@@ -189,6 +194,7 @@ void platformer_engine::ClientNetworkManager::DestroyGameObject(const void *data
 }
 
 void platformer_engine::ClientNetworkManager::UpdateGameObjectTransform(const void *data, size_t length) {
+    if (_connectionStatus != ConnectionStatus::Connected) return;
     auto pkg = NetPkgs::UpdateGameObjectTransform();
     memcpy(&pkg, data, length);
     spic::Transform transform;
@@ -219,6 +225,7 @@ void platformer_engine::ClientNetworkManager::LoadedTextures(const void *data, s
 }
 
 void platformer_engine::ClientNetworkManager::UpdateAnimationFromServer(const void *data, size_t length) {
+    if (_connectionStatus != ConnectionStatus::Connected) return;
     auto pkg = NetPkgs::UpdateActiveAnimation();
     memcpy(&pkg, data, length);
 
@@ -245,6 +252,7 @@ void platformer_engine::ClientNetworkManager::UpdateAnimationFromServer(const vo
 
 void platformer_engine::ClientNetworkManager::UpdateNetworkedGameObjectTransform(const Transform &transform,
                                                                                  const std::string &gameObjectId) {
+    if (_connectionStatus != ConnectionStatus::Connected) return;
     auto gameObject = spic::GameObject::Find(gameObjectId);
 
     if (gameObject == nullptr || gameObject->GetOwnerId() != GetLocalPlayerId()) return;
@@ -272,6 +280,7 @@ void platformer_engine::ClientNetworkManager::InitializeMyClient(spic::GameObjec
 
 void platformer_engine::ClientNetworkManager::UpdateActiveAnimation(const std::string &gameObjectId,
                                                                     const std::string &animationId) {
+    if (_connectionStatus != ConnectionStatus::Connected) return;
     auto pkg = NetPkgs::UpdateActiveAnimation(gameObjectId.c_str(), animationId.c_str());
     SendNetworkPackage(&pkg, sizeof(pkg), false);
 }

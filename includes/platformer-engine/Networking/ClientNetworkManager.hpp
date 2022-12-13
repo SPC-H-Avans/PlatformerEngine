@@ -46,6 +46,8 @@ namespace platformer_engine {
          */
         inline auto GetConnectionStatus() -> ConnectionStatus { return _connectionStatus; }
 
+        void SetConnectionStatus(const ConnectionStatus connectionStatus) { _connectionStatus = connectionStatus; }
+
         /**
          * @brief Connect to a server with ip and port
          * @param ip Ip of the server
@@ -108,7 +110,7 @@ namespace platformer_engine {
 
         void InitializeMyClient(spic::GameObject &playerChar);
 
-        void UpdateActiveAnimation(const std::string& gameObjectId, const std::string& animationId);
+        void UpdateActiveAnimation(const std::string &gameObjectId, const std::string &animationId);
 
 #pragma endregion DefaultClientEvents
 

@@ -40,7 +40,9 @@ Engine support for BehaviourScript OnUpdate.
 - SPCH-6: Create Player
 - SPCH-32: Control player with keyboard
 - SPCH-54: Tech Debt (Tiles to GameObjects, better Sprite constructor)
+- SPCH-65: Added finish flag behaviour
 - SPCH-12: Add save/load of data to file
+
 
 ### Bug Fixes
 

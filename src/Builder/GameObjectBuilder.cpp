@@ -3,9 +3,15 @@
 
 GameObjectBuilder::GameObjectBuilder(const std::string &name) : _gameObject(std::make_shared<GameObject>(name)) {}
 
+GameObjectBuilder::GameObjectBuilder(const std::string &name, const std::string &tag) : _gameObject(std::make_shared<GameObject>(name, tag)) {}
+
 //If reset with existing name append number to it
 void GameObjectBuilder::Reset(const std::string &name) {
     _gameObject = std::make_shared<GameObject>(name);
+}
+
+void GameObjectBuilder::Reset(const std::string &name, const std::string &tag) {
+    _gameObject = std::make_shared<GameObject>(name, tag);
 }
 
 auto GameObjectBuilder::GetGameObject() -> std::shared_ptr<GameObject> {

@@ -192,6 +192,13 @@ namespace spic {
          */
         auto GetName() const -> std::string;
 
+        /**
+        * @brief Returns the tag of the GameObject
+        * @return tag of the gameobject
+        * @spicapi
+        */
+        [[nodiscard]] auto GetTag() const -> std::string;
+
 //        /**
 //         * @brief Returns the parent GameObject of this instance.
 //         * @return pointer to the parent GameObject, nullptr if no parent set.
@@ -388,7 +395,6 @@ namespace spic {
 
         //Multiton Pattern
         static std::map<std::string, std::shared_ptr<GameObject>> _instances;
-
     };
 
 } // namespace spic

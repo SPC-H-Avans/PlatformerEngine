@@ -73,6 +73,8 @@ GameObject::operator bool() { return true; } //Docs don't know what it is used f
 
 auto GameObject::GetName() const -> std::string { return _name; }
 
+auto GameObject::GetTag() const -> std::string { return _tag; }
+
 //auto GameObject::Children() -> std::vector<std::shared_ptr<GameObject>> { return _children; }
 //
 //auto GameObject::Parent() -> std::shared_ptr<GameObject> { return _parent; }

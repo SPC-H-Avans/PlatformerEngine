@@ -7,6 +7,7 @@
 #include "Text.hpp"
 #include "Button.hpp"
 
+
 static int tileCounter = 1;
 
 auto GameObjectDirector::CreateTile(const std::string& namePrefix, const spic::Sprite& sprite, // TODO: switch sprite and transform for consistency
@@ -96,25 +97,23 @@ auto GameObjectDirector::CreatePlayer(int playerId, Transform transform, int col
     return *obj;
 }
 
-auto GameObjectDirector::CreateText(Transform transform, const std::string objectId, const std::string& text,
-                                    const std::string& fontPath, int textWidth, int textHeight,
-                                    int fontSize, Color textColor) -> Text& {
-    auto obj = Text(objectId, textWidth, textHeight, text, fontPath, fontSize, textColor);
+auto GameObjectDirector::CreateText(Transform transform, const std::string objectId, const std::string &text,
+                                    const std::string &fontPath, int textWidth, int textHeight,
+                                    int fontSize, Color textColor) -> Text & {
+    auto textObject = Text(objectId, textWidth, textHeight, text, fontPath, fontSize, textColor);
 
-    obj.SetTransform(transform);
+    textObject.SetTransform(transform);
+    auto textPtr = std::make_shared<Text>(textObject);
 
-    auto foo = std::make_shared<Text>(obj);
-    return *foo;
+    return *textPtr;
 }
 
-auto GameObjectDirector::CreateButton(Transform transform, const std::string objectId, const spic::Sprite& sprite,
-                                      const std::string& imgPath, int buttonWidth, int buttonHeight,
-                                      std::function<void()> onClick) -> Button& {
-    auto obj = Button(objectId, sprite, imgPath, buttonWidth, buttonHeight);
+auto GameObjectDirector::CreateButton(Transform transform, const std::string objectId, const spic::Sprite &sprite,
+                                      const std::string &imgPath, int buttonWidth, int buttonHeight,
+                                      std::function<void()> onClick) -> Button & {
+    auto buttonObject = Button(objectId, sprite, imgPath, buttonWidth, buttonHeight);
 
-    obj.SetTransform(transform);
-    obj.OnClick(onClick);
-
-    auto foo = std::make_shared<Button>(obj);
-    return *foo;
+    buttonObject.SetTransform(transform);
+    buttonObject.OnClick(onClick);
+    return *buttonPtr;
 }

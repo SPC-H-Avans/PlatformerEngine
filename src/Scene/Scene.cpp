@@ -50,8 +50,10 @@ void spic::Scene::AddObject(const spic::GameObject &gameObject) {
     if (GetObjectByName(gameObject.GetName()) != nullptr) {
         throw GameObjectAlreadyInSceneException(gameObject.GetName());
     }
-    _contents.push_back(GameObject::Find(gameObject.GetName()));
-    _origins.push_back(*GameObject::Find(gameObject.GetName()));
+    
+    auto gameObjectPtr = GameObject::Find(gameObject.GetName(), true);
+    _contents.push_back(gameObjectPtr);
+    _origins.push_back(*gameObjectPtr);
 }
 
 void spic::Scene::AddUIObject(const std::shared_ptr<spic::UIObject> &uiObject) {

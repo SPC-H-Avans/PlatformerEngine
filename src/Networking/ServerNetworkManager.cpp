@@ -265,7 +265,7 @@ void platformer_engine::ServerNetworkManager::HandleCreateCharacterFromClient(in
         return;
     }
     gameObject.FixGameObjectAfterDeserialize();
-    platformer_engine::Engine::GetInstance().GetActiveScene().AddObject(std::make_shared<spic::GameObject>(gameObject));
+    platformer_engine::Engine::GetInstance().GetActiveScene().AddObject(gameObject);
     spic::Debug::Log("Created a player character for player: " + std::to_string(clientId) + ", with object ID: " +
                      gameObject.GetName());
     CreateNetworkedPlayerCharacter(clientId, gameObject);

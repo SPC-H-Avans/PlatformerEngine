@@ -46,20 +46,20 @@ void spic::Scene::RenderUIObjects() {
     }
 }
 
-void spic::Scene::AddObject(const std::shared_ptr<spic::GameObject> &gameObject) {
-    if (GetObjectByName(gameObject->GetName()) != nullptr) {
-        throw GameObjectAlreadyInSceneException(gameObject->GetName());
+void spic::Scene::AddObject(const spic::GameObject &gameObject) {
+    if (GetObjectByName(gameObject.GetName()) != nullptr) {
+        throw GameObjectAlreadyInSceneException(gameObject.GetName());
     }
-    _contents.push_back(GameObject::Find(gameObject->GetName()));
-    _origins.push_back(*GameObject::Find(gameObject->GetName()));
+    _contents.push_back(GameObject::Find(gameObject.GetName()));
+    _origins.push_back(*GameObject::Find(gameObject.GetName()));
 }
 
-void spic::Scene::AddUIObject(const std::shared_ptr<spic::UIObject> &uiObject) {
-    if (GetObjectByName(uiObject->GetName()) != nullptr) {
-        throw spic::GameObjectAlreadyInSceneException(uiObject->GetName());
+void spic::Scene::AddUIObject(const spic::UIObject &uiObject) {
+    if (GetObjectByName(uiObject.GetName()) != nullptr) {
+        throw spic::GameObjectAlreadyInSceneException(uiObject.GetName());
     }
 //    auto obj = std::make_shared<UIObject>(uiObject);
-    _uiObjects.push_back(uiObject);
+    _uiObjects.push_back(std::static_pointer_cast<UIObject>(GameObject::Find(uiObject.GetName())));
 //    _origins.push_back(*uiObject);
 }
 

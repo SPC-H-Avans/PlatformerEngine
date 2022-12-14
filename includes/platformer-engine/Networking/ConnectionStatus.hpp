@@ -5,6 +5,7 @@ namespace platformer_engine {
         Connected,
         Disconnecting,
         Reconnecting,
-        InitializingMap
+        InitializingMap,
+        WaitingForMap
     };
 }

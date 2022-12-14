@@ -67,9 +67,9 @@ void platformer_engine::ServerNetworkManager::SendUpdateToClient(int clientId, c
 }
 
 void platformer_engine::ServerNetworkManager::InitializeClient(const Client &client) {
-    SendLoadedTexturesToClient(client.GetClientId());
     CreateNetworkedScene(client.GetClientId(), Engine::GetInstance().GetActiveScene());
-
+    std::this_thread::sleep_for(std::chrono::milliseconds(500));
+    SendLoadedTexturesToClient(client.GetClientId());
 }
 
 void platformer_engine::ServerNetworkManager::SendLoadedTexturesToClient(int clientId) {

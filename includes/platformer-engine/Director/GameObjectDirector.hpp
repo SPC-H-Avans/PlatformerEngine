@@ -105,7 +105,7 @@ public:
      * @return
      */
     static auto CreateScriptedTile(const std::string& namePrefix, const Sprite &sprite, Transform transform, int colliderWidth, int colliderHeight,
-                          const std::vector<std::shared_ptr<BehaviourScript>> &behaviourScripts) -> GameObject&;
+                                   bool obstructsMovement, const std::vector<std::shared_ptr<BehaviourScript>> &behaviourScripts) -> GameObject&;
 };
 
 #endif //PLATFORMER_ENGINE_GAMEOBJECTDIRECTOR_HPP

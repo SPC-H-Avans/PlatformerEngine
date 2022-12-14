@@ -92,7 +92,7 @@ public:
      */
     static auto CreateButton(Transform transform, const std::string objectId, const spic::Sprite& sprite,
                              const std::string& imgPath, int buttonWidth, int buttonHeight,
-                             std::function<void()> onClick) -> std::shared_ptr<Button>;
+                             std::function<void()> onClick) -> Button;
 
     /**
      *

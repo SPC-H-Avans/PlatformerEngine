@@ -49,7 +49,7 @@ auto main([[maybe_unused]] int argc, [[maybe_unused]] char *argv[]) -> int {
     transform.position.y = 300;
     transform.scale = 1.0;
     gameObject->SetTransform(transform);
-    scene.AddObject(gameObject);
+    scene.AddObject(*gameObject);
 
     camera->SetTarget(*gameObject);
 

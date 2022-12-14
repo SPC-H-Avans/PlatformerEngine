@@ -177,9 +177,8 @@ void platformer_engine::ClientNetworkManager::CreateGameObject(const void *data,
                                                                                      gameObject);
 
     gameObject.FixGameObjectAfterDeserialize();
-    std::shared_ptr<GameObject> sharedPtr = std::make_shared<GameObject>(gameObject);
     try {
-        Engine::GetInstance().GetActiveScene().AddObject(sharedPtr);
+        Engine::GetInstance().GetActiveScene().AddObject(gameObject);
     } catch (const std::exception &ex) {
         spic::Debug::LogError("Something went wrong while trying to create a networked game object as client: " +
                               std::string(ex.what()));

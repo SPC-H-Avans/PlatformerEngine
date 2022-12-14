@@ -42,14 +42,14 @@ namespace spic {
          * @param gameObject Game Object shared pointer
          * @spicapi
          */
-        void AddObject(const std::shared_ptr<GameObject> &gameObject);
+        void AddObject(const GameObject &gameObject);
 
         /**
          * @brief Add a new UI Object to this scene
          * @param uiObject
          * @spicapi
          */
-        void AddUIObject(const std::shared_ptr<spic::UIObject>& uiObject);
+        void AddUIObject(const spic::UIObject &uiObject);
 
         /**
          * @brief Remove a Game Object from this scene by name

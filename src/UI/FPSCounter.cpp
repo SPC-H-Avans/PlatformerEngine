@@ -7,7 +7,7 @@ platformer_engine::FPSCounter::FPSCounter(const Transform transform, const std::
                                        const Color fontColor, const int width, const int height, const KeyCode key) {
     std::string textId = "fps" + std::to_string(platformer_engine::Engine::GetInstance().GetActiveScene().GetObjectCount());
     std::string text = "0";
-    auto textObject = GameObjectDirector::CreateText(
+    auto& textObject = GameObjectDirector::CreateText(
             transform,
             textId,
             text,

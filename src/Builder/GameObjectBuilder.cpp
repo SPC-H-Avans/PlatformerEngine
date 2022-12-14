@@ -1,4 +1,6 @@
 #include "Builder/GameObjectBuilder.hpp"
+#include "RigidBody.hpp"
+#include "BoxCollider.hpp"
 #include <stdexcept>
 
 GameObjectBuilder::GameObjectBuilder(const std::string &name) : _gameObject(std::make_shared<GameObject>(name)) {}
@@ -21,9 +23,8 @@ auto GameObjectBuilder::GetGameObject() -> std::shared_ptr<GameObject> {
 }
 
 //Return *this in every component method to allow chaining
-auto GameObjectBuilder::AddAudioSource() -> GameObjectBuilder & {
-    //TODO Add audiosource to gameobject
-    throw std::logic_error("Function not implemented");
+auto GameObjectBuilder::AddAudioSource(const spic::AudioSource audioSource) -> GameObjectBuilder & {
+    _gameObject->AddComponent<AudioSource>(std::make_shared<AudioSource>(audioSource));
     return *this;
 }
 
@@ -53,16 +54,13 @@ auto GameObjectBuilder::AddBehaviourScript(const BehaviourScript &script) -> Gam
     return *this;
 }
 
-auto GameObjectBuilder::AddCollider() -> GameObjectBuilder & {
-    //TODO add collider to gameobject
-    //DO WE NEED SEPERATE FUNCTIONS FOR DIFFERENT COLLIDERS?
-    throw std::logic_error("Function not implemented");
+auto GameObjectBuilder::AddCollider(const spic::Collider collider) -> GameObjectBuilder & {
+    _gameObject->AddComponent<BoxCollider>(std::make_shared<Collider>(collider));
     return *this;
 }
 
-auto GameObjectBuilder::AddRigidBody() -> GameObjectBuilder & {
-    //TODO add rigidbody to gameobject
-    throw std::logic_error("Function not implemented");
+auto GameObjectBuilder::AddRigidBody(const spic::RigidBody rigidBody) -> GameObjectBuilder & {
+    _gameObject->AddComponent<RigidBody>(std::make_shared<RigidBody>(rigidBody));
     return *this;
 }
 

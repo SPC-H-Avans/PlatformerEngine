@@ -18,9 +18,7 @@ namespace spic {
             _audioClips = std::map<std::string, int>();
         }
 
-        AudioSource(std::map<std::string, int> audioClips) {
-            _audioClips = std::move(audioClips);
-        }
+        AudioSource(std::map<std::string, int> audioClips) : _audioClips(std::move(audioClips)) {}
 
         template<class Archive>
         void serialize(Archive &ar, unsigned int version) {

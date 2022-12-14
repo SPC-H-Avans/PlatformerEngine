@@ -6,6 +6,7 @@
 #include "Animator.hpp"
 #include "Texture/AnimatedSprite.hpp"
 #include "BehaviourScript.hpp"
+#include "RigidBody.hpp"
 
 using namespace spic;
 
@@ -52,7 +53,7 @@ public:
      * @brief Adds an AudioSource component to the current GameObject being build.
      * @return reference to ObjectBuilder, allows method chaining.
      */
-    auto AddAudioSource() -> GameObjectBuilder & override;
+    auto AddAudioSource(const spic::AudioSource audioSource) -> GameObjectBuilder & override;
 
     /**
      * @brief Adds a BehaviourScript component to the current GameObject being build.
@@ -64,13 +65,13 @@ public:
      * @brief Adds a Collider component to the current GameObject being build.
      * @return reference to ObjectBuilder, allows method chaining.
      */
-    auto AddCollider() -> GameObjectBuilder & override;
+    auto AddCollider(const spic::Collider collider) -> GameObjectBuilder & override;
 
     /**
      * @brief Adds a RigidBody component to the current GameObject being build.
      * @return reference to ObjectBuilder, allows method chaining.
      */
-    auto AddRigidBody() -> GameObjectBuilder & override;
+    auto AddRigidBody(spic::RigidBody rigidBody) -> GameObjectBuilder & override;
 
     /**
      * @brief Adds a Sprite component to the current GameObject being build.

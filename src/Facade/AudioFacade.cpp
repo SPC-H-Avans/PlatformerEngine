@@ -6,7 +6,6 @@
 
 
 namespace platformer_engine {
-
     AudioFacade::AudioFacade() {
         Mix_Init(MIX_INIT_MP3);
         SDL_Init(SDL_INIT_AUDIO);
@@ -58,8 +57,8 @@ namespace platformer_engine {
     }
 
     void AudioFacade::PlayMusic(const std::string &musicName, bool loopMusic) {
-        if (_music[musicName].get() == nullptr) {
-            throw spic::AudioNotFoundException(musicName);
+        if (!_music.contains(musicName)) {
+            spic::Debug::LogWarning("Tried to play " + musicName + ", but this music is not loaded!");
         }
 
         if (Mix_PlayingMusic() == 0) {
@@ -72,8 +71,12 @@ namespace platformer_engine {
     }
 
     void AudioFacade::PlaySound(const std::string &soundName) {
-        Mix_Volume(-1, _volume);
-        Mix_PlayChannel(-1, _sounds[soundName].get(), 0);
+        if (!_sounds.contains(soundName)) {
+            spic::Debug::LogWarning("Tried to play " + soundName + ", but this sound is not loaded!");
+        } else {
+            Mix_Volume(-1, _volume);
+            Mix_PlayChannel(-1, _sounds[soundName].get(), 0);
+        }
     }
 
     void AudioFacade::TogglePlay() {

@@ -102,8 +102,9 @@ namespace platformer_engine {
         /**
          * @brief Add a scene to the scene list
          * @param scene
+         * @param isDefault determines wether the scene will be set as the default scene
          */
-        void AddScene(const Scene &scene);
+        void AddScene(const Scene &scene, bool isDefault = false);
 
         /**
          * @brief Get the server network manager when active
@@ -173,6 +174,18 @@ namespace platformer_engine {
             return *_window;
         }
 
+        /**
+         * @brief returns the name of the scene set as default.
+         * @return
+         */
+        auto GetDefaultSceneName() -> std::string {
+            return _defaultScene;
+        }
+
+        /**
+        * @brief returns the manager for datastoring
+        * @return a DataStorageManager for saving and loading to a file
+        */
         auto GetDataManager() -> DataStorageManager& {
             return *_dataManager;
         }
@@ -196,6 +209,7 @@ namespace platformer_engine {
         std::unique_ptr<DataStorageManager> _dataManager = nullptr;
 
         std::vector<Scene> _scenes;
+        std::string _defaultScene;
     };
 }//namespace platformer_engine
 

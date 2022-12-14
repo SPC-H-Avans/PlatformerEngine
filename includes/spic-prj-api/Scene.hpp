@@ -94,7 +94,7 @@ namespace spic {
          * @param config A map of Tile IDs and their corresponding Game Object constructors
          * @spicapi
          */
-        static void ImportLevel(const std::string &id, const std::string &filePath, const std::string &fileName,
+        void ImportLevel(const std::string &id, const std::string &filePath, const std::string &fileName,
                                 const std::map<int, std::function<spic::GameObject(Transform)>> &config);
 
         /**
@@ -142,6 +142,18 @@ namespace spic {
          */
         inline auto GetSceneName() const -> std::string { return _sceneName; };
 
+        /**
+         * @brief Sets a scene name for handling scene flow.
+         * @param sceneName String must be a valid scene loaded on the engine
+         */
+        void SetNextScene(const std::string sceneName);
+
+        /**
+         *
+         * @return an optional which can hold the next scene if not nullopt
+         */
+        auto GetNextScene() const -> std::optional<std::string>;
+
     private:
         /**
          * @brief Render all GameObjects in this scene
@@ -182,6 +194,7 @@ namespace spic {
          */
         std::shared_ptr<Camera> _activeCamera = nullptr;
         std::string _sceneName{"Null Scene"};
+        std::optional<std::string> _nextScene;
     };
 
 }  // namespace spic

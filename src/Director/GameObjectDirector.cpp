@@ -7,11 +7,13 @@
 #include "Text.hpp"
 #include "Button.hpp"
 
-auto GameObjectDirector::CreateTile(const spic::Sprite &sprite, // TODO: switch sprite and transform for consistency
-                                    Transform transform, int colliderWidth, int colliderHeight) -> GameObject & {
-    auto &scene = platformer_engine::Engine::GetInstance().GetActiveScene();
+
+static int tileCounter = 1;
+
+auto GameObjectDirector::CreateTile(const std::string& namePrefix, const spic::Sprite& sprite, // TODO: switch sprite and transform for consistency
+                                    Transform transform, int colliderWidth, int colliderHeight) -> GameObject& {
     auto builder =
-            GameObjectBuilder("tile" + std::to_string(scene.GetObjectCount()))
+            GameObjectBuilder(namePrefix + std::to_string(tileCounter))
                     .AddSprite(sprite);
     auto obj = builder.GetGameObject();
     obj->SetTransform(transform);
@@ -22,28 +24,53 @@ auto GameObjectDirector::CreateTile(const spic::Sprite &sprite, // TODO: switch 
     collider.Height(colliderHeight);
     obj->AddComponent<BoxCollider>(std::make_shared<BoxCollider>(collider));
 
-    scene.AddObject(obj);
+    ++tileCounter;
     return *obj;
 }
 
-auto GameObjectDirector::CreateBackgroundObject(const spic::Sprite &sprite,
+auto GameObjectDirector::CreateBackgroundObject(const std::string& namePrefix, const spic::Sprite &sprite,
                                                 Transform transform) -> GameObject & {
-    auto &scene = platformer_engine::Engine::GetInstance().GetActiveScene();
     auto builder =
-            GameObjectBuilder("tile" + std::to_string(scene.GetObjectCount()))
+            GameObjectBuilder(namePrefix + std::to_string(tileCounter))
                     .AddSprite(sprite);
     auto obj = builder.GetGameObject();
     obj->SetTransform(transform);
-    scene.AddObject(obj);
+
+    ++tileCounter;
+    return *obj;
+}
+
+auto GameObjectDirector::CreateScriptedTile(const std::string& namePrefix, const spic::Sprite& sprite,
+                                    Transform transform, int colliderWidth, int colliderHeight,
+                                    const std::vector<std::shared_ptr<BehaviourScript>>& behaviourScripts) -> GameObject & {
+    static int counter = 1;
+
+    auto builder =
+            GameObjectBuilder(namePrefix + std::to_string(counter))
+                    .AddSprite(sprite);
+
+    auto obj = builder.GetGameObject();
+    obj->SetTransform(transform);
+
+    // collider
+    auto collider = BoxCollider();
+    collider.Width(colliderWidth);
+    collider.Height(colliderHeight);
+    obj->AddComponent<BoxCollider>(std::make_shared<BoxCollider>(collider));
+
+    // scripts
+    for (const auto &script: behaviourScripts) {
+        obj->AddComponent<BehaviourScript>(script);
+    }
+
+    ++counter;
     return *obj;
 }
 
 auto GameObjectDirector::CreatePlayer(int playerId, Transform transform, int colliderWidth, int colliderHeight,
                                       std::vector<platformer_engine::AnimatedSprite> &animations,
                                       const std::vector<std::shared_ptr<BehaviourScript>> &behaviourScripts) -> GameObject & {
-    auto &scene = platformer_engine::Engine::GetInstance().GetActiveScene();
-
-    auto builder = GameObjectBuilder(std::string(NET_PLAYER_PREFIX) + std::to_string(playerId))
+    auto builder = GameObjectBuilder(std::string(NET_PLAYER_PREFIX) + std::to_string(playerId), "player")
             // animations
             .AddAnimator(animations).SetOwnerId(playerId);
     auto obj = builder.GetGameObject();
@@ -67,32 +94,28 @@ auto GameObjectDirector::CreatePlayer(int playerId, Transform transform, int col
         obj->AddComponent<BehaviourScript>(script);
     }
 
-    scene.AddObject(obj);
     return *obj;
 }
 
 auto GameObjectDirector::CreateText(Transform transform, const std::string objectId, const std::string &text,
                                     const std::string &fontPath, int textWidth, int textHeight,
                                     int fontSize, Color textColor) -> Text & {
-    auto &scene = platformer_engine::Engine::GetInstance().GetActiveScene();
     auto textObject = Text(objectId, textWidth, textHeight, text, fontPath, fontSize, textColor);
 
     textObject.SetTransform(transform);
-    auto textPtr = std::make_shared<Text>(textObject);
+    auto textPtr = std::make_unique<Text>(textObject);
 
-    scene.AddUIObject(textPtr);
     return *textPtr;
 }
 
 auto GameObjectDirector::CreateButton(Transform transform, const std::string objectId, const spic::Sprite &sprite,
                                       const std::string &imgPath, int buttonWidth, int buttonHeight,
                                       std::function<void()> onClick) -> Button & {
-    auto &scene = platformer_engine::Engine::GetInstance().GetActiveScene();
     auto buttonObject = Button(objectId, sprite, imgPath, buttonWidth, buttonHeight);
 
     buttonObject.SetTransform(transform);
     buttonObject.OnClick(onClick);
-    auto buttonPtr = std::make_shared<Button>(buttonObject);
-    scene.AddUIObject(buttonPtr);
+
+    auto buttonPtr = std::make_unique<Button>(buttonObject);
     return *buttonPtr;
 }

@@ -1,6 +1,7 @@
 #include <stdexcept>
 #include "GameObject.hpp"
 #include "Exceptions/GameObjectAlreadyInSceneException.hpp"
+#include "ComponentExtension/Scaleable.hpp"
 
 using namespace spic;
 
@@ -154,7 +155,28 @@ auto GameObject::IsActiveInWorld() const -> bool {
 }
 
 void GameObject::SetTransform(const spic::Transform &transform) {
-    _self.lock()->_transform = transform;
+    auto selfPtr = _self.lock();
+    auto oldScale = selfPtr->GetTransform().scale;
+
+    std::vector<std::string> keys;
+    keys.reserve(_components.size()); // For efficiency
+
+    for (auto &_component: _components) {
+        keys.push_back(_component.first);
+    }
+
+    for (const auto &key: keys) {
+        std::vector<std::shared_ptr<Component>> const components = _components[key];
+        for (const auto &component: components) {
+            //check if component is type of Scaleable
+            auto scaleableExtension = std::dynamic_pointer_cast<platformer_engine::Scaleable>(component);
+            if (scaleableExtension != nullptr) {
+                scaleableExtension->UpdateScale(oldScale, transform.scale);
+            }
+        }
+    }
+
+    selfPtr->_transform = transform;
 }
 
 auto GameObject::GetTransform() -> Transform {

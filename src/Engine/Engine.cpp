@@ -112,6 +112,10 @@ void platformer_engine::Engine::SetActiveScene(const std::string &sceneName) {
     for (auto &item: _scenes) {
         if (item.GetSceneName() == sceneName) {
             _window->SetActiveScene(item);
+
+            //Call all startup functions on systems
+            _behaviourSystem->Start();
+
             return;
         }
     }

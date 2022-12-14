@@ -22,7 +22,7 @@ TEST(SceneTest, IsGameObjectAddedToScene) {
     // 1. Create a GameObject and add it to a new Scene using the SceneBuilder
     auto gO1 = GameObjectBuilder("gameObject1").GetGameObject();
     auto scene = platformer_engine::SceneBuilder("TestScene")
-            .AddGameObject(gO1)
+            .AddGameObject(*gO1)
             .GetScene();
 
     // 2. Assert that the scene is not null
@@ -77,7 +77,7 @@ TEST(SceneTest, IsGameObjectRemoved) {
     // 1. Create a scene with a gameObject
     auto gO1 = GameObjectBuilder(name).GetGameObject();
     auto scene = platformer_engine::SceneBuilder("TestScene")
-            .AddGameObject(gO1)
+            .AddGameObject(*gO1)
             .GetScene();
 
     // 2. Remove that gameObject from the scene

@@ -66,7 +66,11 @@ namespace spic {
 
                 return transform;
             }
-            return GetTransform();
+            try {
+                return GetTransform();
+            } catch (std::exception &e) {
+                return {};
+            }
         }
 
     private:

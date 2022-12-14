@@ -6,10 +6,14 @@
 namespace platformer_engine {
     class AudioManager {
     public:
-        static auto GetInstance() -> AudioManager& {
+        static auto GetInstance() -> AudioManager & {
             static AudioManager instance;
             return instance;
         }
+
+        AudioManager(AudioManager const &) = delete;
+
+        void operator=(AudioManager const &) = delete;
 
         /**
          * @brief Set the volume of the audio system (use this before playing music)

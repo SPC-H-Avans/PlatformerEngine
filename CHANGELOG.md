@@ -27,6 +27,7 @@ Engine support for BehaviourScript OnUpdate.
 
 ### Changes
 
+- SPCH-19: Component scaling
 - SPCH-5: FPS counter
 - SPCH-22: Toggle play music and sound effects
 - SPCH-9: Added support for UI elements like Text and clickable Buttons.
@@ -42,7 +43,6 @@ Engine support for BehaviourScript OnUpdate.
 - SPCH-54: Tech Debt (Tiles to GameObjects, better Sprite constructor)
 - SPCH-65: Added finish flag behaviour
 - SPCH-12: Add save/load of data to file
-
 
 ### Bug Fixes
 

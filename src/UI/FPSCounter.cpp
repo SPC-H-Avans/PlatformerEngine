@@ -15,5 +15,5 @@ platformer_engine::FPSCounter::FPSCounter(const Transform transform, const std::
             width, height,
             fontSize, fontColor);
     textObject.AddComponent<BehaviourScript>(std::make_shared<platformer_engine::FPSCounterBehaviour>(textId, fontPath, fontSize, fontColor, key));
-    platformer_engine::Engine::GetInstance().GetActiveScene().AddUIObject(std::make_shared<Text>(textObject));
+    platformer_engine::Engine::GetInstance().GetActiveScene().AddUIObject(textObject);
 }

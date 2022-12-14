@@ -47,16 +47,14 @@ GameObject::GameObject(const std::string &name, const std::string &tag) : _tag(t
 
 
 auto GameObject::operator=(const GameObject &other) -> GameObject & {
-    if (_name == other._name) {
-        _active = other._active;
-        _tag = other._tag;
-        _components = other._components;
-        _transform = other._transform;
-//        _children = other._children;
-//        _parent = other._parent;
-        _ownerId = other._ownerId;
-        _layer = other._layer;
-    }
+    _name = other._name;
+    _active = other._active;
+    _tag = other._tag;
+    _components = other._components;
+    _transform = other._transform;
+    _ownerId = other._ownerId;
+    _layer = other._layer;
+    _self = other._self;
 
     return *this;
 };

@@ -14,7 +14,7 @@ namespace platformer_engine {
 
     private:
         int _lastFPS = 0;
-        bool _active = true;
+        bool _visible = true;
 
         const KeyCode _key;
         const std::string _textId;

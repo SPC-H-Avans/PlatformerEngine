@@ -98,7 +98,7 @@ auto GameObjectDirector::CreatePlayer(int playerId, Transform transform, int col
 
 auto GameObjectDirector::CreateText(Transform transform, const std::string objectId, const std::string &text,
                                     const std::string &fontPath, int textWidth, int textHeight,
-                                    int fontSize, Color textColor) -> Text & {
+                                    int fontSize, Color textColor) -> Text {
     auto textObject = Text(objectId, textWidth, textHeight, text, fontPath, fontSize, textColor);
 
     textObject.SetTransform(transform);
@@ -109,12 +109,11 @@ auto GameObjectDirector::CreateText(Transform transform, const std::string objec
 
 auto GameObjectDirector::CreateButton(Transform transform, const std::string objectId, const spic::Sprite &sprite,
                                       const std::string &imgPath, int buttonWidth, int buttonHeight,
-                                      std::function<void()> onClick) -> Button & {
+                                      std::function<void()> onClick) -> std::shared_ptr<Button> {
     auto buttonObject = Button(objectId, sprite, imgPath, buttonWidth, buttonHeight);
 
     buttonObject.SetTransform(transform);
     buttonObject.OnClick(onClick);
 
-    auto buttonPtr = std::make_shared<Button>(buttonObject);
-    return *buttonPtr;
+    return std::make_shared<Button>(buttonObject);
 }

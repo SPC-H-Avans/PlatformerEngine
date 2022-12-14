@@ -77,7 +77,7 @@ public:
      */
     static auto CreateText(Transform transform, const std::string objectId, const std::string& text,
                            const std::string& fontPath, int textWidth, int textHeight,
-                           int fontSize, Color textColor) -> Text&;
+                           int fontSize, Color textColor) -> Text;
 
     /**
      * @brief Create a background object (not collidable) and add it to the scene
@@ -92,7 +92,7 @@ public:
      */
     static auto CreateButton(Transform transform, const std::string objectId, const spic::Sprite& sprite,
                              const std::string& imgPath, int buttonWidth, int buttonHeight,
-                             std::function<void()> onClick) -> Button&;
+                             std::function<void()> onClick) -> std::shared_ptr<Button>;
 
     /**
      *

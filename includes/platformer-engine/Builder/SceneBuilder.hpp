@@ -19,7 +19,7 @@ namespace platformer_engine {
          * @param gameObject Game Object to add to the scene
          * @return SceneBuilder Modified Scene Builder
          */
-        auto AddGameObject(const std::shared_ptr<spic::GameObject>& gameObject) -> SceneBuilder &;
+        auto AddGameObject(const spic::GameObject& gameObject) -> SceneBuilder &;
 
         /**
          * @brief Add a vector of Game Objects to the scene

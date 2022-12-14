@@ -38,7 +38,7 @@ namespace spic {
         void RenderScene();
 
         /**
-         * @brief Add a new Game Object to this scene
+         * @brief Make a copy of the referenced gameObject and add it to the scene
          * @param gameObject Game Object shared pointer
          * @spicapi
          */

@@ -1,5 +1,5 @@
-#ifndef PLATFORMER_ENGINE_GAMEOBJECTDIRECTOR_HPP
-#define PLATFORMER_ENGINE_GAMEOBJECTDIRECTOR_HPP
+#ifndef PLATFORMER_ENGINE_GAMEOBJECTFACTORY_HPP
+#define PLATFORMER_ENGINE_GAMEOBJECTFACTORY_HPP
 
 #include "Builder/GameObjectBuilder.hpp"
 #include "UIObject.hpp"
@@ -7,14 +7,14 @@
 #include "Button.hpp"
 
 /**
- * @brief The GameObjectDirector can be used to easily create specialised GameObjects
+ * @brief The GameObjectFactory can be used to easily create specialised GameObjects
  */
-class GameObjectDirector {
+class GameObjectFactory {
 public:
     /**
      * @brief Constructor
      */
-    GameObjectDirector() = default;
+    GameObjectFactory() = default;
 
     /**
      * @brief Create a tile (collidable) and add it to the scene
@@ -108,4 +108,4 @@ public:
                           const std::vector<std::shared_ptr<BehaviourScript>> &behaviourScripts) -> GameObject&;
 };
 
-#endif //PLATFORMER_ENGINE_GAMEOBJECTDIRECTOR_HPP
+#endif //PLATFORMER_ENGINE_GAMEOBJECTFACTORY_HPP

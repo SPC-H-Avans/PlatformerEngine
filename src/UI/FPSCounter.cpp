@@ -1,5 +1,5 @@
 #include "UI/FPSCounter.hpp"
-#include "Director/GameObjectDirector.hpp"
+#include "Director/GameObjectFactory.hpp"
 #include "Engine/Engine.hpp"
 #include "Behaviour/FPSCounterBehaviour.hpp"
 
@@ -7,7 +7,7 @@ platformer_engine::FPSCounter::FPSCounter(const Transform transform, const std::
                                        const Color fontColor, const int width, const int height, const KeyCode key) {
     std::string textId = "fps" + std::to_string(platformer_engine::Engine::GetInstance().GetActiveScene().GetObjectCount());
     std::string text = "0";
-    auto object = GameObjectDirector::CreateText(
+    auto object = GameObjectFactory::CreateText(
             transform,
             textId,
             text,

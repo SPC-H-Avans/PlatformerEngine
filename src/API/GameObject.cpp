@@ -2,6 +2,7 @@
 #include "GameObject.hpp"
 #include "Exceptions/GameObjectAlreadyInSceneException.hpp"
 #include "ComponentExtension/Scaleable.hpp"
+#include "Exceptions/InvalidSizeException.hpp"
 
 using namespace spic;
 
@@ -155,30 +156,34 @@ auto GameObject::IsActiveInWorld() const -> bool {
 }
 
 void GameObject::SetTransform(const spic::Transform &transform) {
+    if (transform.scale < 0) {
+        throw InvalidSizeException("scale", "cannot be smaller than 0");
+    }
+
     auto selfPtr = _self.lock();
     auto oldScale = selfPtr->GetTransform().scale;
     if (oldScale <= 0) {
         oldScale = 1;
     }
+    if (oldScale != transform.scale) {
+        std::vector<std::string> keys;
+        keys.reserve(_components.size()); // For efficiency
 
-    std::vector<std::string> keys;
-    keys.reserve(_components.size()); // For efficiency
+        for (auto &_component: _components) {
+            keys.push_back(_component.first);
+        }
 
-    for (auto &_component: _components) {
-        keys.push_back(_component.first);
-    }
-
-    for (const auto &key: keys) {
-        std::vector<std::shared_ptr<Component>> const components = _components[key];
-        for (const auto &component: components) {
-            //check if component is type of Scaleable
-            auto scaleableExtension = std::dynamic_pointer_cast<platformer_engine::Scaleable>(component);
-            if (scaleableExtension != nullptr) {
-                scaleableExtension->UpdateScale(oldScale, transform.scale);
+        for (const auto &key: keys) {
+            std::vector<std::shared_ptr<Component>> const components = _components[key];
+            for (const auto &component: components) {
+                //check if component is type of Scaleable
+                auto scaleableExtension = std::dynamic_pointer_cast<platformer_engine::Scaleable>(component);
+                if (scaleableExtension != nullptr) {
+                    scaleableExtension->UpdateScale(oldScale, transform.scale);
+                }
             }
         }
     }
-
     selfPtr->_transform = transform;
 }
 

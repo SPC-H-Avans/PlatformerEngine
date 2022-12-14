@@ -157,6 +157,9 @@ auto GameObject::IsActiveInWorld() const -> bool {
 void GameObject::SetTransform(const spic::Transform &transform) {
     auto selfPtr = _self.lock();
     auto oldScale = selfPtr->GetTransform().scale;
+    if (oldScale <= 0) {
+        oldScale = 1;
+    }
 
     std::vector<std::string> keys;
     keys.reserve(_components.size()); // For efficiency

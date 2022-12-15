@@ -3,7 +3,7 @@
 
 #include <memory>
 
-#include "GameObject.hpp"
+#include "UIObject.hpp"
 #include "Utility/InputEnum.hpp"
 
 namespace platformer_engine {
@@ -15,8 +15,10 @@ namespace platformer_engine {
         FPSCounter(spic::Transform transform, std::string fontPath, int fontSize,
                    spic::Color fontColor, int width, int height, KeyCode key);
 
+        auto GetUIObject() -> std::shared_ptr<spic::UIObject> { return _obj; }
+
     private:
-        std::shared_ptr<spic::GameObject> _obj;
+        std::shared_ptr<spic::UIObject> _obj;
     };
 } // namespace platformer_engine
 

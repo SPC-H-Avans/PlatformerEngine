@@ -41,12 +41,10 @@ auto GameObjectFactory::CreateBackgroundObject(const std::string& namePrefix, co
 }
 
 auto GameObjectFactory::CreateScriptedTile(const std::string& namePrefix, const spic::Sprite& sprite,
-                                           Transform transform, int colliderWidth, int colliderHeight,
-                                           const std::vector<std::shared_ptr<BehaviourScript>>& behaviourScripts) -> GameObject & {
-    static int counter = 1;
-
+                                            Transform transform, int colliderWidth, int colliderHeight, bool obstructsMovement,
+                                            const std::vector<std::shared_ptr<BehaviourScript>>& behaviourScripts) -> GameObject & {
     auto builder =
-            GameObjectBuilder(namePrefix + std::to_string(counter))
+            GameObjectBuilder(namePrefix + std::to_string(tileCounter))
                     .AddSprite(sprite);
 
     auto obj = builder.GetGameObject();
@@ -56,6 +54,7 @@ auto GameObjectFactory::CreateScriptedTile(const std::string& namePrefix, const 
     auto collider = BoxCollider();
     collider.Width(colliderWidth);
     collider.Height(colliderHeight);
+    collider.SetObstructsMovement(obstructsMovement);
     obj->AddComponent<BoxCollider>(std::make_shared<BoxCollider>(collider));
 
     // scripts
@@ -63,7 +62,7 @@ auto GameObjectFactory::CreateScriptedTile(const std::string& namePrefix, const 
         obj->AddComponent<BehaviourScript>(script);
     }
 
-    ++counter;
+    ++tileCounter;
     return *obj;
 }
 
@@ -98,24 +97,24 @@ auto GameObjectFactory::CreatePlayer(int playerId, Transform transform, int coll
 }
 
 auto GameObjectFactory::CreateText(Transform transform, const std::string objectId, const std::string &text,
-                                   const std::string &fontPath, int textWidth, int textHeight,
-                                   int fontSize, Color textColor) -> Text & {
+                                    const std::string &fontPath, int textWidth, int textHeight,
+                                    int fontSize, Color textColor) -> Text {
     auto textObject = Text(objectId, textWidth, textHeight, text, fontPath, fontSize, textColor);
 
     textObject.SetTransform(transform);
-    auto textPtr = std::make_unique<Text>(textObject);
 
+    auto textPtr = std::make_shared<Text>(textObject);
     return *textPtr;
 }
 
 auto GameObjectFactory::CreateButton(Transform transform, const std::string objectId, const spic::Sprite &sprite,
-                                     const std::string &imgPath, int buttonWidth, int buttonHeight,
-                                     std::function<void()> onClick) -> Button & {
+                                      const std::string &imgPath, int buttonWidth, int buttonHeight,
+                                      std::function<void()> onClick) -> Button {
     auto buttonObject = Button(objectId, sprite, imgPath, buttonWidth, buttonHeight);
 
     buttonObject.SetTransform(transform);
     buttonObject.OnClick(onClick);
 
-    auto buttonPtr = std::make_unique<Button>(buttonObject);
+    auto buttonPtr = std::make_shared<Button>(buttonObject);
     return *buttonPtr;
 }

@@ -42,14 +42,14 @@ namespace spic {
          * @param gameObject Game Object shared pointer
          * @spicapi
          */
-        void AddObject(const std::shared_ptr<GameObject> &gameObject);
+        void AddObject(const GameObject &gameObject);
 
         /**
          * @brief Add a new UI Object to this scene
          * @param uiObject
          * @spicapi
          */
-        void AddUIObject(const std::shared_ptr<spic::UIObject>& uiObject);
+        void AddUIObject(const std::shared_ptr<spic::UIObject> &uiObject);
 
         /**
          * @brief Remove a Game Object from this scene by name
@@ -95,7 +95,7 @@ namespace spic {
          * @spicapi
          */
         void ImportLevel(const std::string &id, const std::string &filePath, const std::string &fileName,
-                                const std::map<int, std::function<spic::GameObject(Transform)>> &config);
+                         const std::map<int, std::function<spic::GameObject(Transform)>> &config);
 
         /**
          * @brief Add a camera to this scene

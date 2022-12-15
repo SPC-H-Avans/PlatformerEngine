@@ -102,7 +102,7 @@ void platformer_engine::TMXParser::ParseTileLayer(spic::Scene& scene, TiXmlEleme
                     0, 1.0 };
 
                 GameObject object = config.at(tileMap[row][col])(transform); // create the tile
-                scene.AddObject(std::make_unique<GameObject>(object));
+                scene.AddObject(object);
             }
             if (!iss.good())
                 break;

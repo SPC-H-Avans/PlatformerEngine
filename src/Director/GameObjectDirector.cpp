@@ -1,9 +1,9 @@
 #include "Director/GameObjectDirector.hpp"
 #include "Engine/Engine.hpp"
 #include "BehaviourScript.hpp"
-#include "Physics/ForceDrivenEntityBody.hpp"
 #include "Physics/Templates/FlyingGumbaTemplate.hpp"
 #include "Physics/Templates/MarioPhysicsTemplate.hpp"
+#include "Physics/ForceDrivenEntity.hpp"
 
 auto GameObjectDirector::CreateTile(const spic::Sprite& sprite,
                                     Transform transform, int colliderWidth, int colliderHeight) -> GameObject& {
@@ -91,9 +91,13 @@ auto GameObjectDirector::CreateEnemy(Transform transform, int colliderWidth, int
 
     // rigidbody
     FlyingGumbaTemplate physicsTemplate;
-    auto enemyBody = std::make_shared<ForceDrivenEntityBody>(physicsTemplate);
+    auto enemyBody = std::make_shared<RigidBody>(physicsTemplate);
     enemyBody->BodyType(spic::BodyType::dynamicBody);
     obj->AddComponent<RigidBody>(enemyBody);
+
+    // Force Driven Entity component
+    auto sharedFde = std::make_shared<platformer_engine::ForceDrivenEntity>();
+    obj->AddComponent<platformer_engine::ForceDrivenEntity>(sharedFde);
 
     // collider
     auto collider = BoxCollider();

@@ -15,10 +15,10 @@ public:
 
 private:
     int _clientId = 0;
-    auto CalculateGravityForce(const std::shared_ptr<RigidBody>& rigidBody) -> Point;
-    auto CalculateFrictionForce(const std::shared_ptr<RigidBody>& rigidBody) -> Point;
-    auto CalculateFDEForce(const std::shared_ptr<RigidBody>& rigidBody, Point position) -> Point;
-    auto GetLimitedVelocityForCollisions(const std::shared_ptr<RigidBody>& rigidBody) -> Point;
+    static auto CalculateGravityForce(const std::shared_ptr<RigidBody>& rigidBody) -> Point;
+    static auto CalculateFrictionForce(const std::shared_ptr<RigidBody>& rigidBody) -> Point;
+    static auto CalculateFDEForce(const std::shared_ptr<GameObject>& gameObject) -> Point;
+    static auto GetLimitedVelocityForCollisions(const std::shared_ptr<RigidBody>& rigidBody) -> Point;
 };
 
 

@@ -1,6 +1,5 @@
 #include "EntityState/EntityStateMachine.hpp"
 #include "EntityState/EntityState.hpp"
-#include "Physics/ForceDrivenEntityBody.hpp"
 
 EntityStateMachine::EntityStateMachine(EntityState &initialState)
         : _currentState(initialState.Clone()) {

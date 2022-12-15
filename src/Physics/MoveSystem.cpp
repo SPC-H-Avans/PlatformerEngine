@@ -2,7 +2,7 @@
 #include "GameObject.hpp"
 #include "RigidBody.hpp"
 #include "Transform.hpp"
-#include "Physics/ForceDrivenEntityBody.hpp"
+#include "Physics/ForceDrivenEntity.hpp"
 #include <memory>
 
 
@@ -23,7 +23,7 @@ void MoveSystem::Update() {
                 totalForce += CalculateFrictionForce(rigidBody);
 
                 // Force driven Entity force
-                totalForce += CalculateFDEForce(rigidBody, obj->GetTransform().position);
+                totalForce += CalculateFDEForce(obj);
 
                 // Apply all forces
                 rigidBody->AddForce(totalForce);
@@ -59,27 +59,27 @@ auto MoveSystem::CalculateFrictionForce(const std::shared_ptr<RigidBody>& rigidB
     return {0,0};
 }
 
-auto MoveSystem::CalculateFDEForce(const std::shared_ptr<RigidBody>& rigidBody, Point position) -> Point {
-    auto forceDrivenEntityBody = std::dynamic_pointer_cast<ForceDrivenEntityBody>(rigidBody);
-    if(forceDrivenEntityBody != nullptr) {
-        auto following = forceDrivenEntityBody->GetFollowing().lock();
+auto MoveSystem::CalculateFDEForce(const std::shared_ptr<GameObject>& gameObject) -> Point {
+    auto forceDrivenEntity = std::dynamic_pointer_cast<platformer_engine::ForceDrivenEntity>(gameObject->GetComponent<platformer_engine::ForceDrivenEntity>());
+    if(forceDrivenEntity != nullptr) {
+        auto following = forceDrivenEntity->GetFollowing().lock();
         if(following) {
-            if(following->GetTransform().position.Distance(position) < forceDrivenEntityBody->GetFollowRange()) {
-                forceDrivenEntityBody->FollowOn();
+            if(following->GetTransform().position.Distance(gameObject->GetTransform().position) < forceDrivenEntity->GetFollowRange()) {
+                forceDrivenEntity->FollowOn();
             } else {
-                forceDrivenEntityBody->WanderOn();
+                forceDrivenEntity->WanderOn();
             }
         } else {
-            forceDrivenEntityBody->WanderOn();
+            forceDrivenEntity->WanderOn();
             following.reset();
         }
-        auto FDEForce = forceDrivenEntityBody->CalcSteeringForce();
+        auto FDEForce = forceDrivenEntity->CalcSteeringForce();
         return FDEForce;
     }
     return {0,0};
 }
 
-auto GetLimitedVelocityForCollisions(const std::shared_ptr<RigidBody>& rigidBody) {
+auto MoveSystem::GetLimitedVelocityForCollisions(const std::shared_ptr<RigidBody>& rigidBody) -> Point {
     auto velocity = rigidBody->GetVelocity();
 
     if (velocity.y > 0 && !rigidBody->CanMoveTo(CollisionPoint::Bottom)

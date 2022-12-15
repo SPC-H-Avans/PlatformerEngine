@@ -33,7 +33,7 @@ void MoveSystem::Update() {
 
                 // Set the transform for the GameObject
                 auto transform = obj->GetTransform();
-                transform.position += velocity;
+                transform.position += rigidBody->GetVelocity();
                 obj->SetTransform(transform);
 
                 rigidBody->SetHeading();

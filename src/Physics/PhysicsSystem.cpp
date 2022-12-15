@@ -29,7 +29,15 @@ void PhysicsSystem::MoveObjects() {
     // TODO
 }
 
-typedef std::unordered_map<std::pair<int, int>, std::vector<shared_ptr<GameObject>>, boost::hash<std::pair<int, int>>> SpatialMap;
+struct pair_hash
+{
+    template <class T1, class T2>
+    std::size_t operator() (const std::pair<T1, T2> &pair) const {
+        return std::hash<T1>()(pair.first) ^ std::hash<T2>()(pair.second);
+    }
+};
+
+typedef std::unordered_map<std::pair<int, int>, std::vector<shared_ptr<GameObject>>, pair_hash> SpatialMap;
 const int MAP_CELL_SIZE = 16;
 
 //Function for adding to map

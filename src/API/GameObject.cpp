@@ -132,8 +132,10 @@ void GameObject::Destroy(std::shared_ptr<GameObject> obj) {
 //    }
 
     std::shared_ptr<GameObject> gameObject = Find(obj->_name);
-    _instances.erase(gameObject->_name);
-    gameObject.reset();
+    if (gameObject != nullptr) {
+        _instances.erase(gameObject->_name);
+        gameObject.reset();
+    }
 }
 
 

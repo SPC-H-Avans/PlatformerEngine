@@ -11,15 +11,13 @@ platformer_engine::FPSCounterBehaviour::FPSCounterBehaviour(const std::string te
 
 void platformer_engine::FPSCounterBehaviour::OnUpdate(double deltaTime) {
     if (spic::Input::GetKeyDown(_key)) {
-        _active = !_active;
+        _visible = !_visible;
         // if counter turned off, update the text to show nothing to "hide" it
-        if (!_active)
-            platformer_engine::TextureManager::GetInstance().CreateOrUpdateUIText(_textId, _fontPath, " ", _fontSize,
-                                                                                  _fontColor);
-        if (_active) _lastFPS = -1;
+        if (!_visible) platformer_engine::TextureManager::GetInstance().CreateOrUpdateUIText(_textId, _fontPath, " ", _fontSize, _fontColor);
+        if (_visible) _lastFPS = -1;
     }
 
-    if (!_active) return;
+    if (!_visible) return;
 
     auto fps = platformer_engine::Engine::GetInstance().GetFPS();
 

@@ -43,9 +43,11 @@ void spic::RigidBody::AddForce(const spic::Point &force, double speedMultiplier)
                     case platformer_engine::MultiplayerClient:
                         engine.GetClientNetworkManager().UpdateNetworkedGameObjectTransform(transform,
                                                                                             gameObject->GetName());
+                        break;
                     case platformer_engine::MultiplayerServer:
                         engine.GetServerNetworkManager().UpdateNetworkedGameObjectTransform(transform,
                                                                                             gameObject->GetName());
+                        break;
                     case platformer_engine::Singleplayer:
                         break;
                 }

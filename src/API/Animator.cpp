@@ -30,9 +30,11 @@ void spic::Animator::SetActiveAnimation(const std::string &animationId) {
             switch (engine.GetNetworkingStatus()) {
                 case platformer_engine::MultiplayerClient:
                     engine.GetClientNetworkManager().UpdateActiveAnimation(gameObject->GetName(), animationId);
+                    break;
                 case platformer_engine::MultiplayerServer:
                     engine.GetServerNetworkManager().UpdateAnimation(
                             localClientId, gameObject->GetName(), animationId);
+                    break;
                 case platformer_engine::Singleplayer:
                     break;
             }

@@ -23,6 +23,10 @@ namespace platformer_engine {
             _audioFacade->SetVolume(volume);
         }
 
+        int GetVolume(){
+            return _audioFacade->getVolume();
+        }
+
         /**
          * @brief Set the volume of the music (that is already playing)
          * @param volume The volume to set

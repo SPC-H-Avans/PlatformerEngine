@@ -186,6 +186,7 @@ namespace platformer_engine {
          */
         inline double GetSpeedMultiplier() const {return _speedMultiplier;}
 
+        /*
          * @brief returns the name of the scene set as default.
          * @return
          */

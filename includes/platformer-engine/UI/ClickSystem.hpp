@@ -1,13 +1,15 @@
 #ifndef PLATFORMER_ENGINE_CLICKSYSTEM_HPP
 #define PLATFORMER_ENGINE_CLICKSYSTEM_HPP
 
-class ClickSystem {
+#include "System/ISystem.hpp"
+
+class ClickSystem : public ISystem{
 
 public:
     /**
      * @brief Check if Any Buttons should call Click()
      */
-    static void Update();
+    void Update();
 };
 
 #endif //PLATFORMER_ENGINE_CLICKSYSTEM_HPP

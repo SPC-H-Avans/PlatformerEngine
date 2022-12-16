@@ -24,7 +24,7 @@ namespace platformer_engine {
     }
 
     void platformer_engine::AudioFacade::SetVolume(int volume) {
-        _volume = (MIX_MAX_VOLUME * volume) / 100;
+        _volume = volume;
     }
 
     void AudioFacade::SetVolumeMusic(int volume) {

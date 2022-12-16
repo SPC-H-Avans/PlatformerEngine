@@ -20,7 +20,7 @@ class PhysicsSystem : public ISystem {
 public:
     PhysicsSystem(int localClientId = 0);
 
-/**
+    /**
      * @brief Updates the PhysicsSystem
      */
     void Update();

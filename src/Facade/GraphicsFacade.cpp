@@ -1,8 +1,8 @@
 #include <SDL2/SDL_ttf.h>
+#include <tuple>
 
 #include "Facade/GraphicsFacade.hpp"
 #include "Debug.hpp"
-#include "Texture/TextureManager.hpp"
 
 const int MAX_COLOR_VALUE = 255;
 
@@ -174,4 +174,16 @@ void platformer_engine::GraphicsFacade::ClearTextures() {
         SDL_DestroyTexture(it->second.get());
 
     _textureMap.clear();
+}
+
+auto platformer_engine::GraphicsFacade::GetScreenSize() -> std::tuple<int, int> {
+    SDL_DisplayMode DM;
+    SDL_GetCurrentDisplayMode(0, &DM);
+    auto Width = DM.w;
+    auto Height = DM.h;
+
+    int width = 0;
+    int height = 0;
+    SDL_GetRendererOutputSize(_renderer.get(), &width, &height);
+    return std::tuple<int, int>(width, height);
 }

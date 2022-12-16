@@ -109,6 +109,8 @@ namespace platformer_engine {
 
         void ClearTextures();
 
+        auto GetScreenSize() -> std::tuple<int, int>;
+
         /**
          * @brief Get interval between tick
          * @return Uinit64 tick interval

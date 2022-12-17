@@ -3,9 +3,9 @@
 #include "Debug.hpp"
 #include "Engine/Engine.hpp"
 
-auto platformer_engine::TMXParser::Load(const std::string &id, const std::string &filePath, const std::string &fileName,
+auto platformer_engine::TMXParser::LoadOnScene(spic::Scene& scene, const std::string &id, const std::string &filePath, const std::string &fileName,
                                         const std::map<int, std::function<spic::GameObject(Transform)>> &config) -> bool {
-    bool result = ParseLevel(id, filePath, fileName, config);
+    bool result = ParseLevel(scene, id, filePath, fileName, config);
 
     if (!result) {
         spic::Debug::LogWarning( "Failed to parse level: " + id);
@@ -13,7 +13,7 @@ auto platformer_engine::TMXParser::Load(const std::string &id, const std::string
     return result;
 }
 
-auto platformer_engine::TMXParser::ParseLevel(const std::string &id, const std::string &filePath, const std::string &fileName,
+auto platformer_engine::TMXParser::ParseLevel(spic::Scene& scene, const std::string &id, const std::string &filePath, const std::string &fileName,
                                               const std::map<int, std::function<spic::GameObject(Transform)>> &config) -> bool {
     TiXmlDocument xml;
     xml.LoadFile(filePath + fileName);
@@ -43,7 +43,7 @@ auto platformer_engine::TMXParser::ParseLevel(const std::string &id, const std::
     // Parse Layers
     for (TiXmlElement *e = root->FirstChildElement(); e != nullptr; e = e->NextSiblingElement()) {
         if (e->Value() == std::string("layer")) {
-            ParseTileLayer(*e, filePath, tileSets, tileSize, rowCount, colCount, config);
+            ParseTileLayer(scene, *e, filePath, tileSets, tileSize, rowCount, colCount, config);
         }
     }
 
@@ -68,7 +68,7 @@ auto platformer_engine::TMXParser::ParseTileSet(const TiXmlElement &xmlTileSet) 
     return tileSet;
 }
 
-void platformer_engine::TMXParser::ParseTileLayer(TiXmlElement &xmlLayer, const std::string &filePath,
+void platformer_engine::TMXParser::ParseTileLayer(spic::Scene& scene, TiXmlElement &xmlLayer, const std::string &filePath,
                                                   const platformer_engine::TMXParser::TileSetsList &tileSets,
                                                   int tileSize, int rowCount, int colCount,
                                                   const std::map<int, std::function<spic::GameObject(Transform)>> &config) {
@@ -100,9 +100,10 @@ void platformer_engine::TMXParser::ParseTileLayer(TiXmlElement &xmlLayer, const 
                         static_cast<float>(col * tileSize),
                         static_cast<float>(row * tileSize)},
                     0, 1.0 };
-                config.at(tileMap[row][col])(transform); // create the tile
-            }
 
+                GameObject object = config.at(tileMap[row][col])(transform); // create the tile
+                scene.AddObject(object);
+            }
             if (!iss.good())
                 break;
         }

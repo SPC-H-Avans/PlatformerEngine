@@ -7,6 +7,7 @@
 #include "Physics/Templates/PhysicsTemplate.hpp"
 #include <map>
 #include <boost/serialization/access.hpp>
+#include <boost/serialization/export.hpp>
 
 namespace spic {
 
@@ -27,7 +28,10 @@ namespace spic {
         RigidBody();
         RigidBody(const PhysicsTemplate& physicsTemplate);
 
-        template<typename archive> void serialize(archive& ar, const unsigned /*version*/) {
+        template<typename archive>
+        void serialize(archive &ar, const unsigned /*version*/) {
+            ar & boost::serialization::base_object<Component, RigidBody>(*this);
+            boost::serialization::void_cast_register<RigidBody, Component>();
             ar & _bodyType;
             ar & _mass;
             ar & _gravityScale;
@@ -137,8 +141,9 @@ namespace spic {
         float _friction;
 
         std::map<CollisionPoint, int> _moveRestrictions;
-
     };
+
+    BOOST_SERIALIZATION_ASSUME_ABSTRACT(RigidBody);
 
 } // namespace spic
 

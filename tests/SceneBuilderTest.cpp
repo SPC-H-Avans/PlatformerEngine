@@ -24,7 +24,7 @@ TEST_F(SceneBuilderTest, IsSceneCreated) {
  */
 TEST_F(SceneBuilderTest, ShouldAddGameObject) {
     auto gameObject = GameObjectBuilder("Test").GetGameObject();
-    auto scene = platformer_engine::SceneBuilder("TestScene").AddGameObject(gameObject).GetScene();
+    auto scene = platformer_engine::SceneBuilder("TestScene").AddGameObject(*gameObject).GetScene();
 
     ASSERT_TRUE(scene.GetObjectByName(gameObject->GetName()));
 }
@@ -35,9 +35,9 @@ TEST_F(SceneBuilderTest, ShouldAddGameObject) {
 TEST_F(SceneBuilderTest, CannotAddSameObjectTwice) {
     auto sceneBuilder = platformer_engine::SceneBuilder("TestScene");
     auto gameObject = GameObjectBuilder("Test").GetGameObject();
-    sceneBuilder.AddGameObject(gameObject);
+    sceneBuilder.AddGameObject(*gameObject);
 
-    ASSERT_THROW(sceneBuilder.AddGameObject(gameObject), GameObjectAlreadyInSceneException);
+    ASSERT_THROW(sceneBuilder.AddGameObject(*gameObject), GameObjectAlreadyInSceneException);
 }
 
 /**

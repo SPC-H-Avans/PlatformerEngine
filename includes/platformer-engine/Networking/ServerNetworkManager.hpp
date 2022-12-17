@@ -45,6 +45,9 @@ namespace platformer_engine {
          */
         void SendUpdateToClients(const void *data, size_t dataLength, bool reliable = false);
 
+        void SendUpdateToClientsExcept(std::vector<int> clientIds, const void *data, size_t dataLength,
+                                       bool reliable = false);
+
         /**
          * @brief Send update to a specific client
          * @param clientId client ID of receiver
@@ -122,7 +125,11 @@ namespace platformer_engine {
          */
         void CreateNetworkedScene(int clientId, const spic::Scene &scene);
 
-        void HandleGameObjectTransformEventFromClient(int clientId, const void *data, size_t length);
+        void SendLoadedTexturesToClient(int clientId);
+
+        void CreateNetworkedPlayerCharacter(int clientId, const spic::GameObject &gameObjectToCreate);
+
+        void UpdateAnimation(int clientId, const std::string& gameObjectId, const std::string& animationId);
 
 #pragma endregion DefaultServerEvents
 
@@ -133,6 +140,12 @@ namespace platformer_engine {
         int _playerLimit;
 
 #pragma region HandlePacketsFromClient
+
+        void HandleGameObjectTransformEventFromClient(int clientId, const void *data, size_t length);
+
+        void HandleCreateCharacterFromClient(int clientId, const void *data, size_t length);
+
+        void HandleUpdateAnimationFromClient(int clientId, const void *data, size_t length);
 
 #pragma endregion HandlePacketsFromClient
     };

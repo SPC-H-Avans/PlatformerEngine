@@ -3,9 +3,15 @@
 
 GameObjectBuilder::GameObjectBuilder(const std::string &name) : _gameObject(std::make_shared<GameObject>(name)) {}
 
+GameObjectBuilder::GameObjectBuilder(const std::string &name, const std::string &tag) : _gameObject(std::make_shared<GameObject>(name, tag)) {}
+
 //If reset with existing name append number to it
 void GameObjectBuilder::Reset(const std::string &name) {
     _gameObject = std::make_shared<GameObject>(name);
+}
+
+void GameObjectBuilder::Reset(const std::string &name, const std::string &tag) {
+    _gameObject = std::make_shared<GameObject>(name, tag);
 }
 
 auto GameObjectBuilder::GetGameObject() -> std::shared_ptr<GameObject> {
@@ -28,7 +34,8 @@ auto GameObjectBuilder::AddAnimator(platformer_engine::AnimatedSprite &animatedS
     return *this;
 }
 
-auto GameObjectBuilder::AddAnimator(std::vector<platformer_engine::AnimatedSprite> &animatedSprite) -> GameObjectBuilder & {
+auto
+GameObjectBuilder::AddAnimator(std::vector<platformer_engine::AnimatedSprite> &animatedSprite) -> GameObjectBuilder & {
     if (animatedSprite.empty()) {
         return *this;
 //        throw std::invalid_argument("animatedSprite is empty");
@@ -62,5 +69,15 @@ auto GameObjectBuilder::AddRigidBody() -> GameObjectBuilder & {
 
 auto GameObjectBuilder::AddSprite(const spic::Sprite &sprite) -> GameObjectBuilder & {
     _gameObject->AddComponent<Sprite>(std::make_shared<Sprite>(sprite));
+    return *this;
+}
+
+auto GameObjectBuilder::AddTransform(const spic::Transform &transform) -> GameObjectBuilder & {
+    _gameObject->SetTransform(transform);
+    return *this;
+}
+
+auto GameObjectBuilder::SetOwnerId(int ownerId) -> GameObjectBuilder & {
+    _gameObject->SetOwnerId(ownerId);
     return *this;
 }

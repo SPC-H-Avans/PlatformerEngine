@@ -35,7 +35,7 @@ private:
      */
     void CreateCollision(const std::shared_ptr<GameObject>& initiator, const std::shared_ptr<Collider>& init_collider,
                          const std::shared_ptr<GameObject>& receiver, const std::shared_ptr<Collider>& rec_collider
-                        ,std::tuple<CollisionPoint, CollisionPoint> direction);
+            ,std::tuple<CollisionPoint, CollisionPoint> direction);
 
     /**
      * @brief Collision is no longer in motion. Collision is now removed from the active collisions list and the OnTriggerExit2D handlers have been invoked.

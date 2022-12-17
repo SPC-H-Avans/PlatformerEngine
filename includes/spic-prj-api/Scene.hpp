@@ -5,6 +5,11 @@
 
 #include "GameObject.hpp"
 #include "Camera.hpp"
+#include <boost/serialization/access.hpp>
+#include <boost/serialization/export.hpp>
+#include <boost/serialization/shared_ptr.hpp>
+#include <boost/serialization/vector.hpp>
+#include "UIObject.hpp"
 
 namespace spic {
 
@@ -17,6 +22,7 @@ namespace spic {
         void serialize(archive &ar, const unsigned /*version*/) {
             ar & _sceneName;
             ar & _origins;
+            //ar & _contents;
             ar & _activeCamera;
             ar & _cameras;
         }
@@ -36,7 +42,14 @@ namespace spic {
          * @param gameObject Game Object shared pointer
          * @spicapi
          */
-        void AddObject(const std::shared_ptr<GameObject> &gameObject);
+        void AddObject(const GameObject &gameObject);
+
+        /**
+         * @brief Add a new UI Object to this scene
+         * @param uiObject
+         * @spicapi
+         */
+        void AddUIObject(const std::shared_ptr<spic::UIObject> &uiObject);
 
         /**
          * @brief Remove a Game Object from this scene by name
@@ -53,9 +66,24 @@ namespace spic {
          */
         auto GetObjectByName(const std::string &name) -> std::shared_ptr<GameObject>;
 
+        /**
+         * @brief Get the GameObjects in this scene
+         * @spicapi
+         */
         [[nodiscard]] inline auto
         GetAllObjects() const -> std::vector<std::shared_ptr<GameObject>> { return _contents; };
 
+        /**
+         * @brief Get the UIObjects in this scene
+         * @spicapi
+         */
+        [[nodiscard]] inline auto
+        GetAllUIObjects() const -> std::vector<std::shared_ptr<UIObject>> { return _uiObjects; };
+
+        /**
+         * @brief Get the number of GameObjects currently in this scene
+         * @spicapi
+         */
         auto GetObjectCount() -> int;
 
         /**
@@ -66,8 +94,8 @@ namespace spic {
          * @param config A map of Tile IDs and their corresponding Game Object constructors
          * @spicapi
          */
-        static void ImportLevel(const std::string &id, const std::string &filePath, const std::string &fileName,
-                                const std::map<int, std::function<spic::GameObject(Transform)>> &config);
+        void ImportLevel(const std::string &id, const std::string &filePath, const std::string &fileName,
+                         const std::map<int, std::function<spic::GameObject(Transform)>> &config);
 
         /**
          * @brief Add a camera to this scene
@@ -114,6 +142,18 @@ namespace spic {
          */
         inline auto GetSceneName() const -> std::string { return _sceneName; };
 
+        /**
+         * @brief Sets a scene name for handling scene flow.
+         * @param sceneName String must be a valid scene loaded on the engine
+         */
+        void SetNextScene(const std::string sceneName);
+
+        /**
+         *
+         * @return an optional which can hold the next scene if not nullopt
+         */
+        auto GetNextScene() const -> std::optional<std::string>;
+
     private:
         /**
          * @brief Render all GameObjects in this scene
@@ -121,10 +161,21 @@ namespace spic {
         void RenderGameObjects();
 
         /**
+         * @brief Render all UIObjects in this scene
+         */
+        void RenderUIObjects();
+
+        /**
          * @brief List of all Game Object Unique Identifiers in this scene
          * @spicapi
          */
         std::vector<std::shared_ptr<GameObject>> _contents;
+
+        /**
+         * @brief List of all UIObjects in this scene
+         * @spicapi
+         */
+        std::vector<std::shared_ptr<UIObject>> _uiObjects;
 
         /**
          * @brief Default values of the objects used to reset a scene after its been played.
@@ -143,6 +194,7 @@ namespace spic {
          */
         std::shared_ptr<Camera> _activeCamera = nullptr;
         std::string _sceneName{"Null Scene"};
+        std::optional<std::string> _nextScene;
     };
 
 }  // namespace spic

@@ -1,11 +1,15 @@
 #include "Engine/Engine.hpp"
 #include "Builder/SceneBuilder.hpp"
 #include <iostream>
+#include <boost/asio/streambuf.hpp>
 #include "Networking/ProtocolPackages.hpp"
 #include "BehaviourScript.hpp"
 #include "Behaviour/CollisionBehaviour.hpp"
 #include "Builder/GameObjectBuilder.hpp"
 #include "Sprite.hpp"
+#include "Audio/AudioManager.hpp"
+#include "Builder/GameObjectBuilder.hpp"
+#include "Utility/NetworkingBuffer.hpp"
 
 //BOOST_CLASS_EXPORT(spic::Component);
 
@@ -20,7 +24,8 @@ auto main([[maybe_unused]] int argc, [[maybe_unused]] char *argv[]) -> int {
 
     platformer_engine::SceneBuilder builder("Test Scene");
 
-    std::shared_ptr<Camera> camera = std::make_shared<Camera>("camera1", "camera", spic::Color::Cyan(), SCREEN_WIDTH, SCREEN_HEIGHT);
+    std::shared_ptr<Camera> camera = std::make_shared<Camera>("camera1", "camera", spic::Color::Cyan(), SCREEN_WIDTH,
+                                                              SCREEN_HEIGHT);
 
     auto scene = builder.GetScene();
 
@@ -44,7 +49,7 @@ auto main([[maybe_unused]] int argc, [[maybe_unused]] char *argv[]) -> int {
     transform.position.y = 300;
     transform.scale = 1.0;
     gameObject->SetTransform(transform);
-    scene.AddObject(gameObject);
+    scene.AddObject(*gameObject);
 
     camera->SetTarget(*gameObject);
 
@@ -52,11 +57,16 @@ auto main([[maybe_unused]] int argc, [[maybe_unused]] char *argv[]) -> int {
 
     engine.AddScene(scene);
 
-
     engine.HostServer(scene.GetSceneName(), 10, 7779);
-    engine.JoinServer("127.0.0.1", 7779);
+    //engine.JoinServer("127.0.0.1", 7779); 
+
     NetPkgs::Ping ping;
     engine.GetServerNetworkManager().SendUpdateToClients(&ping, sizeof(NetPkgs::Ping));
+
+    //Save and Load data to a local file
+    engine.GetDataManager().SaveData<Scene>("Key", scene);
+    std::optional<Scene> object = engine.GetDataManager().LoadData<Scene>("Key");
+
 
     engine.Start();
 

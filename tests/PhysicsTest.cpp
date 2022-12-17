@@ -97,7 +97,7 @@ TEST_F(PhysicsTests, MarioFallsUntilBlock) {
 
     // 2. Set the location so that the block and mario don't overlap
     _mario->SetTransform(Transform {Point {marioStartX, marioStartY}, 0, 0});
-    _block->SetTransform(Transform {Point {0, 101}, 0, 0});
+    _block->SetTransform(Transform {Point {0, 100}, 0, 0});
     UpdateBehaviours();
     physics.Update();
     moveSystem.Update();
@@ -118,7 +118,7 @@ TEST_F(PhysicsTests, MarioFallsUntilBlock) {
     auto marioFinalY = _mario->GetTransform().position.y;
 
     // 5. Assert that Mario stopped falling on top of the block
-    ASSERT_EQ(marioFinalY, 91) << "Mario Physics object should stop falling when it collides on the bottom";
+    ASSERT_EQ(marioFinalY, 90) << "Mario Physics object should stop falling when it collides on the bottom";
 
 }
 

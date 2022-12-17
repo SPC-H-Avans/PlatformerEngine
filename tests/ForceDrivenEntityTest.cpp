@@ -11,7 +11,7 @@
  * @return A reference to the FDE GameObject
  */
 auto CreateFDE() -> GameObject& {
-    const Point position (Point{10,-10});
+    const Point position (Point{10,10});
     const int size = 15;
     const std::vector<std::shared_ptr<BehaviourScript>> behaviourScripts {
     };
@@ -43,7 +43,14 @@ TEST(ForceDrivenEntityTest, WanderStateMovesEntity) {
 
     auto gob = GameObject::Find(gameObject.GetName());
 
-    ASSERT_TRUE(gob->GetTransform().position.y < -10)
+    ASSERT_TRUE(gob->GetTransform().position.y > 10)
         << "Y-position of the GameObject was expected to be lower than -10, but was " + std::to_string(gob->GetTransform().position.y);
+    ASSERT_TRUE(gob->GetTransform().position.x != 10)
+        << "X-position of the GameObject was expected to be different than 10, but was " + std::to_string(gob->GetTransform().position.y)
+        + ", this means the wander state did not update the x-position after 3 movesystem calls.";
 
 }
+
+
+// Todo: Make a test for the pursuit state to check if the length between the object and the following object is declining
+// Todo: Also move the target around to different locations and check for the same thing

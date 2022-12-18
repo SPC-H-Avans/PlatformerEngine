@@ -33,6 +33,13 @@ platformer_engine::Engine::Init(int width, int height, const std::string &title,
 void platformer_engine::Engine::Start() {
     if (_window == nullptr) {
         throw spic::NoWindowException();
+
+    }
+
+    if(_queuedScene.has_value()) {
+        SetActiveScene(_queuedScene.value());
+    } else {
+        throw spic::SceneNotLoadedException();
     }
 
     auto timeInMillis = Window::GetTicks();
@@ -70,6 +77,10 @@ void platformer_engine::Engine::Start() {
 }
 
 void platformer_engine::Engine::Update() {
+    if(_queuedScene.has_value()) {
+        SetActiveScene(_queuedScene.value());
+    }
+
     auto &timer = Timer::Instance();
     timer.Update();
     //Call systems
@@ -103,6 +114,14 @@ void platformer_engine::Engine::Render() {
 void platformer_engine::Engine::Quit() {
     _window->Quit();
     _isRunning = false;
+}
+
+void platformer_engine::Engine::QueueActiveScene(const std::string &sceneName) {
+    if(!std::any_of(_scenes.begin(), _scenes.end(), [sceneName](const Scene& scene){return scene.GetSceneName() == sceneName;})) {
+        throw spic::SceneNotLoadedException();
+    }
+
+    _queuedScene = sceneName;
 }
 
 void platformer_engine::Engine::SetActiveScene(const std::string &sceneName) {
@@ -141,7 +160,7 @@ auto platformer_engine::Engine::GetClientNetworkManager() -> platformer_engine::
 
 void platformer_engine::Engine::HostServer(const std::string &sceneId, int playerLimit, int port) {
     if (GetActiveScene().GetSceneName() != sceneId) {
-        SetActiveScene(sceneId);
+        QueueActiveScene(sceneId);
     }
     if (_serverNetworkManager != nullptr) throw spic::ServerAlreadyActiveException();
     if (_clientNetworkManager != nullptr) throw spic::ClientAlreadyActiveException();

@@ -239,11 +239,13 @@ namespace spic {
         template<class T>
         [[nodiscard]] auto GetComponent() const -> std::shared_ptr<Component> {
             if (std::is_base_of<Component, T>::value) {
-                auto comps = _self.lock()->_components;
-                if (comps.count(typeid(T).name()) > 0) {
-                    auto cList = comps[typeid(T).name()];
-                    if (!cList.empty())
-                        return cList.front();
+                if (!_self.expired()) {
+                    auto comps = _self.lock()->_components;
+                    if (comps.count(typeid(T).name()) > 0) {
+                        auto cList = comps[typeid(T).name()];
+                        if (!cList.empty())
+                            return cList.front();
+                    }
                 }
             }
             return nullptr;

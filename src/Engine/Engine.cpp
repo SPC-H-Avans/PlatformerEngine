@@ -38,8 +38,6 @@ void platformer_engine::Engine::Start() {
 
     if(_queuedScene.has_value()) {
         SetActiveScene(_queuedScene.value());
-    } else {
-        throw spic::SceneNotLoadedException();
     }
 
     auto timeInMillis = Window::GetTicks();
@@ -128,6 +126,7 @@ void platformer_engine::Engine::SetActiveScene(const std::string &sceneName) {
     if (_window == nullptr) {
         throw spic::NoWindowException();
     }
+    _queuedScene.reset();
     for (auto &item: _scenes) {
         if (item.GetSceneName() == sceneName) {
             _window->SetActiveScene(item);
@@ -160,7 +159,7 @@ auto platformer_engine::Engine::GetClientNetworkManager() -> platformer_engine::
 
 void platformer_engine::Engine::HostServer(const std::string &sceneId, int playerLimit, int port) {
     if (GetActiveScene().GetSceneName() != sceneId) {
-        QueueActiveScene(sceneId);
+        SetActiveScene(sceneId);
     }
     if (_serverNetworkManager != nullptr) throw spic::ServerAlreadyActiveException();
     if (_clientNetworkManager != nullptr) throw spic::ClientAlreadyActiveException();

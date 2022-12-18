@@ -37,7 +37,7 @@ namespace platformer_engine {
     }
 
     void CollisionBehaviour::UpdateMoveRestriction(Collision &col, bool allow) {
-        if (!col.GetSelfCollider()->GetObstructsMovement()) return;
+        if (!col.GetOtherCollider()->GetObstructsMovement()) return;
         auto point = col.Contact();
         auto gameObjWeak = GetGameObject();
         std::shared_ptr<spic::GameObject> gameObj{gameObjWeak.lock()};

@@ -2,7 +2,6 @@
 
 #include "Facade/GraphicsFacade.hpp"
 #include "Debug.hpp"
-#include "Texture/TextureManager.hpp"
 
 const int MAX_COLOR_VALUE = 255;
 
@@ -120,6 +119,8 @@ auto platformer_engine::GraphicsFacade::CreateOrUpdateUIText(const std::string t
         spic::Debug::LogWarning("Failed to create surface from font: " + std::string(SDL_GetError()));
         return false;
     }
+
+    if(_renderer == nullptr) return false;
 
     // create the texture
     std::unique_ptr<SDL_Texture, std::function<void(

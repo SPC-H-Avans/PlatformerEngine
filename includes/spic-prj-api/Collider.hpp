@@ -61,7 +61,7 @@ namespace spic {
     private:
         std::vector<std::shared_ptr<Collision>> _collisions;
         Point _position;
-        ColliderType _colliderType;
+        ColliderType _colliderType = ColliderType::Body;
         bool _obstructsMovement = true;
 
     };

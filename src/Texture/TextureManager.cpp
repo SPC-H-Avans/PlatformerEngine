@@ -42,11 +42,11 @@ void platformer_engine::TextureManager::DrawUIText(const std::string textId, con
 void
 platformer_engine::TextureManager::DrawFrame(const std::string &id, int x, int y, int width, int height, int row,
                                              int frame, const platformer_engine::SPIC_RendererFlip &flip,
-                                             double scale) {
+                                             double scale, double rotation) {
     Transform camera = GetCameraPosition();
     GraphicsFacade::GetInstance().DrawFrame(id, (x - camera.position.x), (y - camera.position.y), width, height, row,
                                             frame, flip,
-                                            camera.scale);
+                                            camera.scale, rotation);
 }
 
 spic::Transform platformer_engine::TextureManager::GetCameraPosition() {

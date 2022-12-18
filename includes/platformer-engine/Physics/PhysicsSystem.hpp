@@ -62,6 +62,8 @@ private:
 
     int _collisionCnt = 0;
     int _clientId = 0;
+
+    void PopCollisionFromList(std::vector<std::shared_ptr<Collision>> &list, int collisionId);
 };
 
 #endif //PLATFORMER_ENGINE_PHYSICSSYSTEM_HPP

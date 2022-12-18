@@ -111,10 +111,12 @@ vector<shared_ptr<GameObject>> GetNearbyObjects(GameObject &obj, BoxCollider &ob
     return std::move(result);
 }
 
-void PhysicsSystem::PopCollisionFromList(std::vector<Collision>& list, int collisionId) {
-    list.erase(std::remove_if(list.begin(), list.end(), [collisionId](const Collision& collision) {
-        return collision.GetId() == collisionId;
-    }), list.end());
+void PhysicsSystem::PopCollisionFromList(std::vector<std::shared_ptr<Collision>> &list, int collisionId) {
+    list.erase(std::remove_if(list.begin(), list.end(),
+                              [collisionId](const std::shared_ptr<Collision> &collision) {
+                                  return collision->GetId() == collisionId;
+                              }),
+               list.end());
 }
 
 void PhysicsSystem::CheckCollisions() {
@@ -150,9 +152,9 @@ void PhysicsSystem::CheckCollisions() {
                 }
 
                 for(auto& oldCollision : aCollisions) {
-                    auto bCol = oldCollision.GetOtherCollider();
+                    auto bCol = oldCollision->GetOtherCollider();
                     auto objB = bCol->GetGameObject().lock();
-                    EndCollision(objA, aCol, objB, bCol, oldCollision.GetId());
+                    EndCollision(objA, aCol, objB, bCol, oldCollision->GetId());
                 }
             }
         }

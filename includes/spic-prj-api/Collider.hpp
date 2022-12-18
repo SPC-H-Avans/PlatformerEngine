@@ -37,13 +37,13 @@ namespace spic {
             boost::serialization::void_cast_register<Collider, Component>();
         }
 
-        [[nodiscard]] auto GetCollisions() const -> const std::vector<Collision> &;
+        [[nodiscard]] auto GetCollisions() const -> const std::vector<std::shared_ptr<Collision>> &;
 
         auto GetCollisionsWith(const Collider &col) -> std::vector<Collision>;
 
         auto GetCollisionById(int uid) -> Collision &;
 
-        void AddCollision(Collision col);
+        void AddCollision(const Collision &col);
 
         void RemoveCollision(int uid);
 
@@ -59,7 +59,7 @@ namespace spic {
         void SetObstructsMovement(bool obstructsMovement) { _obstructsMovement = obstructsMovement; }
 
     private:
-        std::vector<Collision> _collisions;
+        std::vector<std::shared_ptr<Collision>> _collisions;
         Point _position;
         ColliderType _colliderType;
         bool _obstructsMovement = true;

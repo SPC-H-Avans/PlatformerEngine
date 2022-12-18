@@ -138,12 +138,12 @@ auto platformer_engine::GraphicsFacade::CreateOrUpdateUIText(const std::string t
 }
 
 void platformer_engine::GraphicsFacade::DrawTexture(const std::string &id, int x, int y, int width, int height,
-                                                    const platformer_engine::SPIC_RendererFlip &flip, double scale,
+                                                    const platformer_engine::SPIC_RendererFlip &flip, double scale, double rotation,
                                                     int spriteSheetX, int spriteSheetY) {
     SDL_Rect srcRect{spriteSheetX, spriteSheetY, width, height};
     SDL_Rect destRect{x, y, static_cast<int>(width * scale), static_cast<int>(height * scale)};
 
-    SDL_RenderCopyEx(_renderer.get(), _textureMap[id].get(), &srcRect, &destRect, 0, nullptr,
+    SDL_RenderCopyEx(_renderer.get(), _textureMap[id].get(), &srcRect, &destRect, rotation, nullptr,
                      static_cast<const SDL_RendererFlip>(flip));
 }
 

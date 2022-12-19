@@ -87,10 +87,6 @@ void platformer_engine::ServerNetworkManager::SendLoadedTexturesToClient(int cli
     SendUpdateToClient(clientId, &pkg, sizeof(pkg), true);
 }
 
-void platformer_engine::ServerNetworkManager::ChooseNewPartyLeader() {
-    throw spic::NotImplementedException();
-}
-
 void platformer_engine::ServerNetworkManager::OnConnect(int clientId) {
     Client client{clientId};
     Clients.push_back(client);

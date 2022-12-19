@@ -64,11 +64,6 @@ namespace platformer_engine {
         void InitializeClient(const Client &client);
 
         /**
-         * @brief Randomly choose new party leader
-         */
-        void ChooseNewPartyLeader();
-
-        /**
          * @brief Listen to new events;
          */
         void Events();

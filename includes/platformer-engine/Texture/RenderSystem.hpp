@@ -12,7 +12,7 @@ public:
     /**
      * @brief Update all sprites, currently only used to update animated sprites
      */
-    static void Update(double speedMultiplier);
+    void Update(double speedMultiplier);
     /**
      * @brief Render all objects on the screen
      */

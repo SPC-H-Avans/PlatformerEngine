@@ -14,7 +14,7 @@ public:
     /**
      * @brief Call OnUpdate() on all BehaviourScripts
      */
-    static void Update(double speedMultiplier);
+    void Update(double speedMultiplier);
 };
 
 #endif //PLATFORMER_ENGINE_BEHAVIOURSYSTEM_HPP

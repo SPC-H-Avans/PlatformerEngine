@@ -23,3 +23,9 @@ void spic::Button::Render() {
 void spic::Button::Click() {
     onClick();
 }
+
+spic::Button::Button() : UIObject("nullButton", 0, 0) {
+
+}
+
+BOOST_CLASS_EXPORT(spic::Button);

@@ -11,12 +11,21 @@ namespace spic {
      */
     class Button : public UIObject {
         public:
+        template<typename archive>
+        void serialize(archive &ar, const unsigned /*version*/) {
+            ar & boost::serialization::base_object<UIObject, Button>(*this);
+            boost::serialization::void_cast_register<Button, UIObject>();
+            ar & _sprite;
+            ar & interactable;
+        }
             /**
              * @brief Button constructor
              * @spicapi
              */
             Button(const std::string &name, const Sprite& sprite, const std::string imgPath,
                    double width, double height, bool disabled = false);
+
+            Button();
 
             /**
              * @brief Render the button

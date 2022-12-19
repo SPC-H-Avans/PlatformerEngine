@@ -86,11 +86,11 @@ namespace platformer_engine {
         void Quit();
 
         /**
-         * @brief Set the current active Scene
-         * @param scene Scene to make active
+         * @brief Queues a scene to be set as active whenever the engine finds possible
+         * @param scene Scene to be set active
          * @platformerengine
          */
-        void SetActiveScene(const std::string &sceneName);
+        void QueueActiveScene(const std::string &sceneName);
 
         /**
          * @brief Get the current active Scene
@@ -212,6 +212,12 @@ namespace platformer_engine {
         int _fps = 0;
 
         double _speedMultiplier = 1.0;
+         /**
+         * @brief Set the current active Scene
+         * @param scene Scene to make active
+         * @platformerengine
+         */
+        void SetActiveScene(const std::string &sceneName);
 
         std::unique_ptr<Window> _window = nullptr;
         std::unique_ptr<PhysicsSystem> _physicsSystem = nullptr;
@@ -223,6 +229,7 @@ namespace platformer_engine {
         std::unique_ptr<DataStorageManager> _dataManager = nullptr;
 
         std::vector<Scene> _scenes;
+        std::optional<std::string> _queuedScene;
         std::string _defaultScene;
     };
 }//namespace platformer_engine

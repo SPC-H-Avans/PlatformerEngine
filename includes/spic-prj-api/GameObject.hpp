@@ -151,8 +151,10 @@ namespace spic {
          */
         GameObject(const std::string &name, const std::string &tag);
 
-
+        GameObject(const GameObject& other) = default;
         GameObject &operator=(const GameObject &other);
+        GameObject(const GameObject&& other) = default;
+        GameObject &operator=(const GameObject&& other) = default;
 
         /**
          * @brief Does the object exist? TODO wat wordt hiermee bedoeld?

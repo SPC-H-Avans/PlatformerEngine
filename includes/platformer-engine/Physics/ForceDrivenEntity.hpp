@@ -11,6 +11,11 @@ namespace platformer_engine {
 
     class ForceDrivenEntity : public spic::Component {
     public:
+        template<class Archive>
+        void serialize(Archive &ar, unsigned int version) {
+            ar & boost::serialization::base_object<Component, ForceDrivenEntity>(*this);
+            boost::serialization::void_cast_register<ForceDrivenEntity, Component>();
+        }
         /**
          * @brief Constructor that sets all default values
          */

@@ -14,7 +14,7 @@ spic::Sprite::Sprite(std::string spriteId, int spriteWidth, int spriteHeight, in
 void spic::Sprite::Render(spic::Transform transform) {
     platformer_engine::TextureManager &textureManager = platformer_engine::TextureManager::GetInstance();
     textureManager.DrawTexture(_spriteId, transform.position.x, transform.position.y, _spriteWidth, _spriteHeight,
-                               _flip, _spriteScale, _spriteSheetX, _spriteSheetY);
+                               _flip, _spriteScale, transform.rotation, _spriteSheetX, _spriteSheetY);
 }
 
 BOOST_CLASS_EXPORT_IMPLEMENT(spic::Sprite);

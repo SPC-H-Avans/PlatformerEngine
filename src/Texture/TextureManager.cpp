@@ -21,11 +21,11 @@ auto platformer_engine::TextureManager::CreateOrUpdateUIText(const std::string t
 
 void
 platformer_engine::TextureManager::DrawTexture(const std::string &id, int x, int y, int width, int height,
-                                               const SPIC_RendererFlip &flip, double scale,
+                                               const SPIC_RendererFlip &flip, double scale, double rotation,
                                                int spriteSheetX, int spriteSheetY) {
     Transform camera = GetCameraPosition();
     GraphicsFacade::GetInstance().DrawTexture(id, (x - camera.position.x), (y - camera.position.y), width, height, flip,
-                                              scale, spriteSheetX, spriteSheetY);
+                                              scale, rotation, spriteSheetX, spriteSheetY);
 }
 
 void platformer_engine::TextureManager::DrawUIButton(const std::string &id, int x, int y, int width, int height,
@@ -42,11 +42,11 @@ void platformer_engine::TextureManager::DrawUIText(const std::string textId, con
 void
 platformer_engine::TextureManager::DrawFrame(const std::string &id, int x, int y, int width, int height, int row,
                                              int frame, const platformer_engine::SPIC_RendererFlip &flip,
-                                             double scale) {
+                                             double scale, double rotation) {
     Transform camera = GetCameraPosition();
     GraphicsFacade::GetInstance().DrawFrame(id, (x - camera.position.x), (y - camera.position.y), width, height, row,
                                             frame, flip,
-                                            camera.scale);
+                                            camera.scale, rotation);
 }
 
 spic::Transform platformer_engine::TextureManager::GetCameraPosition() {

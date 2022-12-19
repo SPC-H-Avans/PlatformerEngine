@@ -156,6 +156,8 @@ namespace spic {
         GameObject(GameObject&& other) = default;
         auto operator=(GameObject&& other) -> GameObject & = default;
 
+        virtual ~GameObject() = default;
+
         /**
          * @brief Does the object exist? TODO wat wordt hiermee bedoeld?
          * @spicapi

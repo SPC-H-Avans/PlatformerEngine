@@ -28,11 +28,11 @@ namespace platformer_engine {
         int _lastFPS = 0;
         bool _visible = true;
 
-        const KeyCode _key;
-        const std::string _textId;
-        const std::string _fontPath;
-        const int _fontSize;
-        const spic::Color _fontColor;
+        KeyCode _key;
+        std::string _textId;
+        std::string _fontPath;
+        int _fontSize;
+        spic::Color _fontColor;
     };
 } // namespace platformer_engine
 

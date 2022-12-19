@@ -3,6 +3,7 @@
 #include "Exceptions/GameObjectAlreadyInSceneException.hpp"
 #include "ComponentExtension/Scaleable.hpp"
 #include "Exceptions/InvalidSizeException.hpp"
+#include "ComponentExtension/Rotatable.hpp"
 
 using namespace spic;
 
@@ -54,7 +55,7 @@ auto GameObject::operator=(const GameObject &other) -> GameObject & {
     _transform = other._transform;
     _ownerId = other._ownerId;
     _layer = other._layer;
-    _self = other._self;
+    _self = GameObject::Find(_name, true);
 
     return *this;
 };
@@ -162,7 +163,11 @@ void GameObject::SetTransform(const spic::Transform &transform) {
 
     auto selfPtr = _self.lock();
     auto oldScale = selfPtr->GetTransform().scale;
-    if (oldScale > 0 && oldScale != transform.scale) {
+    auto oldRotation = selfPtr->GetTransform().rotation;
+    if (transform.rotation != oldRotation || oldScale != transform.scale) {
+        if(oldScale == 0){
+            oldScale = 1;
+        }
         std::vector<std::string> keys;
         keys.reserve(_components.size()); // For efficiency
 
@@ -178,6 +183,10 @@ void GameObject::SetTransform(const spic::Transform &transform) {
                 if (scaleableExtension != nullptr) {
                     scaleableExtension->UpdateScale(oldScale, transform.scale);
                 }
+                auto rotatableExtension = std::dynamic_pointer_cast<platformer_engine::Rotatable>(component);
+                if (rotatableExtension != nullptr) {
+                    rotatableExtension->UpdateRotation(transform.rotation);
+                }
             }
         }
     }
@@ -185,9 +194,11 @@ void GameObject::SetTransform(const spic::Transform &transform) {
 }
 
 auto GameObject::GetTransform() -> Transform {
-    auto selfPtr = _self.lock();
-    if (selfPtr != nullptr) {
-        return selfPtr->_transform;
+    if(!_self.expired()) {
+        auto selfPtr = _self.lock();
+        if (selfPtr != nullptr) {
+            return selfPtr->_transform;
+        }
     }
     return {};
 }

@@ -162,7 +162,7 @@ void platformer_engine::ClientNetworkManager::CreateScene(const void *data, size
         item->FixGameObjectAfterDeserialize();
     }
     Engine::GetInstance().AddScene(scene);
-    Engine::GetInstance().SetActiveScene(scene.GetSceneName());
+    Engine::GetInstance().QueueActiveScene(scene.GetSceneName());
     _connectionStatus = ConnectionStatus::Connected;
 }
 

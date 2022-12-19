@@ -33,6 +33,11 @@ platformer_engine::Engine::Init(int width, int height, const std::string &title,
 void platformer_engine::Engine::Start() {
     if (_window == nullptr) {
         throw spic::NoWindowException();
+
+    }
+
+    if(_queuedScene.has_value()) {
+        SetActiveScene(_queuedScene.value());
     }
 
     auto timeInMillis = Window::GetTicks();
@@ -70,6 +75,10 @@ void platformer_engine::Engine::Start() {
 }
 
 void platformer_engine::Engine::Update() {
+    if(_queuedScene.has_value()) {
+        SetActiveScene(_queuedScene.value());
+    }
+
     auto &timer = Timer::Instance();
     timer.Update();
     //Call systems
@@ -105,10 +114,19 @@ void platformer_engine::Engine::Quit() {
     _isRunning = false;
 }
 
+void platformer_engine::Engine::QueueActiveScene(const std::string &sceneName) {
+    if(!std::any_of(_scenes.begin(), _scenes.end(), [sceneName](const Scene& scene){return scene.GetSceneName() == sceneName;})) {
+        throw spic::SceneNotLoadedException();
+    }
+
+    _queuedScene = sceneName;
+}
+
 void platformer_engine::Engine::SetActiveScene(const std::string &sceneName) {
     if (_window == nullptr) {
         throw spic::NoWindowException();
     }
+    _queuedScene.reset();
     for (auto &item: _scenes) {
         if (item.GetSceneName() == sceneName) {
             _window->SetActiveScene(item);

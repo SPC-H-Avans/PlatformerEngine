@@ -23,7 +23,7 @@ public:
     /**
      * @brief Updates the PhysicsSystem
      */
-    void Update();
+    void Update(double speedMultiplier);
 
     /**
      * @brief Check the collisions for every active dynamic RigidBody.
@@ -33,8 +33,7 @@ public:
     /*
      * @brief Move every active dynamic RigidBody according to their physics
      */
-    void MoveObjects();
-
+    void MoveObjects(double speedMultiplier);
 private:
     /**
      * @brief Collision was not in motion yet. Collision is now added to the active collisions list and the OnTriggerEnter2D handlers have been invoked.

@@ -21,6 +21,7 @@ void spic::Scene::RenderScene() {
 
 void spic::Scene::RenderGameObjects() {
     for (const auto &item: _contents) {
+        if(item == nullptr) continue;
         auto animatorComponent = item->GetComponent<spic::Animator>();
         if (animatorComponent != nullptr) {
             auto animator = std::static_pointer_cast<spic::Animator>(animatorComponent);

@@ -9,7 +9,7 @@ public:
     /**
      * @brief Check if Any Buttons should call Click()
      */
-    void Update();
+    static void Update(double speedMultiplier);
 };
 
 #endif //PLATFORMER_ENGINE_CLICKSYSTEM_HPP

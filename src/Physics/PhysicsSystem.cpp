@@ -18,8 +18,13 @@ using std::unique_ptr;
 
 PhysicsSystem::PhysicsSystem(int localClientId) : _clientId(localClientId) {}
 
-void PhysicsSystem::Update() {
+void PhysicsSystem::Update(double speedMultiplier) {
+    MoveObjects(speedMultiplier);
     CheckCollisions();
+}
+
+void PhysicsSystem::MoveObjects(double speedMultiplier) {
+    // TODO
 }
 
 struct pair_hash

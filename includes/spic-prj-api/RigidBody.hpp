@@ -47,7 +47,7 @@ namespace spic {
          *        and magnitude of the force to be applied.
          * @spicapi
          */
-        virtual void AddForce(const Point &forceDirection);
+        virtual void AddForce(const Point &forceDirection, double speedMultiplier = 1.0);
 
         void BodyType(BodyType bodyType) { this->_bodyType = bodyType; }
 

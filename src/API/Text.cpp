@@ -21,3 +21,9 @@ void spic::Text::Render() {
             static_cast<int>(GetTransform().position.x), static_cast<int>(GetTransform().position.y),
             static_cast<int>(GetWidth()), static_cast<int>(GetHeight()));
 }
+
+spic::Text::Text() : UIObject("nullUI", 0, 0), _color(Color::Transparent()) {
+
+}
+
+BOOST_CLASS_EXPORT(spic::Text);

@@ -174,6 +174,18 @@ namespace platformer_engine {
         }
 
         /**
+         * @brief Update the game speed multiplier. The higher the number, the faster the game plays
+         * @param newSpeedMultiplier
+         */
+        inline void SetSpeedMultiplier(double newSpeedMultiplier) {_speedMultiplier = newSpeedMultiplier;}
+
+        /**
+         * @brief Get the current game speed multiplier
+         * @return
+         */
+        inline double GetSpeedMultiplier() const {return _speedMultiplier;}
+
+        /*
          * @brief returns the name of the scene set as default.
          * @return
          */
@@ -189,6 +201,8 @@ namespace platformer_engine {
             return *_dataManager;
         }
 
+        inline const std::optional<std::string> GetQueuedScene() { return _queuedScene;}
+
     private:
         Engine() = default;
 
@@ -198,6 +212,7 @@ namespace platformer_engine {
         bool _debugLogs = false;
         int _fps = 0;
 
+        double _speedMultiplier = 1.0;
          /**
          * @brief Set the current active Scene
          * @param scene Scene to make active

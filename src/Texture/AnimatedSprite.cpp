@@ -14,18 +14,14 @@ platformer_engine::AnimatedSprite::AnimatedSprite(std::string spriteId, int spri
 
 }
 
-void platformer_engine::AnimatedSprite::Update() {
-    _currentFrame = (static_cast<int>(platformer_engine::Window::GetTicks()) / _animationSpeed) % _frameCount;
+void platformer_engine::AnimatedSprite::Update(double speedMultiplier) {
+    _currentFrame = (static_cast<int>((platformer_engine::Window::GetTicks()) / (_animationSpeed / speedMultiplier))) % _frameCount;
 }
 
 void platformer_engine::AnimatedSprite::Draw(spic::Transform transform) {
-    SPIC_RendererFlip flip = FLIP_NONE;
-    if (transform.rotation == ROTATION_TO_FLIP || transform.rotation == ROTATION_TO_FLIP * -1) {
-        flip = FLIP_HORIZONTAL;
-    }
     TextureManager::GetInstance().DrawFrame(_spriteId, static_cast<int>(transform.position.x),
                                             static_cast<int>(transform.position.y), _spriteWidth, _spriteHeight,
-                                            _spriteRow, _currentFrame, flip, transform.scale * GetSpriteScale(), transform.rotation);
+                                            _spriteRow, _currentFrame, _flip, transform.scale * GetSpriteScale(), transform.rotation);
 }
 
 void platformer_engine::AnimatedSprite::ResetCurrentFrame() {

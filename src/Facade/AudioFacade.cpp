@@ -38,7 +38,7 @@ namespace platformer_engine {
                 Mix_LoadMUS(fileName.c_str()), Mix_FreeMusic);
 
         if (music == nullptr || musicName.empty()) {
-            throw spic::AudioNotFoundException(fileName);
+            throw spic::AudioNotFoundException();
         }
 
         _music[musicName] = std::move(music);
@@ -50,7 +50,7 @@ namespace platformer_engine {
                 Mix_LoadWAV(fileName.c_str()), Mix_FreeChunk);
 
         if (sound == nullptr || soundName.empty()) {
-            throw spic::AudioNotFoundException(fileName);
+            throw spic::AudioNotFoundException();
         }
 
         _sounds[soundName] = std::move(sound);

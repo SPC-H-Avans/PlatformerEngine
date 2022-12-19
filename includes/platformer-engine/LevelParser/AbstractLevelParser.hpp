@@ -20,6 +20,9 @@ namespace platformer_engine {
          */
         virtual auto LoadOnScene(spic::Scene& scene, const std::string &id, const std::string &filePath, const std::string &fileName, const std::map<int, std::function<spic::GameObject(spic::Transform)>> &config) -> bool = 0;
 
+        //define a copy constructor
+
+
         virtual ~AbstractLevelParser() = default;
     };
 }

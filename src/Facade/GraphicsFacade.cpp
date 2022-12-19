@@ -138,12 +138,12 @@ auto platformer_engine::GraphicsFacade::CreateOrUpdateUIText(const std::string t
 }
 
 void platformer_engine::GraphicsFacade::DrawTexture(const std::string &id, int x, int y, int width, int height,
-                                                    const platformer_engine::SPIC_RendererFlip &flip, double scale,
+                                                    const platformer_engine::SPIC_RendererFlip &flip, double scale, double rotation,
                                                     int spriteSheetX, int spriteSheetY) {
     SDL_Rect srcRect{spriteSheetX, spriteSheetY, width, height};
     SDL_Rect destRect{x, y, static_cast<int>(width * scale), static_cast<int>(height * scale)};
 
-    SDL_RenderCopyEx(_renderer.get(), _textureMap[id].get(), &srcRect, &destRect, 0, nullptr,
+    SDL_RenderCopyEx(_renderer.get(), _textureMap[id].get(), &srcRect, &destRect, rotation, nullptr,
                      static_cast<const SDL_RendererFlip>(flip));
 }
 
@@ -156,14 +156,14 @@ void platformer_engine::GraphicsFacade::DrawUIText(const std::string textId, con
 void
 platformer_engine::GraphicsFacade::DrawFrame(const std::string &id, int x, int y, int width, int height, int row,
                                              int frame, const platformer_engine::SPIC_RendererFlip &flip,
-                                             double scale) {
+                                             double scale, double rotation) {
     SDL_Rect srcRect = {width * frame, height * (row - 1), width, height};
 //TODO CAMERA
 //    Vector2D cam = Camera::GetInstance()->GetPosition();
 //    SDL_Rect dstRect = {static_cast<int>(x - cam.X), static_cast<int>(y - cam.Y), width, height};
     SDL_Rect dstRect = {x, y, (int) (width * scale), (int) (height * scale)};
 
-    SDL_RenderCopyEx(_renderer.get(), _textureMap[id].get(), &srcRect, &dstRect, 0, nullptr,
+    SDL_RenderCopyEx(_renderer.get(), _textureMap[id].get(), &srcRect, &dstRect, rotation, nullptr,
                      static_cast<const SDL_RendererFlip>(flip));
 }
 

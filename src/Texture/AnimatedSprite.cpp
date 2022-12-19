@@ -25,7 +25,7 @@ void platformer_engine::AnimatedSprite::Draw(spic::Transform transform) {
     }
     TextureManager::GetInstance().DrawFrame(_spriteId, static_cast<int>(transform.position.x),
                                             static_cast<int>(transform.position.y), _spriteWidth, _spriteHeight,
-                                            _spriteRow, _currentFrame, flip, transform.scale * GetSpriteScale());
+                                            _spriteRow, _currentFrame, flip, transform.scale * GetSpriteScale(), transform.rotation);
 }
 
 void platformer_engine::AnimatedSprite::ResetCurrentFrame() {

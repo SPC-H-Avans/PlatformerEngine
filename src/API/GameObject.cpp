@@ -3,6 +3,7 @@
 #include "Exceptions/GameObjectAlreadyInSceneException.hpp"
 #include "ComponentExtension/Scaleable.hpp"
 #include "Exceptions/InvalidSizeException.hpp"
+#include "ComponentExtension/Rotatable.hpp"
 
 using namespace spic;
 
@@ -162,7 +163,11 @@ void GameObject::SetTransform(const spic::Transform &transform) {
 
     auto selfPtr = _self.lock();
     auto oldScale = selfPtr->GetTransform().scale;
-    if (oldScale > 0 && oldScale != transform.scale) {
+    auto oldRotation = selfPtr->GetTransform().rotation;
+    if (transform.rotation != oldRotation || oldScale != transform.scale) {
+        if(oldScale == 0){
+            oldScale = 1;
+        }
         std::vector<std::string> keys;
         keys.reserve(_components.size()); // For efficiency
 
@@ -177,6 +182,10 @@ void GameObject::SetTransform(const spic::Transform &transform) {
                 auto scaleableExtension = std::dynamic_pointer_cast<platformer_engine::Scaleable>(component);
                 if (scaleableExtension != nullptr) {
                     scaleableExtension->UpdateScale(oldScale, transform.scale);
+                }
+                auto rotatableExtension = std::dynamic_pointer_cast<platformer_engine::Rotatable>(component);
+                if (rotatableExtension != nullptr) {
+                    rotatableExtension->UpdateRotation(transform.rotation);
                 }
             }
         }

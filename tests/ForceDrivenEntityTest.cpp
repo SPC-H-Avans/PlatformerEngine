@@ -31,15 +31,15 @@ TEST(ForceDrivenEntityTest, WanderStateMovesEntity) {
     engine.Init(1000, 1000, "Mario Game", spic::Color::Cyan(), false);
     platformer_engine::SceneBuilder builder = platformer_engine::SceneBuilder("level1");
     engine.AddScene(builder.GetScene());
-    engine.SetActiveScene("level1");
+    engine.QueueActiveScene("level1");
     Scene &scene = engine.GetActiveScene();
 
     auto gameObject = CreateFDE();
 
     MoveSystem moveSystem;
-    moveSystem.Update();
-    moveSystem.Update();
-    moveSystem.Update();
+    moveSystem.Update(1.0);
+    moveSystem.Update(1.0);
+    moveSystem.Update(1.0);
 
     auto gob = GameObject::Find(gameObject.GetName());
 

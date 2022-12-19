@@ -11,7 +11,7 @@ public:
     /**
     * @brief Move every active dynamic RigidBody according to their physics
     */
-    void Update();
+    void Update(double speedMultiplier);
 
 private:
     int _clientId = 0;

@@ -6,7 +6,7 @@
 #include <memory>
 
 
-void MoveSystem::Update() {
+void MoveSystem::Update(double speedMultiplier) {
     auto gameObjects = GameObject::FindObjectsOfType<GameObject>();
 
     for(auto& obj : gameObjects) {
@@ -26,7 +26,7 @@ void MoveSystem::Update() {
                 totalForce += CalculateFDEForce(obj);
 
                 // Apply all forces
-                rigidBody->AddForce(totalForce);
+                rigidBody->AddForce(totalForce, speedMultiplier);
 
                 // Limit the velocity to prevent Collisions
                 rigidBody->SetVelocity(GetLimitedVelocityForCollisions(rigidBody));

@@ -126,14 +126,13 @@ void platformer_engine::Engine::SetActiveScene(const std::string &sceneName) {
     if (_window == nullptr) {
         throw spic::NoWindowException();
     }
-    _queuedScene.reset();
     for (auto &item: _scenes) {
         if (item.GetSceneName() == sceneName) {
             _window->SetActiveScene(item);
 
             //Call all startup functions on systems
             _behaviourSystem->Start();
-
+            _queuedScene.reset();
             return;
         }
     }

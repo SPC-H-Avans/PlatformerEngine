@@ -110,6 +110,11 @@ namespace platformer_engine {
         void ClearTextures();
 
         /**
+         * @brief Get the width and height of the user's monitor
+         */
+        auto GetScreenSize() -> std::tuple<int, int>;
+
+        /**
          * @brief Get interval between tick
          * @return Uinit64 tick interval
          */

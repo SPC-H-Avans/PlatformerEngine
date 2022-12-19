@@ -15,6 +15,12 @@ namespace platformer_engine {
 
         void operator=(AudioManager const &) = delete;
 
+        AudioManager(AudioManager &&other) = delete;
+
+        AudioManager &operator=(AudioManager &&other) = delete;
+
+        ~AudioManager() = default;
+
         /**
          * @brief Set the volume of the audio system (use this before playing music)
          * @param volume The volume to set
@@ -23,7 +29,7 @@ namespace platformer_engine {
             _audioFacade->SetVolume(volume);
         }
 
-        int GetVolume(){
+        auto GetVolume() -> int{
             return _audioFacade->getVolume();
         }
 
@@ -91,6 +97,6 @@ namespace platformer_engine {
 
         std::unique_ptr<AudioFacade> _audioFacade;
     };
-}
+} // namespace platformer_engine
 
 #endif //PLATFORMER_ENGINE_AUDIOMANAGER_HPP

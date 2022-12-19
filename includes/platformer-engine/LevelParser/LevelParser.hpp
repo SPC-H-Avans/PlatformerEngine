@@ -21,6 +21,11 @@ namespace platformer_engine {
 
         void operator=(LevelParser const &) = delete;
 
+        LevelParser(LevelParser &&other) = delete;
+
+        LevelParser &operator=(LevelParser &&other) = delete;
+
+
         /**
          * @brief Load a level from a file
          * @param id The id of the level (stored in the map by this id)
@@ -34,6 +39,6 @@ namespace platformer_engine {
 
         ~LevelParser() = default;
     };
-}
+}// namespace platformer_engine
 
 #endif //PLATFORMER_ENGINE_LEVELPARSER_HPP

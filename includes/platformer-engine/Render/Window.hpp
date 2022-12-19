@@ -68,7 +68,7 @@ namespace platformer_engine {
          * @brief Get the screen width
          * @return The screen width
          */
-        auto GetWidth() const -> int {
+        [[nodiscard]] auto GetWidth() const -> int {
             return _width;
         }
 
@@ -76,7 +76,7 @@ namespace platformer_engine {
          * @brief Get the screen height
          * @return The screen height
          */
-        auto GetHeight() const -> int {
+        [[nodiscard]] auto GetHeight() const -> int {
             return _height;
         }
 

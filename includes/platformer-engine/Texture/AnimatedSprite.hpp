@@ -14,9 +14,8 @@ namespace platformer_engine {
      * @brief AnimatedSprite class which is used to animate sprites
      */
     class AnimatedSprite : public spic::Sprite {
-
+        static const int ANIMATION_SPEED = 100;
     public:
-
         template<typename archive>
         void serialize(archive &ar, const unsigned /*version*/) {
             ar & boost::serialization::base_object<spic::Sprite, AnimatedSprite>(*this);
@@ -28,6 +27,14 @@ namespace platformer_engine {
         }
 
         AnimatedSprite();
+
+        AnimatedSprite(const AnimatedSprite &other) = default;
+
+        AnimatedSprite(AnimatedSprite &&other) = default;
+
+        AnimatedSprite &operator=(AnimatedSprite &&other) = default;
+
+        auto operator=(const AnimatedSprite &other) -> AnimatedSprite & = default;
 
         ~AnimatedSprite() = default;
 
@@ -46,7 +53,7 @@ namespace platformer_engine {
          */
         AnimatedSprite(std::string spriteId, int spriteWidth, int spriteHeight, int frameCount, int sortingLayer = 1,
                        int orderInLayer = 1,
-                       int animationSpeed = 100, int spriteRow = 1,
+                       int animationSpeed = ANIMATION_SPEED, int spriteRow = 1,
                        platformer_engine::SPIC_RendererFlip flip = platformer_engine::FLIP_NONE,
                        spic::Color color = spic::Color::Transparent(), double spriteScale = 1.0);
 
@@ -88,6 +95,6 @@ namespace platformer_engine {
 
         int _spriteRow{};
     };
-}
+}  // namespace platformer_engine
 
 #endif //PLATFORMER_ENGINE_ANIMATEDSPRITE_HPP

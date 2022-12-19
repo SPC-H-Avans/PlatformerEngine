@@ -28,7 +28,6 @@ namespace platformer_engine {
     }
 
     void AudioFacade::SetVolumeMusic(int volume) {
-        SetVolume(volume);
         Mix_VolumeMusic(_volume);
     }
 

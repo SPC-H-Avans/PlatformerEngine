@@ -16,7 +16,7 @@ namespace platformer_engine {
 
         LoadedTextureInfo() = default;
 
-        LoadedTextureInfo(const std::string &textureId, const std::string &texturePath);
+        LoadedTextureInfo(std::string textureId, std::string texturePath);
 
         inline auto GetTextureId() -> std::string { return _textureId; };
 

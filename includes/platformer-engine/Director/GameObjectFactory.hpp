@@ -25,7 +25,7 @@ public:
      * @return The created GameObject
      */
     static auto CreateTile(
-            const std::string& namePrefix,
+            const std::string &namePrefix,
             const spic::Sprite &sprite,
             Transform transform,
             int colliderWidth,
@@ -39,7 +39,7 @@ public:
      * @return The created GameObject
      */
     static auto CreateBackgroundObject(
-            const std::string& namePrefix,
+            const std::string &namePrefix,
             const spic::Sprite &sprite,
             Transform transform
     ) -> GameObject &;
@@ -59,9 +59,9 @@ public:
             Transform transform,
             int colliderWidth,
             int colliderHeight,
-            std::vector<platformer_engine::AnimatedSprite>& animations,
-            const std::vector<std::shared_ptr<BehaviourScript>>& behaviourScripts // must use pointers to store derived classes
-    ) -> GameObject&;
+            std::vector<platformer_engine::AnimatedSprite> &animations,
+            const std::vector<std::shared_ptr<BehaviourScript>> &behaviourScripts // must use pointers to store derived classes
+    ) -> GameObject &;
 
     /**
      * @brief Create a background object (not collidable) and add it to the scene
@@ -75,9 +75,9 @@ public:
      * @param textColor the color of the text
      * @return The created Text
      */
-    static auto CreateText(Transform transform, const std::string objectId, const std::string& text,
-                           const std::string& fontPath, int textWidth, int textHeight,
-                           int fontSize, Color textColor) -> Text;
+    static auto CreateText(const Transform &transform, const std::string &objectId, const std::string &text,
+                           const std::string &fontPath, int textWidth, int textHeight,
+                           int fontSize, const Color &textColor) -> Text;
 
     /**
      * @brief Create a background object (not collidable) and add it to the scene
@@ -90,9 +90,9 @@ public:
      * @param onClick the function to call when the button is clicked
      * @return The created Button
      */
-    static auto CreateButton(Transform transform, const std::string objectId, const spic::Sprite& sprite,
-                             const std::string& imgPath, int buttonWidth, int buttonHeight,
-                             std::function<void()> onClick) -> Button;
+    static auto CreateButton(const Transform &transform, const std::string &objectId, const spic::Sprite &sprite,
+                             const std::string &imgPath, int buttonWidth, int buttonHeight,
+                             const std::function<void()> &onClick) -> Button;
 
     /**
      *
@@ -104,8 +104,11 @@ public:
      * @param behaviourScripts any type of behaviourscript
      * @return
      */
-    static auto CreateScriptedTile(const std::string& namePrefix, const Sprite &sprite, Transform transform, int colliderWidth, int colliderHeight,
-                                   bool obstructsMovement, const std::vector<std::shared_ptr<BehaviourScript>> &behaviourScripts) -> GameObject&;
+    static auto
+    CreateScriptedTile(const std::string &namePrefix, const Sprite &sprite, Transform transform, int colliderWidth,
+                       int colliderHeight,
+                       bool obstructsMovement,
+                       const std::vector<std::shared_ptr<BehaviourScript>> &behaviourScripts) -> GameObject &;
 };
 
 #endif //PLATFORMER_ENGINE_GAMEOBJECTFACTORY_HPP

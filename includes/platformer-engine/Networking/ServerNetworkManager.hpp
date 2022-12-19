@@ -45,7 +45,7 @@ namespace platformer_engine {
          */
         void SendUpdateToClients(const void *data, size_t dataLength, bool reliable = false);
 
-        void SendUpdateToClientsExcept(std::vector<int> clientIds, const void *data, size_t dataLength,
+        void SendUpdateToClientsExcept(const std::vector<int> &clientIds, const void *data, size_t dataLength,
                                        bool reliable = false);
 
         /**

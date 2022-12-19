@@ -96,9 +96,9 @@ auto GameObjectFactory::CreatePlayer(int playerId, Transform transform, int coll
     return *obj;
 }
 
-auto GameObjectFactory::CreateText(Transform transform, const std::string objectId, const std::string &text,
+auto GameObjectFactory::CreateText(const Transform &transform, const std::string &objectId, const std::string &text,
                                     const std::string &fontPath, int textWidth, int textHeight,
-                                    int fontSize, Color textColor) -> Text {
+                                    int fontSize, const Color &textColor) -> Text {
     auto textObject = Text(objectId, textWidth, textHeight, text, fontPath, fontSize, textColor);
 
     textObject.SetTransform(transform);
@@ -107,9 +107,9 @@ auto GameObjectFactory::CreateText(Transform transform, const std::string object
     return *textPtr;
 }
 
-auto GameObjectFactory::CreateButton(Transform transform, const std::string objectId, const spic::Sprite &sprite,
+auto GameObjectFactory::CreateButton(const Transform &transform, const std::string &objectId, const spic::Sprite &sprite,
                                       const std::string &imgPath, int buttonWidth, int buttonHeight,
-                                      std::function<void()> onClick) -> Button {
+                                      const std::function<void()> &onClick) -> Button {
     auto buttonObject = Button(objectId, sprite, imgPath, buttonWidth, buttonHeight);
 
     buttonObject.SetTransform(transform);

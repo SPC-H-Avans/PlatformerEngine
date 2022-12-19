@@ -8,7 +8,8 @@
 namespace platformer_engine {
     class FPSCounterBehaviour : public spic::BehaviourScript {
     public:
-        FPSCounterBehaviour(std::string textId, std::string fontPath, int fontSize, spic::Color fontColor, KeyCode);
+        FPSCounterBehaviour(const std::string &textId, const std::string &fontPath, const int fontSize,
+                            const spic::Color &fontColor, const KeyCode &key);
 
         void OnUpdate() override;
 

@@ -96,7 +96,7 @@ namespace platformer_engine {
          * @param flip
          */
         void DrawTexture(const std::string &id, int x, int y, int width, int height,
-                         const SPIC_RendererFlip &flip = FLIP_NONE, double scale = 1.0,
+                         const SPIC_RendererFlip &flip = FLIP_NONE, double scale = 1.0, double rotation = 0.0,
                          int spriteSheetX = 0, int spriteSheetY = 0);
 
         /**
@@ -105,9 +105,14 @@ namespace platformer_engine {
         void DrawUIText(const std::string textId, const int x, const int y, const int width, const int height);
 
         void DrawFrame(const std::string &id, int x, int y, int width, int height, int row, int frame,
-                       const SPIC_RendererFlip &flip = FLIP_NONE, double scale = 1.0);
+                       const SPIC_RendererFlip &flip = FLIP_NONE, double scale = 1.0, double rotation = 0);
 
         void ClearTextures();
+
+        /**
+         * @brief Get the width and height of the user's monitor
+         */
+        auto GetScreenSize() -> std::tuple<int, int>;
 
         /**
          * @brief Get interval between tick

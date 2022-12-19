@@ -16,6 +16,7 @@
 #include "boost/archive/text_oarchive.hpp"
 #include "Networking/boost/portable_binary_iarchive.hpp"
 #include "Networking/boost/portable_binary_oarchive.hpp"
+#include "ComponentExtension/Rotatable.hpp"
 
 namespace spic {
 
@@ -82,7 +83,6 @@ namespace spic {
 
     private:
         Color _color{Color::Transparent()};
-        platformer_engine::SPIC_RendererFlip _flip;
         int _sortingLayer;
         int _orderInLayer;
         int _spriteSheetX;
@@ -93,6 +93,7 @@ namespace spic {
         int _spriteWidth; // NOLINT(cppcoreguidelines-non-private-member-variables-in-classes)
         int _spriteHeight; // NOLINT(cppcoreguidelines-non-private-member-variables-in-classes)
         double _spriteScale; // NOLINT(cppcoreguidelines-non-private-member-variables-in-classes)
+        platformer_engine::SPIC_RendererFlip _flip; // NOLINT(cppcoreguidelines-non-private-member-variables-in-classes)
     };
 
 }  // namespace spic

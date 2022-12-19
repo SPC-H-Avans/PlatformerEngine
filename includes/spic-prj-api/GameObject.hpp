@@ -151,8 +151,12 @@ namespace spic {
          */
         GameObject(const std::string &name, const std::string &tag);
 
+        GameObject(const GameObject& other) = default;
+        auto operator=(const GameObject &other) -> GameObject &;
+        GameObject(GameObject&& other) = default;
+        auto operator=(GameObject&& other) -> GameObject & = default;
 
-        GameObject &operator=(const GameObject &other);
+        virtual ~GameObject() = default;
 
         /**
          * @brief Does the object exist? TODO wat wordt hiermee bedoeld?
@@ -239,11 +243,13 @@ namespace spic {
         template<class T>
         [[nodiscard]] auto GetComponent() const -> std::shared_ptr<Component> {
             if (std::is_base_of<Component, T>::value) {
-                auto comps = _self.lock()->_components;
-                if (comps.count(typeid(T).name()) > 0) {
-                    auto cList = comps[typeid(T).name()];
-                    if (!cList.empty())
-                        return cList.front();
+                if (!_self.expired()) {
+                    auto comps = _self.lock()->_components;
+                    if (comps.count(typeid(T).name()) > 0) {
+                        auto cList = comps[typeid(T).name()];
+                        if (!cList.empty())
+                            return cList.front();
+                    }
                 }
             }
             return nullptr;

@@ -53,7 +53,7 @@ namespace platformer_engine {
         /**
          * @brief Update frame count
          */
-        void Update(double deltaTime);
+        void Update(double speedMultiplier);
 
         /**
          * @brief Draw the animation on the window

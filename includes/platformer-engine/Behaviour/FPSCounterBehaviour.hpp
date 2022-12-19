@@ -10,7 +10,7 @@ namespace platformer_engine {
     public:
         FPSCounterBehaviour(std::string textId, std::string fontPath, int fontSize, spic::Color fontColor, KeyCode);
 
-        void OnUpdate(double deltaTime) override;
+        void OnUpdate(double speedMultiplier) override;
 
     private:
         int _lastFPS = 0;

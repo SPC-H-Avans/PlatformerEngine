@@ -9,7 +9,7 @@ platformer_engine::FPSCounterBehaviour::FPSCounterBehaviour(const std::string te
                                                             const KeyCode key)
         : _textId(textId), _fontPath(fontPath), _fontSize(fontSize), _fontColor(fontColor), _key(key) {}
 
-void platformer_engine::FPSCounterBehaviour::OnUpdate(double deltaTime) {
+void platformer_engine::FPSCounterBehaviour::OnUpdate(double speedMultiplier) {
     if (spic::Input::GetKeyDown(_key)) {
         _visible = !_visible;
         // if counter turned off, update the text to show nothing to "hide" it

@@ -112,6 +112,20 @@ namespace spic {
         }
 
         /**
+         * @brief Gets a list of all instances.
+         * @spicapi
+         */
+        static auto GetInstances(bool includeInactive = false) -> std::vector<std::shared_ptr<GameObject>> {
+            std::vector<std::shared_ptr<GameObject>> result;
+            for (auto const &[key, val]: _instances) {
+                if (includeInactive || val->Active()) {
+                    result.template emplace_back(val);
+                }
+            }
+            return result;
+        }
+
+        /**
          * @brief Removes a GameObject from the administration.
          * @details Child GameObjects will be destroyed, too, as well as
          *          Components owned by the GameObject.

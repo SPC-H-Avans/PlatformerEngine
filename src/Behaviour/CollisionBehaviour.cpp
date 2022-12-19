@@ -9,7 +9,7 @@ namespace platformer_engine {
     void CollisionBehaviour::OnStart() {
     }
 
-    void CollisionBehaviour::OnUpdate() {
+    void CollisionBehaviour::OnUpdate(double speedMultiplier) {
     }
 
     void CollisionBehaviour::OnTriggerEnter2D(Collision collision) {

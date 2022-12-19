@@ -20,12 +20,12 @@ using std::unique_ptr;
 
 PhysicsSystem::PhysicsSystem(int localClientId) : _clientId(localClientId) {}
 
-void PhysicsSystem::Update() {
-    MoveObjects();
+void PhysicsSystem::Update(double speedMultiplier) {
+    MoveObjects(speedMultiplier);
     CheckCollisions();
 }
 
-void PhysicsSystem::MoveObjects() {
+void PhysicsSystem::MoveObjects(double speedMultiplier) {
     // TODO
 }
 

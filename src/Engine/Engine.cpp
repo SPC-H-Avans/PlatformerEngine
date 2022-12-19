@@ -81,11 +81,12 @@ void platformer_engine::Engine::Update() {
 
     auto &timer = Timer::Instance();
     timer.Update();
+    auto speedMultiplier = /*timer.deltaTime() * */ _speedMultiplier;
     //Call systems
-    _physicsSystem->Update();
-    _renderSystem->Update();
-    _behaviourSystem->Update();
-    _clickSystem->Update();
+    _physicsSystem->Update(speedMultiplier);
+    _renderSystem->Update(speedMultiplier);
+    _behaviourSystem->Update(speedMultiplier);
+    _clickSystem->Update(speedMultiplier);
 }
 
 void platformer_engine::Engine::Events() {

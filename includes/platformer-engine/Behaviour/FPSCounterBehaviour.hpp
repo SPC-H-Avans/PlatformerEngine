@@ -12,6 +12,11 @@ namespace platformer_engine {
         void serialize(archive &ar, const unsigned /*version*/) {
             ar & boost::serialization::base_object<BehaviourScript, FPSCounterBehaviour>(*this);
             boost::serialization::void_cast_register<FPSCounterBehaviour, BehaviourScript>();
+            ar & _key;
+            ar & _textId;
+            ar & _fontPath;
+            ar & _fontColor;
+            ar & _fontSize;
         }
 
         FPSCounterBehaviour();

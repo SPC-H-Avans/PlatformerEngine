@@ -25,3 +25,7 @@ void platformer_engine::FPSCounterBehaviour::OnUpdate() {
         platformer_engine::TextureManager::GetInstance().CreateOrUpdateUIText(_textId, _fontPath, fpsText, _fontSize, _fontColor);
     }
 }
+
+platformer_engine::FPSCounterBehaviour::FPSCounterBehaviour(): _fontSize(1), _key(KeyCode::KEYPAD_00), _fontColor(Color::Transparent()) {}
+
+BOOST_CLASS_EXPORT(platformer_engine::FPSCounterBehaviour);

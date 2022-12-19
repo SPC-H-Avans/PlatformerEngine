@@ -202,6 +202,8 @@ namespace platformer_engine {
             return *_dataManager;
         }
 
+        inline const std::optional<std::string> GetQueuedScene() { return _queuedScene;}
+
     private:
         Engine() = default;
 

@@ -28,3 +28,7 @@ void platformer_engine::FPSCounterBehaviour::OnUpdate(double speedMultiplier) {
                                                                               _fontColor);
     }
 }
+
+platformer_engine::FPSCounterBehaviour::FPSCounterBehaviour(): _fontSize(1), _key(KeyCode::KEYPAD_00), _fontColor(Color::Transparent()) {}
+
+BOOST_CLASS_EXPORT(platformer_engine::FPSCounterBehaviour);

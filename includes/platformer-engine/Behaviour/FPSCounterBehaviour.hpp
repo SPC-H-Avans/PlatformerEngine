@@ -8,6 +8,18 @@
 namespace platformer_engine {
     class FPSCounterBehaviour : public spic::BehaviourScript {
     public:
+        template<typename archive>
+        void serialize(archive &ar, const unsigned /*version*/) {
+            ar & boost::serialization::base_object<BehaviourScript, FPSCounterBehaviour>(*this);
+            boost::serialization::void_cast_register<FPSCounterBehaviour, BehaviourScript>();
+            ar & _key;
+            ar & _textId;
+            ar & _fontPath;
+            ar & _fontColor;
+            ar & _fontSize;
+        }
+
+        FPSCounterBehaviour();
         FPSCounterBehaviour(std::string textId, std::string fontPath, int fontSize, spic::Color fontColor, KeyCode);
 
         void OnUpdate(double speedMultiplier) override;
@@ -16,11 +28,11 @@ namespace platformer_engine {
         int _lastFPS = 0;
         bool _visible = true;
 
-        const KeyCode _key;
-        const std::string _textId;
-        const std::string _fontPath;
-        const int _fontSize;
-        const spic::Color _fontColor;
+        KeyCode _key;
+        std::string _textId;
+        std::string _fontPath;
+        int _fontSize;
+        spic::Color _fontColor;
     };
 } // namespace platformer_engine
 

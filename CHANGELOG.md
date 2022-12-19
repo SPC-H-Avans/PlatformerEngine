@@ -11,7 +11,11 @@ Further development of the multiplayer component of the engine.
 
 ### Changes
 
--
+- SPCH-20: Component Rotation
+- SPCH-19: Component scaling
+- SPCH-5: FPS counter
+- SPCH-22: Toggle play music and sound effects
+- SPCH-9: Added support for UI elements like Text and clickable Buttons.
 
 - SPCH-57: Replicate scene on join and animations
 
@@ -27,10 +31,6 @@ Engine support for BehaviourScript OnUpdate.
 
 ### Changes
 
-- SPCH-19: Component scaling
-- SPCH-5: FPS counter
-- SPCH-22: Toggle play music and sound effects
-- SPCH-9: Added support for UI elements like Text and clickable Buttons.
 - SPCH-33: Add a camera to the game
 - SPCH-47: Send scene to new players
 - SPCH-56: Added support for custom multiplayer events

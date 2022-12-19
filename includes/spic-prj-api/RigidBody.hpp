@@ -39,6 +39,7 @@ namespace spic {
             ar & _friction;
             ar & _maxSpeed;
             ar & _heading;
+            ar & _moveRestrictions;
         }
 
 

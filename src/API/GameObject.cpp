@@ -1,6 +1,5 @@
 #include <stdexcept>
 #include "GameObject.hpp"
-#include "Exceptions/GameObjectAlreadyInSceneException.hpp"
 #include "ComponentExtension/Scaleable.hpp"
 #include "Exceptions/InvalidSizeException.hpp"
 #include "ComponentExtension/Rotatable.hpp"

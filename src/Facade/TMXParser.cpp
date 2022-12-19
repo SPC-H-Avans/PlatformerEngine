@@ -1,7 +1,6 @@
 #include "Facade/TMXParser.hpp"
 #include "LevelParser/LevelParser.hpp"
 #include "Debug.hpp"
-#include "Engine/Engine.hpp"
 
 auto platformer_engine::TMXParser::LoadOnScene(spic::Scene& scene, const std::string &id, const std::string &filePath, const std::string &fileName,
                                         const std::map<int, std::function<spic::GameObject(Transform)>> &config) -> bool {

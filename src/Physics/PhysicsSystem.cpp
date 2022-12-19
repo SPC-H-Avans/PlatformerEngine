@@ -3,8 +3,6 @@
 #include "RigidBody.hpp"
 #include "Transform.hpp"
 #include "BehaviourScript.hpp"
-#include "Physics/PlayerRigidBody.hpp"
-//#include "Input.hpp"
 #include <algorithm>
 #include <unordered_map>
 #include <boost/functional/hash.hpp>

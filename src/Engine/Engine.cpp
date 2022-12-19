@@ -4,7 +4,6 @@
 #include "Exceptions/ServerAlreadyActiveException.hpp"
 #include "Exceptions/ClientAlreadyActiveException.hpp"
 #include "Exceptions/SceneNotLoadedException.hpp"
-#include "BehaviourScript.hpp"
 #include "Exceptions/NoClientNetworkManagerActiveException.hpp"
 #include <thread>
 

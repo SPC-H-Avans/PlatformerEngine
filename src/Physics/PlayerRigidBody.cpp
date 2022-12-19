@@ -1,6 +1,5 @@
 #include "Physics/PlayerRigidBody.hpp"
 #include "GameObject.hpp"
-#include "Engine/Engine.hpp"
 
 
 PlayerRigidBody::PlayerRigidBody() : spic::RigidBody(0.060) {

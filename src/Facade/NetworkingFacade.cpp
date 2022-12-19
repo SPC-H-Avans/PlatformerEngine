@@ -6,8 +6,6 @@
 #include "Networking/ClientNetworkManager.hpp"
 #include "Exceptions/InvalidPlayerSlotsException.hpp"
 #include "Exceptions/InvalidPortException.hpp"
-#include <memory>
-#include <iostream>
 #include <thread>
 
 platformer_engine::NetworkingFacade::NetworkingFacade() {

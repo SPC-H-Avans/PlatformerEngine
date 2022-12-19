@@ -55,7 +55,7 @@ auto GameObject::operator=(const GameObject &other) -> GameObject & {
     _transform = other._transform;
     _ownerId = other._ownerId;
     _layer = other._layer;
-    _self = other._self;
+    _self = GameObject::Find(_name, true);
 
     return *this;
 };
@@ -194,9 +194,11 @@ void GameObject::SetTransform(const spic::Transform &transform) {
 }
 
 auto GameObject::GetTransform() -> Transform {
-    auto selfPtr = _self.lock();
-    if (selfPtr != nullptr) {
-        return selfPtr->_transform;
+    if(!_self.expired()) {
+        auto selfPtr = _self.lock();
+        if (selfPtr != nullptr) {
+            return selfPtr->_transform;
+        }
     }
     return {};
 }

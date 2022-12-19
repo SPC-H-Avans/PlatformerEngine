@@ -2,14 +2,26 @@
 #include "Engine/Engine.hpp"
 #include "Button.hpp"
 #include "Input.hpp"
+#include "Facade/GraphicsFacade.hpp"
 
 void ClickSystem::Update(double deltaTime) {
     // only check for clicks if the mouse has been clicked this frame
     if (!spic::Input::GetMouseButtonDown(MouseButton::LEFT)) return;
 
+    // get screen size, depends on monitor device size
+    auto screenSize = platformer_engine::GraphicsFacade::GetInstance().GetScreenSize();
+    int screenWidth = std::get<0>(screenSize);
+    int screenHeight = std::get<1>(screenSize);
+
+    // window size, depends on width and height set in main
+    auto window = platformer_engine::Engine::GetInstance().GetWindow();
+    int windowWidth = window.GetWidth();
+    int windowHeight = window.GetHeight();
+
+    // get mouse position
     auto mousePosition = spic::Input::MousePosition();
-    auto mouseXPos = mousePosition.x;
-    auto mouseYPos = mousePosition.y;
+    int mouseXPos = mousePosition.x / (screenWidth / windowWidth);
+    int mouseYPos = mousePosition.y / (screenHeight / windowHeight);
 
     auto uiObjects = platformer_engine::Engine::GetInstance().GetActiveScene().GetAllUIObjects();
     for (const auto& obj : uiObjects) {
@@ -17,13 +29,15 @@ void ClickSystem::Update(double deltaTime) {
         auto button = std::dynamic_pointer_cast<Button>(obj);
         if (button == nullptr) continue;
 
-        // top left button position
         auto btnTransform = button->GetTransform();
-        auto btnXPos1 = btnTransform.position.x * btnTransform.scale;
-        auto btnYPos1 = btnTransform.position.y * btnTransform.scale;
+
+        // top left button position
+        auto btnXPos1 = btnTransform.position.x;
+        auto btnYPos1 = btnTransform.position.y;
+
         // bottom right button position
-        auto btnXPos2 = btnXPos1 + button->GetWidth() * button->GetSprite().GetSpriteScale();
-        auto btnYPos2 = btnYPos1 + button->GetHeight() * button->GetSprite().GetSpriteScale();
+        auto btnXPos2 = btnXPos1 + button->GetWidth();
+        auto btnYPos2 = btnYPos1 + button->GetHeight();
 
         // check if the mouse position overlaps with the button
         if (mouseXPos >= btnXPos1 && mouseXPos <= btnXPos2 &&

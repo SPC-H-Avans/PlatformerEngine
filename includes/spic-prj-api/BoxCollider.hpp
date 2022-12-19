@@ -5,13 +5,14 @@
 #include <boost/serialization/access.hpp>
 #include <boost/serialization/export.hpp>
 #include <boost/serialization/vector.hpp>
+#include "ComponentExtension/Scaleable.hpp"
 
 namespace spic {
 
     /**
      * @brief A collider which represents a rectangular collision area.
      */
-    class BoxCollider : public Collider {
+    class BoxCollider : public Collider, public platformer_engine::Scaleable {
     public:
         template<class Archive>
         void serialize(Archive &ar, unsigned int version) {
@@ -25,6 +26,8 @@ namespace spic {
         BoxCollider() = default;
 
         ~BoxCollider() = default;
+
+        void UpdateScale(double oldScale, double newScale) override;
 
         /**
          * @brief The collider's width

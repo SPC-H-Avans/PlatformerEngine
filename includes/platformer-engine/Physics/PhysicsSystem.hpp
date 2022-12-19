@@ -22,7 +22,7 @@ public:
     /**
      * @brief Updates the PhysicsSystem
      */
-    void Update();
+    void Update(double speedMultiplier);
 
     /**
      * @brief Check the collisions for every active dynamic RigidBody.

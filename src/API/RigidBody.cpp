@@ -3,8 +3,7 @@
 #include "GameObject.hpp"
 #include "BoxCollider.hpp"
 
-void spic::RigidBody::AddForce(const spic::Point &force) {
-
+void spic::RigidBody::AddForce(const spic::Point &force, double speedMultiplier) {
     if(_mass == 0) return;
     auto x_acceleration = force.x / _mass;
     _velocity.x += x_acceleration;
@@ -18,6 +17,8 @@ void spic::RigidBody::AddForce(const spic::Point &force) {
     auto y_acceleration = force.y / _mass;
     _velocity.y += y_acceleration;
     if(_velocity.y < -1 * _maxSpeed.y) {_velocity.y = -1*_maxSpeed.y;}
+
+    _velocity = _velocity * speedMultiplier;
 }
 
 bool spic::RigidBody::CanMoveTo(CollisionPoint point) {
@@ -50,8 +51,6 @@ void RigidBody::SetHeading()
     if (_velocity.LengthSq() > 0.00000001)
     {
         _heading = Point::PointNormalize(_velocity);
-
-        //m_vSide = m_vHeading.Perp();
     }
 }
 

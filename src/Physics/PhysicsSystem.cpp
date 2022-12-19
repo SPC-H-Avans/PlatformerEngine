@@ -18,7 +18,7 @@ using std::unique_ptr;
 
 PhysicsSystem::PhysicsSystem(int localClientId) : _clientId(localClientId) {}
 
-void PhysicsSystem::Update() {
+void PhysicsSystem::Update(double speedMultiplier) {
     CheckCollisions();
 }
 

@@ -22,7 +22,7 @@ namespace platformer_engine {
         FPSCounterBehaviour();
         FPSCounterBehaviour(std::string textId, std::string fontPath, int fontSize, spic::Color fontColor, KeyCode);
 
-        void OnUpdate() override;
+        void OnUpdate(double speedMultiplier) override;
 
     private:
         int _lastFPS = 0;

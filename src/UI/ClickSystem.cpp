@@ -4,7 +4,7 @@
 #include "Input.hpp"
 #include "Facade/GraphicsFacade.hpp"
 
-void ClickSystem::Update() {
+void ClickSystem::Update(double speedMultiplier) {
     // only check for clicks if the mouse has been clicked this frame
     if (!spic::Input::GetMouseButtonDown(MouseButton::LEFT)) return;
 

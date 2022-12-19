@@ -11,6 +11,13 @@ namespace spic {
      */
     class UIObject : public GameObject {
         public:
+        template<typename archive>
+        void serialize(archive &ar, const unsigned /*version*/) {
+            ar & boost::serialization::base_object<GameObject, UIObject>(*this);
+            boost::serialization::void_cast_register<UIObject, GameObject>();
+            ar & _width;
+            ar & _height;
+        }
             /**
              * @brief UIObject constructor
              * @spicapi
@@ -35,7 +42,7 @@ namespace spic {
             double _width;
             double _height;
     };
-
+    BOOST_SERIALIZATION_ASSUME_ABSTRACT(UIObject);
 }
 
 #endif // UIOBJECT_H_

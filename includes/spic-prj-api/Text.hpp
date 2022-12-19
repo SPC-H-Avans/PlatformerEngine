@@ -23,6 +23,18 @@ namespace spic {
      */
     class Text : public UIObject {
         public:
+        template<typename archive>
+        void serialize(archive &ar, const unsigned /*version*/) {
+            ar & boost::serialization::base_object<GameObject, UIObject>(*this);
+            boost::serialization::void_cast_register<UIObject, GameObject>();
+            ar & _text;
+            ar & _font;
+            ar & _size;
+            ar & _alignment;
+            ar & _color;
+        }
+
+        Text();
             /**
              * @brief Text constructor
              * @spicapi

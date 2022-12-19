@@ -8,6 +8,13 @@
 namespace platformer_engine {
     class FPSCounterBehaviour : public spic::BehaviourScript {
     public:
+        template<typename archive>
+        void serialize(archive &ar, const unsigned /*version*/) {
+            ar & boost::serialization::base_object<BehaviourScript, FPSCounterBehaviour>(*this);
+            boost::serialization::void_cast_register<FPSCounterBehaviour, BehaviourScript>();
+        }
+
+        FPSCounterBehaviour();
         FPSCounterBehaviour(std::string textId, std::string fontPath, int fontSize, spic::Color fontColor, KeyCode);
 
         void OnUpdate() override;

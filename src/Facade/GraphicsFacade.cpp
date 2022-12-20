@@ -82,6 +82,8 @@ auto platformer_engine::GraphicsFacade::LoadTexture(const std::string &id, const
         return false;
     }
 
+    if(_renderer == nullptr) return false;
+
     auto texture = std::unique_ptr<SDL_Texture, std::function<void(SDL_Texture *)>>(
             SDL_CreateTextureFromSurface(_renderer.get(), surface.get()),
             SDL_DestroyTexture);

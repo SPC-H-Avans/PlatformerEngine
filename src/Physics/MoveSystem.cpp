@@ -3,14 +3,17 @@
 #include "RigidBody.hpp"
 #include "Transform.hpp"
 #include "Physics/ForceDrivenEntity.hpp"
+#include "Engine/Engine.hpp"
 #include <memory>
 
 
 void MoveSystem::Update(double speedMultiplier) {
     auto gameObjects = GameObject::FindObjectsOfType<GameObject>();
+    auto &engine = platformer_engine::Engine::GetInstance();
+    const auto localClientId = engine.GetLocalClientId();
 
     for(auto& obj : gameObjects) {
-        if(obj != nullptr && obj->GetOwnerId() == _clientId) { //If owned by client
+        if(obj != nullptr && obj->GetOwnerId() == localClientId) { //If owned by client
             auto rigidBody = std::static_pointer_cast<RigidBody>(obj->GetComponent<RigidBody>());
             if(rigidBody != nullptr && rigidBody->BodyType() == BodyType::dynamicBody) {
 
@@ -37,6 +40,23 @@ void MoveSystem::Update(double speedMultiplier) {
                 obj->SetTransform(transform);
 
                 rigidBody->SetHeading();
+
+                try {
+                    switch (engine.GetNetworkingStatus()) {
+                        case platformer_engine::MultiplayerClient:
+                            engine.GetClientNetworkManager().UpdateNetworkedGameObjectTransform(transform,
+                                                                                                obj->GetName());
+                            break;
+                        case platformer_engine::MultiplayerServer:
+                            engine.GetServerNetworkManager().UpdateNetworkedGameObjectTransform(transform,
+                                                                                                obj->GetName());
+                            break;
+                        case platformer_engine::Singleplayer:
+                            break;
+                    }
+                } catch (std::exception &e) {
+                    //Just ignore the exception, we will try resending the transform later
+                }
             }
         }
     }

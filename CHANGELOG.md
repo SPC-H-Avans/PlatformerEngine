@@ -12,6 +12,12 @@ Further development of the multiplayer component of the engine.
 ### Changes
 
 - SPCH-48: Added Force Driven Entities and updated the Physics system in regard to separation of concern.
+- SPCH-48: Added support for multiple colliders for a single gameObject (for future use of lookahead colliders for FDE)
+- SPCH-48: Added a moveSystem for moving all entities
+- SPCH-48: Added physics templates to easily set rigidbody values on new objects
+- SPCH-48: Fixed bug where player would move constantly
+- SPCH-48: Partially fixed the bug where players would push other players into the ground
+
 - SPCH-20: Component Rotation
 - SPCH-19: Component scaling
 - SPCH-5: FPS counter

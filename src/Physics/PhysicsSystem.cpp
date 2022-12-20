@@ -64,7 +64,7 @@ void SetupSpatialMap(int ownerId, SpatialMap &spatialMap, vector<shared_ptr<Game
     vector<shared_ptr<GameObject>> gameObjects = GameObject::FindObjectsOfType<GameObject>();
 
     for(auto& obj : gameObjects) {
-        if(obj != nullptr && obj->GetOwnerId() == ownerId) { //If owned by client
+        if(obj != nullptr /*&& obj->GetOwnerId() == ownerId*/) { //If owned by client
             auto boxColliders = obj->GetComponents<BoxCollider>();
             for(const auto& col : boxColliders) {
                 auto boxCollider = std::static_pointer_cast<BoxCollider>(col);

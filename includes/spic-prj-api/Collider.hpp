@@ -35,6 +35,7 @@ namespace spic {
         void serialize(Archive &ar, unsigned int version) {
             ar & boost::serialization::base_object<Component, Collider>(*this);
             boost::serialization::void_cast_register<Collider, Component>();
+            ar & _obstructsMovement;
         }
 
         [[nodiscard]] auto GetCollisions() const -> const std::vector<std::shared_ptr<Collision>> &;

@@ -11,6 +11,7 @@ Further development of the multiplayer component of the engine.
 
 ### Changes
 
+- SPCH-48: Added Force Driven Entities and updated the Physics system in regard to separation of concern.
 - SPCH-20: Component Rotation
 - SPCH-19: Component scaling
 - SPCH-5: FPS counter

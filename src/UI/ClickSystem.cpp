@@ -4,14 +4,22 @@
 #include "Input.hpp"
 #include "Facade/GraphicsFacade.hpp"
 
-void ClickSystem::Update(double speedMultiplier) {
-    // only check for clicks if the mouse has been clicked this frame
-    if (!spic::Input::GetMouseButtonDown(MouseButton::LEFT)) return;
+const int MONITOR_WIDTH = 1920;
+const int MONITOR_HEIGHT = 1080;
 
-    // get screen size, depends on monitor device size
-    auto screenSize = platformer_engine::GraphicsFacade::GetInstance().GetScreenSize();
-    const int screenWidth = std::get<0>(screenSize);
-    const int screenHeight = std::get<1>(screenSize);
+ClickSystem::ClickSystem(bool fullscreen) : _fullscreen(fullscreen) {}
+
+auto ClickSystem::GetRelativeMousePosition() -> std::tuple<int, int> {
+    auto mousePosition = spic::Input::MousePosition();
+    if (_fullscreen) return std::make_tuple(mousePosition.x, mousePosition.y);
+
+    // commented out because SDL_getMousePos will always return a position that corresponds to a 1920x1080 monitor instead of being relative to the screen size
+//    // get screen size, depends on monitor device size
+//    auto screenSize = platformer_engine::GraphicsFacade::GetInstance().GetScreenSize();
+//    const int screenWidth = std::get<0>(screenSize);
+//    const int screenHeight = std::get<1>(screenSize);
+    const int screenWidth = MONITOR_WIDTH;
+    const int screenHeight = MONITOR_HEIGHT;
 
     // window size, depends on width and height set in main
     auto window = platformer_engine::Engine::GetInstance().GetWindow();
@@ -19,9 +27,19 @@ void ClickSystem::Update(double speedMultiplier) {
     const int windowHeight = window.GetHeight();
 
     // get mouse position
-    auto mousePosition = spic::Input::MousePosition();
     const int mouseXPos = mousePosition.x / (screenWidth / windowWidth);
     const int mouseYPos = mousePosition.y / (screenHeight / windowHeight);
+
+    return std::make_tuple(mouseXPos, mouseYPos);
+}
+
+void ClickSystem::Update(double speedMultiplier) {
+    // only check for clicks if the mouse has been clicked this frame
+    if (!spic::Input::GetMouseButtonDown(MouseButton::LEFT)) return;
+
+    auto mousePos = GetRelativeMousePosition();
+    auto mouseXPos = std::get<0>(mousePos);
+    auto mouseYPos = std::get<1>(mousePos);
 
     auto uiObjects = platformer_engine::Engine::GetInstance().GetActiveScene().GetAllUIObjects();
     for (const auto& obj : uiObjects) {

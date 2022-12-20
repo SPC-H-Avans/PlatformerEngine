@@ -22,7 +22,7 @@ platformer_engine::Engine::Init(int width, int height, const std::string &title,
     _physicsSystem = std::make_unique<PhysicsSystem>();
     _behaviourSystem = std::make_unique<BehaviourSystem>();
     _dataManager = std::make_unique<DataStorageManager>();
-    _clickSystem = std::make_unique<ClickSystem>();
+    _clickSystem = std::make_unique<ClickSystem>(fullScreen);
 
     _debugLogs = debugLogs;
 

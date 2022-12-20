@@ -1,4 +1,7 @@
-#include "Director/GameObjectDirector.hpp"
+
+#include <stdexcept>
+
+#include "Director/GameObjectFactory.hpp"
 #include "Engine/Engine.hpp"
 #include "BehaviourScript.hpp"
 #include "Physics/Templates/FlyingGumbaTemplate.hpp"
@@ -10,7 +13,7 @@
 
 static int tileCounter = 1;
 
-auto GameObjectDirector::CreateTile(const std::string& namePrefix, const spic::Sprite& sprite, // TODO: switch sprite and transform for consistency
+auto GameObjectFactory::CreateTile(const std::string& namePrefix, const spic::Sprite& sprite, // TODO: switch sprite and transform for consistency
                                     Transform transform, int colliderWidth, int colliderHeight) -> GameObject& {
     auto builder =
             GameObjectBuilder(namePrefix + std::to_string(tileCounter))
@@ -28,8 +31,8 @@ auto GameObjectDirector::CreateTile(const std::string& namePrefix, const spic::S
     return *obj;
 }
 
-auto GameObjectDirector::CreateBackgroundObject(const std::string& namePrefix, const spic::Sprite &sprite,
-                                                Transform transform) -> GameObject & {
+auto GameObjectFactory::CreateBackgroundObject(const std::string& namePrefix, const spic::Sprite &sprite,
+                                               Transform transform) -> GameObject & {
     auto builder =
             GameObjectBuilder(namePrefix + std::to_string(tileCounter))
                     .AddSprite(sprite);
@@ -40,7 +43,7 @@ auto GameObjectDirector::CreateBackgroundObject(const std::string& namePrefix, c
     return *obj;
 }
 
-auto GameObjectDirector::CreateScriptedTile(const std::string& namePrefix, const spic::Sprite& sprite,
+auto GameObjectFactory::CreateScriptedTile(const std::string& namePrefix, const spic::Sprite& sprite,
                                             Transform transform, int colliderWidth, int colliderHeight, bool obstructsMovement,
                                             const std::vector<std::shared_ptr<BehaviourScript>>& behaviourScripts) -> GameObject & {
     auto builder =
@@ -66,9 +69,9 @@ auto GameObjectDirector::CreateScriptedTile(const std::string& namePrefix, const
     return *obj;
 }
 
-auto GameObjectDirector::CreatePlayer(int playerId, Transform transform, int colliderWidth, int colliderHeight,
-                                      std::vector<platformer_engine::AnimatedSprite> &animations,
-                                      const std::vector<std::shared_ptr<BehaviourScript>> &behaviourScripts) -> GameObject & {
+auto GameObjectFactory::CreatePlayer(int playerId, Transform transform, int colliderWidth, int colliderHeight,
+                                     std::vector<platformer_engine::AnimatedSprite> &animations,
+                                     const std::vector<std::shared_ptr<BehaviourScript>> &behaviourScripts) -> GameObject & {
     auto builder = GameObjectBuilder(std::string(NET_PLAYER_PREFIX) + std::to_string(playerId), "player")
             // animations
             .AddAnimator(animations).SetOwnerId(playerId);
@@ -146,9 +149,9 @@ auto GameObjectDirector::CreateEnemy(Transform transform, int colliderWidth, int
     return *obj;
 }
 
-auto GameObjectDirector::CreateText(Transform transform, const std::string objectId, const std::string &text,
+auto GameObjectFactory::CreateText(const Transform &transform, const std::string &objectId, const std::string &text,
                                     const std::string &fontPath, int textWidth, int textHeight,
-                                    int fontSize, Color textColor) -> Text {
+                                    int fontSize, const Color &textColor) -> Text {
     auto textObject = Text(objectId, textWidth, textHeight, text, fontPath, fontSize, textColor);
 
     textObject.SetTransform(transform);
@@ -157,9 +160,9 @@ auto GameObjectDirector::CreateText(Transform transform, const std::string objec
     return *textPtr;
 }
 
-auto GameObjectDirector::CreateButton(Transform transform, const std::string objectId, const spic::Sprite &sprite,
+auto GameObjectFactory::CreateButton(const Transform &transform, const std::string &objectId, const spic::Sprite &sprite,
                                       const std::string &imgPath, int buttonWidth, int buttonHeight,
-                                      std::function<void()> onClick) -> Button {
+                                      const std::function<void()> &onClick) -> Button {
     auto buttonObject = Button(objectId, sprite, imgPath, buttonWidth, buttonHeight);
 
     buttonObject.SetTransform(transform);

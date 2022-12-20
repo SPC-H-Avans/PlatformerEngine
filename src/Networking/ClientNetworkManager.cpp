@@ -12,61 +12,61 @@
 #include "Networking/PackedObjects/PackedLoadedTextureInfo.hpp"
 
 platformer_engine::ClientNetworkManager::ClientNetworkManager() {
-    std::function<void(int clientId, const uint8_t *data, size_t dataLength)> removeLocalClientFromGame = [this](
+    const std::function<void(int clientId, const uint8_t *data, size_t dataLength)> removeLocalClientFromGame = [this](
             int clientId, const uint8_t *data, size_t dataLength) {
         RemoveLocalClientFromGame(data, dataLength);
     };
     _eventMap[NET_KICK_CLIENT] = removeLocalClientFromGame;
 
-    std::function<void(int clientId, const uint8_t *data, size_t dataLength)> receivePing = [this](int clientId,
+    const std::function<void(int clientId, const uint8_t *data, size_t dataLength)> receivePing = [this](int clientId,
                                                                                                    const uint8_t *data,
                                                                                                    size_t dataLength) {
         spic::Debug::Log("Ping received from server!");
     };
     _eventMap[NET_REQUEST_PING] = receivePing;
 
-    std::function<void(int clientId, const uint8_t *data, size_t dataLength)> kickClient = [this](int clientId,
+    const std::function<void(int clientId, const uint8_t *data, size_t dataLength)> kickClient = [this](int clientId,
                                                                                                   const uint8_t *data,
                                                                                                   size_t dataLength) {
         RemoveLocalClientFromGame(data, dataLength);
     };
     _eventMap[NET_KICK_CLIENT] = kickClient;
 
-    std::function<void(int clientId, const uint8_t *data, size_t dataLength)> createGameObject = [this](int clientId,
+    const std::function<void(int clientId, const uint8_t *data, size_t dataLength)> createGameObject = [this](int clientId,
                                                                                                         const uint8_t *data,
                                                                                                         size_t dataLength) {
         CreateGameObject(data, dataLength);
     };
     _eventMap[NET_CREATE_GAMEOBJECT] = createGameObject;
 
-    std::function<void(int clientId, const uint8_t *data, size_t dataLength)> destroyGameObject = [this](int clientId,
+    const std::function<void(int clientId, const uint8_t *data, size_t dataLength)> destroyGameObject = [this](int clientId,
                                                                                                          const uint8_t *data,
                                                                                                          size_t dataLength) {
         DestroyGameObject(data, dataLength);
     };
     _eventMap[NET_DESTROY_GAMEOBJECT] = destroyGameObject;
 
-    std::function<void(int clientId, const uint8_t *data, size_t dataLength)> updateGameObjectTransform = [this](
+    const std::function<void(int clientId, const uint8_t *data, size_t dataLength)> updateGameObjectTransform = [this](
             int clientId, const uint8_t *data, size_t dataLength) {
         UpdateGameObjectTransform(data, dataLength);
     };
     _eventMap[NET_UPDATE_GAMEOBJECT_TRANSFORM] = updateGameObjectTransform;
 
-    std::function<void(int clientId, const uint8_t *data, size_t dataLength)> createScene = [this](int clientId,
+    const std::function<void(int clientId, const uint8_t *data, size_t dataLength)> createScene = [this](int clientId,
                                                                                                    const uint8_t *data,
                                                                                                    size_t dataLength) {
         CreateScene(data, dataLength);
     };
     _eventMap[NET_CREATE_SCENE] = createScene;
 
-    std::function<void(int clientId, const uint8_t *data, size_t dataLength)> loadedTextures = [this](int clientId,
+    const std::function<void(int clientId, const uint8_t *data, size_t dataLength)> loadedTextures = [this](int clientId,
                                                                                                       const uint8_t *data,
                                                                                                       size_t dataLength) {
         LoadedTextures(data, dataLength);
     };
     _eventMap[NET_LOADED_TEXTURES] = loadedTextures;
 
-    std::function<void(int clientId, const uint8_t *data, size_t dataLength)> updateAnimation = [this](int clientId,
+    const std::function<void(int clientId, const uint8_t *data, size_t dataLength)> updateAnimation = [this](int clientId,
                                                                                                        const uint8_t *data,
                                                                                                        size_t dataLength) {
         UpdateAnimationFromServer(data, dataLength);

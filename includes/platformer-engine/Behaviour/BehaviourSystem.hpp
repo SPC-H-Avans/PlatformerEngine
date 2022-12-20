@@ -1,7 +1,9 @@
 #ifndef PLATFORMER_ENGINE_BEHAVIOURSYSTEM_HPP
 #define PLATFORMER_ENGINE_BEHAVIOURSYSTEM_HPP
 
-class BehaviourSystem {
+#include "System/ISystem.hpp"
+
+class BehaviourSystem : public ISystem {
 
 public:
     /**
@@ -12,6 +14,7 @@ public:
     /**
      * @brief Call OnUpdate() on all BehaviourScripts
      */
-    static void Update(double speedMultiplier);
+    void Update(double speedMultiplier);
 };
+
 #endif //PLATFORMER_ENGINE_BEHAVIOURSYSTEM_HPP

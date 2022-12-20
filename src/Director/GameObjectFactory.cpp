@@ -102,7 +102,7 @@ auto GameObjectFactory::CreatePlayer(int playerId, Transform transform, int coll
     return *obj;
 }
 
-auto GameObjectDirector::CreateEnemy(Transform transform, int colliderWidth, int colliderHeight,
+auto GameObjectFactory::CreateEnemy(Transform transform, int colliderWidth, int colliderHeight,
                                      std::vector<platformer_engine::AnimatedSprite> &animations,
                                      const std::vector<std::shared_ptr<BehaviourScript>> &behaviourScripts) -> GameObject & {
     auto& scene = platformer_engine::Engine::GetInstance().GetActiveScene();

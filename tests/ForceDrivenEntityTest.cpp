@@ -1,10 +1,10 @@
 #include <gtest/gtest.h>
-#include "Director/GameObjectDirector.hpp"
 #include "Behaviour/CollisionBehaviour.hpp"
 #include "Physics/PhysicsSystem.hpp"
 #include "Physics/MoveSystem.hpp"
 #include "Engine/Engine.hpp"
 #include "Builder/SceneBuilder.hpp"
+#include "Director/GameObjectFactory.hpp"
 
 /**
  * @brief Create a standard ForceDrivenEntity on position {10,-10} with size 15 and collisionBehaviour
@@ -19,7 +19,7 @@ auto CreateFDE() -> GameObject& {
 
 
     Transform transform {position, 0, 1};
-    return GameObjectDirector::CreateEnemy(transform, size, size, animations, behaviourScripts);
+    return GameObjectFactory::CreateEnemy(transform, size, size, animations, behaviourScripts);
 }
 
 /**

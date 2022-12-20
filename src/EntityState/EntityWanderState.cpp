@@ -29,3 +29,6 @@ auto EntityWanderState::CalculateForce(std::shared_ptr<RigidBody> &rigidBody) ->
 auto EntityWanderState::Clone() const -> std::unique_ptr<EntityState> {
     return std::make_unique<EntityWanderState>(*this);
 }
+
+
+BOOST_CLASS_EXPORT(EntityWanderState);

@@ -50,3 +50,5 @@ auto EntityPursuitState::Seek(const std::shared_ptr<GameObject>& gameObject, Poi
 auto EntityPursuitState::Clone() const -> std::unique_ptr<EntityState> {
     return std::make_unique<EntityPursuitState>(*this);
 }
+
+BOOST_CLASS_EXPORT(EntityPursuitState);

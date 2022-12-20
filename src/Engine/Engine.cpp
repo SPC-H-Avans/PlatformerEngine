@@ -130,6 +130,10 @@ void platformer_engine::Engine::SetActiveScene(const std::string &sceneName) {
         if (item.GetSceneName() == sceneName) {
             _window->SetActiveScene(item);
 
+            if(GetNetworkingStatus() == NetworkingStatus::MultiplayerServer) {
+                GetServerNetworkManager().CreateNetworkedScene(GetLocalClientId(), GetActiveScene());
+            }
+
             //Call all startup functions on systems
             _behaviourSystem->Start();
             _queuedScene.reset();

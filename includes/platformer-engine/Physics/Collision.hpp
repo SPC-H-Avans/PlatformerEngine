@@ -81,5 +81,4 @@ private:
     int _id;
 };
 
-
 #endif //PLATFORMER_ENGINE_COLLISION_HPP

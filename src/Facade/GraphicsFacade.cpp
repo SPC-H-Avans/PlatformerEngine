@@ -43,7 +43,7 @@ auto platformer_engine::GraphicsFacade::Init(int width, int height, const std::s
                            ConvertColorValueToSDLValue(color.GetGreenValue()),
                            ConvertColorValueToSDLValue(color.GetBlueValue()),
                            ConvertColorValueToSDLValue(color.GetAlphaValue()));
-    int imgFlags = IMG_INIT_PNG;
+    const int imgFlags = IMG_INIT_PNG;
     if (!(IMG_Init(imgFlags) & imgFlags)) {
         std::cout << "SDL_image could not initialize! SDL_image Error: " << IMG_GetError() << std::endl;
         return false;
@@ -95,9 +95,9 @@ auto platformer_engine::GraphicsFacade::LoadTexture(const std::string &id, const
     return true;
 }
 
-auto platformer_engine::GraphicsFacade::CreateOrUpdateUIText(const std::string textId, const std::string filePath,
-                                                             const std::string text, const int fontSize,
-                                                             const spic::Color color) -> bool {
+auto platformer_engine::GraphicsFacade::CreateOrUpdateUIText(const std::string &textId, const std::string &filePath,
+                                                             const std::string &text, const int fontSize,
+                                                             const spic::Color &color) -> bool {
     // create the font
     auto font = std::unique_ptr<TTF_Font, std::function<void(TTF_Font *)>>(
             TTF_OpenFont(filePath.c_str(), fontSize),
@@ -109,7 +109,7 @@ auto platformer_engine::GraphicsFacade::CreateOrUpdateUIText(const std::string t
 
     // create the surface
     const int maxColorValue = 255;
-    SDL_Color sdlColor = {
+    const SDL_Color sdlColor = {
             static_cast<Uint8>(color.GetRedValue() * maxColorValue),
             static_cast<Uint8>(color.GetGreenValue() * maxColorValue),
             static_cast<Uint8>(color.GetBlueValue() * maxColorValue)};
@@ -140,28 +140,28 @@ auto platformer_engine::GraphicsFacade::CreateOrUpdateUIText(const std::string t
 void platformer_engine::GraphicsFacade::DrawTexture(const std::string &id, int x, int y, int width, int height,
                                                     const platformer_engine::SPIC_RendererFlip &flip, double scale, double rotation,
                                                     int spriteSheetX, int spriteSheetY) {
-    SDL_Rect srcRect{spriteSheetX, spriteSheetY, width, height};
-    SDL_Rect destRect{x, y, static_cast<int>(width * scale), static_cast<int>(height * scale)};
+    const SDL_Rect srcRect{spriteSheetX, spriteSheetY, width, height};
+    const SDL_Rect destRect{x, y, static_cast<int>(width * scale), static_cast<int>(height * scale)};
 
     SDL_RenderCopyEx(_renderer.get(), _textureMap[id].get(), &srcRect, &destRect, rotation, nullptr,
                      static_cast<const SDL_RendererFlip>(flip));
 }
 
-void platformer_engine::GraphicsFacade::DrawUIText(const std::string textId, const int x, const int y, const int width,
+void platformer_engine::GraphicsFacade::DrawUIText(const std::string &textId, const int x, const int y, const int width,
                                                    const int height) {
-    SDL_Rect rect {x, y, width, height};
-    SDL_RenderCopy(_renderer.get(), _textureMap[textId].get(), NULL, &rect);
+    const SDL_Rect rect {x, y, width, height};
+    SDL_RenderCopy(_renderer.get(), _textureMap[textId].get(), nullptr, &rect);
 }
 
 void
 platformer_engine::GraphicsFacade::DrawFrame(const std::string &id, int x, int y, int width, int height, int row,
                                              int frame, const platformer_engine::SPIC_RendererFlip &flip,
                                              double scale, double rotation) {
-    SDL_Rect srcRect = {width * frame, height * (row - 1), width, height};
+    const SDL_Rect srcRect = {width * frame, height * (row - 1), width, height};
 //TODO CAMERA
 //    Vector2D cam = Camera::GetInstance()->GetPosition();
 //    SDL_Rect dstRect = {static_cast<int>(x - cam.X), static_cast<int>(y - cam.Y), width, height};
-    SDL_Rect dstRect = {x, y, (int) (width * scale), (int) (height * scale)};
+    const SDL_Rect dstRect = {x, y, (int) (width * scale), (int) (height * scale)};
 
     SDL_RenderCopyEx(_renderer.get(), _textureMap[id].get(), &srcRect, &dstRect, rotation, nullptr,
                      static_cast<const SDL_RendererFlip>(flip));
@@ -177,11 +177,6 @@ void platformer_engine::GraphicsFacade::ClearTextures() {
 }
 
 auto platformer_engine::GraphicsFacade::GetScreenSize() -> std::tuple<int, int> {
-    SDL_DisplayMode DM;
-    SDL_GetCurrentDisplayMode(0, &DM);
-    auto Width = DM.w;
-    auto Height = DM.h;
-
     int width = 0;
     int height = 0;
     SDL_GetRendererOutputSize(_renderer.get(), &width, &height);

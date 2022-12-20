@@ -16,13 +16,13 @@ namespace platformer_engine {
          * @brief Get deltatime
          * @return double Deltatime
          */
-        inline auto DeltaTime() const -> double { return _deltaTime; }
+        [[nodiscard]] inline auto DeltaTime() const -> double { return _deltaTime; }
 
         /**
          * @brief Get the current time scale
          * @return double time scale
          */
-        inline auto TimeScale() const -> double { return _timeScale; }
+        [[nodiscard]] inline auto TimeScale() const -> double { return _timeScale; }
 
         /**
          * @brief Set the time scale

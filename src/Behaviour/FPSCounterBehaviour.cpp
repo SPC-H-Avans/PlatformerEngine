@@ -4,9 +4,7 @@
 #include "Color.hpp"
 #include "Input.hpp"
 
-platformer_engine::FPSCounterBehaviour::FPSCounterBehaviour(const std::string textId, const std::string fontPath,
-                                                            const int fontSize, const Color fontColor,
-                                                            const KeyCode key)
+platformer_engine::FPSCounterBehaviour::FPSCounterBehaviour(const std::string &textId, const std::string &fontPath, const int fontSize, const Color &fontColor, const KeyCode &key)
         : _textId(textId), _fontPath(fontPath), _fontSize(fontSize), _fontColor(fontColor), _key(key) {}
 
 void platformer_engine::FPSCounterBehaviour::OnUpdate(double speedMultiplier) {
@@ -23,9 +21,8 @@ void platformer_engine::FPSCounterBehaviour::OnUpdate(double speedMultiplier) {
 
     if (fps != _lastFPS) {
         _lastFPS = fps;
-        std::string fpsText = std::to_string(fps);
-        platformer_engine::TextureManager::GetInstance().CreateOrUpdateUIText(_textId, _fontPath, fpsText, _fontSize,
-                                                                              _fontColor);
+        const std::string fpsText = std::to_string(fps);
+        platformer_engine::TextureManager::GetInstance().CreateOrUpdateUIText(_textId, _fontPath, fpsText, _fontSize, _fontColor);
     }
 }
 

@@ -35,6 +35,6 @@ namespace platformer_engine {
                             int tileSize, int rowCount, int colCount,
                             const std::map<int, std::function<spic::GameObject(spic::Transform)>> &config);
     };
-}
+}// namespace platformer_engine
 
 #endif //PLATFORMER_ENGINE_TMXPARSER_HPP

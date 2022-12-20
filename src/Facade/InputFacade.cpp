@@ -45,7 +45,7 @@ void platformer_engine::InputFacade::ClearKeys() {
 
 void platformer_engine::InputFacade::KeyDown(eKey key) {
     // add key to keys down if it's not already there
-    if (_keysPressed.count(key) > 0) {
+    if (_keysPressed.contains(key)) {
         _keysPressed[key] = false;
     } else {
         _keysPressed.insert({key, true});
@@ -55,7 +55,7 @@ void platformer_engine::InputFacade::KeyDown(eKey key) {
 void platformer_engine::InputFacade::KeyUp(eKey key) {
     _keysReleased.push_back(key);
     // remove key from keys down if it's there
-    if (_keysPressed.count(key) > 0) {
+    if (_keysPressed.contains(key)) {
         _keysPressed.erase(key);
     }
     _inputKeyStates = SDL_GetKeyboardState(nullptr);
@@ -103,7 +103,7 @@ auto platformer_engine::InputFacade::IsKeyHeld(eKey key) -> bool {
 }
 
 auto platformer_engine::InputFacade::GetKeyPress(eKey key) -> bool {
-    if (_keysPressed.count(key) > 0) {
+    if (_keysPressed.contains(key)) {
         return _keysPressed[key];
     }
     return false;
@@ -226,11 +226,11 @@ auto platformer_engine::InputFacade::GetFacadeKeyCode(KeyCode key) -> eKey {
 auto platformer_engine::InputFacade::GetFacadeMouseButtonCode(MouseButton button) -> eMouseButton {
     switch (button) {
         case MouseButton::LEFT:
-            return MOUSE_LEFT; break;
+            return MOUSE_LEFT;
         case MouseButton::MIDDLE:
-            return MOUSE_MIDDLE; break;
+            return MOUSE_MIDDLE;
         case MouseButton::RIGHT:
-            return MOUSE_RIGHT; break;
+            return MOUSE_RIGHT;
         default: return MOUSE_LEFT;
     }
 }

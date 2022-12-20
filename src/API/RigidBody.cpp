@@ -60,7 +60,7 @@ void spic::RigidBody::AddForce(const spic::Point &force, double speedMultiplier)
     }
 }
 
-bool spic::RigidBody::CanMoveTo(CollisionPoint point) {
+auto spic::RigidBody::CanMoveTo(CollisionPoint point) -> bool {
     if (_moveRestrictions.contains(point)) {
         return _moveRestrictions[point] == 0;
     }

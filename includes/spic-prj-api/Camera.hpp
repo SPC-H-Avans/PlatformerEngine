@@ -57,9 +57,9 @@ namespace spic {
                 if (transform.position.y < 0) {
                     transform.position.y = 0;
                 }
-                if (transform.position.x > (2 * screenWidth - _aspectWidth)) {
-                    transform.position.x = (2 * screenWidth - _aspectWidth);
-                }
+//                if (transform.position.x > (2 * screenWidth - _aspectWidth)) {
+//                    transform.position.x = (2 * screenWidth - _aspectWidth);
+//                }
                 if (transform.position.y > (screenHeight - _aspectHeight)) {
                     transform.position.y = (screenHeight - _aspectHeight);
                 }

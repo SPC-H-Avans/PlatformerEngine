@@ -3,6 +3,8 @@
 
 #include "Texture/AnimatedSprite.hpp"
 #include "BehaviourScript.hpp"
+#include "RigidBody.hpp"
+#include "AudioSource.hpp"
 
 /**
  * @brief Base class for GameObjectBuilders.
@@ -13,7 +15,7 @@ public:
      * @brief Adds an AudioSource component to the current GameObject being build.
      * @return reference to ObjectBuilder, allows method chaining.
      */
-    virtual auto AddAudioSource() -> ObjectBuilder & = 0;
+    virtual auto AddAudioSource(const spic::AudioSource audioSource) -> ObjectBuilder & = 0;
 
     /**
      * @brief Adds an Animator component to the current GameObject being build.
@@ -40,13 +42,13 @@ public:
      * @brief Adds a Collider component to the current GameObject being build.
      * @return reference to ObjectBuilder, allows method chaining.
      */
-    virtual auto AddCollider() -> ObjectBuilder & = 0;
+    virtual auto AddCollider(const spic::Collider collider) -> ObjectBuilder & = 0;
 
     /**
      * @brief Adds a RigidBody component to the current GameObject being build.
      * @return reference to ObjectBuilder, allows method chaining.
      */
-    virtual auto AddRigidBody() -> ObjectBuilder & = 0;
+    virtual auto AddRigidBody(const spic::RigidBody rigidBody) -> ObjectBuilder & = 0;
 
     /**
      * @brief Adds a Sprite component to the current GameObject being build.

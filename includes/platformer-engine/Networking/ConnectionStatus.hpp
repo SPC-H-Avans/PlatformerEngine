@@ -8,4 +8,4 @@ namespace platformer_engine {
         InitializingMap,
         WaitingForMap
     };
-}
+}// namespace platformer_engine

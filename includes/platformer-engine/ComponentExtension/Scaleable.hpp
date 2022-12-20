@@ -9,6 +9,14 @@ namespace platformer_engine {
     public:
         Scaleable() = default;
 
+        Scaleable(const Scaleable &other) = default;
+
+        Scaleable(Scaleable &&other) = default;
+
+        Scaleable &operator=(Scaleable &&other) = default;
+
+        auto operator=(const Scaleable &other) -> Scaleable & = default;
+
         virtual ~Scaleable() = default;
 
         template<typename archive>

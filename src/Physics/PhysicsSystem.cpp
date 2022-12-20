@@ -3,8 +3,6 @@
 #include "RigidBody.hpp"
 #include "Transform.hpp"
 #include "BehaviourScript.hpp"
-#include "Physics/PlayerRigidBody.hpp"
-//#include "Input.hpp"
 #include <algorithm>
 #include <unordered_map>
 #include <boost/functional/hash.hpp>
@@ -52,9 +50,9 @@ void AddToMap(Point point, shared_ptr<GameObject> &obj, SpatialMap &map) {
 
 //Function for checking each corner
 void RegisterInSpatial(shared_ptr<GameObject> &obj, BoxCollider &objCollider, SpatialMap &map) {
-    Point min = obj->GetTransform().position;
+    const Point min = obj->GetTransform().position;
     //Get every corner
-    Point max{min.x + objCollider.Width(), min.y + objCollider.Height()};
+    const Point max{min.x + objCollider.Width(), min.y + objCollider.Height()};
 
     //TopLeft
     AddToMap(min, obj, map);
@@ -128,16 +126,16 @@ void PhysicsSystem::CheckCollisions() {
     SetupSpatialMap(_clientId, spatialMap, dynamicObjects);
 
     for (auto &objA: dynamicObjects) {
-        shared_ptr<BoxCollider> aCol = std::static_pointer_cast<BoxCollider>(objA->GetComponent<BoxCollider>());
+        const shared_ptr<BoxCollider> aCol = std::static_pointer_cast<BoxCollider>(objA->GetComponent<BoxCollider>());
         if (aCol != nullptr) {
             auto aCollisions = aCol->GetCollisions(); //Copy
 
             for (auto &objB: GetNearbyObjects(*objA, *aCol, spatialMap)) {
                 if (objA != objB) {
-                    shared_ptr<BoxCollider> bCol = std::static_pointer_cast<BoxCollider>(
+                    const shared_ptr<BoxCollider> bCol = std::static_pointer_cast<BoxCollider>(
                             objB->GetComponent<BoxCollider>());
 
-                    unique_ptr<std::tuple<CollisionPoint, CollisionPoint>> collision = CheckBoxCollision(
+                    const unique_ptr<std::tuple<CollisionPoint, CollisionPoint>> collision = CheckBoxCollision(
                             objA->GetTransform().position, *aCol, objB->GetTransform().position, *bCol);
                     auto collisionsWithBCol = aCol->GetCollisionsWith(*bCol);
                     if (collision != nullptr) { //If collision
@@ -228,19 +226,19 @@ auto PhysicsSystem::CheckBoxCollision(Point aPos, const BoxCollider &aCol, Point
 
     if (x_overlap && y_overlap) {
         //This does not work if object is inside the other, only overlap
-        double a_bottom = aPos.y + aCol.Height();
-        double b_bottom = bPos.y + bCol.Height();
-        double a_right = aPos.x + aCol.Width();
-        double b_right = bPos.x + bCol.Width();
+        const double a_bottom = aPos.y + aCol.Height();
+        const double b_bottom = bPos.y + bCol.Height();
+        const double a_right = aPos.x + aCol.Width();
+        const double b_right = bPos.x + bCol.Width();
 
         //Distance between bottom b and top a
-        double bottom_col = b_bottom - aPos.y;
+        const double bottom_col = b_bottom - aPos.y;
         //Distance between bottom a and top b
-        double top_col = a_bottom - bPos.y;
+        const double top_col = a_bottom - bPos.y;
         //Distance between right a and left b
-        double left_col = a_right - bPos.x;
+        const double left_col = a_right - bPos.x;
         //Distance between left a and right b
-        double right_col = b_right - aPos.x;
+        const double right_col = b_right - aPos.x;
 
         if (top_col <= bottom_col && top_col <= left_col && top_col <= right_col) {//Bottom collision
             return std::make_unique<std::tuple<CollisionPoint, CollisionPoint>>(

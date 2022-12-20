@@ -1,6 +1,5 @@
 #include <stdexcept>
 #include "GameObject.hpp"
-#include "Exceptions/GameObjectAlreadyInSceneException.hpp"
 #include "ComponentExtension/Scaleable.hpp"
 #include "Exceptions/InvalidSizeException.hpp"
 #include "ComponentExtension/Rotatable.hpp"
@@ -36,7 +35,7 @@ void GameObject::ResetSelf() {
 
 GameObject::GameObject(const std::string &name, const std::string &tag) : _tag(tag) {
     std::string objName = name;
-    if (_instances.count(name) > 0)
+    if (_instances.contains(name))
         objName += "- Copy";
 
     this->_name = objName;
@@ -165,7 +164,7 @@ void GameObject::SetTransform(const spic::Transform &transform) {
     auto oldScale = selfPtr->GetTransform().scale;
     auto oldRotation = selfPtr->GetTransform().rotation;
     if (transform.rotation != oldRotation || oldScale != transform.scale) {
-        if(oldScale == 0){
+        if (oldScale == 0) {
             oldScale = 1;
         }
         std::vector<std::string> keys;
@@ -194,7 +193,7 @@ void GameObject::SetTransform(const spic::Transform &transform) {
 }
 
 auto GameObject::GetTransform() -> Transform {
-    if(!_self.expired()) {
+    if (!_self.expired()) {
         auto selfPtr = _self.lock();
         if (selfPtr != nullptr) {
             return selfPtr->_transform;

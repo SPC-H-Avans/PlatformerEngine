@@ -47,14 +47,9 @@ void platformer_engine::Engine::Start() {
     while (_isRunning) {
         uint64_t start = Window::GetPerformanceFrequency();
 
-        std::thread renderThread([this] {
-            Render();
-        });
-
+        Render();
         Update();
         Events();
-
-        renderThread.join();
 
         framesThisSecond++;
         if (timeInMillis < Window::GetTicks() - MILLIS_IN_SECOND) {

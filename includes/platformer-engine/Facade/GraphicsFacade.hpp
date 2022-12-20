@@ -35,6 +35,10 @@ namespace platformer_engine {
 
         void operator=(GraphicsFacade const &) = delete;
 
+        GraphicsFacade(GraphicsFacade &&other) = delete;
+
+        GraphicsFacade &operator=(GraphicsFacade &&other) = delete;
+
         ~GraphicsFacade();
 
         /**
@@ -66,7 +70,7 @@ namespace platformer_engine {
          */
         void Clear();
 
-        static inline auto GetTicks() -> Uint64 {return SDL_GetTicks64();};
+        static inline auto GetTicks() -> Uint64 { return SDL_GetTicks64(); };
 
         /**
          * @brief Load a texture
@@ -79,12 +83,15 @@ namespace platformer_engine {
         /**
          * @brief Load a text object
          */
-        auto LoadUIText(const std::string textId, const std::string filePath, const std::string text, const int fontSize, const spic::Color color) -> bool;
+        auto
+        LoadUIText(const std::string &textId, const std::string &filePath, const std::string &text, const int fontSize,
+                   const spic::Color &color) -> bool;
 
         /**
          * @brief Create a Text element, or update it if the textId already exists
          */
-        auto CreateOrUpdateUIText(const std::string textId, const std::string filePath, const std::string text, const int fontSize, const spic::Color color) -> bool;
+        auto CreateOrUpdateUIText(const std::string &textId, const std::string &filePath, const std::string &text,
+                                  const int fontSize, const spic::Color &color) -> bool;
 
         /**
          * @brief Draw a texture (complete png for example)
@@ -102,7 +109,7 @@ namespace platformer_engine {
         /**
          * @brief Draw a text UI element
          */
-        void DrawUIText(const std::string textId, const int x, const int y, const int width, const int height);
+        void DrawUIText(const std::string &textId, const int x, const int y, const int width, const int height);
 
         void DrawFrame(const std::string &id, int x, int y, int width, int height, int row, int frame,
                        const SPIC_RendererFlip &flip = FLIP_NONE, double scale = 1.0, double rotation = 0);

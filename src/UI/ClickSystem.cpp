@@ -4,24 +4,24 @@
 #include "Input.hpp"
 #include "Facade/GraphicsFacade.hpp"
 
-void ClickSystem::Update() {
+void ClickSystem::Update(double speedMultiplier) {
     // only check for clicks if the mouse has been clicked this frame
     if (!spic::Input::GetMouseButtonDown(MouseButton::LEFT)) return;
 
     // get screen size, depends on monitor device size
     auto screenSize = platformer_engine::GraphicsFacade::GetInstance().GetScreenSize();
-    int screenWidth = std::get<0>(screenSize);
-    int screenHeight = std::get<1>(screenSize);
+    const int screenWidth = std::get<0>(screenSize);
+    const int screenHeight = std::get<1>(screenSize);
 
     // window size, depends on width and height set in main
     auto window = platformer_engine::Engine::GetInstance().GetWindow();
-    int windowWidth = window.GetWidth();
-    int windowHeight = window.GetHeight();
+    const int windowWidth = window.GetWidth();
+    const int windowHeight = window.GetHeight();
 
     // get mouse position
     auto mousePosition = spic::Input::MousePosition();
-    int mouseXPos = mousePosition.x / (screenWidth / windowWidth);
-    int mouseYPos = mousePosition.y / (screenHeight / windowHeight);
+    const int mouseXPos = mousePosition.x / (screenWidth / windowWidth);
+    const int mouseYPos = mousePosition.y / (screenHeight / windowHeight);
 
     auto uiObjects = platformer_engine::Engine::GetInstance().GetActiveScene().GetAllUIObjects();
     for (const auto& obj : uiObjects) {

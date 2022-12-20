@@ -3,16 +3,16 @@
 #include "GameObject.hpp"
 #include "Engine/Engine.hpp"
 
-void spic::RigidBody::AddForce(const spic::Point &force) {
+void spic::RigidBody::AddForce(const spic::Point &force, double speedMultiplier) {
     auto x_acceleration = force.x / _mass;
     _velocity.x += x_acceleration;
 
     if (_velocity.x > 0) {
         _velocity.x -= _friction;
-        _velocity.x = std::min(_velocity.x, _maxSpeed.x);
+        _velocity.x = std::min(_velocity.x, _maxSpeed.x * speedMultiplier);
     } else if (_velocity.x < 0) {
         _velocity.x += _friction;
-        _velocity.x = std::max(_velocity.x, -_maxSpeed.x);
+        _velocity.x = std::max(_velocity.x, -_maxSpeed.x * speedMultiplier);
     }
 
     if (force.y > 0
@@ -60,7 +60,7 @@ void spic::RigidBody::AddForce(const spic::Point &force) {
     }
 }
 
-bool spic::RigidBody::CanMoveTo(CollisionPoint point) {
+auto spic::RigidBody::CanMoveTo(CollisionPoint point) -> bool {
     if (_moveRestrictions.contains(point)) {
         return _moveRestrictions[point] == 0;
     }

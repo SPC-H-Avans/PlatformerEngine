@@ -12,8 +12,8 @@ namespace platformer_engine {
         /**
          * @brief Constructor
          */
-        FPSCounter(spic::Transform transform, std::string fontPath, int fontSize,
-                   spic::Color fontColor, int width, int height, KeyCode key);
+        FPSCounter(const spic::Transform &transform, std::string &fontPath, const int fontSize,
+                   const spic::Color &fontColor, const int width, const int height, const KeyCode &key);
 
         auto GetUIObject() -> std::shared_ptr<spic::UIObject> { return _obj; }
 

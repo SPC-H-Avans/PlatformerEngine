@@ -7,9 +7,9 @@
 #include "Exceptions/CameraNotInSceneException.hpp"
 #include "Animator.hpp"
 
-spic::Scene::Scene(const std::string &sceneName) : _sceneName(sceneName) {}
+spic::Scene::Scene(std::string sceneName) : _sceneName(std::move(sceneName)) {}
 
-void spic::Scene::SetNextScene(const std::string sceneName) {_nextScene = sceneName;};
+void spic::Scene::SetNextScene(const std::string &sceneName) {_nextScene = sceneName;};
 
 auto spic::Scene::GetNextScene() const -> std::optional<std::string> { return _nextScene;};
 

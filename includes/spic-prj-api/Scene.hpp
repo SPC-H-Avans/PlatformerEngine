@@ -27,7 +27,7 @@ namespace spic {
             ar & _cameras;
         }
 
-        Scene(const std::string &sceneName);
+        Scene(std::string sceneName);
 
         Scene() = default;
 
@@ -38,7 +38,7 @@ namespace spic {
         void RenderScene();
 
         /**
-         * @brief Add a new Game Object to this scene
+         * @brief Make a copy of the referenced gameObject and add it to the scene
          * @param gameObject Game Object shared pointer
          * @spicapi
          */
@@ -146,7 +146,7 @@ namespace spic {
          * @brief Sets a scene name for handling scene flow.
          * @param sceneName String must be a valid scene loaded on the engine
          */
-        void SetNextScene(const std::string sceneName);
+        void SetNextScene(const std::string &sceneName);
 
         /**
          *

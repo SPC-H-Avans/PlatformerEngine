@@ -22,6 +22,10 @@ namespace platformer_engine {
          */
         void SetVolume(int volume);
 
+        int getVolume() {
+            return _volume;
+        }
+
         /**
          * @brief Set the volume of the music (that is already playing)
          * @param volume The volume to set
@@ -70,9 +74,9 @@ namespace platformer_engine {
     private:
 
         std::map<std::string, std::unique_ptr<Mix_Music, std::function<void(
-                Mix_Music * )>>> _music;
+                Mix_Music *)>>> _music;
         std::map<std::string, std::unique_ptr<Mix_Chunk, std::function<void(
-                Mix_Chunk * )>>> _sounds;
+                Mix_Chunk *)>>> _sounds;
         int _volume = MIX_MAX_VOLUME;
     };
 

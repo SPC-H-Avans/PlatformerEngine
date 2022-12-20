@@ -9,7 +9,7 @@ namespace platformer_engine {
     void CollisionBehaviour::OnStart() {
     }
 
-    void CollisionBehaviour::OnUpdate() {
+    void CollisionBehaviour::OnUpdate(double speedMultiplier) {
     }
 
     void CollisionBehaviour::OnTriggerEnter2D(Collision collision) {
@@ -22,7 +22,7 @@ namespace platformer_engine {
 
         // Remove the collision from _activeCollisions
         for (auto &col: _activeCollisions) {
-            int currentId = col.GetId();
+            const int currentId = col.GetId();
             if (currentId == collision.GetId()) {
                 auto newEnd = std::remove_if(_activeCollisions.begin(), _activeCollisions.end(),
                                              [currentId](const Collision &col) { return col.GetId() == currentId; });
@@ -39,7 +39,7 @@ namespace platformer_engine {
         if (!col.GetCollider()->GetObstructsMovement()) return;
         auto point = col.Contact();
         auto gameObjWeak = GetGameObject();
-        std::shared_ptr<spic::GameObject> gameObj{gameObjWeak.lock()};
+        const std::shared_ptr<spic::GameObject> gameObj{gameObjWeak.lock()};
         if (gameObj) {
             auto body = std::static_pointer_cast<RigidBody>(gameObj->GetComponent<RigidBody>());
             if (body != nullptr) {

@@ -45,7 +45,7 @@ namespace platformer_engine {
          */
         void SendUpdateToClients(const void *data, size_t dataLength, bool reliable = false);
 
-        void SendUpdateToClientsExcept(std::vector<int> clientIds, const void *data, size_t dataLength,
+        void SendUpdateToClientsExcept(const std::vector<int> &clientIds, const void *data, size_t dataLength,
                                        bool reliable = false);
 
         /**
@@ -62,11 +62,6 @@ namespace platformer_engine {
          * @param client Reference to client
          */
         void InitializeClient(const Client &client);
-
-        /**
-         * @brief Randomly choose new party leader
-         */
-        void ChooseNewPartyLeader();
 
         /**
          * @brief Listen to new events;

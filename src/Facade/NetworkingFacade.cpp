@@ -6,8 +6,6 @@
 #include "Networking/ClientNetworkManager.hpp"
 #include "Exceptions/InvalidPlayerSlotsException.hpp"
 #include "Exceptions/InvalidPortException.hpp"
-#include <memory>
-#include <iostream>
 #include <thread>
 
 platformer_engine::NetworkingFacade::NetworkingFacade() {
@@ -168,7 +166,7 @@ auto platformer_engine::NetworkingFacade::SendPacketToPeer(int peerId, const voi
 
     for (int i = 0; i < host->connectedPeers; i++) {
         ENetPeer *peers = host->peers;
-        if (peers[i].connectID == peerId) {
+        if (peerId == peers[i].connectID) {
             ENetPacket *packet = enet_packet_create(data, length, reliable ? ENET_PACKET_FLAG_RELIABLE : 0x0);
             if (packet == nullptr) {
                 return false;

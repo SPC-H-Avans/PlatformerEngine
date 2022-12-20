@@ -15,15 +15,15 @@ protected:
         GameObject block = GameObject("Block");
 
         //Set X,Y pos of objects
-        mario.SetTransform(Transform {Point {0, 3}, 0, 0});
-        block.SetTransform(Transform {Point {0, 0}, 0, 0});
+        mario.SetTransform(Transform{Point{0, 3}, 0, 0});
+        block.SetTransform(Transform{Point{0, 0}, 0, 0});
 
         //Set Rigidbody on both objects;
         PlayerRigidBody marioBody;
         marioBody.BodyType(spic::BodyType::dynamicBody);
         mario.AddComponent<RigidBody>(std::make_shared<PlayerRigidBody>(marioBody));
 
-        RigidBody blockBody {0.045};
+        RigidBody blockBody{0.045};
         blockBody.BodyType(spic::BodyType::staticBody);
         block.AddComponent<RigidBody>(std::make_shared<RigidBody>(blockBody));
 
@@ -65,19 +65,20 @@ TEST_F(PhysicsTests, MarioDoesntFallThroughBlock) {
     auto marioStartY = -10.0;
 
     // 2. Set the location so that the block and mario overlap
-    _mario->SetTransform(Transform {Point {marioStartX, marioStartY}, 0, 0});
-    _block->SetTransform(Transform {Point {0, 0}, 0, 0});
+    _mario->SetTransform(Transform{Point{marioStartX, marioStartY}, 0, 0});
+    _block->SetTransform(Transform{Point{0, 0}, 0, 0});
 
     // 3. Update mario's position
     UpdateBehaviours();
-    physics.Update();
+    physics.Update(1.0);
 
     // 4. Assert that the Mario object's location has not been updated
     auto marioNextX = _mario->GetTransform().position.x;
     auto marioNextY = _mario->GetTransform().position.y;
     ASSERT_TRUE(marioNextX == marioStartX && marioNextY == marioStartY)
-        << "The Mario Physics character fell through a block, the y velocity should have been 0, but was " +
-        std::to_string(marioNextY);
+                                <<
+                                "The Mario Physics character fell through a block, the y velocity should have been 0, but was " +
+                                std::to_string(marioNextY);
 }
 
 /**
@@ -91,20 +92,20 @@ TEST_F(PhysicsTests, MarioFallsUntilBlock) {
     auto marioStartY = 0.0;
 
     // 2. Set the location so that the block and mario don't overlap
-    _mario->SetTransform(Transform {Point {marioStartX, marioStartY}, 0, 0});
-    _block->SetTransform(Transform {Point {0, 101}, 0, 0});
+    _mario->SetTransform(Transform{Point{marioStartX, marioStartY}, 0, 0});
+    _block->SetTransform(Transform{Point{0, 101}, 0, 0});
     UpdateBehaviours();
 
     auto marioNextY = _mario->GetTransform().position.y;
 
     // 3. Assert that Mario fell down, so the Y-pos has increased
     ASSERT_TRUE(marioNextY > marioStartY)
-        << "Mario Physics didn't update the object to fall down, y-pos stayed the same.";
+                                << "Mario Physics didn't update the object to fall down, y-pos stayed the same.";
 
     // 4. Update the physics 50 times, Mario should only fall until the block and then stop moving
-    for(int i = 0; i < 50; i++) {
+    for (int i = 0; i < 50; i++) {
         UpdateBehaviours();
-        physics.Update();
+        physics.Update(1.0);
     }
 
     auto marioFinalY = _mario->GetTransform().position.y;
@@ -128,12 +129,12 @@ void PhysicsTests::SetBoxColliders() {
 void PhysicsTests::UpdateBehaviours() {
     // trigger OnUpdate for each gameObject
     auto gameObjects = GameObject::FindObjectsOfType<GameObject>();
-    for(auto& gameObject : gameObjects) {
+    for (auto &gameObject: gameObjects) {
         auto scripts = gameObject->GetComponents<BehaviourScript>();
-        for(auto& scriptComponent : scripts) {
+        for (auto &scriptComponent: scripts) {
             auto script = std::dynamic_pointer_cast<spic::BehaviourScript>(scriptComponent);
-            if (script != nullptr) script->OnUpdate();
+            if (script != nullptr) script->OnUpdate(1.0);
         }
     }
-    _marioBody->AddForce(Point {0, 0});
+    _marioBody->AddForce(Point{0, 0});
 }

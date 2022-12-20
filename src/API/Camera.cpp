@@ -31,11 +31,11 @@ void spic::Camera::Zoom(double aspectWidth, double aspectHeight) {
     std::static_pointer_cast<Camera>(_self.lock())->_aspectHeight = aspectHeight;
 }
 
-double spic::Camera::GetAspectWidth() {
+auto spic::Camera::GetAspectWidth() -> double {
     return std::static_pointer_cast<Camera>(_self.lock())->_aspectWidth;
 }
 
-double spic::Camera::GetAspectHeight() {
+auto spic::Camera::GetAspectHeight() -> double {
     auto cam = std::static_pointer_cast<Camera>(_self.lock());
     return cam->_aspectHeight;
 }

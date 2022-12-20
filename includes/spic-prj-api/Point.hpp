@@ -15,6 +15,11 @@ namespace spic {
             ar & x;
             ar & y;
         }
+        auto operator*(double multiplier) -> Point{
+            this->x = this->x * multiplier;
+            this->y = this->y * multiplier;
+            return *this;
+        }
     };
 
 }

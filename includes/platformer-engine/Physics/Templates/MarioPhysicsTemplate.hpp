@@ -15,7 +15,7 @@ public:
 private:
     const float _mass = 8;
     const float _gravityScale = 0.055;
-    const spic::Point _maxSpeed = spic::Point{2.0, 20.0};
+    const spic::Point _maxSpeed = spic::Point{2.0, 8.0};
     const float _friction = 0.060;
 };
 

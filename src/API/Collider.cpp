@@ -44,4 +44,4 @@ std::vector<Collision> Collider::GetCollisionsWith(const Collider &col) {
     return result;
 }
 
-BOOST_CLASS_EXPORT(spic::Collider);
+BOOST_CLASS_EXPORT_IMPLEMENT(spic::Collider);

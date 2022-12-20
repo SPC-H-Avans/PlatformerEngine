@@ -24,7 +24,6 @@ namespace spic {
      */
     class RigidBody : public Component {
     public:
-
         template<typename archive>
         void serialize(archive &ar, const unsigned /*version*/) {
             ar & boost::serialization::base_object<Component, RigidBody>(*this);
@@ -92,8 +91,9 @@ namespace spic {
         std::map<CollisionPoint, int> _moveRestrictions;
     };
 
-    BOOST_SERIALIZATION_ASSUME_ABSTRACT(RigidBody);
-
 } // namespace spic
+
+BOOST_SERIALIZATION_ASSUME_ABSTRACT(spic::RigidBody);
+BOOST_CLASS_EXPORT_KEY(spic::RigidBody);
 
 #endif // RIGIDBODY_H_

@@ -44,6 +44,7 @@ namespace spic {
         [[nodiscard]] auto GetObstructsMovement() const -> bool { return _obstructsMovement; }
 
         void SetObstructsMovement(bool obstructsMovement) { _obstructsMovement = obstructsMovement; }
+
     private:
         std::vector<std::shared_ptr<Collision>> _collisions;
 //        std::vector<Collision> _collisions;
@@ -53,5 +54,6 @@ namespace spic {
 }  // namespace spic
 
 BOOST_SERIALIZATION_ASSUME_ABSTRACT(spic::Collider);
+BOOST_CLASS_EXPORT_KEY(spic::Collider);
 
 #endif // COLLIDER2D_H_

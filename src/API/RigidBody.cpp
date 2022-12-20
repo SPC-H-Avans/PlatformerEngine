@@ -94,5 +94,4 @@ RigidBody::RigidBody() : _friction(0) {
 
 }
 
-
-BOOST_CLASS_EXPORT(RigidBody);
+BOOST_CLASS_EXPORT_IMPLEMENT(spic::RigidBody);

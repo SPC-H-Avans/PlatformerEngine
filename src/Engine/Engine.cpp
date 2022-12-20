@@ -12,7 +12,8 @@ const int TARGET_FPS = 60;
 const double TARGET_FRAME_DELAY = MILLIS_IN_SECOND / TARGET_FPS;
 
 auto
-platformer_engine::Engine::Init(int width, int height, const std::string &title, const spic::Color &color, bool fullScreen,
+platformer_engine::Engine::Init(int width, int height, const std::string &title, const spic::Color &color,
+                                bool fullScreen,
                                 bool debugLogs) -> bool {
     if (_window != nullptr) {
         return false;
@@ -35,7 +36,7 @@ void platformer_engine::Engine::Start() {
 
     }
 
-    if(_queuedScene.has_value()) {
+    if (_queuedScene.has_value()) {
         SetActiveScene(_queuedScene.value());
     }
 
@@ -56,8 +57,7 @@ void platformer_engine::Engine::Start() {
         renderThread.join();
 
         framesThisSecond++;
-        if (timeInMillis < Window::GetTicks() - MILLIS_IN_SECOND)
-        {
+        if (timeInMillis < Window::GetTicks() - MILLIS_IN_SECOND) {
             timeInMillis = Window::GetTicks();
             _fps = framesThisSecond;
             framesThisSecond = 0;
@@ -74,7 +74,7 @@ void platformer_engine::Engine::Start() {
 }
 
 void platformer_engine::Engine::Update() {
-    if(_queuedScene.has_value()) {
+    if (_queuedScene.has_value()) {
         SetActiveScene(_queuedScene.value());
     }
 
@@ -115,7 +115,8 @@ void platformer_engine::Engine::Quit() {
 }
 
 void platformer_engine::Engine::QueueActiveScene(const std::string &sceneName) {
-    if(!std::any_of(_scenes.begin(), _scenes.end(), [sceneName](const Scene& scene){return scene.GetSceneName() == sceneName;})) {
+    if (!std::any_of(_scenes.begin(), _scenes.end(),
+                     [sceneName](const Scene &scene) { return scene.GetSceneName() == sceneName; })) {
         throw spic::SceneNotLoadedException();
     }
 
@@ -130,8 +131,8 @@ void platformer_engine::Engine::SetActiveScene(const std::string &sceneName) {
         if (item.GetSceneName() == sceneName) {
             _window->SetActiveScene(item);
 
-            if(GetNetworkingStatus() == NetworkingStatus::MultiplayerServer) {
-                GetServerNetworkManager().CreateNetworkedScene(GetLocalClientId(), GetActiveScene());
+            if (GetNetworkingStatus() == NetworkingStatus::MultiplayerServer) {
+                GetServerNetworkManager().CreateNetworkedScene(GetActiveScene());
             }
 
             //Call all startup functions on systems
@@ -177,7 +178,7 @@ void platformer_engine::Engine::JoinServer(const std::string &ip, int port) {
 }
 
 void platformer_engine::Engine::AddScene(const Scene &new_scene, bool isDefault) {
-    if(_defaultScene == "" || isDefault == true) {
+    if (_defaultScene == "" || isDefault == true) {
         _defaultScene = new_scene.GetSceneName();
     }
 

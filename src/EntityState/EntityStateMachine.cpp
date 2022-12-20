@@ -13,3 +13,9 @@ auto EntityStateMachine::CalculateForce(std::shared_ptr<RigidBody> rigidBody) ->
 {
     return _currentState->CalculateForce(rigidBody);
 }
+
+EntityStateMachine::EntityStateMachine() {
+
+}
+
+BOOST_CLASS_EXPORT(EntityStateMachine);

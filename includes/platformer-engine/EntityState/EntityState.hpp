@@ -4,6 +4,7 @@
 #include "Point.hpp"
 #include <memory>
 #include "RigidBody.hpp"
+#include <boost/serialization/access.hpp>
 
 // Forward declaration of the state machine class
 class EntityStateMachine;
@@ -14,6 +15,10 @@ class EntityStateMachine;
 class EntityState
 {
 public:
+    template<class Archive>
+    void serialize(Archive &ar, unsigned int version) {
+    }
+
     EntityState() = default;
     virtual ~EntityState() = default;
 
@@ -37,5 +42,6 @@ public:
     [[nodiscard]] virtual auto Clone() const -> std::unique_ptr<EntityState> = 0;
 };
 
+BOOST_SERIALIZATION_ASSUME_ABSTRACT(EntityState);
 
 #endif //PLATFORMER_ENGINE_ENTITYSTATE_HPP

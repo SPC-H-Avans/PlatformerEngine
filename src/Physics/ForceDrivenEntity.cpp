@@ -57,3 +57,5 @@ platformer_engine::ForceDrivenEntity::ForceDrivenEntity() {
     EntityWanderState state;
     _entityStateMachine = std::make_unique<EntityStateMachine>(state);
 }
+
+BOOST_CLASS_EXPORT(platformer_engine::ForceDrivenEntity);

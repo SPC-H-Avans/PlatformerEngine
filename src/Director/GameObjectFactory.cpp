@@ -14,7 +14,7 @@
 static int tileCounter = 1;
 
 auto GameObjectFactory::CreateTile(const std::string& namePrefix, const spic::Sprite& sprite, // TODO: switch sprite and transform for consistency
-                                    Transform transform, int colliderWidth, int colliderHeight) -> GameObject& {
+                                   Transform transform, int colliderWidth, int colliderHeight) -> GameObject& {
     auto builder =
             GameObjectBuilder(namePrefix + std::to_string(tileCounter))
                     .AddSprite(sprite);
@@ -44,8 +44,8 @@ auto GameObjectFactory::CreateBackgroundObject(const std::string& namePrefix, co
 }
 
 auto GameObjectFactory::CreateScriptedTile(const std::string& namePrefix, const spic::Sprite& sprite,
-                                            Transform transform, int colliderWidth, int colliderHeight, bool obstructsMovement,
-                                            const std::vector<std::shared_ptr<BehaviourScript>>& behaviourScripts) -> GameObject & {
+                                           Transform transform, int colliderWidth, int colliderHeight, bool obstructsMovement,
+                                           const std::vector<std::shared_ptr<BehaviourScript>>& behaviourScripts) -> GameObject & {
     auto builder =
             GameObjectBuilder(namePrefix + std::to_string(tileCounter))
                     .AddSprite(sprite);
@@ -103,8 +103,8 @@ auto GameObjectFactory::CreatePlayer(int playerId, Transform transform, int coll
 }
 
 auto GameObjectFactory::CreateEnemy(Transform transform, int colliderWidth, int colliderHeight,
-                                     std::vector<platformer_engine::AnimatedSprite> &animations,
-                                     const std::vector<std::shared_ptr<BehaviourScript>> &behaviourScripts) -> GameObject & {
+                                    std::vector<platformer_engine::AnimatedSprite> &animations,
+                                    const std::vector<std::shared_ptr<BehaviourScript>> &behaviourScripts) -> GameObject & {
     auto& scene = platformer_engine::Engine::GetInstance().GetActiveScene();
 
     auto builder = GameObjectBuilder("enemy" + std::to_string(scene.GetObjectCount()), "enemy")
@@ -133,14 +133,6 @@ auto GameObjectFactory::CreateEnemy(Transform transform, int colliderWidth, int 
     collider.SetColliderType(ColliderType::Body);
     obj->AddComponent<BoxCollider>(std::make_shared<BoxCollider>(collider));
 
-    // Look ahead
-    auto lookAhead = BoxCollider();
-    lookAhead.Width(colliderWidth);
-    lookAhead.Height(colliderHeight);
-    lookAhead.SetPosition({0,0});
-    lookAhead.SetColliderType(ColliderType::LookAhead);
-    obj->AddComponent<BoxCollider>(std::make_shared<BoxCollider>(lookAhead));
-
     // scripts
     for (const auto &script: behaviourScripts) {
         obj->AddComponent<BehaviourScript>(script);
@@ -150,8 +142,8 @@ auto GameObjectFactory::CreateEnemy(Transform transform, int colliderWidth, int 
 }
 
 auto GameObjectFactory::CreateText(const Transform &transform, const std::string &objectId, const std::string &text,
-                                    const std::string &fontPath, int textWidth, int textHeight,
-                                    int fontSize, const Color &textColor) -> Text {
+                                   const std::string &fontPath, int textWidth, int textHeight,
+                                   int fontSize, const Color &textColor) -> Text {
     auto textObject = Text(objectId, textWidth, textHeight, text, fontPath, fontSize, textColor);
 
     textObject.SetTransform(transform);
@@ -161,8 +153,8 @@ auto GameObjectFactory::CreateText(const Transform &transform, const std::string
 }
 
 auto GameObjectFactory::CreateButton(const Transform &transform, const std::string &objectId, const spic::Sprite &sprite,
-                                      const std::string &imgPath, int buttonWidth, int buttonHeight,
-                                      const std::function<void()> &onClick) -> Button {
+                                     const std::string &imgPath, int buttonWidth, int buttonHeight,
+                                     const std::function<void()> &onClick) -> Button {
     auto buttonObject = Button(objectId, sprite, imgPath, buttonWidth, buttonHeight);
 
     buttonObject.SetTransform(transform);

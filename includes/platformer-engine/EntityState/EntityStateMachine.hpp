@@ -5,9 +5,17 @@
 #include <memory>
 #include "RigidBody.hpp"
 #include "EntityState.hpp"
+#include <boost/serialization/access.hpp>
+#include <boost/serialization/unique_ptr.hpp>
 
 class EntityStateMachine {
 public:
+    template<class Archive>
+    void serialize(Archive &ar, unsigned int version) {
+        ar & _currentState;
+    }
+
+    EntityStateMachine();
 
     /**
      * @brief Constructor for the EntityStateMachine sets the current state to the initial state

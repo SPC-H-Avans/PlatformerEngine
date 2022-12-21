@@ -4,7 +4,7 @@
 #include "BoxCollider.hpp"
 
 void spic::RigidBody::AddForce(const spic::Point &force, double speedMultiplier) {
-    if(_mass == 0) return;
+    if (_mass == 0) return;
     auto x_acceleration = force.x / _mass;
     _velocity.x += x_acceleration;
 
@@ -16,7 +16,7 @@ void spic::RigidBody::AddForce(const spic::Point &force, double speedMultiplier)
 
     auto y_acceleration = force.y / _mass;
     _velocity.y += y_acceleration;
-    if(_velocity.y < -1 * _maxSpeed.y) {_velocity.y = -1*_maxSpeed.y;}
+    if (_velocity.y < -1 * _maxSpeed.y) { _velocity.y = -1 * _maxSpeed.y; }
 
     _velocity = _velocity * speedMultiplier;
 }
@@ -30,7 +30,7 @@ auto spic::RigidBody::CanMoveTo(CollisionPoint point) -> bool {
 
 void spic::RigidBody::AllowMoveTo(CollisionPoint point) {
     if (_moveRestrictions[point] <= 0) { // Numbers below zero are illegal
-        throw IllegalCollisionBehaviourException(_bodyType, point);
+        return;
     }
     _moveRestrictions[point] -= 1;
 }
@@ -39,17 +39,15 @@ void spic::RigidBody::DenyMoveTo(CollisionPoint point) {
     _moveRestrictions[point] += 1;
 }
 
-RigidBody::RigidBody(const PhysicsTemplate& physicsTemplate)
-        : _bodyType(BodyType::staticBody), _mass(physicsTemplate.GetMass())
-        , _gravityScale(physicsTemplate.GetGravityScale()), _friction(physicsTemplate.GetFriction()) {
+RigidBody::RigidBody(const PhysicsTemplate &physicsTemplate)
+        : _bodyType(BodyType::staticBody), _mass(physicsTemplate.GetMass()),
+          _gravityScale(physicsTemplate.GetGravityScale()), _friction(physicsTemplate.GetFriction()) {
     _maxSpeed = physicsTemplate.GetMaxSpeed();
 }
 
-void RigidBody::SetHeading()
-{
+void RigidBody::SetHeading() {
     //update the heading if the vehicle has a non zero velocity
-    if (_velocity.LengthSq() > 0.00000001)
-    {
+    if (_velocity.LengthSq() > 0.00000001) {
         _heading = Point::PointNormalize(_velocity);
     }
 }

@@ -1,63 +1,24 @@
 #include "RigidBody.hpp"
 #include "Exceptions/IllegalCollisionBehaviourException.hpp"
 #include "GameObject.hpp"
-#include "Engine/Engine.hpp"
+#include "BoxCollider.hpp"
 
 void spic::RigidBody::AddForce(const spic::Point &force, double speedMultiplier) {
+    if(_mass == 0) return;
     auto x_acceleration = force.x / _mass;
     _velocity.x += x_acceleration;
 
     if (_velocity.x > 0) {
-        _velocity.x -= _friction;
-        _velocity.x = std::min(_velocity.x, _maxSpeed.x * speedMultiplier);
+        _velocity.x = std::min(_velocity.x, _maxSpeed.x);
     } else if (_velocity.x < 0) {
-        _velocity.x += _friction;
-        _velocity.x = std::max(_velocity.x, -_maxSpeed.x * speedMultiplier);
+        _velocity.x = std::max(_velocity.x, -_maxSpeed.x);
     }
 
-    if (force.y > 0
-        && !CanMoveTo(CollisionPoint::Bottom)) { // Jump when on top of an object
-        auto y_acceleration = force.y / _mass;
-        _velocity.y -= y_acceleration;
-    }
+    auto y_acceleration = force.y / _mass;
+    _velocity.y += y_acceleration;
+    if(_velocity.y < -1 * _maxSpeed.y) {_velocity.y = -1*_maxSpeed.y;}
 
-    _velocity.y += _gravityScale * _mass;
-
-    if (_velocity.y > 0 && !CanMoveTo(CollisionPoint::Bottom)) { _velocity.y = 0; }
-    if (_velocity.x > 0 && !CanMoveTo(CollisionPoint::Right)) { _velocity.x = 0; }
-    if (_velocity.x < 0 && !CanMoveTo(CollisionPoint::Left)) { _velocity.x = 0; }
-    if (_velocity.y < 0 && !CanMoveTo(CollisionPoint::Top)) { _velocity.y = 0; }
-
-    std::shared_ptr<GameObject> gameObject{GetGameObject().lock()};
-    if (gameObject) {
-        auto transform = gameObject->GetTransform();
-        transform.position.x += _velocity.x;
-        transform.position.y += _velocity.y;
-        gameObject->SetTransform(transform);
-
-        try {
-            auto &engine = platformer_engine::Engine::GetInstance();
-            auto localClientId = engine.GetLocalClientId();
-            if (gameObject != nullptr && localClientId == gameObject->GetOwnerId()) {
-                switch (engine.GetNetworkingStatus()) {
-                    case platformer_engine::MultiplayerClient:
-                        engine.GetClientNetworkManager().UpdateNetworkedGameObjectTransform(transform,
-                                                                                            gameObject->GetName());
-                        break;
-                    case platformer_engine::MultiplayerServer:
-                        engine.GetServerNetworkManager().UpdateNetworkedGameObjectTransform(transform,
-                                                                                            gameObject->GetName());
-                        break;
-                    case platformer_engine::Singleplayer:
-                        break;
-                }
-            }
-        } catch (std::exception &e) {
-            //Just ignore the exception, we will try resending the transform later
-        }
-    } else { // GameObject was already deleted
-        gameObject.reset();
-    }
+    _velocity = _velocity * speedMultiplier;
 }
 
 auto spic::RigidBody::CanMoveTo(CollisionPoint point) -> bool {
@@ -78,6 +39,21 @@ void spic::RigidBody::DenyMoveTo(CollisionPoint point) {
     _moveRestrictions[point] += 1;
 }
 
+RigidBody::RigidBody(const PhysicsTemplate& physicsTemplate)
+        : _bodyType(BodyType::staticBody), _mass(physicsTemplate.GetMass())
+        , _gravityScale(physicsTemplate.GetGravityScale()), _friction(physicsTemplate.GetFriction()) {
+    _maxSpeed = physicsTemplate.GetMaxSpeed();
+}
+
+void RigidBody::SetHeading()
+{
+    //update the heading if the vehicle has a non zero velocity
+    if (_velocity.LengthSq() > 0.00000001)
+    {
+        _heading = Point::PointNormalize(_velocity);
+    }
+}
+
 auto RigidBody::GetMaxSpeed() const -> Point {
     return _maxSpeed;
 }
@@ -86,12 +62,45 @@ auto RigidBody::GetVelocity() const -> Point {
     return _velocity;
 }
 
-RigidBody::RigidBody(float friction)
-        : _bodyType(BodyType::staticBody), _mass(0), _gravityScale(0), _friction(friction) {
+auto RigidBody::GetHeading() const -> Point {
+    return _heading;
 }
 
-RigidBody::RigidBody() : _friction(0) {
+void RigidBody::SetVelocity(Point velocity) {
+    _velocity = velocity;
+}
+
+auto RigidBody::GetGravityScale() const -> float {
+    return _gravityScale;
+}
+
+auto RigidBody::GetMass() const -> float {
+    return _mass;
+}
+
+auto RigidBody::GetFriction() const -> float {
+    return _friction;
+}
+
+void RigidBody::SetMass(float mass) {
+    _mass = mass;
+}
+
+void RigidBody::SetGravityScale(float gravityScale) {
+    _gravityScale = gravityScale;
+}
+
+RigidBody::RigidBody() : RigidBody(PhysicsTemplate()) {
 
 }
 
-BOOST_CLASS_EXPORT_IMPLEMENT(spic::RigidBody);
+void RigidBody::SetMaxSpeed(Point maxSpeed) {
+    _maxSpeed = maxSpeed;
+}
+
+void RigidBody::SetFriction(float friction) {
+    _friction = friction;
+}
+
+
+BOOST_CLASS_EXPORT(RigidBody);

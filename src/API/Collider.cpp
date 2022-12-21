@@ -21,7 +21,7 @@ Collision &spic::Collider::GetCollisionById(int uid) {
     throw CollisionByIdNotFoundException(uid, gameObjectName);
 }
 
-void spic::Collider::AddCollision(const Collision col) {
+void spic::Collider::AddCollision(const Collision &col) {
     _collisions.push_back(std::make_shared<Collision>(col));
 }
 
@@ -44,4 +44,20 @@ std::vector<Collision> Collider::GetCollisionsWith(const Collider &col) {
     return result;
 }
 
-BOOST_CLASS_EXPORT_IMPLEMENT(spic::Collider);
+void Collider::SetPosition(Point position) {
+    _position = position;
+}
+
+auto Collider::GetPosition() const -> Point {
+    return _position;
+}
+
+auto Collider::GetColliderType() const -> ColliderType {
+    return _colliderType;
+}
+
+void Collider::SetColliderType(ColliderType colliderType) {
+    _colliderType = colliderType;
+}
+
+BOOST_CLASS_EXPORT(spic::Collider);

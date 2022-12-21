@@ -4,6 +4,7 @@
 #include "Component.hpp"
 #include "Point.hpp"
 #include "Physics/Collision.hpp"
+#include "Physics/Templates/PhysicsTemplate.hpp"
 #include <map>
 #include <boost/serialization/access.hpp>
 #include <boost/serialization/export.hpp>
@@ -24,6 +25,9 @@ namespace spic {
      */
     class RigidBody : public Component {
     public:
+        RigidBody();
+        RigidBody(const PhysicsTemplate& physicsTemplate);
+
         template<typename archive>
         void serialize(archive &ar, const unsigned /*version*/) {
             ar & boost::serialization::base_object<Component, RigidBody>(*this);
@@ -34,11 +38,10 @@ namespace spic {
             ar & _velocity;
             ar & _friction;
             ar & _maxSpeed;
+            ar & _heading;
+            ar & _moveRestrictions;
         }
 
-        RigidBody();
-
-        RigidBody(float friction);
 
         /**
          * @brief Apply force to this rigid body.
@@ -46,11 +49,10 @@ namespace spic {
          *        and magnitude of the force to be applied.
          * @spicapi
          */
-        virtual void AddForce(const Point &forceDirection, double speedMultiplier = 1.0);
+        virtual void AddForce(const Point &forceDirection, double speedMultiplier);
 
-        void BodyType(BodyType bodyType) { this->_bodyType = bodyType; }
-
-        enum BodyType BodyType() const { return _bodyType; }
+        void BodyType (BodyType bodyType) { this->_bodyType = bodyType; }
+        auto BodyType() -> enum BodyType { return _bodyType; }
 
         /**
         * @brief Checks if the rigidbody can move to a certain point
@@ -70,22 +72,73 @@ namespace spic {
         void DenyMoveTo(CollisionPoint point);
 
         /**
-        * @brief Get the maximum speed vector from this rigidbody
+        * @brief Gets the maximum speed 2D vector
         */
         [[nodiscard]] auto GetMaxSpeed() const -> Point;
 
         /**
-        * @brief Get the velocity vector from this rigidbody
+        * @brief Gets the velocity 2D vector
         */
         [[nodiscard]] auto GetVelocity() const -> Point;
 
+        /**
+        * @brief Gets the Heading (move direction) 2D vector
+        */
+        [[nodiscard]] auto GetHeading() const -> Point;
 
-    protected:
+        /**
+        * @brief Gets the gravity scale (m/s/s)
+        */
+        [[nodiscard]] auto GetGravityScale() const -> float;
+
+        /**
+        * @brief Gets the mass
+        */
+        [[nodiscard]] auto GetMass() const -> float;
+
+        /**
+        * @brief Gets the friction
+        */
+        [[nodiscard]] auto GetFriction() const -> float;
+
+        /**
+        * @brief Sets the heading using the rigidbody's velocity
+        */
+        void SetHeading();
+
+        /**
+        * @brief Sets the velocity to a new 2D Vector
+        */
+        void SetVelocity(Point velocity);
+
+        /**
+        * @brief Sets the mass of the rigidbody
+        */
+        void SetMass(float mass);
+
+        /**
+        * @brief Sets the gravityScale of the rigidbody
+        */
+        void SetGravityScale(float gravityScale);
+
+        /**
+        * @brief Sets the maximum speed of the rigidbody
+         * @param maxSpeed A 2D Vector point of the maximum x and y speed
+        */
+        void SetMaxSpeed(Point maxSpeed);
+
+        /**
+        * @brief Sets the friction of the rigidbody
+        */
+        void SetFriction(float friction);
+
+    private:
+        enum BodyType _bodyType;
         float _mass;
         float _gravityScale;
-        enum BodyType _bodyType;
         Point _velocity;
         Point _maxSpeed;
+        Point _heading;
         float _friction;
 
         std::map<CollisionPoint, int> _moveRestrictions;

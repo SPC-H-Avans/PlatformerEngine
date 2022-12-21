@@ -77,4 +77,5 @@ TEST_F(GameObjectBuilderTest, CanAddSprite) {
     auto sprite = std::static_pointer_cast<spic::Sprite>(spriteComponent);
     ASSERT_EQ(sprite->GetSpriteId(), "mario_Jump") << "Sprite ID should be mario_Jump";
     ASSERT_EQ(sprite->GetSpriteScale(), 4.0) << "Sprite scale should be 4.0";
+    ASSERT_NO_THROW(sprite->Render(gameObject->GetTransform()));
 }

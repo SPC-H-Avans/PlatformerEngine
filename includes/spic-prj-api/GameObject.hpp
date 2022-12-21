@@ -136,14 +136,6 @@ namespace spic {
         static void Destroy(std::shared_ptr<GameObject> obj);
 
         /**
-         * @brief Removes a Component.
-         * @details Will search for the Component among the GameObjects.
-         * @param obj The Component to be removed. If obj == nullptr, Destroy() does nothing.
-         * @spicapi
-         */
-        static void Destroy(Component *obj);
-
-        /**
          * @brief Constructor.
          * @details The new GameObject will also be added to a statically
          *          available collection, the administration.  This makes the

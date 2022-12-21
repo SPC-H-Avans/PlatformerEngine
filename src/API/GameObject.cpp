@@ -109,22 +109,6 @@ auto GameObject::FindWithTag(const std::string &tag) -> std::shared_ptr<GameObje
     return nullptr;
 }
 
-void GameObject::Destroy(spic::Component *obj) {
-    if (obj == nullptr)
-        throw std::runtime_error("Given pointer is empty or invalid");
-
-    for (auto &[name, instance]: _instances) { //For every gameobject
-        for (auto &[type, cList]: instance->_components) { //For every componentType
-            for (auto iter = cList.begin(); iter != cList.end(); iter++) { //For every component in list
-                if (obj == iter->get()) {
-                    cList.erase(iter);
-                    iter->reset();
-                }
-            }
-        }
-    }
-}
-
 void GameObject::Destroy(std::shared_ptr<GameObject> obj) {
     if (obj == nullptr)
         throw std::runtime_error("Given pointer is empty or invalid");

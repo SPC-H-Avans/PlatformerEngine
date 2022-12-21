@@ -41,6 +41,7 @@ protected:
 
         //Set Colliders on objects
         SetBoxColliders();
+        BehaviourSystem::Start();
     }
 
     void TearDown() override {
@@ -76,7 +77,7 @@ TEST_F(PhysicsTests, MarioDoesntFallThroughBlock) {
     _block->SetTransform(Transform{Point{0, 0}, 0, 0});
 
     // 3. Update mario's position
-    behaviourSystem.Start();
+    UpdateBehaviours();
     physics.Update(1.0);
     moveSystem.Update(1.0);
 

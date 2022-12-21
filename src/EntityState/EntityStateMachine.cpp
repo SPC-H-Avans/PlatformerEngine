@@ -19,4 +19,8 @@ EntityStateMachine::EntityStateMachine() {
 
 }
 
+auto EntityStateMachine::GetCurrentState() -> EntityState & {
+    return *_currentState;
+}
+
 BOOST_CLASS_EXPORT(EntityStateMachine);

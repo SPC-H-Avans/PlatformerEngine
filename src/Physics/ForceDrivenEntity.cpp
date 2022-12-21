@@ -15,7 +15,7 @@ auto platformer_engine::ForceDrivenEntity::CalcSteeringForce() -> Point {
             Point stateForce = _entityStateMachine->CalculateForce(rigidBody);
 
             steeringForce += stateForce;
-            if(steeringForce.y < 0 && rigidBody->GetMass() != 0) {
+            if(steeringForce.y < 0 && rigidBody->GetGravityScale() != 0) {
                 if(!rigidBody->CanMoveTo(CollisionPoint::Bottom)) {
                     steeringForce.y *= 26;
                 } else {
@@ -56,6 +56,10 @@ auto platformer_engine::ForceDrivenEntity::GetFollowRange() -> double {
 platformer_engine::ForceDrivenEntity::ForceDrivenEntity() {
     EntityWanderState state;
     _entityStateMachine = std::make_unique<EntityStateMachine>(state);
+}
+
+auto platformer_engine::ForceDrivenEntity::GetCurrentState() const -> const EntityState& {
+    return _entityStateMachine->GetCurrentState();
 }
 
 BOOST_CLASS_EXPORT(platformer_engine::ForceDrivenEntity);

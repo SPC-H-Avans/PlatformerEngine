@@ -30,6 +30,12 @@ public:
     void SetState(EntityState& state);
 
     /**
+    * @brief Gets the current state
+    * @return The current state as an EntityState reference
+    */
+    auto GetCurrentState() -> EntityState&;
+
+    /**
     * @brief Calls the EntityState.CalculateForce function of the currently active state
     * @return 2D Vector point for the force calculated by the active state
     */

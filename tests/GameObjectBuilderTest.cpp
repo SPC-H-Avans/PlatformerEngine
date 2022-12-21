@@ -1,11 +1,20 @@
 #include <gtest/gtest.h>
 #include "Builder/GameObjectBuilder.hpp"
+#include "Engine/Engine.hpp"
+#include "Builder/SceneBuilder.hpp"
 
 /**
  * @brief GameObjectBuilder Tests
  */
 class GameObjectBuilderTest : public ::testing::Test {
 
+    void SetUp() override {
+        platformer_engine::Engine &engine = platformer_engine::Engine::GetInstance();
+        engine.Init(1000, 1000, "Mario Game", spic::Color::Cyan(), false);
+        platformer_engine::SceneBuilder builder = platformer_engine::SceneBuilder("levelGameObjectBuilderTest");
+        engine.AddScene(builder.GetScene());
+        engine.QueueActiveScene("levelGameObjectBuilderTest");
+    }
 };
 
 /**
@@ -77,4 +86,5 @@ TEST_F(GameObjectBuilderTest, CanAddSprite) {
     auto sprite = std::static_pointer_cast<spic::Sprite>(spriteComponent);
     ASSERT_EQ(sprite->GetSpriteId(), "mario_Jump") << "Sprite ID should be mario_Jump";
     ASSERT_EQ(sprite->GetSpriteScale(), 4.0) << "Sprite scale should be 4.0";
+    ASSERT_NO_THROW(sprite->Render(gameObject->GetTransform()));
 }

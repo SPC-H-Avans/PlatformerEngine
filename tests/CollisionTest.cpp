@@ -1,5 +1,4 @@
 #include <gtest/gtest.h>
-#include "Builder/GameObjectBuilder.hpp"
 #include "BehaviourScript.hpp"
 #include "RigidBody.hpp"
 #include "BoxCollider.hpp"

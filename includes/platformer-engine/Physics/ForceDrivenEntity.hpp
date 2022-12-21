@@ -59,6 +59,12 @@ namespace platformer_engine {
          */
         auto CalcSteeringForce() -> spic::Point;
 
+        /**
+         * @brief Get the current ForceDrivenEntity state from the stateMachine
+         * @return EntityState derived class
+         */
+        auto GetCurrentState() const -> const EntityState&;
+
     private:
         std::unique_ptr<EntityStateMachine> _entityStateMachine;
         std::weak_ptr<GameObject> _following;

@@ -7,6 +7,7 @@
 #include "Behaviour/CollisionBehaviour.hpp"
 #include "Physics/Templates/MarioPhysicsTemplate.hpp"
 #include "Physics/MoveSystem.hpp"
+#include "Behaviour/BehaviourSystem.hpp"
 
 class PhysicsTests : public ::testing::Test {
 protected:
@@ -40,6 +41,7 @@ protected:
 
         //Set Colliders on objects
         SetBoxColliders();
+        BehaviourSystem::Start();
     }
 
     void TearDown() override {
@@ -53,6 +55,8 @@ protected:
 
     PhysicsSystem physics = PhysicsSystem();
     MoveSystem moveSystem = MoveSystem();
+
+    BehaviourSystem behaviourSystem = BehaviourSystem();
 
     void SetBoxColliders();
 
@@ -139,14 +143,5 @@ void PhysicsTests::SetBoxColliders() {
 }
 
 void PhysicsTests::UpdateBehaviours() {
-    // trigger OnUpdate for each gameObject
-    auto gameObjects = GameObject::FindObjectsOfType<GameObject>();
-    for (auto &gameObject: gameObjects) {
-        auto scripts = gameObject->GetComponents<BehaviourScript>();
-        for (auto &scriptComponent: scripts) {
-            auto script = std::dynamic_pointer_cast<spic::BehaviourScript>(scriptComponent);
-            if (script != nullptr) script->OnUpdate(1.0);
-        }
-    }
-    _marioBody->AddForce(Point{0, 0}, 1.0);
+    behaviourSystem.Update(1.0);
 }

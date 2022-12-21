@@ -1,11 +1,20 @@
 #include <gtest/gtest.h>
 #include "Builder/GameObjectBuilder.hpp"
+#include "Engine/Engine.hpp"
+#include "Builder/SceneBuilder.hpp"
 
 /**
  * @brief GameObjectBuilder Tests
  */
 class GameObjectBuilderTest : public ::testing::Test {
 
+    void SetUp() override {
+        platformer_engine::Engine &engine = platformer_engine::Engine::GetInstance();
+        engine.Init(1000, 1000, "Mario Game", spic::Color::Cyan(), false);
+        platformer_engine::SceneBuilder builder = platformer_engine::SceneBuilder("levelGameObjectBuilderTest");
+        engine.AddScene(builder.GetScene());
+        engine.QueueActiveScene("levelGameObjectBuilderTest");
+    }
 };
 
 /**

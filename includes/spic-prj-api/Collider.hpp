@@ -70,5 +70,6 @@ namespace spic {
 }  // namespace spic
 
 BOOST_SERIALIZATION_ASSUME_ABSTRACT(spic::Collider);
+BOOST_CLASS_EXPORT_KEY(spic::Collider);
 
 #endif // COLLIDER2D_H_

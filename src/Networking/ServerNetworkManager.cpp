@@ -17,33 +17,33 @@ platformer_engine::ServerNetworkManager::ServerNetworkManager(spic::Scene &scene
     }
 
     const std::function<void(int clientId, const uint8_t *data, size_t dataLength)> receivePing = [this](int clientId,
-                                                                                                   const uint8_t *data,
-                                                                                                   size_t dataLength) {
+                                                                                                         const uint8_t *data,
+                                                                                                         size_t dataLength) {
         spic::Debug::Log("Ping received from server!");
     };
     _eventMap[NET_REQUEST_PING] = receivePing;
 
 
     const std::function<void(int clientId, const uint8_t *data,
-                       size_t dataLength)> handleGameObjectTransformEventFromClient = [this](int clientId,
-                                                                                             const uint8_t *data,
-                                                                                             size_t dataLength) {
+                             size_t dataLength)> handleGameObjectTransformEventFromClient = [this](int clientId,
+                                                                                                   const uint8_t *data,
+                                                                                                   size_t dataLength) {
         HandleGameObjectTransformEventFromClient(clientId, data, dataLength);
     };
     _eventMap[NET_UPDATE_GAMEOBJECT_TRANSFORM] = handleGameObjectTransformEventFromClient;
 
     const std::function<void(int clientId, const uint8_t *data,
-                       size_t dataLength)> handleCreateCharacterFromClient = [this](int clientId,
-                                                                                    const uint8_t *data,
-                                                                                    size_t dataLength) {
+                             size_t dataLength)> handleCreateCharacterFromClient = [this](int clientId,
+                                                                                          const uint8_t *data,
+                                                                                          size_t dataLength) {
         HandleCreateCharacterFromClient(clientId, data, dataLength);
     };
     _eventMap[NET_SEND_CHARACTER_TO_SERVER] = handleCreateCharacterFromClient;
 
     const std::function<void(int clientId, const uint8_t *data,
-                       size_t dataLength)> handleUpdateAnimationFromClient = [this](int clientId,
-                                                                                    const uint8_t *data,
-                                                                                    size_t dataLength) {
+                             size_t dataLength)> handleUpdateAnimationFromClient = [this](int clientId,
+                                                                                          const uint8_t *data,
+                                                                                          size_t dataLength) {
         HandleUpdateAnimationFromClient(clientId, data, dataLength);
     };
     _eventMap[NET_UPDATE_ACTIVE_ANIMATION] = handleUpdateAnimationFromClient;
@@ -69,7 +69,7 @@ void platformer_engine::ServerNetworkManager::SendUpdateToClient(int clientId, c
 const int TIME_OUT = 500;
 
 void platformer_engine::ServerNetworkManager::InitializeClient(const Client &client) {
-    CreateNetworkedScene(client.GetClientId(), Engine::GetInstance().GetActiveScene());
+    CreateNetworkedSceneForClient(client.GetClientId(), Engine::GetInstance().GetActiveScene());
     std::this_thread::sleep_for(std::chrono::milliseconds(TIME_OUT));
     SendLoadedTexturesToClient(client.GetClientId());
 }
@@ -140,7 +140,7 @@ void platformer_engine::ServerNetworkManager::Events() {
 
 #pragma region DefaultServerEvents
 
-void platformer_engine::ServerNetworkManager::CreateNetworkedScene(int clientId, const spic::Scene &scene) {
+void platformer_engine::ServerNetworkManager::CreateNetworkedSceneForClient(int clientId, const spic::Scene &scene) {
     boost::asio::streambuf buf;
     platformer_engine::NetworkingBuffer::ObjectToAsioBuffer<spic::Scene>(scene, buf);
 
@@ -148,6 +148,16 @@ void platformer_engine::ServerNetworkManager::CreateNetworkedScene(int clientId,
 
     auto pkg = NetPkgs::CreateScene(charPtr, buf.size());
     SendUpdateToClient(clientId, &pkg, sizeof(pkg), true);
+}
+
+void platformer_engine::ServerNetworkManager::CreateNetworkedScene(const spic::Scene &scene) {
+    boost::asio::streambuf buf;
+    platformer_engine::NetworkingBuffer::ObjectToAsioBuffer<spic::Scene>(scene, buf);
+
+    const auto *charPtr = buffer_cast<const char *>(buf.data());
+
+    auto pkg = NetPkgs::CreateScene(charPtr, buf.size());
+    SendUpdateToClients(&pkg, sizeof(pkg), true);
 }
 
 void platformer_engine::ServerNetworkManager::CreateNetworkedGameObject(const spic::GameObject &gameObjectToCreate) {

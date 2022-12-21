@@ -60,4 +60,4 @@ void Collider::SetColliderType(ColliderType colliderType) {
     _colliderType = colliderType;
 }
 
-BOOST_CLASS_EXPORT(spic::Collider);
+BOOST_CLASS_EXPORT_IMPLEMENT(spic::Collider);

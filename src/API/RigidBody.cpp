@@ -103,4 +103,4 @@ void RigidBody::SetFriction(float friction) {
 }
 
 
-BOOST_CLASS_EXPORT(RigidBody);
+BOOST_CLASS_EXPORT_IMPLEMENT(RigidBody);

@@ -11,7 +11,7 @@ ClickSystem::ClickSystem(bool fullscreen) : _fullscreen(fullscreen) {}
 
 auto ClickSystem::GetRelativeMousePosition() -> std::tuple<int, int> {
     auto mousePosition = spic::Input::MousePosition();
-    if (_fullscreen) return std::make_tuple(mousePosition.x, mousePosition.y);
+    if (!_fullscreen) return std::make_tuple(mousePosition.x, mousePosition.y);
 
     // commented out because SDL_getMousePos will always return a position that corresponds to a 1920x1080 monitor instead of being relative to the screen size
 //    // get screen size, depends on monitor device size

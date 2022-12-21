@@ -61,7 +61,7 @@ namespace spic {
          * @brief Set a new parent game object
          * @param gObj GameObject
          */
-        void SetGameObject(std::weak_ptr<GameObject> gObj) {
+        virtual void SetGameObject(std::weak_ptr<GameObject> gObj) {
             _gameObject = std::move(gObj);
         }
 

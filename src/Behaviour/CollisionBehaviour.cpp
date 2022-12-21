@@ -13,13 +13,14 @@ namespace platformer_engine {
     }
 
     void CollisionBehaviour::OnTriggerEnter2D(Collision collision) {
+        if(collision.GetSelfCollider()->GetColliderType() != ColliderType::Body) return;
         _activeCollisions.push_back(collision);
         UpdateMoveRestriction(collision, false);
         Unstuck(collision);
     }
 
     void CollisionBehaviour::OnTriggerExit2D(Collision collision) {
-
+        if(collision.GetSelfCollider()->GetColliderType() != ColliderType::Body) return;
         // Remove the collision from _activeCollisions
         for (auto &col: _activeCollisions) {
             const int currentId = col.GetId();
@@ -36,7 +37,7 @@ namespace platformer_engine {
     }
 
     void CollisionBehaviour::UpdateMoveRestriction(Collision &col, bool allow) {
-        if (!col.GetCollider()->GetObstructsMovement()) return;
+        if (!col.GetOtherCollider()->GetObstructsMovement()) return;
         auto point = col.Contact();
         auto gameObjWeak = GetGameObject();
         const std::shared_ptr<spic::GameObject> gameObj{gameObjWeak.lock()};
@@ -56,16 +57,19 @@ namespace platformer_engine {
 
     void CollisionBehaviour::Unstuck(Collision &collision) {
         std::shared_ptr<GameObject> currentGameObject{GetGameObject().lock()};
+        auto &engine = platformer_engine::Engine::GetInstance();
+        const auto localClientId = engine.GetLocalClientId();
         if (currentGameObject &&
-            currentGameObject->GetOwnerId() == platformer_engine::Engine::GetInstance().GetLocalClientId()) {
+            currentGameObject->GetOwnerId() == localClientId) {
             auto currentTransform = currentGameObject->GetTransform();
-            auto currentCollider = std::dynamic_pointer_cast<BoxCollider>(
-                    currentGameObject->GetComponent<BoxCollider>());
+            auto oldTransform = currentTransform;
 
-            auto collidingGameObject = collision.GetCollider()->GetGameObject().lock();
-            if (collidingGameObject) {
+            auto currentCollider = std::dynamic_pointer_cast<BoxCollider>(collision.GetSelfCollider());
+
+            auto collidingGameObject = collision.GetOtherCollider()->GetGameObject().lock();
+            if(collidingGameObject) {
                 auto collidingTransform = collidingGameObject->GetTransform();
-                auto collidingCollider = std::dynamic_pointer_cast<BoxCollider>(collision.GetCollider());
+                auto collidingCollider = std::dynamic_pointer_cast<BoxCollider>(collision.GetOtherCollider());
 
                 if (collision.Contact() == CollisionPoint::Top) {
                     currentTransform.position.y = collidingTransform.position.y + collidingCollider->Height();
@@ -76,7 +80,27 @@ namespace platformer_engine {
                 } else if (collision.Contact() == CollisionPoint::Right) {
                     currentTransform.position.x = collidingTransform.position.x - currentCollider->Width();
                 }
+
                 currentGameObject->SetTransform(currentTransform);
+                if(!currentTransform.position.Equals(oldTransform.position)) {
+                    try {
+                        switch (engine.GetNetworkingStatus()) {
+                            case platformer_engine::MultiplayerClient:
+                                engine.GetClientNetworkManager().UpdateNetworkedGameObjectTransform(currentTransform,
+                                                                                                    currentGameObject->GetName());
+                                break;
+                            case platformer_engine::MultiplayerServer:
+                                engine.GetServerNetworkManager().UpdateNetworkedGameObjectTransform(currentTransform,
+                                                                                                    currentGameObject->GetName());
+                                break;
+                            case platformer_engine::Singleplayer:
+                                break;
+                        }
+                    } catch (std::exception &e) {
+                        //Just ignore the exception, we will try resending the transform later
+                    }
+                }
+
             } else {
                 collidingGameObject.reset();
             }

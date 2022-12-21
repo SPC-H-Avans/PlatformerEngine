@@ -63,6 +63,14 @@ public:
             const std::vector<std::shared_ptr<BehaviourScript>> &behaviourScripts // must use pointers to store derived classes
     ) -> GameObject &;
 
+    static auto CreateEnemy(
+            Transform transform,
+            int colliderWidth,
+            int colliderHeight,
+            std::vector<platformer_engine::AnimatedSprite>& animations,
+            const std::vector<std::shared_ptr<BehaviourScript>>& behaviourScripts // must use pointers to store derived classes
+    ) -> GameObject&;
+
     /**
      * @brief Create a background object (not collidable) and add it to the scene
      * @param transform the transform to use

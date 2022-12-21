@@ -38,7 +38,8 @@ auto GameObjectBuilder::AddAnimator(platformer_engine::AnimatedSprite &animatedS
 auto
 GameObjectBuilder::AddAnimator(std::vector<platformer_engine::AnimatedSprite> &animatedSprite) -> GameObjectBuilder & {
     if (animatedSprite.empty()) {
-        throw std::invalid_argument("animatedSprite is empty");
+        return *this;
+//        throw std::invalid_argument("animatedSprite is empty");
     }
     auto animator = std::make_shared<Animator>(
             platformer_engine::AnimatedSprite(animatedSprite.back()));

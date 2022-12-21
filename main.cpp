@@ -10,7 +10,6 @@
 #include "Audio/AudioManager.hpp"
 #include "Builder/GameObjectBuilder.hpp"
 #include "Utility/NetworkingBuffer.hpp"
-#include "Physics/PlayerRigidBody.hpp"
 
 //BOOST_CLASS_EXPORT(spic::Component);
 
@@ -32,8 +31,8 @@ auto main([[maybe_unused]] int argc, [[maybe_unused]] char *argv[]) -> int {
 
     GameObjectBuilder gameObjectBuilder{"speler"};
 
-    auto playerBody = PlayerRigidBody();
-    gameObjectBuilder.AddRigidBody(playerBody);
+//    auto playerBody = PlayerRigidBody();
+//    gameObjectBuilder.AddRigidBody(playerBody);
 
     auto testCollider = BoxCollider();
     gameObjectBuilder.AddCollider(testCollider);

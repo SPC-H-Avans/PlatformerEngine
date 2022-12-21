@@ -33,11 +33,11 @@ TEST_F(GameObjectTest, CanFindGameObjectByType) {
 }
 
 TEST_F(GameObjectTest, CanDestroyGameObject) {
-    spic::GameObject("Test"); // NOLINT(bugprone-unused-raii)
-    auto gameObject = spic::GameObject::Find("Test");
+    spic::GameObject("GameObjectTest_CanDestroyGameObject"); // NOLINT(bugprone-unused-raii)
+    auto gameObject = spic::GameObject::Find("GameObjectTest_CanDestroyGameObject");
     ASSERT_TRUE(gameObject != nullptr);
     spic::GameObject::Destroy(gameObject);
-    gameObject = spic::GameObject::Find("Test");
+    gameObject = spic::GameObject::Find("GameObjectTest_CanDestroyGameObject");
     ASSERT_TRUE(gameObject == nullptr);
 }
 
@@ -52,7 +52,7 @@ TEST_F(GameObjectTest, CanDestroyGameObject) {
 //}
 
 TEST_F(GameObjectTest, CanChangeIsActive) {
-    auto gameObject = spic::GameObject("Test");
+    auto gameObject = spic::GameObject("GameObjectTest_CanChangeIsActive");
     gameObject.Active(false);
     ASSERT_FALSE(gameObject.Active());
     gameObject.Active(true);

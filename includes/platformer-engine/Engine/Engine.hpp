@@ -13,10 +13,11 @@
 #include "Networking/ServerNetworkManager.hpp"
 #include "Networking/ClientNetworkManager.hpp"
 #include "Exceptions/NoWindowException.hpp"
+#include "Behaviour/BehaviourSystem.hpp"
+#include "Physics/MoveSystem.hpp"
 #include "Audio/AudioManager.hpp"
 #include "Storage/DataStorageManager.hpp"
 #include "Networking/NetworkingStatus.hpp"
-
 
 namespace platformer_engine {
     /**
@@ -221,6 +222,7 @@ namespace platformer_engine {
         void SetActiveScene(const std::string &sceneName);
 
         std::unique_ptr<Window> _window = nullptr;
+        std::unique_ptr<MoveSystem> _moveSystem = nullptr;
         std::unique_ptr<PhysicsSystem> _physicsSystem = nullptr;
         std::unique_ptr<RenderSystem> _renderSystem = nullptr;
         std::unique_ptr<BehaviourSystem> _behaviourSystem = nullptr;

@@ -1,5 +1,7 @@
 #include <stdexcept>
 #include "GameObject.hpp"
+#include "BoxCollider.hpp"
+#include "Exceptions/GameObjectAlreadyInSceneException.hpp"
 #include "ComponentExtension/Scaleable.hpp"
 #include "Exceptions/InvalidSizeException.hpp"
 #include "ComponentExtension/Rotatable.hpp"
@@ -187,6 +189,17 @@ void GameObject::SetTransform(const spic::Transform &transform) {
                     rotatableExtension->UpdateRotation(transform.rotation);
                 }
             }
+        }
+    }
+
+    // If the GameObject has a main collider, their location should be updated with the GameObject
+    auto colliders = GetComponents<BoxCollider>();
+    for(auto &colObj : colliders) {
+        auto col = std::dynamic_pointer_cast<BoxCollider>(colObj);
+        if(col->GetColliderType() == ColliderType::Body) {
+            // This collider is the main collider, so it should get the same position as the gameObject
+            col->SetPosition(transform.position);
+            break; // The Collider has been found!
         }
     }
     selfPtr->_transform = transform;

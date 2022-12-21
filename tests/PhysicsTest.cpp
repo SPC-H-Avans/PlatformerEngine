@@ -4,8 +4,9 @@
 #include "RigidBody.hpp"
 #include "BoxCollider.hpp"
 #include "Physics/PhysicsSystem.hpp"
-#include "Physics/PlayerRigidBody.hpp"
 #include "Behaviour/CollisionBehaviour.hpp"
+#include "Physics/Templates/MarioPhysicsTemplate.hpp"
+#include "Physics/MoveSystem.hpp"
 
 class PhysicsTests : public ::testing::Test {
 protected:
@@ -19,11 +20,13 @@ protected:
         block.SetTransform(Transform{Point{0, 0}, 0, 0});
 
         //Set Rigidbody on both objects;
-        PlayerRigidBody marioBody;
+        MarioPhysicsTemplate marioPhysics;
+        RigidBody marioBody(marioPhysics);
         marioBody.BodyType(spic::BodyType::dynamicBody);
-        mario.AddComponent<RigidBody>(std::make_shared<PlayerRigidBody>(marioBody));
+        mario.AddComponent<RigidBody>(std::make_shared<RigidBody>(marioBody));
 
-        RigidBody blockBody{0.045};
+        RigidBody blockBody;
+
         blockBody.BodyType(spic::BodyType::staticBody);
         block.AddComponent<RigidBody>(std::make_shared<RigidBody>(blockBody));
 
@@ -32,7 +35,7 @@ protected:
         block.AddComponent<BehaviourScript>(std::make_shared<BehaviourScript>());
 
         _mario = GameObject::Find("Mario");
-        _marioBody = std::dynamic_pointer_cast<PlayerRigidBody>(_mario->GetComponent<RigidBody>());
+        _marioBody = std::dynamic_pointer_cast<RigidBody>(_mario->GetComponent<RigidBody>());
         _block = GameObject::Find("Block");
 
         //Set Colliders on objects
@@ -46,9 +49,10 @@ protected:
 
     std::shared_ptr<GameObject> _mario;
     std::shared_ptr<GameObject> _block;
-    std::shared_ptr<PlayerRigidBody> _marioBody;
+    std::shared_ptr<RigidBody> _marioBody;
 
     PhysicsSystem physics = PhysicsSystem();
+    MoveSystem moveSystem = MoveSystem();
 
     void SetBoxColliders();
 
@@ -71,6 +75,7 @@ TEST_F(PhysicsTests, MarioDoesntFallThroughBlock) {
     // 3. Update mario's position
     UpdateBehaviours();
     physics.Update(1.0);
+    moveSystem.Update(1.0);
 
     // 4. Assert that the Mario object's location has not been updated
     auto marioNextX = _mario->GetTransform().position.x;
@@ -92,9 +97,11 @@ TEST_F(PhysicsTests, MarioFallsUntilBlock) {
     auto marioStartY = 0.0;
 
     // 2. Set the location so that the block and mario don't overlap
-    _mario->SetTransform(Transform{Point{marioStartX, marioStartY}, 0, 0});
-    _block->SetTransform(Transform{Point{0, 101}, 0, 0});
+    _mario->SetTransform(Transform {Point {marioStartX, marioStartY}, 0, 0});
+    _block->SetTransform(Transform {Point {0, 100}, 0, 0});
     UpdateBehaviours();
+    physics.Update(1.0);
+    moveSystem.Update(1.0);
 
     auto marioNextY = _mario->GetTransform().position.y;
 
@@ -106,12 +113,13 @@ TEST_F(PhysicsTests, MarioFallsUntilBlock) {
     for (int i = 0; i < 50; i++) {
         UpdateBehaviours();
         physics.Update(1.0);
+        moveSystem.Update(1.0);
     }
 
     auto marioFinalY = _mario->GetTransform().position.y;
 
     // 5. Assert that Mario stopped falling on top of the block
-    ASSERT_EQ(marioFinalY, 91) << "Mario Physics object should stop falling when it collides on the bottom";
+    ASSERT_EQ(marioFinalY, 90) << "Mario Physics object should stop falling when it collides on the bottom";
 
 }
 
@@ -120,9 +128,13 @@ void PhysicsTests::SetBoxColliders() {
     BoxCollider collider;
     collider.Width(10);
     collider.Height(10);
+    collider.SetPosition(_mario->GetTransform().position);
+    collider.SetColliderType(ColliderType::Body);
     _mario->AddComponent<BoxCollider>(std::make_shared<BoxCollider>(collider));
     collider.Width(10);
     collider.Height(10);
+    collider.SetPosition(_block->GetTransform().position);
+    collider.SetColliderType(ColliderType::Body);
     _block->AddComponent<BoxCollider>(std::make_shared<BoxCollider>(collider));
 }
 
@@ -136,5 +148,5 @@ void PhysicsTests::UpdateBehaviours() {
             if (script != nullptr) script->OnUpdate(1.0);
         }
     }
-    _marioBody->AddForce(Point{0, 0});
+    _marioBody->AddForce(Point{0, 0}, 1.0);
 }

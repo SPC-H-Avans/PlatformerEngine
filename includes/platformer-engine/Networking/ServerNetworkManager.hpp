@@ -115,16 +115,38 @@ namespace platformer_engine {
         void DestroyNetworkedGameObject(const std::string &gameObjectId);
 
         /**
-         * @brief Create a new network scene and send it to all clients
+         * @brief Create a new networked scene and send it to given client
+         * @param clientId, clientId of client to send the state to
          * @param scene scene to create
          */
-        void CreateNetworkedScene(int clientId, const spic::Scene &scene);
+        void CreateNetworkedSceneForClient(int clientId, const spic::Scene &scene);
 
+        /**
+         * @brief Create a new networked scene and send it to all clients
+         * @param scene
+         */
+        void CreateNetworkedScene(const spic::Scene &scene);
+
+        /**
+         * @brief Send a list of currently loaded textures to the client
+         * @param clientId, clientId of client to send the textures to
+         */
         void SendLoadedTexturesToClient(int clientId);
 
+        /**
+         * @brief Create a networked player character
+         * @param clientId
+         * @param gameObjectToCreate
+         */
         void CreateNetworkedPlayerCharacter(int clientId, const spic::GameObject &gameObjectToCreate);
 
-        void UpdateAnimation(int clientId, const std::string& gameObjectId, const std::string& animationId);
+        /**
+         * @brief Update animation of player
+         * @param clientId clientId that sent the update message (We don't have to send him this update)
+         * @param gameObjectId GameObject to update the animation of
+         * @param animationId Animation ID to set
+         */
+        void UpdateAnimation(int clientId, const std::string &gameObjectId, const std::string &animationId);
 
 #pragma endregion DefaultServerEvents
 

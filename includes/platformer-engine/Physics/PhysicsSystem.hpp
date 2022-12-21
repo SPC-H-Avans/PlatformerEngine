@@ -30,10 +30,6 @@ public:
      */
     void CheckCollisions();
 
-    /*
-     * @brief Move every active dynamic RigidBody according to their physics
-     */
-    void MoveObjects(double speedMultiplier);
 private:
     /**
      * @brief Collision was not in motion yet. Collision is now added to the active collisions list and the OnTriggerEnter2D handlers have been invoked.
@@ -70,6 +66,8 @@ private:
 
     int _collisionCnt = 0;
     int _clientId = 0;
+
+    void PopCollisionFromList(std::vector<std::shared_ptr<Collision>> &list, int collisionId);
 };
 
 #endif //PLATFORMER_ENGINE_PHYSICSSYSTEM_HPP

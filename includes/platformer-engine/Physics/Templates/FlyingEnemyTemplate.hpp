@@ -1,11 +1,11 @@
-#ifndef PLATFORMER_ENGINE_FLYINGGUMBATEMPLATE_HPP
-#define PLATFORMER_ENGINE_FLYINGGUMBATEMPLATE_HPP
+#ifndef PLATFORMER_ENGINE_FLYINGENEMYTEMPLATE_HPP
+#define PLATFORMER_ENGINE_FLYINGENEMYTEMPLATE_HPP
 
 #include "PhysicsTemplate.hpp"
 
-class FlyingGumbaTemplate : public PhysicsTemplate {
+class FlyingEnemyTemplate : public PhysicsTemplate {
 public:
-    FlyingGumbaTemplate() = default;
+    FlyingEnemyTemplate() = default;
 
     [[nodiscard]] auto GetMass() const -> float override { return _mass; };
     [[nodiscard]] auto GetGravityScale() const -> float override { return _gravityScale; };
@@ -19,4 +19,4 @@ private:
     const float _friction = 0.045;
 };
 
-#endif //PLATFORMER_ENGINE_FLYINGGUMBATEMPLATE_HPP
+#endif //PLATFORMER_ENGINE_FLYINGENEMYTEMPLATE_HPP

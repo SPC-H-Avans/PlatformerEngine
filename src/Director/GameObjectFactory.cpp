@@ -4,7 +4,7 @@
 #include "Director/GameObjectFactory.hpp"
 #include "Engine/Engine.hpp"
 #include "BehaviourScript.hpp"
-#include "Physics/Templates/FlyingGumbaTemplate.hpp"
+#include "Physics/Templates/FlyingEnemyTemplate.hpp"
 #include "Physics/Templates/MarioPhysicsTemplate.hpp"
 #include "Physics/ForceDrivenEntity.hpp"
 #include "Text.hpp"
@@ -116,7 +116,7 @@ auto GameObjectFactory::CreateEnemy(Transform transform, int colliderWidth, int 
     obj->SetTransform(transform);
 
     // rigidbody
-    FlyingGumbaTemplate physicsTemplate;
+    FlyingEnemyTemplate physicsTemplate;
     auto enemyBody = std::make_shared<RigidBody>(physicsTemplate);
     enemyBody->BodyType(spic::BodyType::dynamicBody);
     obj->AddComponent<RigidBody>(enemyBody);

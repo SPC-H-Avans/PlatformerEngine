@@ -184,5 +184,5 @@ auto platformer_engine::GraphicsFacade::GetScreenSize() -> std::tuple<int, int> 
     int width = 0;
     int height = 0;
     SDL_GetRendererOutputSize(_renderer.get(), &width, &height);
-    return std::tuple<int, int>(width, height);
+    return std::make_tuple(width, height);
 }

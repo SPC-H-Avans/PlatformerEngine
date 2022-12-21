@@ -112,6 +112,20 @@ namespace spic {
         }
 
         /**
+         * @brief Gets a list of all instances.
+         * @spicapi
+         */
+        static auto GetInstances(bool includeInactive = false) -> std::vector<std::shared_ptr<GameObject>> {
+            std::vector<std::shared_ptr<GameObject>> result;
+            for (auto const &[key, val]: _instances) {
+                if (includeInactive || val->Active()) {
+                    result.template emplace_back(val);
+                }
+            }
+            return result;
+        }
+
+        /**
          * @brief Removes a GameObject from the administration.
          * @details Child GameObjects will be destroyed, too, as well as
          *          Components owned by the GameObject.
@@ -294,11 +308,13 @@ namespace spic {
         [[nodiscard]] auto GetComponents() const -> std::vector<std::shared_ptr<Component>> {
             std::vector<std::shared_ptr<Component>> result;
             if (std::is_base_of<Component, T>::value) { //Check if T is derived from Component
-                auto comps = _self.lock()->_components;
-                auto cList = comps.find(typeid(T).name()); //Finds all components on object with type T
-                if (cList != comps.end()) {
-                    for (const auto &comp: cList->second)
-                        result.template emplace_back(comp);
+                if (!_self.expired()) {
+                    auto comps = _self.lock()->_components;
+                    auto cList = comps.find(typeid(T).name()); //Finds all components on object with type T
+                    if (cList != comps.end()) {
+                        for (const auto &comp: cList->second)
+                            result.template emplace_back(comp);
+                    }
                 }
             }
             return result;
@@ -369,7 +385,7 @@ namespace spic {
         auto GetTransform() -> Transform;
 
         /**
-         * @brief sets the Transform of current GameObject
+         * @brief sets the Transform of current GameObject and updates all it's Collider's positions
          * @spicapi
          */
         void SetTransform(const Transform &transform);

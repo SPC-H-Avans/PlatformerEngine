@@ -5,6 +5,8 @@
 #include "ObjectBuilder.hpp"
 #include "Animator.hpp"
 #include "Texture/AnimatedSprite.hpp"
+#include "BehaviourScript.hpp"
+#include "RigidBody.hpp"
 
 using namespace spic;
 
@@ -19,7 +21,9 @@ public:
      */
     GameObjectBuilder(const std::string &name);
 
-    /**
+    GameObjectBuilder(const std::string &name, const std::string &tag);
+
+/**
      * @brief Sets a new instance of GameObject on the gameObject variable using the given name;
      * @param name the name being used to instantiate the new GameObject
      * @return shared pointer to GameObject. (Shared with static instance list)
@@ -33,52 +37,65 @@ public:
     auto GetGameObject() -> std::shared_ptr<GameObject>;
 
     /**
-     * @brief Adds an AudioSource component to the current GameObject being build.
-     * @return reference to ObjectBuilder, allows method chaining.
-     */
-    auto AddAudioSource() -> ObjectBuilder & override;
-
-    /**
      * @brief Adds an Animator component to the current GameObject being build.
      * @return reference to ObjectBuilder, allows method chaining.
      */
-    auto AddAnimator(std::shared_ptr<platformer_engine::AnimatedSprite> animatedSprite) -> ObjectBuilder & override;
+    auto AddAnimator(platformer_engine::AnimatedSprite &animatedSprite) -> GameObjectBuilder & override;
 
     /**
      * @brief Adds an Animator component to the current GameObject being build.
      * @param animatedSprite List of AnimatedSprite to be used by the Animator.
      * @return reference to ObjectBuilder, allows method chaining.
      */
-    auto AddAnimator(
-            std::vector<std::shared_ptr<platformer_engine::AnimatedSprite>> animatedSprite) -> ObjectBuilder & override;
+    auto AddAnimator(std::vector<platformer_engine::AnimatedSprite> &animatedSprite) -> GameObjectBuilder & override;
+
+    /**
+     * @brief Adds an AudioSource component to the current GameObject being build.
+     * @return reference to ObjectBuilder, allows method chaining.
+     */
+    auto AddAudioSource(const spic::AudioSource audioSource) -> GameObjectBuilder & override;
 
     /**
      * @brief Adds a BehaviourScript component to the current GameObject being build.
      * @return reference to ObjectBuilder, allows method chaining.
      */
-    auto AddBehaviourScript() -> ObjectBuilder & override;
+    auto AddBehaviourScript(const BehaviourScript &script) -> GameObjectBuilder & override;
 
     /**
      * @brief Adds a Collider component to the current GameObject being build.
      * @return reference to ObjectBuilder, allows method chaining.
      */
-    auto AddCollider() -> ObjectBuilder & override;
+    auto AddCollider(const spic::Collider collider) -> GameObjectBuilder & override;
 
     /**
      * @brief Adds a RigidBody component to the current GameObject being build.
      * @return reference to ObjectBuilder, allows method chaining.
      */
-    auto AddRigidBody() -> ObjectBuilder & override;
+    auto AddRigidBody(spic::RigidBody rigidBody) -> GameObjectBuilder & override;
 
     /**
      * @brief Adds a Sprite component to the current GameObject being build.
      * @return reference to ObjectBuilder, allows method chaining.
      */
-    auto AddSprite(const std::shared_ptr<spic::Sprite> &sprite) -> ObjectBuilder & override;
+    auto AddSprite(const spic::Sprite &sprite) -> GameObjectBuilder & override;
+
+    /**
+     * @brief Adds a Transform component to the current GameObject being build.
+     * @return reference to ObjectBuilder, allows method chaining.
+     */
+    auto AddTransform(const spic::Transform &transform) -> GameObjectBuilder & override;
+
+    /**
+     * @brief Sets the owner id of the current GameObject being build.
+     * @return reference to ObjectBuilder, allows method chaining.
+     */
+    auto SetOwnerId(int ownerId) -> GameObjectBuilder & override;
 
 private:
     //Shares ptr with GameObject static instace list
     std::shared_ptr<GameObject> _gameObject;
+
+    void Reset(const std::string &name, const std::string &tag);
 };
 
 #endif //PLATFORMER_ENGINE_GAMEOBJECTBUILDER_HPP

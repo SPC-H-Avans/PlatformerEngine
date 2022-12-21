@@ -10,8 +10,10 @@ set(PROJECT_INCLUDES_DIR ${PROJECT_SOURCE_DIR}/includes)
 find_package(SDL2 CONFIG REQUIRED)
 find_package(sdl2-image CONFIG REQUIRED)
 find_package(SDL2_mixer CONFIG REQUIRED)
+find_package(SDL2_ttf CONFIG REQUIRED)
 find_package(GTest CONFIG REQUIRED)
 find_package(tinyxml CONFIG REQUIRED)
+find_package(unofficial-enet CONFIG REQUIRED)
 
 include(GoogleTest)
 include_directories(${PROJECT_INCLUDES_DIR}/spic-prj-api/)
@@ -29,7 +31,13 @@ add_library(${PROJECT_NAME} STATIC ${SOURCE})
 
 target_link_libraries(${PROJECT_NAME} PUBLIC SDL2::SDL2 SDL2::SDL2main SDL2::SDL2_image)
 target_link_libraries(${PROJECT_NAME} PUBLIC $<IF:$<TARGET_EXISTS:SDL2_mixer::SDL2_mixer>,SDL2_mixer::SDL2_mixer,SDL2_mixer::SDL2_mixer-static>)
+target_link_libraries(${PROJECT_NAME} PUBLIC $<IF:$<TARGET_EXISTS:SDL2_ttf::SDL2_ttf>,SDL2_ttf::SDL2_ttf,SDL2_ttf::SDL2_ttf-static>)
+target_link_libraries(${PROJECT_NAME} PUBLIC unofficial::enet::enet)
 
+#add asio boost serialisaztion
+
+find_package(Boost REQUIRED serialization)
+target_link_libraries(${PROJECT_NAME} PUBLIC Boost::boost Boost::serialization)
 
 #-lSDL2
 include_directories(${SDL2_INCLUDE_DIRS})
@@ -51,3 +59,9 @@ if (DEFINED ENV{COVERAGE})
     set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -fprofile-arcs -ftest-coverage -fPIC")
 endif ()
 
+# -static-libgcc -static-libstdc++ -static for static linking
+
+if (WIN32)
+    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -static-libgcc -static-libstdc++ -static")
+    set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -static-libgcc -static-libstdc++ -static")
+endif ()

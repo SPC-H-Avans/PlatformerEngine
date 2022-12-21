@@ -1,21 +1,46 @@
 #include "Animator.hpp"
+#include "Engine/Engine.hpp"
+#include <boost/serialization/export.hpp>
 
-spic::Animator::Animator(const std::shared_ptr<platformer_engine::AnimatedSprite> &animatedSprite, bool isPlaying,
-                         bool isLooping) : _isPlaying(isPlaying), _isLooping(isLooping),
-                                           _currentAnimation(animatedSprite) {
+spic::Animator::Animator(const platformer_engine::AnimatedSprite &animatedSprite, bool isPlaying,
+                         bool isLooping) : _isPlaying(isPlaying), _isLooping(isLooping) {
     AddAnimation(animatedSprite);
 }
 
-void spic::Animator::AddAnimation(const std::shared_ptr<platformer_engine::AnimatedSprite> &animatedSprite) {
-    _animationMap[animatedSprite->GetSpriteId()] = animatedSprite;
+void spic::Animator::AddAnimation(const platformer_engine::AnimatedSprite &animatedSprite) {
+    auto sharedSprite = std::make_shared<platformer_engine::AnimatedSprite>(animatedSprite);
+    _animationMap[sharedSprite->GetSpriteId()] = sharedSprite;
     if (_currentAnimation == nullptr) {
-        _currentAnimation = animatedSprite;
+        _currentAnimation = sharedSprite;
     }
 }
 
 void spic::Animator::SetActiveAnimation(const std::string &animationId) {
+    if (animationId == _currentAnimation->GetSpriteId()) {
+        return;
+    }
     if (_animationMap.contains(animationId)) {
         _currentAnimation = _animationMap[animationId];
+    }
+    try {
+        auto &engine = platformer_engine::Engine::GetInstance();
+        auto localClientId = engine.GetLocalClientId();
+        auto gameObject = GetGameObject().lock();
+        if (gameObject != nullptr && localClientId == gameObject->GetOwnerId()) {
+            switch (engine.GetNetworkingStatus()) {
+                case platformer_engine::MultiplayerClient:
+                    engine.GetClientNetworkManager().UpdateActiveAnimation(gameObject->GetName(), animationId);
+                    break;
+                case platformer_engine::MultiplayerServer:
+                    engine.GetServerNetworkManager().UpdateAnimation(
+                            localClientId, gameObject->GetName(), animationId);
+                    break;
+                case platformer_engine::Singleplayer:
+                    break;
+            }
+        }
+    } catch (std::exception &e) {
+        //Just ignore the exception, we will try resending the transform later
     }
 }
 
@@ -24,9 +49,9 @@ void spic::Animator::Render(spic::Transform transform) {
     _currentAnimation->Draw(transform);
 }
 
-void spic::Animator::Update() {
+void spic::Animator::Update(double speedMultiplier) {
     if (!_isPlaying || _currentAnimation == nullptr) return;
-    _currentAnimation->Update();
+    _currentAnimation->Update(speedMultiplier);
     if (_currentAnimation->GetCurrentFrame() == _currentAnimation->GetFrameCount() && !_isLooping) {
         _isPlaying = false;
     }
@@ -40,3 +65,7 @@ void spic::Animator::Play(bool looping) {
 void spic::Animator::Stop() {
     _isPlaying = false;
 }
+
+spic::Animator::Animator() = default;
+
+BOOST_CLASS_EXPORT(spic::Animator);

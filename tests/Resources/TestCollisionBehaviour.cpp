@@ -23,7 +23,14 @@ int TestCollisionBehaviour::GetTriggerCount() {
     return _triggerCount;
 }
 
-void TestCollisionBehaviour::Reset() {
-    _triggerCount = 0;
-    _triggers = std::map<Trigger, std::map<CollisionPoint, int>>();
+void TestCollisionBehaviour::OnUpdate(double  /*speedMultiplier*/) {
+    _updateTriggers++;
+}
+
+int TestCollisionBehaviour::GetUpdateTriggers() const {
+    return _updateTriggers;
+}
+
+void TestCollisionBehaviour::OnStart() {
+    BehaviourScript::OnStart();
 }

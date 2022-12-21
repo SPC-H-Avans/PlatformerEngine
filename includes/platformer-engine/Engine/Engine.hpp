@@ -1,14 +1,23 @@
 #ifndef PLATFORMER_ENGINE_ENGINE_HPP
 #define PLATFORMER_ENGINE_ENGINE_HPP
 
+#include <memory>
+
 #include "Render/Window.hpp"
 #include "Timer/Timer.hpp"
-#include "Physics/PhysicsSystem.hpp"
-#include "GameLevel/GameLevel.hpp"
-#include <memory>
 #include "Scene.hpp"
+#include "Physics/PhysicsSystem.hpp"
 #include "Texture/RenderSystem.hpp"
-
+#include "Behaviour/BehaviourSystem.hpp"
+#include "UI/ClickSystem.hpp"
+#include "Networking/ServerNetworkManager.hpp"
+#include "Networking/ClientNetworkManager.hpp"
+#include "Exceptions/NoWindowException.hpp"
+#include "Behaviour/BehaviourSystem.hpp"
+#include "Physics/MoveSystem.hpp"
+#include "Audio/AudioManager.hpp"
+#include "Storage/DataStorageManager.hpp"
+#include "Networking/NetworkingStatus.hpp"
 
 namespace platformer_engine {
     /**
@@ -40,10 +49,12 @@ namespace platformer_engine {
          * @param height The height of the window in px
          * @param title  Title of the window
          * @param color Color of the window background
+         * @param debugLogs Enable debug logs
          * @return bool True if the engine is initialized, false if not
          * @platformerengine
          */
-        auto Init(int width, int height, const std::string &title, const spic::Color &color) -> bool;
+        auto
+        Init(int width, int height, const std::string &title, const spic::Color &color, bool fullScreen, bool debugLogs = false) -> bool;
 
         /**
          * @brief Start the engine, open window, start timer etc.
@@ -75,27 +86,154 @@ namespace platformer_engine {
         void Quit();
 
         /**
-         * @brief Set the current active Scene
-         * @param scene Scene to make active
+         * @brief Queues a scene to be set as active whenever the engine finds possible
+         * @param scene Scene to be set active
          * @platformerengine
          */
-        void SetActiveScene(std::unique_ptr<spic::Scene> scene);
+        void QueueActiveScene(const std::string &sceneName);
 
         /**
          * @brief Get the current active Scene
          * @return std::unique_ptr<spic::Scene>& Current active scene
          * @platformerengine
          */
-        auto GetActiveScene() -> std::unique_ptr<spic::Scene>&;
+        auto GetActiveScene() -> spic::Scene &;
+
+        /**
+         * @brief Add a scene to the scene list
+         * @param scene
+         * @param isDefault determines wether the scene will be set as the default scene
+         */
+        void AddScene(const Scene &scene, bool isDefault = false);
+
+        /**
+         * @brief Get the server network manager when active
+         * @return ServerNetworkManager
+         */
+        auto GetServerNetworkManager() -> ServerNetworkManager &;
+
+        /**
+         * @brief Get the client network manager when active
+         * @return ClientNetworkManager
+         */
+        auto GetClientNetworkManager() -> ClientNetworkManager &;
+
+        /**
+         * @brief Host a new server and load into a scene
+         * @param sceneId scene to use
+         * @param playerLimit Max player amount
+         * @param port Port
+         */
+        void HostServer(const std::string &sceneId, int playerLimit, int port);
+
+        /**
+         * @brief Join a server by IP and port
+         * @param ip IP of the server
+         * @param port Port of the server
+         */
+        void JoinServer(const std::string &ip, int port);
+
+        /**
+         * @brief Returns the number of frames per second
+         */
+        inline auto GetFPS() -> int { return _fps; }
+
+        /**
+         * @brief Get local client is, local client id is 0 when not in a server or when being the host
+         * @return int local client id
+         */
+        auto GetLocalClientId() -> const int;
+
+        /**
+         * @brief Get the networking status
+         * @return NetworkingStatus
+         */
+        auto GetNetworkingStatus() -> const NetworkingStatus;
+
+        /**
+         * @brief Is debug logs enabled
+         * @return bool True if debug logs are enabled, false if not
+         */
+        [[nodiscard]] inline auto IsDebugLogsEnabled() const -> bool { return _debugLogs; }
+
+        /**
+         * @brief Set debug logs enabled
+         * @param enabled  True if debug logs are enabled, false if not
+         */
+        inline void SetDebugLogsEnabled(bool enabled) { _debugLogs = enabled; }
+
+        /**
+         * @brief Get a reference to the window
+         * @return a reference to the window
+         */
+        auto GetWindow() -> Window &{
+            if(_window == nullptr){
+                throw spic::NoWindowException();
+            }
+
+            return *_window;
+        }
+
+        /**
+         * @brief Update the game speed multiplier. The higher the number, the faster the game plays
+         * @param newSpeedMultiplier
+         */
+        inline void SetSpeedMultiplier(double newSpeedMultiplier) {_speedMultiplier = newSpeedMultiplier;}
+
+        /**
+         * @brief Get the current game speed multiplier
+         * @return
+         */
+        inline double GetSpeedMultiplier() const {return _speedMultiplier;}
+
+        /*
+         * @brief returns the name of the scene set as default.
+         * @return
+         */
+        auto GetDefaultSceneName() -> std::string {
+            return _defaultScene;
+        }
+
+        /**
+        * @brief returns the manager for datastoring
+        * @return a DataStorageManager for saving and loading to a file
+        */
+        auto GetDataManager() -> DataStorageManager& {
+            return *_dataManager;
+        }
+
+        inline const std::optional<std::string> GetQueuedScene() { return _queuedScene;}
 
     private:
         Engine() = default;
+
         ~Engine() = default;
+
         bool _isRunning = false;
+        bool _debugLogs = false;
+        int _fps = 0;
+
+        double _speedMultiplier = 1.0;
+         /**
+         * @brief Set the current active Scene
+         * @param scene Scene to make active
+         * @platformerengine
+         */
+        void SetActiveScene(const std::string &sceneName);
 
         std::unique_ptr<Window> _window = nullptr;
+        std::unique_ptr<MoveSystem> _moveSystem = nullptr;
         std::unique_ptr<PhysicsSystem> _physicsSystem = nullptr;
         std::unique_ptr<RenderSystem> _renderSystem = nullptr;
+        std::unique_ptr<BehaviourSystem> _behaviourSystem = nullptr;
+        std::unique_ptr<ClickSystem> _clickSystem = nullptr;
+        std::unique_ptr<ServerNetworkManager> _serverNetworkManager = nullptr;
+        std::unique_ptr<ClientNetworkManager> _clientNetworkManager = nullptr;
+        std::unique_ptr<DataStorageManager> _dataManager = nullptr;
+
+        std::vector<Scene> _scenes;
+        std::optional<std::string> _queuedScene;
+        std::string _defaultScene;
     };
 }//namespace platformer_engine
 

@@ -6,6 +6,9 @@
 #include "Texture/AnimatedSprite.hpp"
 #include "Point.hpp"
 #include "Transform.hpp"
+#include <boost/serialization/access.hpp>
+#include <boost/serialization/map.hpp>
+#include <boost/serialization/shared_ptr.hpp>
 
 namespace spic {
 
@@ -14,7 +17,22 @@ namespace spic {
      */
     class Animator : public Component {
     public:
-        Animator(const std::shared_ptr<platformer_engine::AnimatedSprite> &animatedSprite, bool isPlaying = true,
+
+        Animator();
+
+        ~Animator() = default;
+
+        template<typename archive>
+        void serialize(archive &ar, const unsigned /*version*/) {
+            ar & boost::serialization::base_object<Component, Animator>(*this);
+            boost::serialization::void_cast_register<Animator, Component>();
+            ar & _animationMap;
+            ar & _currentAnimation;
+            ar & _isPlaying;
+            ar & _isLooping;
+        }
+
+        Animator(const platformer_engine::AnimatedSprite &animatedSprite, bool isPlaying = true,
                  bool isLooping = true);
 
         /**
@@ -35,7 +53,7 @@ namespace spic {
          * @brief Add an animation to the Animator
          * @param animatedSprite animatedSprite to add
          */
-        void AddAnimation(const std::shared_ptr<platformer_engine::AnimatedSprite> &animatedSprite);
+        void AddAnimation(const platformer_engine::AnimatedSprite &animatedSprite);
 
         /**
          * @brief Set the current animation
@@ -52,7 +70,7 @@ namespace spic {
         /**
          * @brief Update the animated sprite (current frame)
          */
-        void Update();
+        void Update(double speedMultiplier);
 
         auto inline
         GetLoadedAnimations() -> std::map<std::string, std::shared_ptr<platformer_engine::AnimatedSprite>> { return _animationMap; };
@@ -69,13 +87,13 @@ namespace spic {
         /**
          * @brief boolean to toggle if an animation is playing
          */
-        bool _isPlaying;
+        bool _isPlaying = true;
         /**
          * @brief boolean to toggle if an animation is looping
          */
-        bool _isLooping;
+        bool _isLooping = true;
     };
 
-}
+}  // namespace spic
 
 #endif // ANIMATOR_H_

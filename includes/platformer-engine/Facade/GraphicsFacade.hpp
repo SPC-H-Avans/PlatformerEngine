@@ -13,6 +13,7 @@
 #include <vector>
 #include <map>
 
+//Singleton class for interfacing with a Graphics library
 namespace platformer_engine {
     typedef enum {
         FLIP_NONE = SDL_FLIP_NONE,     /**< Do not flip */
@@ -21,11 +22,22 @@ namespace platformer_engine {
     } SPIC_RendererFlip;
 
     /**
-     * @brief Facade class that creates a SDL2 window and renderer
+     * @brief Singleton facade class that creates a SDL2 window and renderer
      */
     class GraphicsFacade {
     public:
-        GraphicsFacade() = default;
+        static auto GetInstance() -> GraphicsFacade & {
+            static GraphicsFacade s_instance;
+            return s_instance;
+        }
+
+        GraphicsFacade(GraphicsFacade const &) = delete;
+
+        void operator=(GraphicsFacade const &) = delete;
+
+        GraphicsFacade(GraphicsFacade &&other) = delete;
+
+        GraphicsFacade &operator=(GraphicsFacade &&other) = delete;
 
         ~GraphicsFacade();
 
@@ -38,7 +50,7 @@ namespace platformer_engine {
          * @return True if the window and renderer were created successfully, false otherwise
          * @platformerengine
          */
-        auto Init(int width, int height, const std::string &title, const spic::Color &color) -> bool;
+        auto Init(int width, int height, const std::string &title, const spic::Color &color, bool fullScreen) -> bool;
 
         /**
          * @brief Quit the SDL2 window and renderer
@@ -58,7 +70,7 @@ namespace platformer_engine {
          */
         void Clear();
 
-        static inline auto GetTicks() -> Uint64 {return SDL_GetTicks64();};
+        static inline auto GetTicks() -> Uint64 { return SDL_GetTicks64(); };
 
         /**
          * @brief Load a texture
@@ -67,6 +79,19 @@ namespace platformer_engine {
          * @return
          */
         auto LoadTexture(const std::string &id, const std::string &fileName) -> bool;
+
+        /**
+         * @brief Load a text object
+         */
+        auto
+        LoadUIText(const std::string &textId, const std::string &filePath, const std::string &text, const int fontSize,
+                   const spic::Color &color) -> bool;
+
+        /**
+         * @brief Create a Text element, or update it if the textId already exists
+         */
+        auto CreateOrUpdateUIText(const std::string &textId, const std::string &filePath, const std::string &text,
+                                  const int fontSize, const spic::Color &color) -> bool;
 
         /**
          * @brief Draw a texture (complete png for example)
@@ -78,25 +103,23 @@ namespace platformer_engine {
          * @param flip
          */
         void DrawTexture(const std::string &id, int x, int y, int width, int height,
-                         const SPIC_RendererFlip &flip = FLIP_NONE, double scale = 1.0);
+                         const SPIC_RendererFlip &flip = FLIP_NONE, double scale = 1.0, double rotation = 0.0,
+                         int spriteSheetX = 0, int spriteSheetY = 0);
 
         /**
-         * @brief Draw a tile on the screen
-         * @param tileSetID
-         * @param tileSize
-         * @param x
-         * @param y
-         * @param row
-         * @param frame
-         * @param flip
+         * @brief Draw a text UI element
          */
-        void DrawTile(const std::string &tileSetID, int tileSize, int x, int y, int row, int frame,
-                      const SPIC_RendererFlip &flip = FLIP_NONE, double scale = 1.0);
+        void DrawUIText(const std::string &textId, const int x, const int y, const int width, const int height);
 
         void DrawFrame(const std::string &id, int x, int y, int width, int height, int row, int frame,
-                       const SPIC_RendererFlip &flip = FLIP_NONE, double scale = 1.0);
+                       const SPIC_RendererFlip &flip = FLIP_NONE, double scale = 1.0, double rotation = 0);
 
         void ClearTextures();
+
+        /**
+         * @brief Get the width and height of the user's monitor
+         */
+        auto GetScreenSize() -> std::tuple<int, int>;
 
         /**
          * @brief Get interval between tick
@@ -104,7 +127,10 @@ namespace platformer_engine {
          */
         static inline auto GetPerformanceFrequency() -> Uint64 { return SDL_GetPerformanceFrequency(); }
 
+
     private:
+        GraphicsFacade() = default;
+
         std::unique_ptr<SDL_Window, std::function<void(SDL_Window *)>> _window{nullptr};
         std::unique_ptr<SDL_Renderer, std::function<void(SDL_Renderer *)>> _renderer{nullptr};
         std::map<std::string, std::unique_ptr<SDL_Texture, std::function<void(

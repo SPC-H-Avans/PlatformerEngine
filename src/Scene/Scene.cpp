@@ -1,32 +1,27 @@
 #include <algorithm>
 #include "Scene.hpp"
 #include "LevelParser/LevelParser.hpp"
-#include "Texture/TextureManager.hpp"
 #include "Debug.hpp"
 #include "Exceptions/NotImplementedException.hpp"
 #include "Exceptions/GameObjectAlreadyInSceneException.hpp"
 #include "Exceptions/CameraNotInSceneException.hpp"
 #include "Animator.hpp"
 
+spic::Scene::Scene(std::string sceneName) : _sceneName(std::move(sceneName)) {}
+
+void spic::Scene::SetNextScene(const std::string &sceneName) {_nextScene = sceneName;};
+
+auto spic::Scene::GetNextScene() const -> std::optional<std::string> { return _nextScene;};
+
 void spic::Scene::RenderScene() {
-    if (_currentLevel.empty()) {
-        spic::Debug::LogWarning("No current level set in the scene!");
-    } else {
-        std::unique_ptr<platformer_engine::GameLevel> &level = platformer_engine::LevelParser::GetInstance().GetLevel(
-                _currentLevel);
 
-        if (level == nullptr) {
-            spic::Debug::LogWarning(
-                    "The level that was provided as current level is not imported / does not exist, and could not be loaded!");
-        }
-
-        level->Render();
-    }
     RenderGameObjects();
+    RenderUIObjects();
 }
 
 void spic::Scene::RenderGameObjects() {
     for (const auto &item: _contents) {
+        if(item == nullptr) continue;
         auto animatorComponent = item->GetComponent<spic::Animator>();
         if (animatorComponent != nullptr) {
             auto animator = std::static_pointer_cast<spic::Animator>(animatorComponent);
@@ -46,17 +41,36 @@ void spic::Scene::RenderGameObjects() {
     }
 }
 
-void spic::Scene::AddObject(const std::shared_ptr<GameObject> &gameObject) {
-    if (GetObjectByName(gameObject->GetName()) != nullptr) {
-        throw GameObjectAlreadyInSceneException(gameObject->GetName());
+void spic::Scene::RenderUIObjects() {
+    for (const auto &item: _uiObjects) {
+        item->Render();
     }
-    _contents.push_back(gameObject);
 }
 
-void spic::Scene::ImportLevel(const std::string &id, const std::string &filePath, const std::string &fileName) {
-    //Import level and set it to a local variable in this scene object
-    platformer_engine::LevelParser::LevelParser::GetInstance().ParseLevel(id, filePath, fileName);
-    _currentLevel = id;
+void spic::Scene::AddObject(const spic::GameObject &gameObject) {
+    if (GetObjectByName(gameObject.GetName()) != nullptr) {
+        throw GameObjectAlreadyInSceneException(gameObject.GetName());
+    }
+
+    auto gameObjectPtr = GameObject::Find(gameObject.GetName(), true);
+    _contents.push_back(gameObjectPtr);
+    _origins.push_back(*gameObjectPtr);
+}
+
+void spic::Scene::AddUIObject(const std::shared_ptr<spic::UIObject> &uiObject) {
+    if (GetObjectByName(uiObject->GetName()) != nullptr) {
+        throw spic::GameObjectAlreadyInSceneException(uiObject->GetName());
+    }
+//    auto obj = std::make_shared<UIObject>(uiObject);
+//    _uiObjects.push_back(std::static_pointer_cast<UIObject>(GameObject::Find(uiObject.GetName())));
+
+    _uiObjects.push_back(uiObject);
+    _origins.push_back(*GameObject::Find(uiObject->GetName()));
+}
+
+void spic::Scene::ImportLevel(const std::string &id, const std::string &filePath, const std::string &fileName,
+                              const std::map<int, std::function<spic::GameObject(Transform)>> &config) {
+    platformer_engine::LevelParser::ParseLevel(*this, id, filePath, fileName, config);
 }
 
 void spic::Scene::RemoveObject(const std::string &name) {
@@ -64,6 +78,12 @@ void spic::Scene::RemoveObject(const std::string &name) {
                               [&name](const std::shared_ptr<GameObject> &obj) { return obj->GetName() == name; });
 
     _contents.erase(itr, _contents.end());
+
+    auto itrOrigins = std::remove_if(_origins.begin(), _origins.end(),
+                                     [&name](const GameObject &obj) { return obj.GetName() == name; });
+
+    _origins.erase(itrOrigins, _origins.end());
+
 }
 
 auto spic::Scene::GetObjectByName(const std::string &name) -> std::shared_ptr<spic::GameObject> {
@@ -78,15 +98,29 @@ auto spic::Scene::GetObjectByName(const std::string &name) -> std::shared_ptr<sp
     return nullptr;
 }
 
-void spic::Scene::AddCamera(const std::shared_ptr<Camera> &camera) {
-    if (GetCameraByName(camera->GetName()) != nullptr) {
-        throw GameObjectAlreadyInSceneException(camera->GetName());
+auto spic::Scene::GetObjectsByTag(const std::string &tag) -> std::vector<std::shared_ptr<spic::GameObject>> {
+    auto foundItems = std::vector<std::shared_ptr<spic::GameObject>>();
+    for (auto &obj : _contents) {
+        if (obj->GetTag() == tag) foundItems.push_back(obj);
     }
 
-    _cameras.push_back(camera);
+    return foundItems;
+}
+
+auto spic::Scene::GetObjectCount() -> int {
+    return _contents.size();
+}
+
+void spic::Scene::AddCamera(Camera &camera) {
+    if (GetCameraByName(camera.GetName()) != nullptr) {
+        throw GameObjectAlreadyInSceneException(camera.GetName());
+    }
+
+    auto sharedCamera = std::make_shared<Camera>(camera);
+    _cameras.push_back(sharedCamera);
 
     if (_activeCamera == nullptr) {
-        _activeCamera = camera;
+        _activeCamera = sharedCamera;
     }
 }
 
@@ -117,10 +151,29 @@ void spic::Scene::SetActiveCameraByName(const std::string &name) {
     _activeCamera = foundCamera;
 }
 
-std::shared_ptr<spic::Camera> spic::Scene::GetActiveCamera() {
+auto spic::Scene::GetActiveCamera() -> std::shared_ptr<spic::Camera> {
     return _activeCamera;
 }
 
-spic::Scene::~Scene() {
-    platformer_engine::LevelParser::LevelParser::GetInstance().Clean();
+void spic::Scene::ResetScene() {
+    _contents.clear();
+
+    for (auto &origin: _origins) {
+        auto instance = GameObject::Find(origin.GetName(), true);
+
+        if (instance == nullptr) {
+            GameObject g(origin.GetName());
+            instance = GameObject::Find(origin.GetName(), true);
+        }
+
+        _contents.push_back(instance);
+        *instance = origin;
+    }
 }
+
+//spic::Scene::~Scene() { // TODO: destructor
+//    platformer_engine::LevelParser::LevelParser::GetInstance().Clean();
+//
+//    //TODO destroy all in scene
+//}
+

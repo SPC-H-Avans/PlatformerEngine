@@ -5,8 +5,8 @@
 #include "Color.hpp"
 #include "Facade/GraphicsFacade.hpp"
 #include "Texture/TextureManager.hpp"
-#include "Facade/InputFacade.hpp"
 #include "Scene.hpp"
+#include "Events/EventsEnum.h"
 
 namespace platformer_engine {
     /**
@@ -23,13 +23,14 @@ namespace platformer_engine {
          * @param color The background color of the window.
          * @platformerengine
          */
-        Window(int width, int height, const std::string &title, const spic::Color &color);
+        Window(int width, int height, const std::string &title, const spic::Color &color, bool fullScreen);
 
         /**
          * @brief Render the game on the screen
          * @platformerengine
          */
         void Render();
+
         /**
          * @brief Clears the window before rendering new objects
          * @platformerengine
@@ -55,19 +56,36 @@ namespace platformer_engine {
          * @brief Set the current active Scene
          * @param scene Scene to make active
          */
-        void SetActiveScene(std::unique_ptr<spic::Scene> scene);
+        void SetActiveScene(spic::Scene &scene);
 
         /**
          * @brief Get the current active Scene
          * @return std::unique_ptr<spic::Scene>& Current active Scene
          */
-        auto GetActiveScene() -> std::unique_ptr<spic::Scene>&;
+        auto GetActiveScene() -> spic::Scene &;
 
-        static inline auto GetTicks() -> Uint64 { return platformer_engine::GraphicsFacade::GetTicks();};
+        /**
+         * @brief Get the screen width
+         * @return The screen width
+         */
+        [[nodiscard]] auto GetWidth() const -> int {
+            return _width;
+        }
+
+        /**
+         * @brief Get the screen height
+         * @return The screen height
+         */
+        [[nodiscard]] auto GetHeight() const -> int {
+            return _height;
+        }
+
+        static inline auto GetTicks() -> Uint64 { return platformer_engine::GraphicsFacade::GetTicks(); };
 
     private:
-        std::shared_ptr<GraphicsFacade> _graphicsFacade{nullptr};
-        std::unique_ptr<spic::Scene> _activeScene = nullptr;
+        int _width;
+        int _height;
+        spic::Scene _activeScene;
     };
 }//namespace platformer_engine
 

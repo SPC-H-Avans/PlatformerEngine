@@ -16,5 +16,5 @@ namespace spic {
                                    + std::to_string(static_cast<int>(collisionPoint))+ ")."
                                    + "\n Allowing this would set the moveRestriction to -1. Don't do that."} {}
     };
-}
+}// namespace spic
 #endif //PLATFORMER_ENGINE_CAMERANOTINSCENEEXCEPTION_H

@@ -31,6 +31,14 @@
       "description": "Build ninja-multi-vcpkg Configurations",
       "targets": "platformer-engine-tests",
       "configuration": "Debug"
+    },
+    {
+      "name": "ninja-multi-valgrind",
+      "configurePreset": "ninja-multi-vcpkg",
+      "displayName": "Build ninja-multi-valgrind",
+      "description": "Build ninja-multi-valgrind Configurations",
+      "targets": "platformer-engine-exec",
+      "configuration": "Debug"
     }
   ],
   "testPresets": [

@@ -12,19 +12,20 @@ enum Trigger {
 
 class TestCollisionBehaviour : public BehaviourScript {
 public:
-//    void OnStart() override;
-//    void OnUpdate() override;
+    void OnStart() override;
+    void OnUpdate(double speedMultiplier) override;
     void OnTriggerEnter2D(Collision collision) override;
     void OnTriggerExit2D(Collision collision) override;
     void OnTriggerStay2D(Collision collision) override;
 
     int GetCollisionPointCountFor(Trigger trigger, CollisionPoint point);
     int GetTriggerCount();
-    void Reset();
+    auto GetUpdateTriggers() const -> int;
 
 private:
     std::map<Trigger, std::map<CollisionPoint, int>> _triggers;
     int _triggerCount = 0;
+    int _updateTriggers = 0;
 
 };
 

@@ -66,6 +66,7 @@ TEST_F(ForceDrivenEntityTest, WanderStateMovesEntity) {
         << "X-position of the GameObject was expected to be different than 10, but was " + std::to_string(gob->GetTransform().position.y)
         + ", this means the wander state did not update the x-position after 3 movesystem calls.";
 
+    GameObject::Destroy(gob);
 }
 
 /**
@@ -83,6 +84,7 @@ TEST_F(ForceDrivenEntityTest, NullGameObjectDoesntCrash) {
 
     MoveSystem moveSystem;
     EXPECT_NO_THROW(moveSystem.Update(1.0));
+    GameObject::Destroy(gob);
 }
 
 /**
@@ -139,6 +141,10 @@ TEST_F(ForceDrivenEntityTest, TestPursuitState) {
         ASSERT_TRUE(playerTransform.position.Distance(oldFDETransform) > playerTransform.position.Distance(newFDETransform))
             << "The ForceDrivenEntity did not move closer to the player";
     }
+
+    // 6. Clean up
+    GameObject::Destroy(playerShared);
+    GameObject::Destroy(forceDrivenEntity);
 }
 
 /**
@@ -162,4 +168,5 @@ TEST_F(ForceDrivenEntityTest, TestStateSwitch) {
     ASSERT_EQ(typeid(fdeComponent->GetCurrentState()), typeid(EntityWanderState))
         << "The WanderOn function didn't switch the state to EntityWanderState";
 
+    GameObject::Destroy(forceDrivenEntity);
 }

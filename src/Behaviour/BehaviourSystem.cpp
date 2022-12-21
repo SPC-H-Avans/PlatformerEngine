@@ -3,7 +3,7 @@
 #include "GameObject.hpp"
 
 void BehaviourSystem::Start() {
-    auto gameObjects = GameObject::FindObjectsOfType<GameObject>();
+    auto gameObjects = GameObject::GetInstances();
     for(auto& gameObject : gameObjects) {
         auto scripts = gameObject->GetComponents<BehaviourScript>();
         for(auto& scriptComponent : scripts) {
@@ -14,7 +14,7 @@ void BehaviourSystem::Start() {
 }
 
 void BehaviourSystem::Update(double speedMultiplier) {
-    auto gameObjects = GameObject::FindObjectsOfType<GameObject>();
+    auto gameObjects = GameObject::GetInstances();
     for(auto& gameObject : gameObjects) {
         auto scripts = gameObject->GetComponents<BehaviourScript>();
         for(auto& scriptComponent : scripts) {

@@ -107,7 +107,7 @@ auto GameObjectFactory::CreateEnemy(Transform transform, int colliderWidth, int 
                                     const std::vector<std::shared_ptr<BehaviourScript>> &behaviourScripts) -> GameObject & {
     auto& scene = platformer_engine::Engine::GetInstance().GetActiveScene();
 
-    auto builder = GameObjectBuilder("enemy" + std::to_string(scene.GetObjectCount()), "enemy")
+    auto builder = GameObjectBuilder("enemy" + std::to_string(++tileCounter), "enemy")
             // animations
             .AddAnimator(animations);
     auto obj = builder.GetGameObject();

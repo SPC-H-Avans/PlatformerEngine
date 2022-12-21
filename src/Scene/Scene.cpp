@@ -51,7 +51,7 @@ void spic::Scene::AddObject(const spic::GameObject &gameObject) {
     if (GetObjectByName(gameObject.GetName()) != nullptr) {
         throw GameObjectAlreadyInSceneException(gameObject.GetName());
     }
-    
+
     auto gameObjectPtr = GameObject::Find(gameObject.GetName(), true);
     _contents.push_back(gameObjectPtr);
     _origins.push_back(*gameObjectPtr);
@@ -96,6 +96,15 @@ auto spic::Scene::GetObjectByName(const std::string &name) -> std::shared_ptr<sp
         return foundItemIterator.operator*();
     }
     return nullptr;
+}
+
+auto spic::Scene::GetObjectsByTag(const std::string &tag) -> std::vector<std::shared_ptr<spic::GameObject>> {
+    auto foundItems = std::vector<std::shared_ptr<spic::GameObject>>();
+    for (auto &obj : _contents) {
+        if (obj->GetTag() == tag) foundItems.push_back(obj);
+    }
+
+    return foundItems;
 }
 
 auto spic::Scene::GetObjectCount() -> int {

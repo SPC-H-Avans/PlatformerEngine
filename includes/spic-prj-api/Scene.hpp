@@ -67,6 +67,13 @@ namespace spic {
         auto GetObjectByName(const std::string &name) -> std::shared_ptr<GameObject>;
 
         /**
+         * @brief Get a list of Game Objects from this scene by tag
+         * @param tag Tag of the Game Objects that need to be retrieved from this scene
+         * @return std::vector<std::shared_ptr<spic::GameObject>> List of Game Object shared pointers
+         * @spicapi
+         */
+        auto GetObjectsByTag(const std::string &tag) -> std::vector<std::shared_ptr<spic::GameObject>>;
+        /**
          * @brief Get the GameObjects in this scene
          * @spicapi
          */

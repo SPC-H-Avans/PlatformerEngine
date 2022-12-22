@@ -5,7 +5,7 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [0.0.3] - To be released
+## [0.0.3] - 22-12-2022
 
 Further development of the multiplayer component of the engine.
 
@@ -17,13 +17,11 @@ Further development of the multiplayer component of the engine.
 - SPCH-48: Added physics templates to easily set rigidbody values on new objects
 - SPCH-48: Fixed bug where player would move constantly
 - SPCH-48: Partially fixed the bug where players would push other players into the ground
-
 - SPCH-20: Component Rotation
 - SPCH-19: Component scaling
 - SPCH-5: FPS counter
 - SPCH-22: Toggle play music and sound effects
 - SPCH-9: Added support for UI elements like Text and clickable Buttons.
-
 - SPCH-57: Replicate scene on join and animations
 
 ### Bug Fixes
